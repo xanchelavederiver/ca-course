@@ -1,0 +1,62 @@
+# 2nd-semester контрольная — port of tmp/практики и контрольные/main-2sem.py.
+# 5 slots, complexity budget 8: with these pools that is exactly the legacy
+# rule "one task of complexity 3, one of complexity 2, the rest 1". The even-modulus
+# Montgomery tasks (complexity 3) are an addition: a variant may now get its
+# hardest task in the first slot.
+id: sem2-kontrolnaya
+kind: individual
+title: Контрольная работа
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Цель контрольной работы: определение уровня [остаточных] знаний по курсу компьютерной алгебры.
+
+  Каждому студенту предназначен индивидуальный вариант, номер которого совпадает с номером студента в списке группы. Вариант состоит из пяти заданий.
+
+  \textbf{Обратите внимание}: варианты для студентов групп 6411, 6412 и 6413 приведены в разделах «Варианты группы 6411», «Варианты группы 6412» и «Варианты группы 6413», соответственно!
+
+  Оценка $s$ вычисляется по формуле
+  \[
+  s = \begin{cases}
+    0,&\textrm{$b < 3$,}\\
+    3,&\textrm{$b = 3$,}\\
+    4,&\textrm{$b = 4$,}\\
+    5,&\textrm{$b = 5$,}
+    \end{cases}
+  \]
+  где $b$ --- количество набранных баллов за основные задания.
+
+  Критерии оценивания:
+  \begin{itemize}
+    \item если при выполнении задания студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия и получил верный ответ, задание оценивается одним баллом;
+    \item если студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия, но получил неверный ответ из-за допущенной вычислительной ошибки, задание оценивается половиной балла;
+    \item если студент верно и точно применил требуемый алгоритм, но не полно или не понятно описал шаги и действия, но получил верный ответ, задание также оценивается половиной балла;
+    \item в случаях, когда решение не удовлетворяет изложенным выше требованиям, задание оценивается в 0 баллов.
+  \end{itemize}
+
+  Оценка $5$ за КР карается +1 баллом к оценке на экзамене.
+
+  При решении КР можно пользоваться всем, чем угодно, кроме помощи одногруппников.
+
+groups:
+  - {name: "6411", count: 42}
+  - {name: "6412", count: 42}
+  - {name: "6413", count: 42}
+
+budget: 8
+
+slots:
+  - title: Умножение и возведение в степень
+    tasks: [arithmetic.karatsuba, arithmetic.toom_cook, arithmetic.montgomery_mul,
+            arithmetic.montgomery_mul_even, powmod.binary_mod, powmod.qary_mod,
+            powmod.montgomery, powmod.montgomery_even]
+  - title: Элементы теории чисел
+    tasks: [number_theory.sqrt_cipolla, number_theory.order]
+  - title: Дискретное логарифмирование
+    topics: [dlp]
+  - title: Разложение на множители
+    topics: [factoring]
+  - title: Эллиптические кривые
+    topics: [ecc]

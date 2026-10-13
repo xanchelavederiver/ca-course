@@ -1,0 +1,115 @@
+% beamerthemeca.sty — "canvas" beamer theme for Computer Algebra lectures.
+%
+% Designed for live pen annotation (Cintiq): white background, high contrast,
+% large type, no navigation clutter, generous free space. Mirrors the plain
+% 16:9 look of the existing PPTX decks (title + content, blue accents).
+%
+%   \notearea[<height>]   — light grid area reserved for handwriting
+%                           (default: 0.35\textheight)
+%   \penspace[<height>]   — invisible vertical space for handwriting
+%   \begin{canvasframe}{<title>} ... \end{canvasframe}
+%                         — top-aligned frame; remaining space left for pen
+\mode<presentation>
+
+\RequirePackage{tikz}
+
+% --- Colors -------------------------------------------------------------------
+\definecolor{caBlue}{HTML}{1F3A93}
+\definecolor{caAccent}{HTML}{5B9BD5}
+\definecolor{caRed}{HTML}{B22222}
+\definecolor{caGray}{HTML}{5A5A5A}
+\definecolor{caLight}{HTML}{EEF1F8}
+\definecolor{caGrid}{HTML}{D5DCEA}
+
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=caBlue}
+\setbeamercolor{alerted text}{fg=caRed}
+\setbeamercolor{frametitle}{fg=caBlue,bg=white}
+\setbeamercolor{title}{fg=caBlue}
+\setbeamercolor{subtitle}{fg=caGray}
+\setbeamercolor{footline}{fg=caGray}
+\setbeamercolor{block title}{fg=white,bg=caBlue}
+\setbeamercolor{block body}{fg=black,bg=caLight}
+\setbeamercolor{block title example}{fg=white,bg=caAccent}
+\setbeamercolor{block body example}{fg=black,bg=caLight}
+\setbeamercolor{block title alerted}{fg=white,bg=caRed}
+\setbeamercolor{block body alerted}{fg=black,bg=caLight}
+
+% --- Fonts --------------------------------------------------------------------
+\usefonttheme{professionalfonts}
+\setbeamerfont{frametitle}{size=\LARGE,series=\bfseries}
+\setbeamerfont{title}{size=\huge,series=\bfseries}
+\setbeamerfont{subtitle}{size=\Large}
+\setbeamerfont{footline}{size=\scriptsize}
+\setbeamerfont{block title}{series=\bfseries}
+
+% --- Inner elements -------------------------------------------------------------
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamertemplate{theorems}[numbered]
+\setbeamersize{text margin left=8mm,text margin right=8mm}
+
+% --- Frame title: left-aligned, thin accent rule ---------------------------------
+\setbeamertemplate{frametitle}{%
+  \vskip2mm
+  \usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}%
+  \insertframetitle\par
+  \ifx\insertframesubtitle\@empty\else
+    {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertframesubtitle\par}%
+  \fi
+  \vskip1mm
+  {\color{caAccent}\rule{\linewidth}{0.6pt}}%
+  \vskip1mm
+}
+
+% --- Footline: short title (left), frame number (right) --------------------------
+\setbeamertemplate{footline}{%
+  \usebeamerfont{footline}\usebeamercolor[fg]{footline}%
+  \hspace*{8mm}\insertshorttitle\hfill\insertframenumber\hspace*{8mm}%
+  \vskip3mm
+}
+
+% --- Title page ---------------------------------------------------------------------
+\setbeamertemplate{title page}{%
+  \vfill
+  {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle\par}
+  \ifx\insertsubtitle\@empty\else
+    \vskip2mm{\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}
+  \fi
+  \vskip3mm{\color{caAccent}\rule{0.5\linewidth}{1pt}}\par
+  \vskip3mm{\large\insertauthor\par}
+  \vskip1mm{\color{caGray}\insertdate\par}
+  \vfill
+}
+
+% --- Pen annotation helpers ---------------------------------------------------------
+\newcommand{\notearea}[1][0.35\textheight]{%
+  \par\noindent
+  \begin{tikzpicture}
+    \draw[caGrid, step=5mm, very thin] (0,0) grid (\linewidth,#1);
+  \end{tikzpicture}\par
+}
+\newcommand{\penspace}[1][0.3\textheight]{\par\vspace*{#1}\par}
+
+\newenvironment{canvasframe}[1]{%
+  \begin{frame}[t]{#1}%
+}{%
+  \end{frame}%
+}
+
+% --- Russian theorem names ------------------------------------------------------------
+\uselanguage{russian}
+\languagepath{russian}
+\deftranslation[to=russian]{Theorem}{Теорема}
+\deftranslation[to=russian]{Lemma}{Лемма}
+\deftranslation[to=russian]{Corollary}{Следствие}
+\deftranslation[to=russian]{Fact}{Факт}
+\deftranslation[to=russian]{Definition}{Определение}
+\deftranslation[to=russian]{Definitions}{Определения}
+\deftranslation[to=russian]{Example}{Пример}
+\deftranslation[to=russian]{Examples}{Примеры}
+\deftranslation[to=russian]{Proof}{Доказательство}
+
+\mode<all>

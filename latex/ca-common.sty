@@ -1,0 +1,146 @@
+% ca-common.sty — shared style for all Computer Algebra course materials.
+%
+% pdfLaTeX + T2A/utf8, Russian typography, theorem-like environments,
+% "check yourself" questions and number-theory / crypto math macros.
+%
+% Options:
+%   notheorems  — do not define theorem-like environments (beamer defines its own)
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ca-common}[2026/10/13 Computer Algebra course common style]
+
+\newif\ifca@theorems \ca@theoremstrue
+\DeclareOption{notheorems}{\ca@theoremsfalse}
+\ProcessOptions\relax
+
+% --- Encoding & language ----------------------------------------------------
+\RequirePackage{cmap}
+\RequirePackage[T1,T2A]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[english,russian]{babel}
+
+% --- Reproducible PDFs ------------------------------------------------------------
+% No path-dependent trailer /ID; dates come from SOURCE_DATE_EPOCH (latex image).
+\ifdefined\pdftrailerid\pdftrailerid{}\fi
+
+% --- Mathematics ------------------------------------------------------------
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{mathtools}
+\@ifclassloaded{beamer}{}{\RequirePackage{amsthm}}
+
+% --- General utilities ------------------------------------------------------
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\@ifclassloaded{beamer}{}{%
+  \RequirePackage{enumitem}%
+  \setlist{itemsep=0.25em,topsep=0.4em}%
+}
+
+% --- Colors (shared with the beamer theme) ----------------------------------
+\definecolor{caBlue}{HTML}{1F3A93}
+\definecolor{caRed}{HTML}{B22222}
+\definecolor{caGray}{HTML}{5A5A5A}
+\definecolor{caLight}{HTML}{EEF1F8}
+
+% --- Number sets & structures -----------------------------------------------
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+% \Zn{n} -> Z/nZ ; \Znx{n} -> (Z/nZ)^*
+\newcommand{\Zn}[1]{\ZZ/#1\ZZ}
+\newcommand{\Znx}[1]{(\ZZ/#1\ZZ)^{*}}
+% \GF{q} -> F_q
+\newcommand{\GF}[1]{\FF_{#1}}
+
+% --- Congruences --------------------------------------------------------------
+% \Mod{m} -> " (mod m)" with the spacing used throughout the course materials
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+% \congr{a}{b}{m} -> a ≡ b (mod m)
+\newcommand{\congr}[3]{#1 \equiv #2\Mod{#3}}
+
+% --- Operators ----------------------------------------------------------------
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator{\ind}{ind}
+\DeclareMathOperator{\disc}{disc}
+\DeclareMathOperator{\HR}{HR}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\charac}{char}
+\providecommand{\bigO}{\mathcal{O}}
+\providecommand{\softO}{\widetilde{\mathcal{O}}}
+
+% --- Delimiters ---------------------------------------------------------------
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\round}{\lfloor}{\rceil}
+\DeclarePairedDelimiter{\scal}{\langle}{\rangle}
+% Legendre / Jacobi symbol: \legendre{a}{p}
+\newcommand{\legendre}[2]{\left(\frac{#1}{#2}\right)}
+\let\jacobi\legendre
+
+% --- Crypto / lattices ----------------------------------------------------------
+\newcommand{\Lat}{\mathcal{L}}
+\newcommand{\EC}{E}                       % elliptic curve
+\newcommand{\ECpt}{\mathcal{O}}           % point at infinity
+\newcommand{\bits}[1]{\{0,1\}^{#1}}
+% \vect{a}{b} -> column vector (a, b)^T
+\newcommand{\vect}[2]{\begin{pmatrix}#1 \\ #2\end{pmatrix}}
+
+% --- Theorem-like environments -------------------------------------------------
+% Numbered within sections when the class has sections; beamer has its own.
+\ifca@theorems
+\@ifclassloaded{beamer}{}{%
+  \theoremstyle{plain}
+  \@ifundefined{c@section}{%
+    \newtheorem{theorem}{Теорема}%
+  }{%
+    \newtheorem{theorem}{Теорема}[section]%
+  }
+  \newtheorem{lemma}[theorem]{Лемма}
+  \newtheorem{corollary}[theorem]{Следствие}
+  \newtheorem{proposition}[theorem]{Утверждение}
+  \theoremstyle{definition}
+  \newtheorem{definition}[theorem]{Определение}
+  \newtheorem{example}[theorem]{Пример}
+  \newtheorem{algorithm}[theorem]{Алгоритм}
+  \newtheorem{exercise}[theorem]{Упражнение}
+  \theoremstyle{remark}
+  \newtheorem{remark}[theorem]{Замечание}
+  \newtheorem*{note}{Примечание}
+}
+\fi
+
+% --- "Check yourself" questions ----------------------------------------------
+% \checkyourself{question} — typesets a highlighted question in place and
+% collects it; \printcheckyourself prints all questions collected so far
+% (use it in the dedicated section towards the end of lecture notes).
+\newcounter{checkyourself}
+\newcommand{\ca@cylist}{}
+\newcommand{\checkyourselfname}{Проверь себя}
+\newcommand{\checkyourself}[1]{%
+  \refstepcounter{checkyourself}%
+  \par\medskip\noindent
+  \colorbox{caLight}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+    \textcolor{caBlue}{\textbf{\checkyourselfname~\thecheckyourself.}}~#1}}%
+  \par\medskip
+  \begingroup\edef\x{\endgroup
+    \noexpand\g@addto@macro\noexpand\ca@cylist{%
+      \noexpand\item[\noexpand\textbf{\thecheckyourself.}]\unexpanded{#1}}}\x
+}
+\newcommand{\printcheckyourself}{%
+  \ifx\ca@cylist\@empty
+    \textit{(вопросов нет)}%
+  \else
+    \begin{list}{}{\setlength{\leftmargin}{2em}\setlength{\labelwidth}{1.6em}}
+      \ca@cylist
+    \end{list}%
+  \fi
+}
+
+\endinput

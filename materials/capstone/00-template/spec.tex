@@ -1,0 +1,33 @@
+% Capstone (мини-курсовая) spec template — copy to NN-topic/spec.tex.
+\documentclass{ca-capstone}
+\begin{document}
+\capstonetitle{Решение задачи DLP алгоритмом Полига"--~Хеллмана}
+
+\goal
+Требуется реализовать метод решения задачи дискретного логарифмирования в
+$\GF{p} \cong \Zn{p}$ алгоритмом Полига"--~Хеллмана.
+
+\functionality
+\begin{enumerate}
+  \item Решение DLP, в которой порядок основания "--- простое число, методом Шенкса или перебором.
+  \item Решение DLP, в которой порядок основания "--- степень простого числа.
+  \item Решение DLP с составным порядком основания произвольного вида.
+\end{enumerate}
+
+\requirements
+\begin{enumerate}
+  \item Корректность решения задачи DLP.
+  \item Приемлемая скорость работы: примеры с числами размером 50--100 бит "--- десятки секунд.
+\end{enumerate}
+
+\details
+Рекомендуется использовать язык Python и систему компьютерной алгебры SageMath~[1].
+
+\schedule
+Работа выполняется индивидуально. Срок выполнения "--- месяц.
+
+\references
+\begin{enumerate}[label={[\arabic*]}]
+  \item SageMath, \url{https://www.sagemath.org}
+\end{enumerate}
+\end{document}

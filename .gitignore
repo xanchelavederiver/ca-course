@@ -1,0 +1,8 @@
+# generated artifacts
+/build/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# local legacy sources (not part of the repo)
+/tmp/

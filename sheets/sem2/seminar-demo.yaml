@@ -1,0 +1,18 @@
+# Example classroom sheet: a single sheet (plus solution manual) for one
+# seminar. Placeholder until the syllabus defines the seminar list.
+id: sem2-seminar-demo
+kind: classroom
+title: Семинар. Дискретное логарифмирование и решётки
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре.
+
+sections:
+  - title: Дискретный логарифм
+    intro: Начнём с универсального алгоритма, затем используем структуру порядка основания.
+    tasks: [dlp.shanks, dlp.pohlig_hellman]
+  - title: Решётки
+    tasks: [lattices.gauss, lattices.babai_easy, lattices.babai_hard, crypto.congruential]

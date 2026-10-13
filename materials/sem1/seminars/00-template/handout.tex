@@ -1,0 +1,27 @@
+% Seminar handout template (1–2 pages) — copy to NN-topic/handout.tex.
+\documentclass{ca-handout}
+
+\seminar{0}{Быстрое возведение в степень}
+
+\begin{document}
+\makehandouttitle
+
+\section{Бинарный алгоритм}
+Пусть $n = \sum_{i=0}^{k} n_i 2^i$, $n_i \in \{0, 1\}$. Тогда
+\[
+  a^n = \prod_{i\,:\,n_i = 1} a^{2^i}.
+\]
+
+\begin{reminder}[title={Алгоритм «справа налево»}]
+  $r \gets 1$; для $i = 0, \dots, k$: если $n_i = 1$, то $r \gets r \cdot a$; $a \gets a^2$.
+  Сложность: $\bigO(\log n)$ умножений.
+\end{reminder}
+
+\section{Метод Монтгомери}
+Для нечётного $m$ и $R = 2^k > m$, $\gcd(R, m) = 1$:
+\[
+  \operatorname{REDC}(T) = T R^{-1} \bmod m, \qquad 0 \le T < mR.
+\]
+
+\checkyourself{Почему для метода Монтгомери модуль $m$ должен быть нечётным?}
+\end{document}

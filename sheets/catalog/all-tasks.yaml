@@ -1,0 +1,67 @@
+# Catalog of all tasks and presets: one instance each, for reviewing statements and
+# solutions (make draft SHEET=sheets/catalog/all-tasks.yaml). Regenerate the list when
+# tasks are added.
+id: catalog-all-tasks
+kind: classroom
+title: Каталог задач
+document:
+  toc: true
+sections:
+  - title: Арифметика больших чисел
+    tasks:
+      - arithmetic.fft_mul
+      - arithmetic.karatsuba
+      - arithmetic.montgomery_mul
+      - arithmetic.montgomery_mul_even
+      - arithmetic.toom_cook
+      - modular.fermat_mul
+      - modular.fermat_mul@sem2
+      - modular.mersenne_mul
+      - modular.mersenne_mul@sem2
+  - title: Криптографические приложения
+    tasks:
+      - crypto.congruential
+      - crypto.lcg
+      - crypto.lcg@sem2
+      - crypto.rsa_common_modulus
+      - crypto.rsa_common_modulus@sem2
+  - title: Дискретное логарифмирование в кольце вычетов
+    tasks:
+      - dlp.index_calculus
+      - dlp.pohlig_hellman
+      - dlp.shanks
+  - title: Эллиптические кривые
+    tasks:
+      - ecc.double_and_add_binary
+      - ecc.double_and_add_ternary
+  - title: Разложение целых чисел на множители
+    tasks:
+      - factoring.pollard_pm1
+      - factoring.quadratic_sieve
+  - title: Решётки
+    tasks:
+      - lattices.babai_easy
+      - lattices.babai_hard
+      - lattices.gauss
+  - title: Элементы теории чисел и теории групп
+    tasks:
+      - number_theory.miller_rabin
+      - number_theory.miller_rabin@sem2
+      - number_theory.order
+      - number_theory.order@sem2
+      - number_theory.order_product_tree
+      - number_theory.solovay_strassen
+      - number_theory.solovay_strassen@sem2
+      - number_theory.sqrt_cipolla
+  - title: Быстрое возведение в степень
+    tasks:
+      - powmod.binary
+      - powmod.binary_mod
+      - powmod.binary_mod@sem2
+      - powmod.montgomery
+      - powmod.montgomery@sem2
+      - powmod.montgomery_even
+      - powmod.montgomery_even@sem2
+      - powmod.qary
+      - powmod.qary_mod
+      - powmod.qary_mod@sem2

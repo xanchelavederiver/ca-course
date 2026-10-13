@@ -1,0 +1,57 @@
+\#{ Shared LaTeX fragments for step-by-step solutions.
+   Import in a task template:  \BLOCK{import 'macros.tex.j2' as tx}  }
+\BLOCK{macro mod(x)}\ (\textrm{mod}\ \VAR{x})\BLOCK{endmacro}
+
+\#{ Extended Euclid table: rows from steps.xgcd_rows(a, b) }
+\BLOCK{macro xgcd_table(rows, a='a', b='b')}
+\[\begin{array}{r|r|r|r}
+r_i & q_i & u_i & v_i \\ \hline
+\BLOCK{for row in rows}\VAR{row.r} & \VAR{row.q if row.q is not none else ''} & \VAR{row.u} & \VAR{row.v} \\
+\BLOCK{endfor}\end{array}\qquad r_i = u_i \cdot \VAR{a} + v_i \cdot \VAR{b}\]
+\BLOCK{endmacro}
+
+\#{ Inverse via extended Euclid: steps.inverse_rows(a, m) }
+\BLOCK{macro inverse(inv)}
+Обратный к $\VAR{inv.a}$ по модулю $\VAR{inv.m}$ (расширенный алгоритм Евклида для $(\VAR{inv.m}, \VAR{inv.a})$):
+\VAR{xgcd_table(inv.rows, inv.m, inv.a)}
+$\VAR{inv.a}^{-1} \equiv \VAR{inv.v} \equiv \VAR{inv.inv}\VAR{mod(inv.m)}$.
+\BLOCK{endmacro}
+
+\#{ CRT: steps.crt(residues, moduli) }
+\BLOCK{macro crt(c)}
+\[\left\{\begin{array}{l}
+\BLOCK{for e in c.eqs}x \equiv \VAR{e.r}\VAR{mod(e.m)} \\
+\BLOCK{endfor}\end{array}\right.\qquad M = \VAR{c.M}.\]
+\BLOCK{for e in c.eqs}
+$M_{\VAR{loop.index}} = M/\VAR{e.m} = \VAR{e.Mi} \equiv \VAR{e.Mi_mod}$, $y_{\VAR{loop.index}} = M_{\VAR{loop.index}}^{-1} \equiv \VAR{e.y}\VAR{mod(e.m)}$\BLOCK{if not loop.last}; \BLOCK{else}.\BLOCK{endif}
+\BLOCK{endfor}
+\[\begin{aligned}x &\equiv \textstyle\sum_i r_i M_i y_i \\ &= \BLOCK{for e in c.eqs}\VAR{e.r}\cdot\VAR{e.Mi}\cdot\VAR{e.y}\BLOCK{if not loop.last} + \BLOCK{endif}\BLOCK{endfor} \\ &\equiv \VAR{c.x}\VAR{mod(c.M)}.\end{aligned}\]
+\BLOCK{endmacro}
+
+\#{ Montgomery REDC table: steps.Montgomery(...).info() }
+\BLOCK{macro montgomery_params(mo)}
+$R = 2^{\VAR{mo.k}} = \VAR{mo.R}$ "--- наименьшая степень двойки, превосходящая модуль $\VAR{mo.m}$; $R$ взаимно прост с нечётным модулем, а деление на $R$ "--- сдвиг. $m' = -m^{-1} \bmod R = \VAR{mo.mp}$, $R^2 \bmod m = \VAR{mo.R2}$ (здесь $m = \VAR{mo.m}$).
+\BLOCK{endmacro}
+\BLOCK{macro redc_table(mo)}
+\par $\mathrm{REDC}(T)$: $u = (T \bmod R)\, m' \bmod R$, $t = (T + u m)/R$, при $t \ge m$ $t \gets t - m$.
+\[\begin{array}{l|r|r|r|r}
+ & T & u & t & \mathrm{REDC}(T) \\ \hline
+\BLOCK{for row in mo.rows}\VAR{row.label} & \VAR{row.T} & \VAR{row.u} & \VAR{row.t} & \VAR{row.res}\BLOCK{if row.sub}^{*}\BLOCK{endif} \\
+\BLOCK{endfor}\end{array}\]
+\BLOCK{if mo.rows|selectattr('sub')|list}{\small ${}^{*}$ "--- выполнено вычитание $t - m$.}\BLOCK{endif}
+\BLOCK{endmacro}
+
+\#{ Jacobi symbol chain: steps.jacobi_chain(a, n) }
+\BLOCK{macro jacobi(j)}\BLOCK{for t in j.terms}\BLOCK{if t[0] < 0}-\BLOCK{endif}\left(\frac{\VAR{t[1]}}{\VAR{t[2]}}\right) = \BLOCK{endfor}\VAR{j.value}\BLOCK{endmacro}
+
+\#{ Elliptic curve point / point at infinity }
+\BLOCK{macro pt(P)}\BLOCK{if P is none}\mathcal{O}\BLOCK{else}(\VAR{P[0]}, \VAR{P[1]})\BLOCK{endif}\BLOCK{endmacro}
+
+\#{ Gauss lattice reduction trace: steps.gauss_reduce(v1, v2) }
+\BLOCK{macro gauss_table(g, norms=True)}
+\par Алгоритм Гаусса: если $\|v_2\| < \|v_1\|$ "--- меняем местами (${}^{\leftrightarrow}$); $m = \lfloor v_1 \cdot v_2 / \|v_1\|^2 \rceil$; если $m = 0$ "--- стоп, иначе $v_2 \gets v_2 - m v_1$.
+\[\begin{array}{c|r|r\BLOCK{if norms}|r|r\BLOCK{endif}|r}
+ & v_1 & v_2\BLOCK{if norms} & \|v_1\|^2 & v_1\cdot v_2\BLOCK{endif} & m \\ \hline
+\BLOCK{for r in g.rows}\VAR{loop.index}\BLOCK{if r.swap}^{\leftrightarrow}\BLOCK{endif} & (\VAR{r.v1[0]}, \VAR{r.v1[1]}) & (\VAR{r.v2[0]}, \VAR{r.v2[1]})\BLOCK{if norms} & \VAR{r.n1} & \VAR{r.dot}\BLOCK{endif} & \VAR{r.m} \\
+\BLOCK{endfor}\end{array}\]
+\BLOCK{endmacro}

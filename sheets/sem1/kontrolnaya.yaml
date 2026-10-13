@@ -1,0 +1,61 @@
+# 1st-semester контрольная — port of tmp/практики и контрольные/main-1sem.py.
+# One individual variant per student; 7 slots; Montgomery multiplication and
+# Montgomery exponentiation never appear together (same task family). The legacy
+# script always used even Montgomery moduli; both the odd and the (harder) even
+# versions are offered here.
+id: sem1-kontrolnaya
+kind: individual
+title: Контрольная работа
+semester: 1
+intro: |
+  Цель контрольной работы: определение уровня [остаточных] знаний по курсу компьютерной алгебры (1-й семестр).
+
+  Каждому студенту предназначен индивидуальный вариант, номер которого совпадает с номером студента в списке группы. Вариант состоит из семи заданий.
+
+  \textbf{Обратите внимание}: варианты для студентов группы n приведены в разделе «Варианты группы n»!
+
+  Оценка $s$ вычисляется по формуле
+  \[
+  s = \begin{cases}
+    0,&\textrm{$b < 3$,}\\
+    3,&\textrm{$3 \leq b < 5$,}\\
+    4,&\textrm{$5 \leq b < 6$,}\\
+    5,&\textrm{$b \geq 6$,}
+    \end{cases}
+  \]
+  где $b$ --- количество набранных баллов за основные задания.
+
+  Критерии оценивания:
+  \begin{itemize}
+    \item если при выполнении задания студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия и получил верный ответ, задание оценивается одним баллом;
+    \item если студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия, но получил неверный ответ из-за допущенной вычислительной ошибки, задание оценивается половиной балла;
+    \item если студент верно и точно применил требуемый алгоритм, но не полно или не понятно описал шаги и действия, но получил верный ответ, задание также оценивается половиной балла;
+    \item в случаях, когда решение не удовлетворяет изложенным выше требованиям, задание оценивается в 0 баллов.
+  \end{itemize}
+
+  Оценка $5$ за КР карается «полуавтоматом» на зачёте (минус один вопрос).
+
+  При решении КР можно пользоваться всем, чем угодно, кроме помощи одногруппников.
+
+groups:
+  - {name: "6411", count: 42}
+  - {name: "6412", count: 42}
+  - {name: "6413", count: 42}
+
+slots:
+  - title: Умножение больших чисел
+    tasks: [arithmetic.karatsuba, arithmetic.toom_cook, arithmetic.montgomery_mul,
+            arithmetic.montgomery_mul_even]
+  - title: Умножение с помощью БПФ
+    tasks: [arithmetic.fft_mul]
+  - title: Арифметика по модулю чисел Ферма и Мерсенна
+    tasks: [modular.fermat_mul, modular.mersenne_mul]
+  - title: Быстрое возведение в степень
+    tasks: [powmod.binary, powmod.binary_mod, powmod.qary, powmod.qary_mod, powmod.montgomery,
+            powmod.montgomery_even]
+  - title: Тесты простоты
+    tasks: [number_theory.solovay_strassen, number_theory.miller_rabin]
+  - title: Порядок элемента
+    tasks: [number_theory.order_product_tree]
+  - title: Криптографические приложения
+    tasks: [crypto.lcg, crypto.rsa_common_modulus]

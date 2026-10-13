@@ -1,0 +1,34 @@
+# Topic taxonomy for task tags (slug: Russian title).
+# Every dotted prefix of a topic must be listed too.
+# Sheets may select tasks by topic; "dlp" matches "dlp.*".
+
+arithmetic: Арифметика больших чисел
+arithmetic.multiplication: Быстрое умножение
+arithmetic.montgomery: Арифметика Монтгомери
+arithmetic.modular: Арифметика в кольцах вычетов по модулю чисел Ферма и Мерсенна
+
+powmod: Быстрое возведение в степень
+
+number_theory: Элементы теории чисел и теории групп
+number_theory.primality: Тесты простоты
+number_theory.order: Порядок элемента
+number_theory.sqrt: Квадратичные сравнения
+
+dlp: Дискретное логарифмирование в кольце вычетов
+dlp.generic: Универсальные алгоритмы DLP
+dlp.pohlig_hellman: Алгоритм Полига-Хеллмана
+dlp.index_calculus: Метод исчисления индексов
+
+factoring: Разложение целых чисел на множители
+
+ecc: Эллиптические кривые
+ecc.scalar_mult: Быстрое возведение точки в степень
+
+lattices: Решётки
+lattices.cvp: Задача о ближайшем векторе
+lattices.svp: Задача о кратчайшем векторе
+
+crypto: Криптографические приложения
+crypto.prng: Генераторы псевдослучайных чисел
+crypto.rsa: RSA
+crypto.lattice: Криптосистемы на решётках

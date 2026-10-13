@@ -1,0 +1,34 @@
+% Lecture slides template — copy to NN-topic/slides.tex and fill in.
+% Slides are canvases: definitions/statements only, proofs are written by pen.
+\documentclass{ca-slides}
+
+\lecture{0}{Шаблон слайдов лекции}
+\author{}
+
+\begin{document}
+\titleframe
+
+\begin{frame}{Сравнения по модулю}
+  \begin{definition}
+    $a$ и $b$ сравнимы по модулю $m$, если $m \mid (a-b)$: \quad $\congr{a}{b}{m}$.
+  \end{definition}
+  \notearea
+\end{frame}
+
+\begin{canvasframe}{Малая теорема Ферма}
+  \begin{theorem}
+    Если $p$ "--- простое и $p \nmid a$, то $\congr{a^{p-1}}{1}{p}$.
+  \end{theorem}
+  \textcolor{caGray}{Доказательство:}
+  \penspace
+\end{canvasframe}
+
+\begin{frame}{Порядок элемента}
+  \begin{itemize}
+    \item $\ord(g) = \min\{n > 0 : \congr{g^n}{1}{p}\}$
+    \item $\ord(g) \mid p - 1$ \pause
+    \item \alert{Вопрос:} как найти $\ord(g)$ без перебора?
+  \end{itemize}
+  \notearea[0.3\textheight]
+\end{frame}
+\end{document}

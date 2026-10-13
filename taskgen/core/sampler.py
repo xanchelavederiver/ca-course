@@ -1,0 +1,67 @@
+"""Task selection for individual variants.
+
+Each slot gets exactly one task from its candidate pool such that
+
+* the total complexity satisfies the sheet budget (if any), and
+* no two chosen tasks share a family (if ``distinct_families``) — the
+  generalisation of the ``taken[]`` category rule of the legacy scripts.
+
+Selection is a randomized depth-first search: slots are visited in a random
+order, candidates are tried in a random order, and branches that can no
+longer meet the budget are pruned. All randomness comes from ``rng``.
+"""
+
+from __future__ import annotations
+
+import random
+from typing import Sequence
+
+from taskgen.core.sheet import Budget
+from taskgen.core.task import Task
+
+
+class SamplingError(Exception):
+    pass
+
+
+def select(pools: Sequence[Sequence[Task]], rng: random.Random,
+           budget: Budget | None = None, distinct_families: bool = True) -> list[Task]:
+    n = len(pools)
+    if any(not p for p in pools):
+        raise SamplingError("empty candidate pool")
+    order = list(range(n))
+    rng.shuffle(order)
+    lo = [min(t.complexity for t in pools[i]) for i in order]
+    hi = [max(t.complexity for t in pools[i]) for i in order]
+    # suffix sums of the min/max complexity of the not-yet-filled slots
+    rest_lo = [sum(lo[k:]) for k in range(n + 1)]
+    rest_hi = [sum(hi[k:]) for k in range(n + 1)]
+    bmin = budget.min if budget and budget.min is not None else -10**9
+    bmax = budget.max if budget and budget.max is not None else 10**9
+
+    chosen: dict[int, Task] = {}
+    families: set[str] = set()
+
+    def dfs(k: int, total: int) -> bool:
+        if k == n:
+            return bmin <= total <= bmax
+        if total + rest_lo[k] > bmax or total + rest_hi[k] < bmin:
+            return False
+        slot = order[k]
+        cands = list(pools[slot])
+        rng.shuffle(cands)
+        for t in cands:
+            fam = t.family_name()
+            if distinct_families and fam in families:
+                continue
+            chosen[slot] = t
+            families.add(fam)
+            if dfs(k + 1, total + t.complexity):
+                return True
+            families.discard(fam)
+            del chosen[slot]
+        return False
+
+    if not dfs(0, 0):
+        raise SamplingError("no task combination satisfies the budget/family constraints")
+    return [chosen[i] for i in range(n)]

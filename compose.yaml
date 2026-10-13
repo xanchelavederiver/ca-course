@@ -1,0 +1,26 @@
+name: ca-course
+
+x-repo: &repo
+  volumes:
+    - .:/work
+  working_dir: /work
+  user: "${HOST_UID:-1000}:${HOST_GID:-1000}"
+
+services:
+  latex:
+    <<: *repo
+    image: ca-course/latex:latest
+    build:
+      context: .
+      dockerfile: docker/latex/Dockerfile
+    entrypoint: []
+    command: ["latexmk", "-v"]
+    environment:
+      TEXINPUTS: "/work/latex//:"
+
+  taskgen:
+    <<: *repo
+    image: ca-course/taskgen:latest
+    build:
+      context: .
+      dockerfile: docker/taskgen/Dockerfile
