@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "sheet_id": "test-legacy",
+  "created_at": "2026-10-13T14:15:55+00:00",
+  "engine_version": "0.2.0",
+  "git": {
+    "commit": "f20e2b69c8fb3e817d837fb69032f730607a185b",
+    "dirty": true
+  },
+  "master_seed": 4242,
+  "spec_path": "taskgen/tests/fixtures/legacy-run.yaml",
+  "spec": {
+    "id": "test-legacy",
+    "title": "Тест",
+    "semester": null,
+    "preset": "sem2",
+    "intro": "",
+    "document": {
+      "font_size": "14pt",
+      "toc": true,
+      "solutions_suffix": "Решения"
+    },
+    "template": null,
+    "kind": "individual",
+    "groups": [
+      {
+        "name": "A 1",
+        "count": 2,
+        "students": null
+      },
+      {
+        "name": "B",
+        "count": null,
+        "students": [
+          "Иванов",
+          "Петров"
+        ]
+      }
+    ],
+    "slots": [
+      {
+        "title": null,
+        "tasks": [
+          {
+            "id": "dlp.shanks",
+            "preset": null
+          },
+          {
+            "id": "powmod.binary_mod",
+            "preset": null
+          }
+        ],
+        "topics": null,
+        "complexity": null
+      },
+      {
+        "title": null,
+        "tasks": null,
+        "topics": [
+          "ecc"
+        ],
+        "complexity": null
+      }
+    ],
+    "budget": null,
+    "distinct_families": true
+  },
+  "spec_source": "# Small individual sheet used to freeze a Plan 1 (combined-layout) run.\nid: test-legacy\nkind: individual\ntitle: Тест\npreset: sem2\ngroups:\n  - {name: \"A 1\", count: 2}\n  - {name: \"B\", students: [Иванов, Петров]}\nslots:\n  - tasks: [dlp.shanks, powmod.binary_mod]\n  - topics: [ecc]\n",
+  "variants": [
+    {
+      "key": "A 1/1",
+      "group": "A 1",
+      "number": 1,
+      "student": null,
+      "digest": "5ec55b9d40acc6183133e1903ae6c949c5e4f078f5a19fa8226c53b4760178b1",
+      "tasks": [
+        {
+          "slot": 0,
+          "task": "dlp.shanks",
+          "preset": "default",
+          "complexity": 1,
+          "seed": 3259596108771742948,
+          "answer": 27
+        },
+        {
+          "slot": 1,
+          "task": "ecc.double_and_add_ternary",
+          "preset": "default",
+          "complexity": 1,
+          "seed": 1873154160872616428,
+          "answer": [
+            41,
+            54
+          ]
+        }
+      ]
+    },
+    {
+      "key": "A 1/2",
+      "group": "A 1",
+      "number": 2,
+      "student": null,
+      "digest": "60195ffc0e336fc5183bee9ac07b9c0dc198d5b76e2beeb42a9b728ebd2d8347",
+      "tasks": [
+        {
+          "slot": 0,
+          "task": "powmod.binary_mod",
+          "preset": "sem2",
+          "complexity": 1,
+          "seed": 3108750649309990827,
+          "answer": 307
+        },
+        {
+          "slot": 1,
+          "task": "ecc.double_and_add_binary",
+          "preset": "default",
+          "complexity": 1,
+          "seed": 2891011467482020188,
+          "answer": [
+            47,
+            80
+          ]
+        }
+      ]
+    },
+    {
+      "key": "B/1",
+      "group": "B",
+      "number": 1,
+      "student": "Иванов",
+      "digest": "520dc7031b3ce711e5886850f56f46c31d69f5f2d4f0330b5af6bb93af9b6474",
+      "tasks": [
+        {
+          "slot": 0,
+          "task": "dlp.shanks",
+          "preset": "default",
+          "complexity": 1,
+          "seed": 6328873412065398404,
+          "answer": 34
+        },
+        {
+          "slot": 1,
+          "task": "ecc.double_and_add_binary",
+          "preset": "default",
+          "complexity": 1,
+          "seed": 2089793090857036524,
+          "answer": [
+            37,
+            26
+          ]
+        }
+      ]
+    },
+    {
+      "key": "B/2",
+      "group": "B",
+      "number": 2,
+      "student": "Петров",
+      "digest": "99ca7f8b59c2079aa9ada2603f2f7ce3de2e001c1e49155072a9621d6c452f1f",
+      "tasks": [
+        {
+          "slot": 0,
+          "task": "powmod.binary_mod",
+          "preset": "sem2",
+          "complexity": 1,
+          "seed": 5399616357971859553,
+          "answer": 81
+        },
+        {
+          "slot": 1,
+          "task": "ecc.double_and_add_ternary",
+          "preset": "default",
+          "complexity": 1,
+          "seed": 9012602731697820420,
+          "answer": [
+            19,
+            92
+          ]
+        }
+      ]
+    }
+  ],
+  "files": {
+    "tasks.tex": "d34abe823157ea05f8a15377d7580d30304100d941b387a481d8d37ccddf4ee8",
+    "tasks_solutions.tex": "91a5097558cba35d1c5c82d96c4acacb75f987f4f06165a164264546b22dcf27"
+  }
+}

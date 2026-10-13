@@ -19,3 +19,8 @@ def test_preview_is_seeded():
 def test_validate_one():
     r = CliRunner().invoke(main, ["validate", "crypto.lcg", "--count", "5"])
     assert r.exit_code == 0 and "ok    crypto.lcg@sem2" in r.output
+
+
+def test_schema():
+    r = CliRunner().invoke(main, ["schema"])
+    assert r.exit_code == 0 and '"IndividualSheet"' in r.output

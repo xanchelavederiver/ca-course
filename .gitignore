@@ -6,3 +6,10 @@ __pycache__/
 
 # local legacy sources (not part of the repo)
 /tmp/
+
+# web app
+/webapp/frontend/node_modules/
+/webapp/frontend/dist/
+/webapp/frontend/test-results/
+/webapp/frontend/playwright-report/
+*.tsbuildinfo

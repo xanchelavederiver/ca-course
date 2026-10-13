@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import importlib
+import inspect
 import pkgutil
+import traceback
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -11,6 +13,9 @@ if TYPE_CHECKING:
 
 _REGISTRY: dict[str, type["Task"]] = {}
 _discovered = False
+# module name -> formatted traceback of modules that failed to import
+# (only collected by ``discover(strict=False)``).
+IMPORT_ERRORS: dict[str, str] = {}
 
 
 def register(cls: type["Task"]) -> type["Task"]:
@@ -23,16 +28,48 @@ def register(cls: type["Task"]) -> type["Task"]:
     return cls
 
 
-def discover() -> None:
-    """Import every module under ``taskgen.tasks`` (idempotent)."""
+def discover(strict: bool = True) -> None:
+    """Import every module under ``taskgen.tasks`` (idempotent).
+
+    With ``strict=False`` a module that fails to import is recorded in
+    ``IMPORT_ERRORS`` and skipped, so one broken task module does not hide
+    the others (used by the web app's engine worker).
+    """
     global _discovered
     if _discovered:
         return
     import taskgen.tasks as pkg
 
-    for mod in pkgutil.walk_packages(pkg.__path__, prefix=pkg.__name__ + "."):
-        importlib.import_module(mod.name)
+    def failed(name: str) -> None:
+        IMPORT_ERRORS[name] = traceback.format_exc()
+        # classes defined before the error was raised registered themselves
+        for tid in [t for t, c in _REGISTRY.items()
+                    if c.__module__ == name or c.__module__.startswith(name + ".")]:
+            del _REGISTRY[tid]
+
+    def onerror(name: str) -> None:
+        if strict:
+            raise
+        failed(name)
+
+    for mod in pkgutil.walk_packages(pkg.__path__, prefix=pkg.__name__ + ".", onerror=onerror):
+        try:
+            importlib.import_module(mod.name)
+        except Exception:
+            if strict:
+                raise
+            failed(mod.name)
     _discovered = True
+
+
+def source_location(cls: type["Task"]) -> tuple[str | None, int | None, int | None]:
+    """``(file, first line, last line)`` of a task class definition (1-based)."""
+    try:
+        file = inspect.getsourcefile(cls)
+        lines, start = inspect.getsourcelines(cls)
+    except (OSError, TypeError):
+        return None, None, None
+    return file, start, start + len(lines) - 1
 
 
 def parse_ref(ref: str) -> tuple[str, str | None]:

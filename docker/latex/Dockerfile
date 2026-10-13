@@ -20,6 +20,7 @@ RUN apt-get update \
       latexmk \
       make \
       poppler-utils \
+      python3 \
       ghostscript \
  && rm -rf /var/lib/apt/lists/*
 

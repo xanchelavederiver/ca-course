@@ -24,3 +24,69 @@ services:
     build:
       context: .
       dockerfile: docker/taskgen/Dockerfile
+
+  # --- web app (Plan 2): `make web` / `make web-dev` -------------------------------
+  # Only ever published on 127.0.0.1: the app runs the instructor's task code.
+  web:
+    <<: *repo
+    image: ca-course/web:latest
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+      target: web
+    environment:
+      LATEX_WORKER_URL: http://latex-worker:8001
+    ports:
+      - "127.0.0.1:${WEB_PORT:-8000}:8000"
+    depends_on: [latex-worker]
+    profiles: [web]
+
+  web-dev:
+    <<: *repo
+    image: ca-course/web-backend:latest
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+      target: backend
+    environment:
+      LATEX_WORKER_URL: http://latex-worker:8001
+    command: ["--reload", "--reload-dir", "/work/webapp/backend"]
+    ports:
+      - "127.0.0.1:${WEB_PORT:-8000}:8000"
+    depends_on: [latex-worker]
+    profiles: [dev]
+
+  vite:
+    <<: *repo
+    image: node:22-bookworm-slim
+    working_dir: /work/webapp/frontend
+    environment:
+      API_URL: http://web-dev:8000
+      HOME: /tmp
+    command: ["sh", "-c", "npm ci --no-audit --no-fund && npm run dev -- --host 0.0.0.0"]
+    ports:
+      - "127.0.0.1:${VITE_PORT:-5173}:5173"
+    depends_on: [web-dev]
+    profiles: [dev]
+
+  # PDF builds for the web app (internal network only, no published ports).
+  latex-worker:
+    <<: *repo
+    image: ca-course/latex:latest
+    entrypoint: []
+    command: ["python3", "scripts/latex-worker.py"]
+    environment:
+      TEXINPUTS: "/work/latex//:"
+      REPO: /work
+    profiles: [web, dev]
+
+  # Playwright smoke test (make test-e2e) against the running `web` service.
+  e2e:
+    <<: *repo
+    image: mcr.microsoft.com/playwright:v1.49.0-noble
+    working_dir: /work/webapp/frontend
+    environment:
+      BASE_URL: http://web:8000
+      HOME: /tmp
+    command: ["sh", "-c", "[ -d node_modules/@playwright ] || npm ci --no-audit --no-fund; npx playwright test"]
+    profiles: [e2e]

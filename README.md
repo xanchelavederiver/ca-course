@@ -33,7 +33,8 @@ taskgen/       task database + generator (Python, runs in the Sage container)
 sheets/        sheet specs (YAML) by semester
 archive/       audit trail of issued sheets (committed)
 build/         generated artifacts (gitignored)
-scripts/       latex-build.sh (used by the Makefile inside the latex container)
+scripts/       latex-build{,-dir}.sh (Makefile, inside the latex container), latex-worker.py (web app)
+webapp/        local web app: backend/ (FastAPI, runs in the Sage image), frontend/ (React SPA)
 ```
 
 ## Building documents
@@ -66,11 +67,17 @@ calling `docker compose` directly, `export HOST_UID=$(id -u) HOST_GID=$(id -g)` 
 ### Issuing a homework / контрольная
 
 ```sh
-make draft SHEET=sheets/sem2/kontrolnaya.yaml        # preview: build/sheets/<id>/tasks{,_solutions}.pdf
+make draft SHEET=sheets/sem2/kontrolnaya.yaml        # preview: build/sheets/<id>/tasks{,_solutions}-<group>.pdf
 make issue SHEET=sheets/sem2/kontrolnaya.yaml        # archive/<id>/<ts>/: .tex, PDFs, manifest.json
 git add archive/ && git commit -m "Issue sem2 контрольная"
 make regen RUN=archive/sem2-kontrolnaya/<ts>         # later: verify it reproduces identically
 ```
+
+Individual sheets produce **one PDF per group** (`tasks-<group>.pdf`, with all
+of that group's variants) plus one solutions PDF per group
+(`tasks_solutions-<group>.pdf`); classroom sheets produce `tasks.pdf` and
+`tasks_solutions.pdf`. The manifest records the layout, so runs issued before
+engine 0.3 (one combined file) still regenerate identically.
 
 Commit your code changes **before** issuing: the manifest records the git
 commit (and warns if the tree is dirty). Generation is deterministic: master
@@ -135,3 +142,55 @@ task and preset (statement + full step-by-step solution) into
 in `taskgen/render/templates/macros.tex.j2` (import with
 `\BLOCK{import 'macros.tex.j2' as tx}` — don't name the alias like a template
 variable).
+
+## Web app
+
+A local, single-instructor UI over the same files the CLI uses (no database,
+no authentication — it runs your task code, so it is only ever bound to
+`127.0.0.1`):
+
+```sh
+make web          # build + start: http://127.0.0.1:8000  (make web-down to stop)
+make web-dev      # API with auto-reload + Vite dev server on http://127.0.0.1:5173
+make test-web     # backend pytest + frontend type-check and vitest
+make test-e2e     # Playwright smoke test against a running `make web`
+```
+
+What it does:
+
+- **Tasks** — browse by topic/complexity with the last validation status; the
+  task editor has a metadata form, LaTeX editors for the statement and
+  solution templates, the whole module in a Python editor (with a diff against
+  `HEAD`), a live preview (MathJax while typing, or the canonical PDF) and a
+  validation run whose failing seeds open in the preview. *New task* scaffolds
+  a class in a new or existing module. Tasks stay Python classes: the form
+  edits literal class attributes in place (`libcst`, everything else in the
+  file is untouched); attributes computed in code (e.g. a statement built from
+  shared constants) are shown read-only with a link to the Code tab. A module
+  that does not import is reported and can still be opened and fixed — the
+  other tasks keep working.
+- **Sheets** — form editor (sections and drag & drop task order for classroom
+  sheets; groups with counts or a pasted student list, slots, budget and
+  family rule for individual sheets) and a raw YAML tab; form edits keep the
+  file's comments. Sheets are validated before they are saved. *Draft*
+  generates with unsaved edits and shows the sheet and solutions PDFs side by
+  side per group, with a jump list of variants. *Variant statistics* shows how
+  the slots and budget spread tasks and total complexity over the variants.
+- **Issue** — the same path as `make issue` (generate → build every PDF →
+  seal). Uncommitted changes only produce a warning; the manifest records
+  `git.dirty: true` (as with the CLI), so commit first when the run must be
+  exactly reproducible from git.
+- **Archive** — every issued run: manifest, students ↔ variants with answers,
+  the sealed PDFs, and *Verify* (regenerate everything or single variants and
+  compare byte for byte).
+- **Topics** (edit `taxonomy.yaml`), **Git** (status and diffs, read-only),
+  **Jobs** (progress of long operations).
+
+How it works: the FastAPI backend (`webapp/backend/taskgen_web`) runs in the
+Sage image and never imports task modules itself. Engine operations
+(`taskgen/service.py`, shared with the CLI) run in a warm worker process that
+is restarted when anything under `taskgen/` changes, and killed if a call
+hangs. PDFs are built by `latex-worker` (`scripts/latex-worker.py` in the
+latex image, reachable only on the compose network). Long operations are jobs
+streamed to the browser over Server-Sent Events. API docs:
+http://127.0.0.1:8000/api/docs.

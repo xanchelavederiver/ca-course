@@ -1,4 +1,4 @@
-"""taskgen command line interface.
+"""taskgen command line interface (a thin wrapper over ``taskgen.service``).
 
     taskgen list [--topic T] [-v]
     taskgen topics
@@ -7,20 +7,18 @@
     taskgen gen <sheet.yaml> [--seed N] [--draft] [--variant KEY ...]
     taskgen regen <manifest.json|run-dir> [--variant KEY ...] [--out DIR]
     taskgen seal <run-dir>
+    taskgen schema
 """
 
 from __future__ import annotations
 
 import json
-import traceback
 from pathlib import Path
 
 import click
 
 import taskgen
-from taskgen.core import audit, engine, registry, taxonomy
-from taskgen.core.rng import derive_seed, make_rng, new_master_seed
-from taskgen.core.sheet import load_sheet
+from taskgen import service
 
 
 def _rel(p: Path) -> str:
@@ -41,25 +39,24 @@ def main() -> None:
 @click.option("-v", "--verbose", is_flag=True, help="Show presets, family and notes.")
 def list_cmd(topics: tuple[str, ...], verbose: bool) -> None:
     """List registered tasks."""
-    tasks = registry.tasks_matching(list(topics)) if topics else registry.all_tasks()
-    w = max((len(c.id) for c in tasks), default=10)
-    for c in tasks:
-        click.echo(f"{c.id:<{w}}  c={c.complexity}  {c.solution_detail.value:<11}  "
-                   f"{','.join(c.topics):<34}  {c.title_ru}")
+    tasks = service.list_tasks(list(topics) or None)
+    w = max((len(t["id"]) for t in tasks), default=10)
+    for t in tasks:
+        click.echo(f"{t['id']:<{w}}  c={t['complexity']}  {t['solution_detail']:<11}  "
+                   f"{','.join(t['topics']):<34}  {t['title']}")
         if verbose:
-            click.echo(f"{'':<{w}}  family={c.family_name()}  presets={','.join(c.presets)}")
-            if c.notes:
-                click.echo(f"{'':<{w}}  notes: {c.notes}")
+            click.echo(f"{'':<{w}}  family={t['family_name']}  presets={','.join(t['presets'])}")
+            if t["notes"]:
+                click.echo(f"{'':<{w}}  notes: {t['notes']}")
     click.echo(f"\n{len(tasks)} task(s)", err=True)
 
 
 @main.command()
 def topics() -> None:
     """Show the topic taxonomy with task counts."""
-    for slug, title in taxonomy.taxonomy().items():
-        n = len(registry.tasks_matching([slug]))
-        indent = "  " * slug.count(".")
-        click.echo(f"{indent}{slug:<{34 - len(indent)}} {n:>3}  {title}")
+    for t in service.topics():
+        indent = "  " * t["depth"]
+        click.echo(f"{indent}{t['slug']:<{34 - len(indent)}} {t['count']:>3}  {t['title']}")
 
 
 @main.command()
@@ -69,15 +66,11 @@ def topics() -> None:
 @click.option("--json", "as_json", is_flag=True, help="Print full instances as JSON.")
 def preview(ref: str, seed: int | None, count: int, as_json: bool) -> None:
     """Generate and print instance(s) of a task."""
-    task = registry.get_task(ref)
-    base = new_master_seed() if seed is None else seed
-    for k in range(count):
-        s = base if k == 0 else derive_seed(base, k)
-        inst = task.generate(make_rng(s), seed=s)
+    for inst in service.preview(ref, seed, count):
         if as_json:
             click.echo(json.dumps(inst.to_dict(), ensure_ascii=False, indent=2))
             continue
-        click.secho(f"--- {inst.ref}  seed={s}", fg="cyan")
+        click.secho(f"--- {inst.ref}  seed={inst.seed}", fg="cyan")
         click.echo(inst.statement)
         click.secho("solution:", fg="green")
         click.echo(inst.solution)
@@ -91,31 +84,17 @@ def preview(ref: str, seed: int | None, count: int, as_json: bool) -> None:
 @click.option("--traceback", "show_tb", is_flag=True, help="Print tracebacks of failures.")
 def validate(target: str, count: int, seed: int, show_tb: bool) -> None:
     """Generate and self-check many instances of task(s) (all presets)."""
-    problems = taxonomy.check_taxonomy() if target == "all" else []
-    for p in problems:
+    report = service.validate(target, count, seed)
+    for p in report.taxonomy:
         click.secho(f"TAXONOMY  {p}", fg="red")
-    if target == "all":
-        tasks = [cls(p) for cls in registry.all_tasks() for p in cls.presets]
-    else:
-        tid, preset = registry.parse_ref(target)
-        cls = registry.task_class(tid)
-        tasks = [cls(preset)] if preset else [cls(p) for p in cls.presets]
-    failed = 0
-    for t in tasks:
-        try:
-            for k in range(count):
-                s = derive_seed(seed, t.ref, k)
-                a = t.generate(make_rng(s), seed=s)
-                b = t.generate(make_rng(s), seed=s)
-                if a != b:
-                    raise AssertionError(f"non-deterministic for seed {s}")
-            click.echo(f"ok    {t.ref}")
-        except Exception as e:  # report and continue
-            failed += 1
-            click.secho(f"FAIL  {t.ref}: {e}", fg="red")
+    for r in report.results:
+        if r.ok:
+            click.echo(f"ok    {r.ref}")
+        else:
+            click.secho(f"FAIL  {r.ref}: {r.error}", fg="red")
             if show_tb:
-                traceback.print_exc()
-    if failed or problems:
+                click.echo(r.traceback, err=True)
+    if not report.ok:
         raise SystemExit(1)
 
 
@@ -128,26 +107,19 @@ def validate(target: str, count: int, seed: int, show_tb: bool) -> None:
 @click.option("--quiet", is_flag=True, help="Print only the output directory.")
 def gen(sheet: Path, seed: int | None, draft: bool, variants: tuple[str, ...], quiet: bool) -> None:
     """Generate a sheet (+ solutions) from a YAML spec."""
-    spec, source = load_sheet(sheet)
-    master = new_master_seed() if seed is None else seed
-    only = set(variants) or None
-    run = engine.generate(spec, master, only=only)
-    if draft or only:
-        out = audit.REPO_ROOT / "build" / "sheets" / spec.id
-    else:
-        out = audit.new_run_dir(spec.id)
-        git = audit.git_info()
-        if git["dirty"]:
-            click.secho("warning: working tree has uncommitted changes; the manifest's git "
-                        "commit does not fully describe the generator", fg="yellow", err=True)
-    manifest = audit.write_run(run, source, _rel(sheet), out)
+    res = service.generate(sheet.read_text(encoding="utf-8"), seed, draft=draft,
+                           only=set(variants) or None, spec_path=_rel(sheet))
+    if res.git and res.git["dirty"]:
+        click.secho("warning: working tree has uncommitted changes; the manifest's git "
+                    "commit does not fully describe the generator", fg="yellow", err=True)
     if quiet:
-        click.echo(_rel(out))
+        click.echo(_rel(res.out_dir))
         return
-    n_tasks = sum(len(v.instances) for v in run.variants)
-    click.echo(f"{spec.id}: {len(run.variants)} variant(s), {n_tasks} task(s), master seed {master}")
-    click.echo(f"{'draft' if (draft or only) else 'issued'}: {_rel(manifest)}")
-    click.echo(_rel(out))
+    n_tasks = sum(len(v.instances) for v in res.run.variants)
+    click.echo(f"{res.run.spec.id}: {len(res.run.variants)} variant(s), {n_tasks} task(s), "
+               f"master seed {res.run.master_seed}")
+    click.echo(f"{'draft' if res.draft else 'issued'}: {_rel(res.manifest_path)}")
+    click.echo(_rel(res.out_dir))
 
 
 @main.command()
@@ -157,10 +129,7 @@ def gen(sheet: Path, seed: int | None, draft: bool, variants: tuple[str, ...], q
               help="Output directory (default: build/regen/<sheet-id>/<run>).")
 def regen(manifest: Path, variants: tuple[str, ...], out: Path | None) -> None:
     """Reproduce an archived run and verify it is identical."""
-    mpath = manifest / audit.MANIFEST if manifest.is_dir() else manifest
-    data = audit.load_manifest(mpath)
-    out = out or audit.REPO_ROOT / "build" / "regen" / data["sheet_id"] / mpath.parent.name
-    report = audit.regen(mpath, out, only=set(variants) or None)
+    report, out = service.regen(manifest, set(variants) or None, out)
     for w in report.warnings:
         click.secho(f"warning: {w}", fg="yellow", err=True)
     click.echo(f"regenerated {len(report.checked)} variant(s) into {_rel(out)}")
@@ -175,11 +144,17 @@ def regen(manifest: Path, variants: tuple[str, ...], out: Path | None) -> None:
 @click.argument("run_dir", type=click.Path(exists=True, file_okay=False, path_type=Path))
 def seal(run_dir: Path) -> None:
     """Record the hashes of built PDFs in a run's manifest."""
-    added = audit.seal(run_dir)
+    added = service.seal(run_dir)
     if not added:
         click.secho("no PDFs found", fg="yellow", err=True)
         raise SystemExit(1)
-    click.echo(f"sealed {', '.join(added)} in {_rel(run_dir / audit.MANIFEST)}")
+    click.echo(f"sealed {', '.join(added)} in {_rel(run_dir / 'manifest.json')}")
+
+
+@main.command()
+def schema() -> None:
+    """Print the JSON Schema of sheet specs."""
+    click.echo(json.dumps(service.sheet_schema(), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

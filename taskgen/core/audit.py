@@ -5,9 +5,11 @@ Every issued generation run lives in ``archive/<sheet-id>/<run-ts>/``:
 * ``manifest.json`` — master seed, sheet spec snapshot (parsed + raw YAML),
   git commit/dirty flag, engine version, per-variant task list with seeds,
   answers and digests, SHA-256 of every archived file;
-* ``tasks.tex`` / ``tasks_solutions.tex`` — the generated sources;
-* ``tasks.pdf`` / ``tasks_solutions.pdf`` — added by the PDF build and
-  recorded in the manifest by ``taskgen seal``.
+* the generated LaTeX sources — ``tasks.tex`` / ``tasks_solutions.tex``, or
+  one ``tasks-<group>.tex`` / ``tasks_solutions-<group>.tex`` pair per group
+  of an individual sheet (``layout``, see ``taskgen.render``);
+* the PDFs of every ``.tex`` — added by the PDF build and recorded in the
+  manifest by ``taskgen seal``.
 
 ``regen`` re-runs the generation from the manifest alone (spec snapshot +
 master seed) and compares the result byte-for-byte with the archive.
@@ -86,12 +88,13 @@ def new_run_dir(sheet_id: str, now: dt.datetime | None = None) -> Path:
 
 
 def write_run(run: engine.SheetRun, spec_source: str, spec_path: str | None,
-              out_dir: Path) -> Path:
+              out_dir: Path, layout: str = render.LAYOUT_PER_GROUP) -> Path:
     """Write sources + manifest of ``run`` to ``out_dir``; returns the manifest path."""
-    files = render.write_sources(run, out_dir)
+    files = render.write_sources(run, out_dir, layout)
     manifest = {
         "schema": SCHEMA_VERSION,
         "sheet_id": run.spec.id,
+        "layout": layout,
         "created_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "engine_version": taskgen.__version__,
         "git": git_info(),
@@ -111,6 +114,11 @@ def load_manifest(path: Path) -> dict[str, Any]:
     if path.is_dir():
         path = path / MANIFEST
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def manifest_layout(manifest: dict[str, Any]) -> str:
+    """Output layout of an archived run (manifests before engine 0.3 have none)."""
+    return manifest.get("layout", render.LAYOUT_COMBINED)
 
 
 def seal(run_dir: Path) -> list[str]:
@@ -153,7 +161,7 @@ def regen(manifest_path: Path, out_dir: Path, only: set[str] | None = None) -> R
     spec = parse_sheet(manifest["spec_source"])
     run = engine.generate(spec, int(manifest["master_seed"]), only=only)
     out_dir.mkdir(parents=True, exist_ok=True)
-    files = render.write_sources(run, out_dir)
+    files = render.write_sources(run, out_dir, manifest_layout(manifest))
 
     archived = {v["key"]: v for v in manifest["variants"]}
     for v in run.variants:

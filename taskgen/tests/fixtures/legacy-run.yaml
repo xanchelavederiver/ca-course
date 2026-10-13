@@ -1,0 +1,11 @@
+# Small individual sheet used to freeze a Plan 1 (combined-layout) run.
+id: test-legacy
+kind: individual
+title: Тест
+preset: sem2
+groups:
+  - {name: "A 1", count: 2}
+  - {name: "B", students: [Иванов, Петров]}
+slots:
+  - tasks: [dlp.shanks, powmod.binary_mod]
+  - topics: [ecc]

@@ -25,7 +25,10 @@ class SamplingError(Exception):
 
 
 def select(pools: Sequence[Sequence[Task]], rng: random.Random,
-           budget: Budget | None = None, distinct_families: bool = True) -> list[Task]:
+           budget: Budget | None = None, distinct_families: bool = True,
+           stats: dict[str, int] | None = None) -> list[Task]:
+    """One task per pool. ``stats["family_skips"]`` (if given) counts candidates
+    skipped because their family was already taken; it never affects the result."""
     n = len(pools)
     if any(not p for p in pools):
         raise SamplingError("empty candidate pool")
@@ -53,6 +56,8 @@ def select(pools: Sequence[Sequence[Task]], rng: random.Random,
         for t in cands:
             fam = t.family_name()
             if distinct_families and fam in families:
+                if stats is not None:
+                    stats["family_skips"] = stats.get("family_skips", 0) + 1
                 continue
             chosen[slot] = t
             families.add(fam)
