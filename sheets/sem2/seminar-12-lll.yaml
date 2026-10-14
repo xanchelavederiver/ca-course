@@ -1,0 +1,28 @@
+# Seminar 12 (lecture 12): Gram--Schmidt orthogonalisation and the LLL algorithm (delta = 3/4).
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-12-lll
+kind: classroom
+title: Семинар 12. Алгоритм LLL
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~12. Все вычисления "--- в точных дробях; $\delta = \tfrac34$.
+sections:
+  - title: Разминка
+    intro: >-
+      Ортогонализация Грама--Шмидта и связь $\det\mathcal{L} = \prod_i \|b_i^*\|$; алгоритм LLL
+      в размерности~2 и сравнение с методом Гаусса.
+    tasks: [lattices.gram_schmidt, lattices.gram_schmidt, lattices.lll_2d, lattices.gauss]
+  - title: Алгоритм LLL
+    intro: >-
+      Полная трасса: уменьшение размера $b_k$ (для $j = k - 1, \dots, 1$), условие Ловаса,
+      обмен и возврат $k \gets \max(k - 1, 2)$.
+    tasks: [lattices.lll, lattices.lll]
+  - title: Особые случаи
+    intro: >-
+      Базис, в котором не понадобится ни одного обмена (возможно, он уже LLL-приведён), и базис,
+      требующий многих обменов.
+    tasks: [lattices.lll@noswap, lattices.lll@noswap, lattices.lll@swaps]

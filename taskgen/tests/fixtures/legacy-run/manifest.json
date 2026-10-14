@@ -55,17 +55,24 @@
       },
       {
         "title": null,
-        "tasks": null,
-        "topics": [
-          "ecc"
+        "tasks": [
+          {
+            "id": "ecc.double_and_add_binary",
+            "preset": null
+          },
+          {
+            "id": "ecc.double_and_add_ternary",
+            "preset": null
+          }
         ],
+        "topics": null,
         "complexity": null
       }
     ],
     "budget": null,
     "distinct_families": true
   },
-  "spec_source": "# Small individual sheet used to freeze a Plan 1 (combined-layout) run.\nid: test-legacy\nkind: individual\ntitle: Тест\npreset: sem2\ngroups:\n  - {name: \"A 1\", count: 2}\n  - {name: \"B\", students: [Иванов, Петров]}\nslots:\n  - tasks: [dlp.shanks, powmod.binary_mod]\n  - topics: [ecc]\n",
+  "spec_source": "# Small individual sheet used to freeze a Plan 1 (combined-layout) run.\nid: test-legacy\nkind: individual\ntitle: Тест\npreset: sem2\ngroups:\n  - {name: \"A 1\", count: 2}\n  - {name: \"B\", students: [Иванов, Петров]}\nslots:\n  - tasks: [dlp.shanks, powmod.binary_mod]\n  - tasks: [ecc.double_and_add_binary, ecc.double_and_add_ternary]   # was `topics: [ecc]`\n",
   "variants": [
     {
       "key": "A 1/1",

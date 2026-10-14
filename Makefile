@@ -9,6 +9,14 @@
 #   make issue SHEET=sheets/...yaml issue: archive/<id>/<ts>/ with manifest + PDFs
 #   make regen RUN=archive/<id>/<ts>  reproduce an archived run and verify it
 #   make test                       pytest + taskgen validate + compile a generated sheet
+#
+# Course content (Plan 3; the course map is course.yaml):
+#   make materials [SEM=n]          notes, slides, handouts of course.yaml + the semester books
+#   make book SEM=n                 build/materials/semN/notes-book.pdf (all notes of a semester)
+#   make seminar-sheets [SEM=n]     drafts of the seminar classroom sheets
+#   make course-check               taskgen course check (gaps, stale worked examples)
+#   make examples                   regenerate the taskgen worked examples of the notes
+#   make lint                       chktex on materials/**/*.tex
 #   make shell-taskgen / shell-latex
 #
 # Web app (Plan 2; http://127.0.0.1:8000, never published beyond localhost):
@@ -27,13 +35,14 @@ LATEX   := $(DC_RUN) latex
 TASKGEN := $(DC_RUN) taskgen
 SAGEPY  := $(DC_RUN) --entrypoint sage taskgen -python
 
-DEMOS := $(wildcard materials/*/*/00-template/*.tex materials/capstone/00-template/*.tex) \
+DEMOS := $(filter-out %-body.tex,$(wildcard materials/*/*/00-template/*.tex materials/capstone/00-template/*.tex)) \
          materials/sem1/exam/questions.tex materials/sem1/exam/questions-refs.tex \
          latex/examples/sheet-demo.tex
 SHEETS := $(wildcard sheets/*/*.yaml)
 
 .PHONY: help images pdf demos draft sheets issue regen test test-py validate smoke \
-        shell-taskgen shell-latex clean web web-dev web-down test-web test-e2e
+        shell-taskgen shell-latex clean web web-dev web-down test-web test-e2e \
+        materials book books seminar-sheets course-check examples lint
 
 help:
 	@sed -n '1,/^$$/p' Makefile | sed 's/^# \{0,1\}//'
@@ -84,6 +93,36 @@ smoke:
 	@$(call build_sheet,sheets/sem2/kontrolnaya.yaml,--draft --seed 1)
 
 test: test-py validate smoke
+
+# --- course content (course.yaml) -------------------------------------------------
+SEMS := $(if $(SEM),$(SEM),1 2)
+
+materials:
+	@docs=$$($(TASKGEN) course docs $(if $(SEM),--sem $(SEM))) && \
+	$(LATEX) scripts/latex-build-many.sh $$docs
+	@$(MAKE) --no-print-directory books SEMS="$(SEMS)"
+
+book:
+	@test -n "$(SEM)" || { echo "usage: make book SEM=1|2"; exit 2; }
+	@book=$$($(TASKGEN) course book $(SEM)) && \
+	$(LATEX) scripts/latex-build.sh "$$book" "$$(dirname $$book)"
+
+books:
+	@for s in $(SEMS); do $(MAKE) --no-print-directory book SEM=$$s || exit 1; done
+
+seminar-sheets:
+	@for s in $$($(TASKGEN) course docs --sheets $(if $(SEM),--sem $(SEM))); do \
+	  $(MAKE) --no-print-directory draft SHEET=$$s || exit 1; done
+
+course-check:
+	$(TASKGEN) course check
+
+examples:
+	$(TASKGEN) course examples
+
+lint:
+	$(LATEX) sh -c 'find materials -name "*.tex" ! -path "*/examples/*" | sort | \
+	  xargs chktex -q -l .chktexrc'
 
 # --- web app ---------------------------------------------------------------------
 WEB := $(COMPOSE) --profile web

@@ -1,0 +1,196 @@
+% ca-figures.sty — figures and algorithm traces shared by lecture notes and slides.
+%
+%   \xgcdtable{a}{b}          extended Euclid table r_i, q_i, u_i, v_i (r_i = u_i a + v_i b),
+%                             computed by TeX (|a|, |b| < 2^31); use inside math display
+%   \euclidchain{a}{b}        the division chain a = q b + r, ... as an aligned display
+%   \rhoshape[opts]{t}{c}     ρ-shaped orbit: tail x_0..x_{t-1}, cycle of length c
+%   \ecaddfigure[opts]        chord rule on y^2 = x^3 - 2x + 4: P, Q, -(P+Q), P+Q
+%   \ecdoublefigure[opts]     tangent rule on the same curve: P, -2P, 2P
+%   \latticefigure[opts]{v1x}{v1y}{v2x}{v2y}
+%                             lattice points of the basis, basis vectors and the
+%                             fundamental parallelogram (small integer coordinates)
+%   \personicon{<color>}{<name>}  a person pictogram with a name below (inside tikzpicture:
+%                             \node at (x,y) {\personicon{caBlue}{Алиса}};) for protocol diagrams
+%
+% [opts] are TikZ options for the picture (e.g. scale=0.8).
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ca-figures}[2026/10/13 Computer Algebra course figures]
+
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.markings,decorations.pathreplacing}
+\RequirePackage{amsmath}
+
+\colorlet{caFigLine}{black!70}
+\providecolor{caBlue}{HTML}{1F3A93}
+\providecolor{caRed}{HTML}{B22222}
+\providecolor{caGray}{HTML}{5A5A5A}
+\providecolor{caAccent}{HTML}{5B9BD5}
+
+% --- extended Euclid ----------------------------------------------------------------------
+\newcommand{\ca@xgcdhead}{r_i & q_i & u_i & v_i}
+\ExplSyntaxOn
+\int_new:N \l__ca_r_prev_int  \int_new:N \l__ca_r_int
+\int_new:N \l__ca_u_prev_int  \int_new:N \l__ca_u_int
+\int_new:N \l__ca_v_prev_int  \int_new:N \l__ca_v_int
+\int_new:N \l__ca_q_int       \int_new:N \l__ca_tmp_int
+\tl_new:N \l__ca_rows_tl
+
+\cs_new_protected:Npn \__ca_xgcd_rows:nn #1#2
+  {
+    \int_set:Nn \l__ca_r_prev_int {#1}  \int_set:Nn \l__ca_r_int {#2}
+    \int_set:Nn \l__ca_u_prev_int {1}   \int_set:Nn \l__ca_u_int {0}
+    \int_set:Nn \l__ca_v_prev_int {0}   \int_set:Nn \l__ca_v_int {1}
+    \tl_set:Nx \l__ca_rows_tl
+      { \int_use:N \l__ca_r_prev_int & & 1 & 0 \exp_not:N \\
+        \int_use:N \l__ca_r_int & & 0 & 1 \exp_not:N \\ }
+    \int_until_do:nNnn { \l__ca_r_int } = { 0 }
+      {
+        \int_set:Nn \l__ca_q_int { \int_div_truncate:nn { \l__ca_r_prev_int } { \l__ca_r_int } }
+        \int_set:Nn \l__ca_tmp_int { \l__ca_r_prev_int - \l__ca_q_int * \l__ca_r_int }
+        \int_set_eq:NN \l__ca_r_prev_int \l__ca_r_int
+        \int_set_eq:NN \l__ca_r_int \l__ca_tmp_int
+        \int_set:Nn \l__ca_tmp_int { \l__ca_u_prev_int - \l__ca_q_int * \l__ca_u_int }
+        \int_set_eq:NN \l__ca_u_prev_int \l__ca_u_int
+        \int_set_eq:NN \l__ca_u_int \l__ca_tmp_int
+        \int_set:Nn \l__ca_tmp_int { \l__ca_v_prev_int - \l__ca_q_int * \l__ca_v_int }
+        \int_set_eq:NN \l__ca_v_prev_int \l__ca_v_int
+        \int_set_eq:NN \l__ca_v_int \l__ca_tmp_int
+        \tl_put_right:Nx \l__ca_rows_tl
+          { \int_use:N \l__ca_r_int & \int_use:N \l__ca_q_int &
+            \int_use:N \l__ca_u_int & \int_use:N \l__ca_v_int \exp_not:N \\ }
+      }
+  }
+
+\NewDocumentCommand \xgcdtable { m m }
+  {
+    \__ca_xgcd_rows:nn {#1} {#2}
+    \begin{array}{r|r|r|r}
+      \ca@xgcdhead \\ \hline
+      \tl_use:N \l__ca_rows_tl
+    \end{array}
+  }
+
+\NewDocumentCommand \euclidchain { m m }
+  {
+    \int_set:Nn \l__ca_r_prev_int {#1}  \int_set:Nn \l__ca_r_int {#2}
+    \tl_clear:N \l__ca_rows_tl
+    \int_until_do:nNnn { \l__ca_r_int } = { 0 }
+      {
+        \int_set:Nn \l__ca_q_int { \int_div_truncate:nn { \l__ca_r_prev_int } { \l__ca_r_int } }
+        \int_set:Nn \l__ca_tmp_int { \l__ca_r_prev_int - \l__ca_q_int * \l__ca_r_int }
+        \tl_put_right:Nx \l__ca_rows_tl
+          { \int_use:N \l__ca_r_prev_int & = \int_use:N \l__ca_q_int \cdot \int_use:N \l__ca_r_int
+            + \int_use:N \l__ca_tmp_int \exp_not:N \\ }
+        \int_set_eq:NN \l__ca_r_prev_int \l__ca_r_int
+        \int_set_eq:NN \l__ca_r_int \l__ca_tmp_int
+      }
+    \begin{aligned} \tl_use:N \l__ca_rows_tl \end{aligned}
+  }
+\ExplSyntaxOff
+
+% --- Pollard rho: the shape of an orbit ------------------------------------------------------
+% Tail x_0, ..., x_{t-1} on a slanted line, cycle x_t, ..., x_{t+c-1} on a circle.
+\newcommand{\rhoshape}[3][]{%
+  \begin{tikzpicture}[#1,
+      pt/.style={circle,fill=caBlue,inner sep=1.4pt},
+      arr/.style={-{Stealth[length=2mm]},caFigLine,shorten >=2pt,shorten <=2pt}]
+    \pgfmathtruncatemacro{\ca@t}{#2}%
+    \pgfmathtruncatemacro{\ca@c}{#3}%
+    \pgfmathtruncatemacro{\ca@cm}{#3-1}%
+    \pgfmathtruncatemacro{\ca@tm}{#2-1}%
+    \pgfmathsetmacro{\ca@R}{max(0.9, 0.28*\ca@c)}%
+    % cycle: x_t at the bottom of the circle, counter-clockwise
+    \foreach \k in {0,...,\ca@cm} {
+      \pgfmathtruncatemacro{\idx}{\ca@t+\k}
+      \node[pt] (c\k) at ({-90+360*\k/\ca@c}:\ca@R) {};
+      \node[font=\small] at ({-90+360*\k/\ca@c}:\ca@R+0.42) {$x_{\idx}$};
+    }
+    \foreach \k in {0,...,\ca@cm} {
+      \pgfmathtruncatemacro{\nx}{mod(\k+1,\ca@c)}
+      \draw[arr] (c\k) to[bend right=12] (c\nx);
+    }
+    % tail: x_0 far below, ending next to x_t
+    \ifnum\ca@t>0
+      \foreach \k in {0,...,\ca@tm} {
+        \pgfmathsetmacro{\ypos}{-\ca@R-0.8*(\ca@t-\k)}
+        \node[pt] (t\k) at (-0.25*\ca@t+0.25*\k, \ypos) {};
+        \node[font=\small,anchor=east] at (-0.25*\ca@t+0.25*\k-0.12, \ypos) {$x_{\k}$};
+      }
+      \ifnum\ca@t>1
+        \foreach \k in {1,...,\ca@tm} {
+          \pgfmathtruncatemacro{\pv}{\k-1}\draw[arr] (t\pv) -- (t\k);
+        }
+      \fi
+      \draw[arr] (t\ca@tm) -- (c0);
+    \fi
+  \end{tikzpicture}%
+}
+
+% --- elliptic curves over R ---------------------------------------------------------------
+% y^2 = x^3 - 2x + 4 = (x + 2)(x^2 - 2x + 2): one real component starting at x = -2.
+\newcommand{\ca@eccurve}{%
+  \foreach \sgn in {1,-1} {
+    \draw[caBlue,thick,smooth,samples=60,domain=-2:-1.8]
+      plot (\x, {\sgn*sqrt(max(0,\x*\x*\x-2*\x+4))});
+    \draw[caBlue,thick,smooth,samples=100,domain=-1.8:2.65]
+      plot (\x, {\sgn*sqrt(max(0,\x*\x*\x-2*\x+4))});
+  }
+}
+\newcommand{\ca@ecaxes}{%
+  \draw[-{Stealth[length=2mm]},caGray] (-2.6,0) -- (3.1,0) node[below] {$x$};
+  \draw[-{Stealth[length=2mm]},caGray] (0,-4.4) -- (0,4.4) node[left] {$y$};
+}
+% P = (0, 2), Q = (2, 2*sqrt 2); lambda = sqrt 2 - 1; third point x_3 = lambda^2 - 2
+\newcommand{\ecaddfigure}[1][]{%
+  \begin{tikzpicture}[scale=0.8,#1,pt/.style={circle,fill,inner sep=1.6pt}]
+    \ca@ecaxes \ca@eccurve
+    \pgfmathsetmacro{\lam}{sqrt(2)-1}
+    \pgfmathsetmacro{\xR}{\lam*\lam-2}
+    \pgfmathsetmacro{\yR}{\lam*(0-\xR)-2}
+    \draw[caFigLine] ({\xR-0.5},{2+\lam*(\xR-0.5)}) -- (2.6,{2+\lam*2.6});
+    \draw[caFigLine,dashed] (\xR,{-\yR}) -- (\xR,\yR);
+    \node[pt,caRed] at (0,2) {}; \node[above left] at (0,2) {$P$};
+    \node[pt,caRed] at (2,{2*sqrt(2)}) {}; \node[above left] at (2,{2*sqrt(2)}) {$Q$};
+    \node[pt] at (\xR,{-\yR}) {}; \node[above left] at (\xR,{-\yR}) {$-(P+Q)$};
+    \node[pt,caRed] at (\xR,\yR) {}; \node[below left] at (\xR,\yR) {$P+Q$};
+  \end{tikzpicture}%
+}
+% P = (0, 2): lambda = (3x^2 - 2)/(2y) = -1/2, x_3 = 1/4, y_3 = -lambda(x_3) - 2 = -15/8
+\newcommand{\ecdoublefigure}[1][]{%
+  \begin{tikzpicture}[scale=0.8,#1,pt/.style={circle,fill,inner sep=1.6pt}]
+    \ca@ecaxes \ca@eccurve
+    \draw[caFigLine] (-1.6,2.8) -- (2.0,1.0);
+    \draw[caFigLine,dashed] (0.25,1.875) -- (0.25,-1.875);
+    \node[pt,caRed] at (0,2) {}; \node[above left] at (0,2) {$P$};
+    \node[pt] at (0.25,1.875) {}; \node[above right] at (0.25,1.875) {$-2P$};
+    \node[pt,caRed] at (0.25,-1.875) {}; \node[below right] at (0.25,-1.875) {$2P$};
+  \end{tikzpicture}%
+}
+
+% --- protocol diagrams ------------------------------------------------------------------
+\newcommand{\personicon}[2]{%
+  \begin{tikzpicture}[baseline=(nm.base)]
+    \fill[#1] (0,0.95) circle (0.28);
+    \fill[#1] (-0.42,0.15) rectangle (0.42,0.6);
+    \fill[#1] (0,0.6) ellipse (0.42 and 0.18);
+    \node[font=\small\bfseries,text=#1] (nm) at (0,-0.15) {#2};
+  \end{tikzpicture}%
+}
+
+% --- lattices ----------------------------------------------------------------------------
+\newcommand{\latticefigure}[5][]{%
+  \begin{tikzpicture}[scale=0.45,#1]
+    \clip (-6.3,-4.3) rectangle (6.3,4.3);
+    \foreach \i in {-12,...,12} {
+      \foreach \j in {-12,...,12} {
+        \fill[caGray] ({\i*(#2)+\j*(#4)},{\i*(#3)+\j*(#5)}) circle (2.6pt);
+      }
+    }
+    \fill[caAccent,opacity=0.2] (0,0) -- (#2,#3) -- ({(#2)+(#4)},{(#3)+(#5)}) -- (#4,#5) -- cycle;
+    \draw[-{Stealth[length=2.5mm]},very thick,caRed] (0,0) -- (#2,#3) node[pos=1.12] {$v_1$};
+    \draw[-{Stealth[length=2.5mm]},very thick,caBlue] (0,0) -- (#4,#5) node[pos=1.12] {$v_2$};
+    \fill (0,0) circle (3.5pt);
+  \end{tikzpicture}%
+}
+
+\endinput

@@ -28,10 +28,12 @@ def test_list_tasks_filters():
     all_ = service.list_tasks()
     assert len(all_) == len(registry.all_tasks())
     dlp = service.list_tasks(topics=["dlp"])
-    assert {t["id"] for t in dlp} == {"dlp.shanks", "dlp.pohlig_hellman", "dlp.index_calculus"}
+    assert {t["id"] for t in dlp} == {c.id for c in registry.tasks_matching(["dlp"])}
+    assert {"dlp.shanks", "dlp.pohlig_hellman", "dlp.index_calculus"} <= {t["id"] for t in dlp}
     assert all(t["complexity"] == 1 for t in service.list_tasks(complexity=[1]))
     assert {t["id"] for t in service.list_tasks(family="montgomery")} >= {"arithmetic.montgomery_mul"}
-    assert [t["id"] for t in service.list_tasks(text="Шенкс")] == ["dlp.shanks"]
+    assert "dlp.shanks" in [t["id"] for t in service.list_tasks(text="Шенкс")]
+    assert all("шенкс" in (t["id"] + t["title"]).lower() for t in service.list_tasks(text="Шенкс"))
 
 
 def test_task_info_has_source_location():
@@ -46,7 +48,9 @@ def test_task_info_has_source_location():
 
 def test_topics_counts():
     t = {x["slug"]: x for x in service.topics()}
-    assert t["dlp"]["count"] == 3 and t["dlp.generic"]["depth"] == 1
+    assert t["dlp"]["count"] == len(registry.tasks_matching(["dlp"])) >= 3
+    assert t["dlp.generic"]["depth"] == 1
+    assert t["dlp"]["count"] == sum(t[s]["count"] for s in t if s.startswith("dlp.") and s.count(".") == 1)
 
 
 def test_preview_seeded_and_template_override():
@@ -164,3 +168,16 @@ def test_render_output_files_unique_slugs():
     files = render.output_files(engine.generate(spec, 1))
     assert [f for f, _, _ in files] == ["tasks-b-2.tex", "tasks_solutions-b-2.tex",
                                         "tasks-b-2-2.tex", "tasks_solutions-b-2-2.tex"]
+
+
+def test_catalog_lists_every_task_and_preset():
+    from taskgen.core import registry
+    from taskgen.core.sheet import parse_sheet
+
+    text = service.catalog_yaml()
+    spec = parse_sheet(text)
+    refs = [str(r) for sec in spec.sections for r in sec.tasks]
+    expected = [c.id if p == "default" else f"{c.id}@{p}" for c in registry.all_tasks() for p in c.presets]
+    assert sorted(refs) == sorted(expected)
+    # the committed catalog is regenerated with `taskgen catalog`
+    assert service.CATALOG.read_text(encoding="utf-8") == text, "run `taskgen catalog`"

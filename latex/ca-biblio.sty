@@ -1,0 +1,28 @@
+% ca-biblio.sty — the shared bibliography (latex/ca-refs.bib) for course documents.
+%
+% biblatex + biber, GOST numeric style (Russian and English entries). Cite with
+% a locator: \cite[разд.~4.3]{knuth-taocp2}. Online resources (MOOCs, video
+% lectures, wiki pages) are @online entries with keywords={online}; they are
+% listed separately from the literature.
+%
+%   \readitem[<locator>]{<key>}{<comment>}  — an annotated "further reading" item
+%                                            (cites the entry)
+%   \printcabibliography[<heading>]        — literature + online resources
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ca-biblio}[2026/10/13 Computer Algebra course bibliography]
+
+\RequirePackage{csquotes}
+\RequirePackage[backend=biber,style=gost-numeric,sorting=none,language=auto,
+  autolang=hyphen]{biblatex}
+\addbibresource{ca-refs.bib}
+
+\newcommand{\readitem}[3][]{%
+  \item \ifx\relax#1\relax\cite{#2}\else\cite[#1]{#2}\fi\ifx\relax#3\relax\else~--- #3\fi}
+
+\defbibheading{casub}[\bibname]{\subsection*{#1}}
+\newcommand{\printcabibliography}[1][casub]{%
+  \printbibliography[heading=#1,notkeyword=online,title={Литература}]%
+  \printbibliography[heading=#1,keyword=online,title={Онлайн-ресурсы}]%
+}
+
+\endinput

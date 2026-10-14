@@ -1,0 +1,71 @@
+% Seminar 1 handout (sem2, lecture 1): DLP, Diffie–Hellman, ElGamal, brute force, Shanks.
+\documentclass{ca-handout}
+
+\seminar{1}{Дискретный логарифм. Алгоритм Шенкса}
+
+\begin{document}
+\makehandouttitle
+
+\section{Порядок элемента и подгруппы}
+$\ord(g)$ "--- наименьшее $n \ge 1$ с $g^n = 1$; $g^k = 1 \iff n \mid k$; $g^k = g^l \iff
+\congr{k}{l}{n}$; $\langle g \rangle = \{1, g, \dots, g^{n-1}\}$; $n \mid p - 1$ в $\Znx{p}$.
+
+\begin{reminder}[title={Последовательное снижение порядка в $\Znx{p}$}]
+$o \gets p - 1$; для каждого простого $q \mid p - 1$: пока $q \mid o$ и $g^{o/q} \equiv 1$, полагаем
+$o \gets o/q$. В конце $o = \ord(g)$. Первообразный корень $\iff$ $g^{(p-1)/q} \not\equiv 1$ для всех
+простых $q \mid p - 1$.
+\end{reminder}
+
+$\Znx{p}$ "--- циклическая группа порядка $p - 1$. Для каждого $d \mid p - 1$ в ней ровно одна подгруппа
+порядка $d$, это $\{y : y^d = 1\}$. Поэтому при $\ord(g) = n$:
+\[
+  h \in \langle g \rangle \iff h^n \equiv 1 \pmod p .
+\]
+Безопасное простое $p = 2q + 1$: порядки элементов $1, 2, q, 2q$; квадраты $\ne 1$ имеют порядок $q$.
+
+\section{Задача дискретного логарифмирования}
+Даны $g, h$; найти $x$ с $g^x \equiv h \pmod p$. Решение есть $\iff h \in \langle g \rangle$ и
+единственно по модулю $n = \ord(g)$: все решения $x \equiv x_0 \pmod n$.
+Свойства: $\log_g(h_1 h_2) \equiv \log_g h_1 + \log_g h_2$, $\log_g h^k \equiv k \log_g h \pmod n$.
+
+\begin{reminder}[title={Перебор (тривиальный алгоритм)}]
+$y_0 = 1$, $y_{k+1} = y_k g$; ищем $y_k = h$. Останавливаемся при $y_k = 1$, $k > 0$: тогда
+$k = \ord(g)$, и если $h$ не встретилось, решений нет. Не более $n - 1$ умножений, память $\bigO(1)$.
+\end{reminder}
+
+\section{Бинарное возведение в степень и обратный элемент}
+Биты показателя слева направо: $r \gets r^2$, при бите $1$ ещё $r \gets r \cdot a$; $\bigO(\log e)$
+умножений. Обратный по модулю простого $p$: расширенный алгоритм Евклида ($u p + v a = 1 \Rightarrow
+a^{-1} \equiv v$) или малая теорема Ферма: $a^{-1} \equiv a^{p-2}$, $(c^a)^{-1} \equiv c^{p-1-a}$.
+
+\section{Протоколы}
+\begin{reminder}[title={Диффи--Хеллман: открыто $p$, $g$, $n = \ord(g)$}]
+Алиса: секрет $a \in [1, n - 1]$, отправляет $A = g^a$. Боб: секрет $b$, отправляет $B = g^b$.
+Общий ключ $K = B^a = A^b = g^{ab}$. Ева знает $p, g, A, B$; ей достаточно $a' = \log_g A$
+($a' \equiv a \pmod n$), тогда $K = B^{a'}$. Ключ лежит в $\langle g \rangle$ и принимает не более
+$\ord(g)$ значений; при $\congr{a}{0}{\ord g}$ получаем $A = 1$ и $K = 1$.
+\end{reminder}
+
+\begin{reminder}[title={Эль-Гамаль}]
+Ключи: секрет $a$, открытый $A = g^a$. Шифрование $m$ с одноразовым $k$: $c_1 = g^k$, $c_2 = m A^k$.
+Расшифрование: $s = c_1^a$ $(= A^k)$, $m = c_2 s^{-1} = c_2 c_1^{p-1-a}$. При $s = 1$ шифртекст
+$c_2 = m$ "--- сообщение не скрыто.
+\end{reminder}
+
+\section{Алгоритм Шенкса (baby-step giant-step)}
+\begin{reminder}[title={$g^x = h$, $n = \ord(g)$ (или граница $N \ge n$, например $p - 1$)}]
+\begin{enumerate}
+  \item $m = \ceil{\sqrt n}$ (так что $m^2 \ge n$).
+  \item Малые шаги: таблица $g^j$, $j = 0, 1, \dots, m - 1$.
+  \item $u = g^{-m} = (g^{-1})^m$.
+  \item Большие шаги: $y_0 = h$, $y_{i+1} = y_i u$ (т.\,е. $y_i = h g^{-im}$), $i = 0, \dots, m - 1$,
+    до совпадения $y_i = g^j$.
+  \item Ответ: $x = im + j$ (по модулю $\ord(g)$). Совпадений нет $\Rightarrow$ $h \notin \langle g
+    \rangle$ (проверка: $h^{n} \not\equiv 1$).
+\end{enumerate}
+Время $\bigO(\sqrt n)$ умножений, память $\bigO(\sqrt n)$. Если $\ord(g) < p - 1$ известен, списки
+короче: $\ceil{\sqrt{\ord g}}$ вместо $\ceil{\sqrt{p - 1}}$.
+\end{reminder}
+Нижняя оценка для универсальных алгоритмов: $\Omega(\sqrt q)$, $q$ "--- наибольший простой делитель
+$\ord(g)$ (Шуп). Поэтому на практике $g$ имеет большой простой порядок $q$ ($\approx 2^{256}$).
+\end{document}

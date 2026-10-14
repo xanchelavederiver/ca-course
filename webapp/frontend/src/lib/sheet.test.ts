@@ -27,16 +27,17 @@ describe("form <-> data", () => {
     expect(f.kind).toBe("individual");
     expect(f.budget).toEqual({ mode: "exact", value: 8 });
     expect(variantCount(f)).toBe(126);
-    expect(f.slots[2]).toMatchObject({ source: "topics", topics: ["dlp"] });
+    expect(f.slots[2]).toMatchObject({ source: "tasks" });
+    expect(f.slots[2].tasks).toContain("dlp.shanks");
 
     f.budget = { mode: "range", min: 6, max: null };
     f.groups[0] = { ...f.groups[0], mode: "students", students: ["Иванов", "Петров"] };
-    f.slots[2] = { ...f.slots[2], source: "tasks", tasks: ["dlp.shanks"] };
+    f.slots[2] = { ...f.slots[2], source: "topics", topics: ["dlp"] };
     f.distinct_families = false;
     const out = formToData(f, data);
     expect(out.budget).toEqual({ min: 6, max: null });
     expect((out.groups as unknown[])[0]).toEqual({ name: "6411", students: ["Иванов", "Петров"] });
-    expect((out.slots as Record<string, unknown>[])[2]).toEqual({ title: "Дискретное логарифмирование", tasks: ["dlp.shanks"] });
+    expect((out.slots as Record<string, unknown>[])[2]).toEqual({ title: "Дискретное логарифмирование", topics: ["dlp"] });
     expect(out.distinct_families).toBe(false);
     expect(Object.keys(out).slice(0, 3)).toEqual(["id", "kind", "title"]);
     expect(variantCount(dataToForm(out))).toBe(86);

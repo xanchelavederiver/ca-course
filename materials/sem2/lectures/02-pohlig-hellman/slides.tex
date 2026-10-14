@@ -1,0 +1,291 @@
+% Lecture 2 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{2}{Китайская теорема об остатках и алгоритм Полига–Хеллмана}
+\author{}
+
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{План лекции}
+  \begin{itemize}
+    \item Почему сложность DLP зависит от \emph{разложения} порядка группы
+    \item Китайская теорема об остатках (КТО)
+    \begin{itemize}
+      \item формула $\sum r_i M_i y_i$, изоморфизм колец, метод Гарнера
+      \item модули, не являющиеся взаимно простыми
+    \end{itemize}
+    \item DLP в группе порядка $q^e$: цифры $x$ по одной
+    \item Алгоритм Полига"--~Хеллмана и его сложность
+    \item Выводы для выбора параметров: безопасные простые, группы Шнорра
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{DLP и протокол Диффи"--~Хеллмана}
+  \centering
+  \resizebox{!}{0.36\textheight}{\begin{tikzpicture}[x=1cm,y=1cm]
+    \node at (5,1.6) {$G = \langle g \rangle$, $\abs{G} = N$};
+    \node (A) at (0,0) {\personicon{caBlue}{Алиса}};
+    \node (B) at (10,0) {\personicon{caRed}{Боб}};
+    \draw[-{Stealth[length=3mm]},thick] (1,0.6) -- (9,0.6) node[midway,above] {$A = g^a$};
+    \draw[{Stealth[length=3mm]}-,thick] (1,0.0) -- (9,0.0) node[midway,below] {$B = g^b$};
+    \node (E) at (5,-2.0) {\personicon{caGray}{Ева}};
+    \draw[dashed,caGray] (5,-0.4) -- (5,-1.3);
+    \node[font=\small,anchor=north] at (5,-2.6) {знает $g, A, B$; нужно $a = \log_g A$};
+  \end{tikzpicture}}
+  \begin{itemize}
+    \item Шенкс (лекция~1): $\bigO(\sqrt N)$ операций для любой группы
+    \item \alert{Сегодня}: если $N = q_1^{e_1} \cdots q_t^{e_t}$, то хватает
+      $\approx \sum e_i \sqrt{q_i}$
+    \item[\textcolor{caRed}{?}] \textcolor{caRed}{\itshape $p = 2^{16} + 1$ "--- простое. Насколько сложен DLP в $\Znx p$?}
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Сравнения и обратные элементы}
+  \begin{itemize}
+    \item $a$ обратим по модулю $m$ $\iff$ $\gcd(a, m) = 1$; $a^{-1}$ "--- из соотношения Безу
+      $ua + vm = 1$ (расширенный алгоритм Евклида)
+    \item \textbf{Лемма.} $a \mid n$, $b \mid n$, $\gcd(a, b) = 1$ $\Rightarrow$ $ab \mid n$
+    \item Следствие: $m_1, \dots, m_k$ попарно взаимно просты, $m_i \mid n$ $\forall i$
+      $\Rightarrow$ $m_1 \cdots m_k \mid n$
+  \end{itemize}
+  \proofarea[0.25\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Китайская теорема об остатках}
+  Пусть $m_1, \dots, m_k$ попарно взаимно просты, $M = m_1 \cdots m_k$. Для любых $r_1, \dots, r_k$
+  система $x \equiv r_i \Mod{m_i}$, $i = 1, \dots, k$, имеет решение, единственное по модулю $M$:
+  \[
+    x \equiv \sum_{i=1}^k r_i M_i y_i \pmod M, \qquad M_i = \frac{M}{m_i}, \quad
+    y_i \equiv M_i^{-1} \pmod{m_i}.
+  \]
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: задача Сунь"--~цзы}
+  Найти число, дающее остатки $2$, $3$, $2$ при делении на $3$, $5$, $7$: \quad $M = 105$.
+  \begin{center}
+  \begin{tabular}{c|c|c|c|c}
+    $i$ & $m_i$ & $M_i$ & $M_i \bmod m_i$ & $y_i$ \\ \hline
+    1 & 3 & 35 & & \\
+    2 & 5 & 21 & & \\
+    3 & 7 & 15 & &
+  \end{tabular}
+  \end{center}
+  \penspace[0.15\textheight]
+  \aside{решите ту же систему, присоединяя сравнения по одному}
+\end{canvasframe}
+
+\begin{theoremframe}{КТО как изоморфизм колец}
+  Если $m_1, \dots, m_k$ попарно взаимно просты и $M = m_1 \cdots m_k$, то
+  \[
+    \Zn{M} \to \Zn{m_1} \times \cdots \times \Zn{m_k}, \qquad x \mapsto (x \bmod m_1, \dots, x \bmod m_k)
+  \]
+  "--- изоморфизм колец. Следствия: $\Znx{M} \cong \prod_i \Znx{m_i}$,
+  $\varphi(M) = \prod_i \varphi(m_i)$.
+\end{theoremframe}
+
+\begin{canvasframe}{Алгоритмы КТО}
+  \footnotesize
+  \begin{itemize}
+    \item \textbf{По формуле}: $M_i = M/m_i$, $y_i = (M_i \bmod m_i)^{-1}$,
+      $x = \sum r_i M_i y_i \bmod M$; сложность $\bigO(\log^2 M)$ битовых операций
+    \item \textbf{Гарнер} (смешанная система счисления):
+      \[
+        x = v_1 + v_2 m_1 + v_3 m_1 m_2 + \cdots + v_k m_1 \cdots m_{k-1}, \quad 0 \le v_i < m_i,
+      \]
+      \[
+        v_i \equiv \bigl(r_i - (v_1 + \cdots + v_{i-1} m_1 \cdots m_{i-2})\bigr)\, c_i \pmod{m_i},
+      \]
+      где $c_i = (m_1 \cdots m_{i-1})^{-1} \bmod m_i$
+    \item Константы $M_i y_i$ или $c_i$ зависят только от модулей "--- система остаточных
+      классов, ускорение RSA (лекция~5)
+  \end{itemize}
+  \aside{почему $0 \le x < M$ в методе Гарнера?}
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Линейное сравнение}
+  Сравнение $at \equiv b \Mod m$ разрешимо $\iff$ $d = \gcd(a, m) \mid b$. Тогда оно
+  равносильно $\frac ad\, t \equiv \frac bd \Mod{\frac md}$ и имеет единственное решение
+  по модулю $\frac md$ ($d$ решений по модулю $m$).
+\end{theoremframe}
+
+\begin{theoremframe}{КТО для произвольных модулей}
+  Система $x \equiv r_i \Mod{m_i}$, $i = 1, \dots, k$, совместна $\iff$
+  \[
+    r_i \equiv r_j \pmod{\gcd(m_i, m_j)} \quad \forall\, i < j .
+  \]
+  Решение единственно по модулю $L = \lcm(m_1, \dots, m_k)$.
+\end{theoremframe}
+
+\begin{canvasframe}{Модули не взаимно просты: примеры}
+  \begin{itemize}
+    \item Присоединение $x \equiv r \Mod m$ к $x \equiv a \Mod{L'}$:
+      $x = a + L't$, \quad $L't \equiv r - a \Mod m$, \quad $d = \gcd(L', m) \mid r - a$?
+    \item $x \equiv 3 \Mod 8$, $x \equiv 7 \Mod{12}$:
+  \end{itemize}
+  \penspace[0.17\textheight]
+  \begin{itemize}
+    \item $x \equiv 1 \Mod 6$, $x \equiv 4 \Mod{10}$:
+  \end{itemize}
+  \penspace[0.08\textheight]
+  \aside{сколько решений по модулю $m_1 m_2$?}
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Порядок степени}
+  Пусть $\ord g = N$. Тогда
+  \begin{enumerate}
+    \item $g^a = g^b \iff a \equiv b \Mod N$;
+    \item $\ord(g^k) = N / \gcd(N, k)$; в частности, $\ord(g^{N/n}) = n$ при $n \mid N$.
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{canvasframe}{DLP в группе порядка $q^e$: идея}
+  \begin{itemize}
+    \item $\ord g = q^e$, $h = g^x$, \quad $x = x_0 + x_1 q + \cdots + x_{e-1} q^{e-1}$, \quad $0 \le x_i < q$
+    \item $\gamma = g^{q^{e-1}}$ имеет порядок $q$
+    \item Возведение в степень $q^{e-1}$ оставляет только младшую цифру:
+      \[
+        h^{q^{e-1}} = g^{x_0 q^{e-1}} \cdot \bigl(g^{q^e}\bigr)^{x_1 + x_2 q + \cdots} = \gamma^{x_0}
+      \]
+    \item $x_0$ "--- логарифм в группе \emph{порядка $q$}; затем «стираем» $x_0$:
+      $h \cdot g^{-x_0} = g^{x_1 q + x_2 q^2 + \dots}$
+  \end{itemize}
+  \aside{что делать со следующей цифрой?}
+\end{canvasframe}
+
+\begin{theoremframe}{Цифры логарифма}
+  Пусть $\ord g = q^e$, $h = g^x$, $x = \sum_{j<e} x_j q^j$, $\gamma = g^{q^{e-1}}$,
+  \[
+    u_i = h \cdot g^{-(x_0 + x_1 q + \cdots + x_{i-1} q^{i-1})}.
+  \]
+  Тогда $u_i^{\,q^{e-1-i}} = \gamma^{x_i}$, и $x_i \in [0, q)$ определяется однозначно.
+\end{theoremframe}
+
+\begin{canvasframe}{Алгоритм для порядка $q^e$ и его сложность}
+  \small
+  \begin{algorithmic}[1]
+    \State $\gamma \gets g^{q^{e-1}}$, \quad $u \gets h$, \quad $c \gets g^{-1}$, \quad $x \gets 0$
+    \For{$i = 0, \dots, e - 1$}
+      \State $w \gets u^{q^{e-1-i}}$, \quad $x_i \gets \log_\gamma w$ \Comment{таблица / Шенкс}
+      \State $x \gets x + x_i q^i$, \quad $u \gets u \cdot c^{x_i}$, \quad $c \gets c^q$
+    \EndFor
+    \State \Return $x$ \Comment{контроль: в конце $u = 1$}
+  \end{algorithmic}
+  \medskip
+  \begin{itemize}
+    \item Сложность: $\bigO(e \log N + e\,T_q) = \bigO\bigl(e(\log N + \sqrt q)\bigr)$ вместо
+      $\bigO(q^{e/2})$, \quad $N = q^e$
+    \item $q = 2$: $\gamma = -1$, каждый бит "--- проверка $w = \pm 1$
+  \end{itemize}
+  \aside{откуда $e \log N$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $17^x \equiv 374 \Mod{433}$, $\ord 17 = 27$}
+  \small
+  $\gamma = 17^9 \equiv 198$: \quad $\gamma^0 = 1$, $\gamma^1 = 198$, $\gamma^2 \equiv 234$;
+  \quad $c_0 = 17^{-1} \equiv 51$
+  \begin{center}
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabular}{c|c|c|c|c|c|c}
+    $i$ & $u_i$ & $3^{2-i}$ & $w_i = u_i^{3^{2-i}}$ & $x_i$ & $c_i$ & $u_{i+1} = u_i c_i^{x_i}$ \\ \hline
+    $0$ & $374$ & $9$ & & & $51$ & \\
+    $1$ & & $3$ & & & & \\
+    $2$ & & $1$ & & & & \\
+  \end{tabular}
+  \end{center}
+  \penspace[0.1\textheight]
+  \aside{как проверить, что $\ord 17 = 27$?}
+\end{canvasframe}
+
+\begin{theoremframe}{Алгоритм Полига"--~Хеллмана}
+  Пусть $\ord g = N = \prod_{i=1}^t q_i^{e_i}$, $h \in \langle g \rangle$,
+  \[
+    g_i = g^{N/q_i^{e_i}}, \qquad h_i = h^{N/q_i^{e_i}}, \qquad g_i^{\,y_i} = h_i .
+  \]
+  Тогда $\ord g_i = q_i^{e_i}$, и решение $x$ системы $x \equiv y_i \Mod{q_i^{e_i}}$,
+  $i = 1, \dots, t$, удовлетворяет $g^x = h$.
+\end{theoremframe}
+
+\begin{canvasframe}{Схема алгоритма}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm,font=\small,
+      box/.style={draw,rounded corners,inner sep=3pt,align=center}]
+    \node[box,draw=caBlue,thick] (top) at (0,0) {$g^x = h$, \ $\ord g = N = \prod q_i^{e_i}$};
+    \node[box] (s1) at (-4,-1.6) {$g_1^{y_1} = h_1$\\ порядок $q_1^{e_1}$};
+    \node (s2) at (0,-1.6) {$\cdots$};
+    \node[box] (s3) at (4,-1.6) {$g_t^{y_t} = h_t$\\ порядок $q_t^{e_t}$};
+    \draw[-{Stealth}] (top) -- node[left,font=\scriptsize] {$\cdot^{N/q_1^{e_1}}$} (s1);
+    \draw[-{Stealth}] (top) -- node[right,font=\scriptsize] {$\cdot^{N/q_t^{e_t}}$} (s3);
+    \node[box] (d1) at (-4,-3.2) {$e_1$ задач\\ порядка $q_1$};
+    \node[box] (d3) at (4,-3.2) {$e_t$ задач\\ порядка $q_t$};
+    \draw[-{Stealth}] (s1) -- node[left,font=\scriptsize] {цифры} (d1);
+    \draw[-{Stealth}] (s3) -- node[right,font=\scriptsize] {цифры} (d3);
+    \node[box,draw=caRed,thick] (crt) at (0,-4.6) {КТО: $x \equiv y_i \Mod{q_i^{e_i}}$ $\Rightarrow$
+      $x \bmod N$};
+    \draw[-{Stealth}] (d1) -- (crt);
+    \draw[-{Stealth}] (d3) -- (crt);
+  \end{tikzpicture}
+\end{canvasframe}
+
+\begin{theoremframe}{Сложность алгоритма Полига"--~Хеллмана}
+  С методом Шенкса в подгруппах простого порядка DLP в группе порядка
+  $N = \prod q_i^{e_i}$ решается за
+  \[
+    \bigO\Bigl(\sum_{i=1}^{t} e_i \bigl(\log N + \sqrt{q_i}\bigr)\Bigr)
+  \]
+  групповых операций и $\bigO(\log^2 N)$ битовых на КТО.
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: $5^x \equiv 7 \Mod{433}$}
+  \small
+  $g = 5$ "--- первообразный корень, $N = 432 = 2^4 \cdot 3^3$
+  \begin{itemize}
+    \item $q^e = 16$: $g_1 = 5^{27} \equiv 238$, $h_1 = 7^{27} \equiv 265$, $\gamma = -1$,
+      $238^{-1} \equiv 282$
+  \end{itemize}
+  \penspace[0.12\textheight]
+  \begin{itemize}
+    \item $q^e = 27$: $g_2 = 5^{16} \equiv 17$, $h_2 = 7^{16} \equiv 374$ "--- предыдущий пример,
+      $y_2 = 14$
+    \item КТО: $x \equiv y_1 \Mod{16}$, $x \equiv 14 \Mod{27}$
+  \end{itemize}
+  \penspace[0.08\textheight]
+  \aside{сравните с $\sqrt{432} \approx 21$ шагом метода Шенкса}
+\end{canvasframe}
+
+\begin{canvasframe}{Выводы для криптографии}
+  \begin{itemize}
+    \item Стойкость DLP определяется \textbf{наибольшим простым делителем} $q$ порядка группы:
+      нужно $\sqrt q \ge 2^\lambda$, т.\,е. $q \approx 2^{256}$ для $\lambda = 128$
+    \item Гладкое $p - 1$ (например, $p = 2^{16} + 1$, $p = 2^a 3^b + 1$) "--- DLP за
+      полиномиальное время
+    \item Алгоритму нужно разложение $N$; в $\Znx p$ это разложение $p - 1$
+  \end{itemize}
+  \aside{почему в $\Znx p$ это обычно не проблема?}
+\end{canvasframe}
+
+\begin{canvasframe}{Выбор параметров}
+  \small
+  \begin{itemize}
+    \item \textbf{Безопасные простые} $p = 2q + 1$: остаётся подгруппа порядка $q$; но
+      $x \bmod 2$ виден по символу Лежандра $h^{(p-1)/2} = \pm 1$
+    \item \textbf{Группы Шнорра}: $p = kq + 1$, $\abs{q} = 256$ бит, $\abs{p} = 3072$ бит,
+      $g = a^{(p-1)/q} \ne 1$
+    \item \textbf{Атака малых подгрупп}: элемент малого порядка $r$ от противника раскрывает
+      $x \bmod r$; защита "--- проверять $h^q = 1$
+    \item То же для эллиптических кривых (лекция~9)
+  \end{itemize}
+  \aside{зачем $p$ длиной 3072 бит, если $q$ "--- всего 256?}
+\end{canvasframe}
+
+\begin{canvasframe}{Вопросы для самопроверки}
+  \begin{itemize}
+    \item Что делает алгоритм для $h = 1$? для $h = g^{-1}$? для $h$ порядка $q$?
+    \item Можно ли находить цифры $x$, начиная со старшей?
+    \item Зачем алгоритму Полига"--~Хеллмана разложение $N$? Почему в $\Znx p$ это обычно не
+      проблема?
+    \item Сколько операций нужно для $p = 2^{16} + 1$? для $p = 2q + 1$?
+  \end{itemize}
+  \penspace
+\end{canvasframe}
+
+\end{document}

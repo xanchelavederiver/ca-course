@@ -45,7 +45,7 @@ class FermatMul(Task):
         "default": {"lo": 7, "hi": 257, "base": 10, "show_2f": True},
         "sem2": {"base": 2, "show_2f": False},
     }
-    statement = r"Вычислить произведение в поле Ферма: \[\VAR{a_tex} \cdot \VAR{b_tex}\ (\textrm{mod}\ 257).\]"
+    statement = r"Вычислить произведение в кольце вычетов по модулю числа Ферма: \[\VAR{a_tex} \cdot \VAR{b_tex}\ (\textrm{mod}\ 257).\]"
     solution = (r"$257 = 2^8 + 1$, поэтому $2^8 \equiv -1$ и для $c = H \cdot 2^8 + L$, $0 \le L < 2^8$: "
                 r"$c \equiv L - H\ (\textrm{mod}\ 257)$. "
                 r"\BLOCK{if cfg.base == 10}В двоичной записи $\VAR{a} = \VAR{a|bin}_2$, $\VAR{b} = \VAR{b|bin}_2$. \BLOCK{endif}"
@@ -84,7 +84,7 @@ class MersenneMul(Task):
         "default": {"modulus": 255, "lo": 7, "base": 10},
         "sem2": {"modulus": 127, "base": 2},
     }
-    statement = (r"Вычислить произведение в поле Мерсенна: "
+    statement = (r"Вычислить произведение в кольце вычетов по модулю числа Мерсенна: "
                  r"\[\VAR{a_tex} \cdot \VAR{b_tex}\ (\textrm{mod}\ \VAR{m}).\]")
     solution = (r"$\VAR{m} = 2^{\VAR{k}} - 1$, поэтому $2^{\VAR{k}} \equiv 1$ и для $c = H \cdot 2^{\VAR{k}} + L$: "
                 r"$c \equiv H + L\ (\textrm{mod}\ \VAR{m})$ (циклический перенос). "

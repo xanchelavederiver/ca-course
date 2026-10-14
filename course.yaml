@@ -1,0 +1,213 @@
+# Course map: the single source of truth for lectures, seminars, the topics they
+# cover and the exam questions they prepare for (Plan 3). Read by
+# `taskgen course check|scaffold|examples|docs|book` and by the Makefile.
+#
+# Directories follow the numbers here:
+#   materials/sem<N>/lectures/<NN>-<slug>/   notes.tex (+ notes-body.tex), slides.tex,
+#                                            examples.yaml -> examples/*.tex (taskgen)
+#   materials/sem<N>/seminars/<NN>-<slug>/   handout.tex
+#   sheets/sem<N>/seminar-<NN>-<slug>.yaml   classroom task sheet (default `sheet`)
+#
+# topics:          task taxonomy slugs (taskgen/tasks/taxonomy.yaml) the lecture covers
+# exam_questions:  "sem<N>:<k>" — number k of that semester's question list; a combined
+#                  question "14-15" counts as both numbers
+# legacy_deck:     the PPTX deck the slides were ported from (tmp/ is not committed)
+# draft: true      work in progress: missing files are warnings, not errors
+
+semesters:
+  - n: 1
+    title: Арифметика больших чисел и элементы теории чисел
+    exam: зачёт
+    exam_questions: 22
+    lectures:
+      - n: 1
+        slug: introduction
+        title: Введение
+        legacy_deck: "tmp/лекции/Lecture 1. Introduction.pptx"
+      - n: 2
+        slug: big-integer-arithmetic
+        title: Арифметика больших чисел
+        topics: [arithmetic.representation, arithmetic.complexity, arithmetic.multiplication]
+        exam_questions: [sem1:1, sem1:5, sem1:6]
+        legacy_deck: "tmp/лекции/Lecture 2. Арифметика больших чисел.src.pptx"
+      - n: 3
+        slug: division-and-euclid
+        title: Деление с остатком и алгоритм Евклида
+        topics: [arithmetic.division, number_theory.euclid]
+        exam_questions: [sem1:1, sem1:12, sem1:13]
+      - n: 4
+        slug: convolutions-and-fft
+        title: Свёртки и умножение с помощью БПФ
+        topics: [arithmetic.convolution]
+        exam_questions: [sem1:7, sem1:8, sem1:9]
+      - n: 5
+        slug: modular-arithmetic
+        title: Модулярная арифметика. Метод Монтгомери, кольца Ферма и Мерсенна
+        topics: [arithmetic.montgomery, arithmetic.modular, arithmetic.ntt]
+        exam_questions: [sem1:3, sem1:10, sem1:11]
+      - n: 6
+        slug: exponentiation
+        title: Быстрое возведение в степень
+        topics: [powmod]
+        exam_questions: [sem1:2, sem1:4]
+      - n: 7
+        slug: order-and-primitive-roots
+        title: Порядок элемента и первообразные корни
+        topics: [number_theory.order, number_theory.primitive_root]
+        exam_questions: [sem1:14, sem1:15, sem1:16]
+      - n: 8
+        slug: primality-tests
+        title: Простые числа и тесты простоты
+        topics: [number_theory.primality]
+        exam_questions: [sem1:17, sem1:18, sem1:19, sem1:20]
+      - n: 9
+        slug: prng
+        title: Генераторы псевдослучайных чисел
+        topics: [crypto.prng, crypto.lfsr]
+        exam_questions: [sem1:21, sem1:22]
+    seminars:
+      - n: 1
+        slug: karatsuba-toom-cook
+        title: Умножение больших чисел
+        lectures: [2]
+      - n: 2
+        slug: euclid-and-inverses
+        title: Деление с остатком, алгоритм Евклида, обратные элементы
+        lectures: [3]
+      - n: 3
+        slug: fft-multiplication
+        title: Свёртки и умножение с помощью БПФ
+        lectures: [4]
+      - n: 4
+        slug: montgomery-fermat-mersenne
+        title: Метод Монтгомери, арифметика в кольцах Ферма и Мерсенна
+        lectures: [5]
+      - n: 5
+        slug: exponentiation
+        title: Быстрое возведение в степень
+        lectures: [6]
+      - n: 6
+        slug: order-and-primitive-roots
+        title: Порядок элемента и первообразные корни
+        lectures: [7]
+      - n: 7
+        slug: primality-tests
+        title: Тесты простоты
+        lectures: [8]
+      - n: 8
+        slug: prng
+        title: Генераторы псевдослучайных чисел
+        lectures: [9]
+
+  - n: 2
+    title: Сложные задачи теории чисел, эллиптические кривые и решётки
+    exam: экзамен
+    exam_questions: 24
+    lectures:
+      - n: 1
+        slug: dlp-and-diffie-hellman
+        title: Задача дискретного логарифмирования. Алгоритм Шенкса
+        topics: [dlp.generic]
+        exam_questions: [sem2:1, sem2:2]
+      - n: 2
+        slug: pohlig-hellman
+        title: Китайская теорема об остатках и алгоритм Полига–Хеллмана
+        topics: [dlp.pohlig_hellman, number_theory.crt]
+        exam_questions: [sem2:3, sem2:4]
+      - n: 3
+        slug: collision-algorithms
+        title: Алгоритмы поиска коллизий. ρ-алгоритм Полларда
+        topics: [dlp.collisions, dlp.rho]
+        exam_questions: [sem2:5, sem2:6, sem2:7, sem2:8]
+      - n: 4
+        slug: index-calculus
+        title: Метод исчисления индексов
+        topics: [dlp.index_calculus]
+        exam_questions: [sem2:9]
+      - n: 5
+        slug: factoring-and-rsa
+        title: Задача факторизации, RSA и алгоритм p − 1 Полларда
+        topics: [factoring.pm1, crypto.rsa]
+        exam_questions: [sem2:10, sem2:11, sem2:15]
+      - n: 6
+        slug: quadratic-sieve
+        title: Разность квадратов и квадратичное решето
+        topics: [factoring.fermat, factoring.quadratic_sieve]
+        exam_questions: [sem2:12, sem2:13, sem2:14]
+      - n: 7
+        slug: square-roots
+        title: Квадратичные сравнения. Методы Чиполлы и Гензеля
+        topics: [number_theory.sqrt, number_theory.hensel]
+        exam_questions: [sem2:16, sem2:17]
+      - n: 8
+        slug: elliptic-curves
+        title: Эллиптические кривые
+        topics: [ecc.group_law]
+        exam_questions: [sem2:18, sem2:19, sem2:20]
+      - n: 9
+        slug: ecdlp
+        title: Возведение точки в степень и задача ECDLP
+        topics: [ecc.scalar_mult, ecc.ecdlp]
+        exam_questions: [sem2:21, sem2:22, sem2:23]
+      - n: 10
+        slug: lenstra-ecm
+        title: Алгоритм Ленстры факторизации с помощью эллиптических кривых
+        topics: [factoring.ecm]
+        exam_questions: [sem2:24]
+      - n: 11
+        slug: lattices
+        title: Решётки. Алгоритмы Гаусса и Бабаи
+        topics: [lattices.svp, lattices.cvp, crypto.lattice]
+      - n: 12
+        slug: lll
+        title: Алгоритм LLL
+        topics: [lattices.lll]
+    seminars:
+      - n: 1
+        slug: dlp-and-bsgs
+        title: Дискретный логарифм. Алгоритм Шенкса
+        lectures: [1]
+      - n: 2
+        slug: crt-and-pohlig-hellman
+        title: Китайская теорема об остатках, алгоритм Полига–Хеллмана
+        lectures: [2]
+      - n: 3
+        slug: pollard-rho
+        title: Коллизии и ρ-алгоритм Полларда
+        lectures: [3]
+      - n: 4
+        slug: index-calculus
+        title: Метод исчисления индексов
+        lectures: [4]
+      - n: 5
+        slug: factoring-and-rsa
+        title: Факторизация, RSA и алгоритм p − 1
+        lectures: [5]
+      - n: 6
+        slug: quadratic-sieve
+        title: Метод Ферма и квадратичное решето
+        lectures: [6]
+      - n: 7
+        slug: square-roots
+        title: Квадратные корни по модулю
+        lectures: [7]
+      - n: 8
+        slug: elliptic-curves
+        title: Группа точек эллиптической кривой
+        lectures: [8]
+      - n: 9
+        slug: ecdlp
+        title: Возведение точки в степень, ECDH и ECDLP
+        lectures: [9]
+      - n: 10
+        slug: lenstra-ecm
+        title: Алгоритм Ленстры
+        lectures: [10]
+      - n: 11
+        slug: lattices
+        title: "Решётки: алгоритмы Гаусса и Бабаи"
+        lectures: [11]
+      - n: 12
+        slug: lll
+        title: Алгоритм LLL
+        lectures: [12]

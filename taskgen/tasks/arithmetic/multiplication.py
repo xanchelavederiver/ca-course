@@ -201,7 +201,7 @@ class MontgomeryMulEven(Task):
 class FFTMul(Task):
     id = "arithmetic.fft_mul"
     title_ru = "Умножение с помощью БПФ в конечном поле"
-    topics = ("arithmetic.multiplication",)
+    topics = ("arithmetic.multiplication", "arithmetic.convolution")
     complexity = 3
     solution_detail = SolutionDetail.FULL
     presets = {"default": {"lo": 33, "hi": 1000}}

@@ -1,0 +1,336 @@
+% Lecture 9 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+
+\lecture{9}{Возведение точки в степень и задача ECDLP}
+\author{}
+
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Две задачи на кривой}
+  \begin{itemize}
+    \item $E(\FF_p)$ "--- абелева группа, запись аддитивная:
+      $nP = \underbrace{P + \cdots + P}_{n}$, \quad $-P = (x, -y)$
+    \item \textbf{Легко} (законные участники): по $n$ и $P$ вычислить $nP$ за $\bigO(\log n)$
+      групповых операций
+    \item \textbf{Трудно} (противник): по $P$ и $Q = nP$ найти $n$ "--- ECDLP
+    \item Лучшие известные алгоритмы для «хороших» кривых "--- $\bigO(\sqrt N)$, $N = \ord P$
+  \end{itemize}
+  \aside{почему в $\Znx{p}$ ключи длиннее?}
+\end{canvasframe}
+
+\begin{canvasframe}{Алгоритм «удвоение"--~сложение»}
+  $n = (n_{L-1} \dots n_0)_2$, \quad $L = \floor{\log_2 n} + 1$, \quad схема Горнера:
+  \[nP = 2\bigl(\cdots 2(2P + n_{L-2}P) + \dots\bigr) + n_0 P\]
+  \begin{algorithmic}[1]
+    \State $R \gets P$
+    \For{$i = L - 2, \dots, 0$}
+      \State $R \gets 2R$
+      \If{$n_i = 1$} \State $R \gets R + P$ \EndIf
+    \EndFor
+    \State \Return $R$
+  \end{algorithmic}
+  \aside{инвариант цикла?}
+\end{canvasframe}
+
+\begin{theoremframe}{Число операций бинарного метода}
+  Алгоритм выполняет $L - 1$ удвоений и $w(n) - 1$ сложений ($w$ "--- число единиц).
+  \begin{enumerate}
+    \item Максимум: $2\floor{\log_2 n}$ операций (при $n = 2^L - 1$).
+    \item Для случайного $L$-битового $n$ в среднем $\frac32 (L - 1) \approx 1{,}5 \log_2 n$.
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: $15P$ на $y^2 = x^3 + 2x + 2$ над $\FF_{17}$}
+  \small
+  $\#E(\FF_{17}) = 19$, \quad $P = (5, 1)$, \quad $15 = 1111_2$
+  \[
+  \lambda = \frac{3x_1^2 + a}{2y_1}, \quad \lambda = \frac{y_2 - y_1}{x_2 - x_1}, \quad
+  x_3 = \lambda^2 - x_1 - x_2, \quad y_3 = \lambda(x_1 - x_3) - y_1
+  \]
+  \[
+  \begin{array}{l|r|r|c}
+    \text{операция} & k & \lambda & kP \\ \hline
+    2R    & 2  & 13 & (6, 3)   \\
+    R + P & 3  & 2  & (10, 6)  \\
+    2R    & 6  & 11 & (16, 13) \\
+    R + P & 7  & 15 & (0, 6)   \\
+    2R    & 14 & 3  & (9, 1)   \\
+    R + P & 15 & 0  & (3, 16)
+  \end{array}
+  \]
+  \aside{6 операций "--- можно ли быстрее?}
+\end{canvasframe}
+
+\begin{canvasframe}{Вычитание точки бесплатно}
+  \begin{itemize}
+    \item $-P = (x, -y)$ \quad $\Rightarrow$ \quad $R - P$ стоит как $R + P$
+    \item \emph{Тернарное разложение}: $n = \sum_{i=0}^{\ell-1} z_i 2^i$, \quad $z_i \in \{-1, 0, 1\}$
+      \quad ($\bar 1 = -1$)
+    \item Неединственно: $3 = (11) = (10\bar 1)$, \quad $7 = (111) = (100\bar 1) = (1\bar 1 11)$
+    \item $15 = (1111) = (1000\bar 1)$: \quad $4$ удвоения $+ 1$ вычитание
+  \end{itemize}
+  \begin{definition}
+    Тернарное разложение "--- \emph{несмежная форма} (NAF), если $z_i z_{i+1} = 0$ при всех $i$.
+  \end{definition}
+  \aside{почему в $\Znx{p}$ это менее выгодно?}
+\end{canvasframe}
+
+\begin{theoremframe}{Существование и единственность NAF}
+  Каждое $n \ge 1$ имеет единственную несмежную форму. Цифры справа налево:
+  \[
+    z_i = \begin{cases} 0, & n_i \text{ чётно},\\ 2 - (n_i \bmod 4), & n_i \text{ нечётно},\end{cases}
+    \qquad n_0 = n, \quad n_{i+1} = \frac{n_i - z_i}{2}.
+  \]
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: NAF числа $1979$}
+  \[
+  \begin{array}{c|rrrrrrrrrrrr}
+    i   & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\ \hline
+    n_i & 1979 & 990 & 495 & 248 & 124 & 62 & 31 & 16 & 8 & 4 & 2 & 1 \\
+    z_i & \bar 1 & 0 & \bar 1 & 0 & 0 & 0 & \bar 1 & 0 & 0 & 0 & 0 & 1
+  \end{array}
+  \]
+  \[1979 = 11110111011_2 = (10000\bar 1 000\bar 1 0\bar 1) = 2^{11} - 2^6 - 2^2 - 1\]
+  \begin{itemize}
+    \item двоичная запись: $10$ удвоений $+ 8$ сложений
+    \item NAF: $11$ удвоений $+ 3$ вычитания
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{«Удвоение"--~сложение"--~вычитание»: $15P$}
+  $15 = (1000\bar 1)$, \quad $P = (5, 1)$, \quad $-P = (5, 16)$
+  \[
+  \begin{array}{l|r|r|c}
+    \text{операция} & k & \lambda & kP \\ \hline
+    2R    & 2  & 13 & (6, 3)   \\
+    2R    & 4  & 7  & (3, 1)   \\
+    2R    & 8  & 6  & (13, 7)  \\
+    2R    & 16 & 6  & (10, 11) \\
+    R - P & 15 & 16 & (3, 16)
+  \end{array}
+  \]
+  \aside{$5$ операций вместо $6$}
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Длина и вес NAF}
+  Если $L$ "--- двоичная длина $n$, $\ell$ "--- длина NAF, то $\ell \le L + 1$, а ненулевых цифр
+  не больше $\ceil{\ell/2}$.
+\end{theoremframe}
+
+\begin{theoremframe}{Средняя плотность NAF}
+  Для $n$, равномерно распределённого на $\{0, \dots, 2^m - 1\}$, среднее число ненулевых цифр
+  NAF равно $\frac m3 + \bigO(1)$.
+  \medskip
+
+  \footnotesize\textcolor{caGray}{Ключ: при $z_{k-1} = 0$ число $n_k$ нечётно с вероятностью
+  $\frac12$; $q_{k+1} = 1 - \frac12 q_k$.}
+\end{theoremframe}
+
+\begin{canvasframe}{Сравнение методов}
+  \begin{center}
+  \begin{tabular}{l|c|c}
+    метод & максимум операций & в среднем \\ \hline
+    бинарный & $2 \log_2 n$ & $\frac32 \log_2 n$ \\
+    NAF (тернарный) & $\frac32 \log_2 n$ & $\frac43 \log_2 n$ \\
+    $w$-NAF & & $\bigl(1 + \frac1{w+1}\bigr)\log_2 n$ \\
+    лесенка Монтгомери & $2 \log_2 n$ & $2 \log_2 n$
+  \end{tabular}
+  \end{center}
+  \aside{зачем лесенка, если она медленнее?}
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Лесенка Монтгомери и проективные координаты}
+  \begin{itemize}
+    \item $R_0 \gets \ECpt$, $R_1 \gets P$; для $i = L - 1, \dots, 0$:
+      \[
+        n_i = 0:\ R_1 \gets R_0 + R_1,\ R_0 \gets 2R_0; \qquad
+        n_i = 1:\ R_0 \gets R_0 + R_1,\ R_1 \gets 2R_1
+      \]
+    \item Инвариант $R_1 - R_0 = P$; одинаковые операции на каждый бит "--- защита от атак
+      по времени
+    \item Проективные координаты $(X : Y : Z)$: $x = X/Z$, $y = Y/Z$ "--- формулы без
+      обращений, одно обращение в конце
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Задача ECDLP}
+  \begin{definition}
+    $P \in E(\FF_p)$, $Q \in \langle P \rangle$. Найти $n$: $Q = nP$.
+    \quad $n = \log_P Q$ определено по модулю $N = \ord P$.
+  \end{definition}
+  \begin{proposition}[тривиальная оценка]
+    Перебор $P, 2P, 3P, \dots$ решает ECDLP за $\le N - 1$ операций, $\bigO(1)$ памяти;
+    $N \le p + 1 + 2\sqrt p$, т.\,е. $\bigO(p)$.
+  \end{proposition}
+\end{canvasframe}
+
+\begin{canvasframe}{Кратные точки $P = (5, 1)$ на $y^2 = x^3 + 2x + 2$, $\FF_{17}$}
+  \footnotesize
+  \[
+  \begin{array}{c|ccccccccc}
+    k  & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\ \hline
+    kP & (5,1) & (6,3) & (10,6) & (3,1) & (9,16) & (16,13) & (0,6) & (13,7) & (7,6)
+  \end{array}
+  \]
+  \[
+  \begin{array}{c|ccccccccc}
+    k  & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 \\ \hline
+    kP & (7,11) & (13,10) & (0,11) & (16,4) & (9,1) & (3,16) & (10,11) & (6,14) & (5,16)
+  \end{array}
+  \]
+  \normalsize
+  $19P = \ECpt$; \quad $\log_P (16, 4) = ?$
+  \aside{заметьте: $(19 - k)P = -kP$}
+\end{canvasframe}
+
+\begin{canvasframe}{Универсальные алгоритмы и выбор кривой}
+  \begin{itemize}
+    \item Шенкс: $\bigO(\sqrt N)$ операций и памяти; $\rho$-Полларда: $\bigO(\sqrt N)$, $\bigO(1)$ памяти
+    \item Полиг"--~Хеллман: сложность определяется наибольшим простым $q \mid N$
+    \item Шоуп: универсальный алгоритм требует $\Omega(\sqrt q)$ операций
+    \item[$\Rightarrow$] $\#E(\FF_p) = hq$, $q$ "--- большое простое, кофактор $h \in \{1, 2, 4, 8\}$
+  \end{itemize}
+  \begin{center}\small
+  \begin{tabular}{c|ccccc}
+    стойкость, бит & 80 & 112 & 128 & 192 & 256 \\ \hline
+    RSA, DH в $\Znx{p}$ & 1024 & 2048 & 3072 & 7680 & 15360 \\
+    ECC & 160 & 224 & 256 & 384 & 512
+  \end{tabular}
+  \end{center}
+\end{canvasframe}
+
+\begin{canvasframe}{Почему нет исчисления индексов? Слабые кривые}
+  \begin{itemize}
+    \item Исчисление индексов в $\Znx{p}$: подъём в $\ZZ$ + много гладких чисел
+    \item Для $E(\FF_p)$: подъём на $E(\QQ)$ не даёт «простых точек», высоты $kP$ растут как $k^2$
+    \item Слабые кривые:
+    \begin{itemize}
+      \item аномальные, $\#E(\FF_p) = p$: полиномиальный алгоритм (Смарт, Семаев, Сатох"--~Араки)
+      \item суперсингулярные, малая степень вложения $k$ ($q \mid p^k - 1$): MOV,
+        ECDLP $\to$ DLP в $\FF_{p^k}^*$
+      \item $\ord P$ без большого простого делителя: Полиг"--~Хеллман
+    \end{itemize}
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Протокол Диффи"--~Хеллмана на кривой (ECDH)}
+  \centering
+  \resizebox{!}{0.5\textheight}{\begin{tikzpicture}[x=1cm,y=1cm]
+    \node at (5,1.6) {$E/\FF_p,\quad P,\quad q = \ord P$ "--- простое};
+    \node (A) at (0,0) {\personicon{caBlue}{Алиса}};
+    \node (B) at (10,0) {\personicon{caRed}{Боб}};
+    \draw[-{Stealth[length=3mm]},thick] (1,0.6) -- (9,0.6) node[midway,above] {$A$};
+    \draw[{Stealth[length=3mm]}-,thick] (1,0.0) -- (9,0.0) node[midway,below] {$B$};
+    \node (E) at (5,-2.0) {\personicon{caGray}{Ева}};
+    \draw[dashed,caGray] (5,-0.4) -- (5,-1.3);
+    \node[font=\small,align=left,anchor=north] at (0,-0.9)
+      {$a \gets \mathrm{Rand}([1, q - 1])$\\ $A \gets aP$\\[2pt] $K \gets aB$};
+    \node[font=\small,align=left,anchor=north] at (10,-0.9)
+      {$b \gets \mathrm{Rand}([1, q - 1])$\\ $B \gets bP$\\[2pt] $K \gets bA$};
+    \node[font=\small,anchor=north] at (5,-3.0) {знает: $E, P, A, B$};
+    \node[draw=caBlue,thick,rounded corners,inner sep=4pt] at (5,-4.0)
+      {$K = abP$, \ общий секрет $x(K)$};
+  \end{tikzpicture}}
+  \aside{что проверить, получив $B$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Пример ECDH}
+  $y^2 = x^3 + 2x + 2$ над $\FF_{17}$, \quad $P = (5, 1)$, \quad $q = 19$
+  \begin{itemize}
+    \item Алиса: $a = 3$, \quad $A = 3P = (10, 6)$
+    \item Боб: $b = 10$, \quad $B = 10P = (7, 11)$
+    \item Алиса: $K = 3B = \ ?$ \qquad Боб: $K = 10A = \ ?$
+  \end{itemize}
+  \penspace[0.4\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{ECElGamal и ECDSA}
+  \small
+  \textbf{ECElGamal}: ключи $a$, $A = aP$; сообщение "--- точка $M$.
+  \begin{itemize}
+    \item шифрование: $k$ случайно, $(C_1, C_2) = (kP,\ M + kA)$
+    \item расшифрование: $M = C_2 - aC_1$
+  \end{itemize}
+  \textbf{ECDSA}: $h = H(m)$.
+  \begin{itemize}
+    \item подпись: $k$ случайно, $r = x(kP) \bmod q$, $s = k^{-1}(h + ar) \bmod q$
+    \item проверка: $u_1 = hs^{-1}$, $u_2 = rs^{-1}$, \ $x(u_1 P + u_2 A) \bmod q \overset?= r$
+  \end{itemize}
+  \aside{что будет, если подписать два сообщения с одним $k$?}
+\end{canvasframe}
+
+\begin{canvasframe}{$\rho$-метод Полларда для ECDLP}
+  \small
+  $Q = nP$, $N = \ord P$; \quad $R_j = a_j P + b_j Q$, \quad $R_{j+1} = f(R_j)$:
+  \[
+  f(R) = \begin{cases} R + P, & x(R) \equiv 0 \pmod 3 \text{ или } R = \ECpt,\\
+    2R, & x(R) \equiv 1,\\ R + Q, & x(R) \equiv 2,\end{cases}
+  \quad
+  (a, b) \mapsto \begin{cases} (a + 1, b),\\ (2a, 2b),\\ (a, b + 1).\end{cases}
+  \]
+  \begin{columns}[T]
+    \begin{column}{0.4\textwidth}\centering\rhoshape[scale=0.5]{2}{5}\end{column}
+    \begin{column}{0.55\textwidth}\small Флойд: ищем $R_i = R_{2i}$ (черепаха и заяц);
+      хранятся две точки и их $(a, b)$.\end{column}
+  \end{columns}
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Коллизия даёт сравнение}
+  Если $a_i P + b_i Q = a_j P + b_j Q$, то
+  \[(b_i - b_j)\, n \equiv a_j - a_i \pmod N.\]
+  При $d = \gcd(b_i - b_j, N)$ ровно $d$ решений; при простом $N$ и $b_i \not\equiv b_j$
+  решение единственно.
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: $\rho$-метод, $N = 19$, $Q = (16, 4)$}
+  \small
+  \[
+  \begin{array}{r|c|c|r|r}
+    j & R_j & x \bmod 3 & a_j & b_j \\ \hline
+    0 & (5, 1)   & 2 & 1  & 0  \\
+    1 & (9, 1)   & 0 & 1  & 1  \\
+    2 & (3, 16)  & 0 & 2  & 1  \\
+    3 & (10, 11) & 1 & 3  & 1  \\
+    4 & (16, 4)  & 1 & 6  & 2  \\
+    5 & (0, 6)   & 0 & 12 & 4  \\
+    6 & (13, 7)  & 1 & 13 & 4  \\
+    7 & (10, 11) & 1 & 7  & 8  \\
+    8 & (16, 4)  & 1 & 14 & 16
+  \end{array}
+  \]
+  \aside{$R_4 = R_8$: $\ 5n \equiv 8 \pmod{19}$, $n = ?$}
+\end{canvasframe}
+
+\begin{theoremframe}{Сложность $\rho$-метода (эвристика)}
+  Если $f$ ведёт себя как случайное отображение, то $\rho$-метод решает ECDLP за
+  $\bigO(\sqrt N)$ групповых операций и $\bigO(1)$ памяти.
+\end{theoremframe}
+
+\begin{canvasframe}{Ускорения $\rho$-метода}
+  \begin{itemize}
+    \item Отображение $R \mapsto -R$: блуждание по классам $\{R, -R\}$ "--- в $\sqrt 2$ раз
+      быстрее (Винер"--~Цуккерато)
+    \item Выделенные точки (лекция~3): $m$ процессоров $\Rightarrow$ $\bigO(\sqrt N / m)$ на процессор
+    \item Разбиение на $r \approx 20$ множеств (Теске) "--- блуждание ближе к случайному
+    \item Рекорд для простого поля: $112$ бит (2009 г.); для $N \approx 2^{256}$ нужно
+      $\approx 2^{128}$ операций
+  \end{itemize}
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Итоги}
+  \begin{itemize}
+    \item $nP$: бинарный метод $\le 2\log_2 n$, в среднем $1{,}5\log_2 n$;
+      NAF $\le \frac32 \log_2 n$, в среднем $\frac43 \log_2 n$
+    \item ECDLP: тривиально $\bigO(N)$, универсально $\bigO(\sqrt q)$; для хороших кривых
+      лучше не известно
+    \item ECDH, ECElGamal, ECDSA "--- аналоги протоколов в $\Znx{p}$ с ключами в $\approx 10$ раз
+      короче
+    \item $\rho$-метод: коллизия $\to$ линейное сравнение по модулю $N$
+  \end{itemize}
+  \penspace[0.25\textheight]
+\end{canvasframe}
+\end{document}

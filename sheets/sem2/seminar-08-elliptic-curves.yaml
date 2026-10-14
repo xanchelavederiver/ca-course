@@ -1,0 +1,30 @@
+# Seminar 8 (sem 2, lecture 8): group law on elliptic curves, point counting, Hasse.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-08-elliptic-curves
+kind: classroom
+title: Семинар 8. Группа точек эллиптической кривой
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~8.
+sections:
+  - title: Разминка
+    intro: >-
+      Сложение, удвоение и вычитание точек по формулам с наклоном $\lambda$; деление по модулю
+      $p$ "--- умножение на обратный элемент. Проверяйте, что результат лежит на кривой.
+    tasks: [ecc.point_addition, ecc.point_addition]
+  - title: Подсчёт точек и порядки
+    intro: >-
+      Перечисление точек с помощью символов Лежандра, оценка Хассе; порядок точки
+      последовательным сложением и теорема Лагранжа.
+    tasks: [ecc.point_counting, ecc.point_counting, ecc.point_order, ecc.point_order]
+  - title: Особые случаи
+    intro: >-
+      Противоположные точки ($P + (-P) = \mathcal{O}$), точки порядка~$2$ ($y = 0$, касательная
+      вертикальна), точки порядка~$3$ ($2P = -P$), особые кривые с $\Delta = 0$, которые не
+      являются эллиптическими.
+    tasks: [ecc.point_addition@opposite, ecc.point_addition@order2, ecc.point_order@small,
+            ecc.point_counting@singular]

@@ -1,0 +1,66 @@
+% Seminar 7 handout (sem2, lecture 7): Euler's criterion, p = 3 (mod 4), Cipolla, Hensel, CRT.
+\documentclass{ca-handout}
+
+\seminar{7}{Квадратные корни по модулю}
+
+\begin{document}
+\makehandouttitle
+
+\section{Квадратичные вычеты, критерий Эйлера}
+$p$ "--- нечётное простое, $p \nmid a$. $a$ "--- \emph{вычет}, если $x^2 \equiv a \Mod p$ разрешимо;
+тогда решений ровно два, $\pm x$. Вычетов и невычетов по $\frac{p-1}{2}$.
+\begin{reminder}[title={Критерий Эйлера и символ Лежандра}]
+\[
+  \legendre{a}{p} \equiv a^{(p-1)/2} \Mod p, \qquad
+  \legendre{ab}{p} = \legendre{a}{p}\legendre{b}{p}, \quad
+  \legendre{-1}{p} = (-1)^{\frac{p-1}{2}}, \quad \legendre{2}{p} = (-1)^{\frac{p^2-1}{8}}.
+\]
+Число решений $x^2 \equiv a \Mod p$ равно $1 + \legendre{a}{p}$.
+\end{reminder}
+
+\section{Простые случаи}
+\begin{reminder}[title={$p \equiv 3 \pmod 4$}]
+$x = a^{(p+1)/4} \bmod p$; если $x^2 \equiv a$ "--- корни $\pm x$, если $x^2 \equiv -a$ "---
+$a$ невычет, решений нет.
+\end{reminder}
+$p \equiv 5 \Mod 8$ (Аткин): $b = (2a)^{(p-5)/8}$, $i = 2ab^2$ ($i^2 \equiv -1$), $x = ab(i - 1)$.
+
+\section{Метод Чиполлы}
+\begin{reminder}[title={$x^2 \equiv a \pmod p$, $\legendre{a}{p} = 1$}]
+\begin{enumerate}
+  \item Подобрать $t = 1, 2, \dots$ так, чтобы $d = t^2 - a$ было невычетом:
+    $d^{(p-1)/2} \equiv -1$ (в среднем две попытки).
+  \item В $\GF{p}(\omega)$, $\omega^2 = d$:\quad
+    $(u_1 + v_1\omega)(u_2 + v_2\omega) = (u_1u_2 + d v_1v_2) + (u_1v_2 + u_2v_1)\omega$.
+  \item $x = (t + \omega)^{(p+1)/2}$ бинарным алгоритмом; коэффициент при $\omega$ равен $0$.
+\end{enumerate}
+Почему: $(t + \omega)^p = t - \omega$, поэтому $x^2 = (t + \omega)^{p+1} = t^2 - d = a$.
+\end{reminder}
+
+\section{Лемма Гензеля: модуль $p^k$}
+Если $f(x_j) \equiv 0 \Mod{p^j}$ и $f'(x_j) \not\equiv 0 \Mod p$, то корень однозначно
+поднимается: $x_{j+1} = x_j + t_j p^j$, \ $t_j \equiv -\frac{f(x_j)}{p^j} \cdot f'(x_j)^{-1} \Mod p$.
+\begin{reminder}[title={$x^2 \equiv a \pmod{p^k}$, $p$ нечётно, $p \nmid a$}]
+Решений $1 + \legendre{a}{p} \in \{0, 2\}$. Корень $x_1$ по модулю $p$, затем
+\[
+  t_j \equiv -\frac{x_j^2 - a}{p^j} \cdot (2x_1)^{-1} \Mod p, \qquad x_{j+1} = x_j + t_j p^j,
+  \qquad j = 1, \dots, k - 1.
+\]
+Обратный $(2x_1)^{-1} \bmod p$ находится один раз; $x_j^2 - a$ достаточно считать по модулю
+$p^{j+1}$. Второй корень "--- $p^k - x_k$.
+\end{reminder}
+Модуль $2^k$, $a$ нечётно: $k \ge 3$ "--- $4$ решения при $a \equiv 1 \Mod 8$, иначе $0$.
+
+\section{Составной модуль и КТО}
+\begin{reminder}[title={$x^2 \equiv a \pmod n$, $n = m_1 \cdots m_r$, $m_i = p_i^{e_i}$}]
+\begin{enumerate}
+  \item Решить $x^2 \equiv a \Mod{m_i}$ для каждого $i$; если хоть одно неразрешимо "---
+    решений нет. Если $p_i \mid a$ ($e_i = 1$), корень один: $x \equiv 0 \Mod{p_i}$.
+  \item Базис КТО: $M_i = n/m_i$, $y_i = M_i^{-1} \bmod m_i$, $e_i = M_i y_i \bmod n$.
+  \item Каждый набор корней $(r_1, \dots, r_r)$ даёт корень $x = \sum r_i e_i \bmod n$.
+\end{enumerate}
+При $\gcd(a, n) = 1$ и нечётном $n$ решений $0$ или $2^r$.
+\end{reminder}
+\textbf{Рабин.} Если $x^2 \equiv y^2 \Mod N$, $y \not\equiv \pm x$, то $\gcd(x - y, N)$ "---
+нетривиальный делитель $N$.
+\end{document}

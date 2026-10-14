@@ -1,0 +1,70 @@
+% Seminar 3 handout (lecture 3): collision theorem, orbits, Floyd, Pollard rho, distinguished points.
+\documentclass{ca-handout}
+
+\seminar{3}{Коллизии и \texorpdfstring{$\rho$}{ρ}-алгоритм Полларда}
+
+\begin{document}
+\makehandouttitle
+
+\section{Теорема о коллизиях}
+Элементы множества $S$, $\abs S = N$, выбираются независимо и равновероятно; $1 - t \le e^{-t}$.
+\begin{reminder}[title={Вероятность коллизии}]
+\begin{itemize}
+  \item Один список из $n$ элементов:
+    $\Pr = 1 - \prod_{i=1}^{n-1}\bigl(1 - \frac iN\bigr) \ge 1 - e^{-n(n-1)/2N}$.
+  \item Два списка: $n$ различных элементов и $m$ случайных:
+    $\Pr = 1 - \bigl(1 - \frac nN\bigr)^m \ge 1 - e^{-nm/N}$.
+  \item Для $\Pr \ge P$, $L = \ln\frac{1}{1-P}$: \ $nm \ge NL$ (при $n = m$: $n \ge \sqrt{NL}$);
+    \ один список: $n \ge \frac{1 + \sqrt{1 + 8NL}}{2} \approx \sqrt{2NL}$.
+  \item Ожидаемый номер первого повтора $\approx \sqrt{\pi N/2} \approx 1{,}25\sqrt N$.
+\end{itemize}
+\end{reminder}
+Коллизионный алгоритм для DLP: $g^{y_i}$ ($n$ различных $y_i$) и $h g^{z_j}$; при
+$g^{y_i} = h g^{z_j}$ ответ $x \equiv y_i - z_j \pmod{\ord g}$.
+
+\section{Орбиты и алгоритм Флойда}
+$f\colon S \to S$, $x_{i+1} = f(x_i)$; $T$ "--- предпериод (длина хвоста), $M$ "--- период
+(длина цикла): $x_0, \dots, x_{T+M-1}$ различны, $x_{T+M} = x_T$.
+\begin{reminder}[title={Структура орбиты и цикл Флойда}]
+$x_i = x_j$ ($i \ne j$) $\iff$ $i, j \ge T$ и $i \equiv j \pmod M$.
+Флойд: $u \gets x_1$, $v \gets x_2$; пока $u \ne v$: $u \gets f(u)$, $v \gets f(f(v))$.
+Остановка при наименьшем $i \ge \max(T, 1)$, кратном $M$; $i \le T + M$.
+Для случайного $f$: $\mathsf{E}\,T \approx \mathsf{E}\,M \approx \sqrt{\pi N/8}$.
+\end{reminder}
+
+\section{\texorpdfstring{$\rho$}{ρ}-алгоритм Полларда для DLP}
+$g^x = h$ в $\Znx{p}$, $\ord g = n$; $x_i = g^{\alpha_i} h^{\beta_i}$, показатели по модулю $n$:
+\begin{reminder}[title={Шаг блуждания (разбиение по остатку $x \bmod 3$)}]
+\[
+  x \equiv 0:\ x \mapsto x^2,\ (\alpha, \beta) \mapsto (2\alpha, 2\beta); \qquad
+  x \equiv 1:\ x \mapsto hx,\ \beta \mapsto \beta + 1; \qquad
+  x \equiv 2:\ x \mapsto gx,\ \alpha \mapsto \alpha + 1.
+\]
+Таблица: $i \mid x_i, \alpha_i, \beta_i \mid x_{2i}, \alpha_{2i}, \beta_{2i}$ "--- до
+$x_i = x_{2i}$. Тогда
+\[
+  (\beta_i - \beta_{2i})\,x \equiv \alpha_{2i} - \alpha_i \pmod n.
+\]
+\end{reminder}
+
+\begin{reminder}[title={Линейное сравнение $ux \equiv v \pmod n$, $d = \gcd(u, n)$}]
+\begin{itemize}
+  \item $u \equiv 0 \pmod n$: коллизия бесполезна, начать с другой точки $x_0$.
+  \item $d \nmid v$ "--- решений нет (при $h \in \langle g \rangle$ не бывает).
+  \item $d \mid v$: $\tilde x \equiv \frac vd \cdot \bigl(\frac ud\bigr)^{-1} \pmod{\frac nd}$
+    (обратный "--- расширенным алгоритмом Евклида); кандидаты
+    $x = \tilde x + k\frac nd$, $k = 0, \dots, d - 1$; верный "--- тот, для которого $g^x = h$.
+\end{itemize}
+\end{reminder}
+Сложность: $\approx 3 \cdot 1{,}03\sqrt n$ умножений, память $\bigO(1)$; при простом
+$n = q$ всегда $d = 1$ (если $u \not\equiv 0$).
+
+\section{Выделенные точки}
+\begin{reminder}[title={Метод ван~Ооршота"--~Винера}]
+Точка выделенная, если, например, её $k$ младших битов нулевые (доля $\theta = 2^{-k}$).
+Каждый вычислитель идёт от своей случайной точки $g^{\alpha}h^{\beta}$ и отправляет на сервер
+выделенные точки с показателями; повторное появление точки на сервере с другими показателями
+даёт сравнение. Время $\approx \sqrt{\pi n/2}/m + 1/\theta$ на $m$ вычислителях, память
+сервера $\approx \theta\sqrt{\pi n/2}$. Цикл без выделенных точек "--- перезапуск блуждания.
+\end{reminder}
+\end{document}

@@ -1,0 +1,26 @@
+# Seminar 1 (lecture 2): big-integer representation and fast multiplication.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem1-seminar-01-karatsuba-toom-cook
+kind: classroom
+title: Семинар 1. Умножение больших чисел
+semester: 1
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~2.
+sections:
+  - title: Разминка
+    intro: Представление чисел; сбалансированные цифры (в том числе для отрицательных чисел).
+    tasks: [arithmetic.balanced_repr, arithmetic.balanced_repr]
+  - title: Метод Карацубы
+    tasks: [arithmetic.karatsuba, arithmetic.karatsuba]
+  - title: Метод Тоома--Кука
+    intro: Точки интерполяции $0, 1, -1, 2, \infty$.
+    tasks: [arithmetic.toom_cook, arithmetic.toom_cook]
+  - title: Оценки сложности
+    intro: >-
+      Основная теорема о рекуррентных соотношениях; среди задач могут встретиться
+      соотношения, к которым теорема неприменима.
+    tasks: [arithmetic.master_theorem, arithmetic.master_theorem, arithmetic.master_theorem,
+            arithmetic.master_theorem]

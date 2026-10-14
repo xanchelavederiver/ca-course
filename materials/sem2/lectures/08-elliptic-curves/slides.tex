@@ -1,0 +1,266 @@
+% Lecture 8 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{8}{Эллиптические кривые}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Зачем криптографии эллиптические кривые}
+  \begin{itemize}
+    \item Диффи"--~Хеллман, Эль-Гамаль работают в \textbf{любой} конечной циклической группе
+    \item В $\Znx{p}$ DLP решается субэкспоненциально (исчисление индексов) $\Rightarrow$
+      $p \ge 2^{3072}$
+    \item Коблиц, Миллер (1985): группа точек эллиптической кривой над $\GF{p}$
+    \item Лучшие известные атаки (для общих кривых) "--- $\bigO(\sqrt n)$:
+      $256$ бит кривой $\approx$ $3072$ бит RSA $\approx$ $128$ бит стойкости
+    \item ECDSA, Ed25519, ECDH в TLS, secp256k1 в Bitcoin; метод Ленстры факторизации
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Уравнение Вейерштрасса}
+  \begin{definition}
+    $y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4 x + a_6$, \quad $a_i \in K$.
+  \end{definition}
+  \begin{itemize}
+    \item $\operatorname{char} K \ne 2$: выделяем квадрат по $y$
+    \item $\operatorname{char} K \ne 3$: выделяем куб по $x$
+    \item Короткая форма: \quad $E\colon\ y^2 = f(x) = x^3 + ax + b$
+  \end{itemize}
+  \aside{какие замены переменных? почему они не портят прямые?}
+\end{canvasframe}
+
+\begin{canvasframe}{Особые точки и дискриминант}
+  \begin{definition}
+    Точка кривой $F(x, y) = y^2 - f(x) = 0$ \emph{особая}, если $F_x = F_y = 0$.
+    \emph{Дискриминант}: $\Delta = -16(4a^3 + 27b^2)$.
+    \emph{Эллиптическая кривая}: $y^2 = x^3 + ax + b$ с $\Delta \ne 0$ плюс точка $\ECpt$.
+  \end{definition}
+  \centering
+  \begin{tikzpicture}[scale=0.36]
+    \begin{scope}
+      \draw[caGray] (-1.8,0) -- (2.4,0); \draw[caGray] (0,-2.4) -- (0,2.4);
+      \draw[caBlue,thick,smooth,samples=60,domain=-1:1] plot ({-1+\x*\x}, {\x*sqrt(max(0,(-1+\x*\x)*(-2+\x*\x)))});
+      \draw[caBlue,thick,smooth,samples=60,domain=-1.15:1.15] plot ({1+\x*\x}, {\x*sqrt((1+\x*\x)*(2+\x*\x))});
+      \node[below] at (0.3,-2.4) {\small $\Delta > 0$};
+    \end{scope}
+    \begin{scope}[xshift=7.2cm]
+      \draw[caGray] (-1.8,0) -- (2.4,0); \draw[caGray] (0,-2.4) -- (0,2.4);
+      \draw[caBlue,thick,smooth,samples=80,domain=-1.5:1.5] plot ({-1+\x*\x}, {\x*sqrt((-1+\x*\x)^2-(-1+\x*\x)+1)});
+      \node[below] at (0.3,-2.4) {\small $\Delta < 0$};
+    \end{scope}
+    \begin{scope}[xshift=14.6cm]
+      \draw[caGray] (-2.3,0) -- (2.4,0); \draw[caGray] (0,-2.4) -- (0,2.4);
+      \draw[caRed,thick,smooth,samples=80,domain=-1.95:1.95] plot ({\x*\x-2}, {0.55*\x*(\x*\x-3)});
+      \fill[caRed] (1,0) circle (3pt);
+      \node[below] at (0.1,-2.4) {\small узел};
+    \end{scope}
+    \begin{scope}[xshift=22cm]
+      \draw[caGray] (-1.8,0) -- (2.4,0); \draw[caGray] (0,-2.4) -- (0,2.4);
+      \draw[caRed,thick,smooth,samples=60,domain=-1.3:1.3] plot ({\x*\x}, {\x*\x*\x});
+      \fill[caRed] (0,0) circle (3pt);
+      \node[below] at (0.3,-2.4) {\small возврат};
+    \end{scope}
+  \end{tikzpicture}
+
+  \small $y^2 = x^3 - x$, \quad $y^2 = x^3 + 1$, \quad $y^2 = (x - 1)^2(x + 2)$, \quad $y^2 = x^3$
+\end{canvasframe}
+
+\begin{theoremframe}{Критерий неособости}
+  При $\operatorname{char} K \ne 2, 3$ равносильно:
+  (1) у кривой $y^2 = x^3 + ax + b$ нет особых точек;
+  (2) у $f$ нет кратных корней;
+  (3) $4a^3 + 27b^2 \ne 0$.
+  Если $4a^3 + 27b^2 = 0$, то особая точка "--- $(x_0, 0)$, $x_0 = -\frac{3b}{2a}$ ($x_0 = 0$ при $a = 0$).
+\end{theoremframe}
+
+\begin{canvasframe}{Дискриминант через корни}
+  \[
+    e_1 + e_2 + e_3 = 0, \quad a = e_1 e_2 + e_1 e_3 + e_2 e_3, \quad b = -e_1 e_2 e_3
+  \]
+  \[
+    \Delta = -16(4a^3 + 27b^2) = 16 \bigl((e_1 - e_2)(e_1 - e_3)(e_2 - e_3)\bigr)^2
+  \]
+  \aside{над $\RR$: $\Delta > 0$ $\iff$ три вещественных корня. Почему?}
+  \penspace[0.3\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Бесконечно удалённая точка}
+  \begin{itemize}
+    \item $\mathbb P^2(K) = (K^3 \setminus 0)/\sim$, \quad $(X : Y : Z) = (cX : cY : cZ)$
+    \item $Z \ne 0$: $(X : Y : Z) \leftrightarrow (X/Z, Y/Z)$
+    \item Однородное уравнение: \quad $Y^2 Z = X^3 + aXZ^2 + bZ^3$
+    \item $Z = 0 \Rightarrow X = 0$: единственная точка $\ECpt = (0 : 1 : 0)$
+    \item Все вертикальные прямые проходят через $\ECpt$
+  \end{itemize}
+  \[ E(L) = \{(x, y) \in L^2 : y^2 = x^3 + ax + b\} \cup \{\ECpt\} \]
+  \aside{касательная в $\ECpt$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Правило хорд и касательных}
+  \centering
+  \ecaddfigure[scale=0.5]\qquad\qquad\ecdoublefigure[scale=0.5]
+
+  \raggedright
+  Прямая через $P$, $Q$ пересекает $E$ в третьей точке $R$; \quad $P + Q = -R$.\quad
+  $P + Q + R = \ECpt$ для точек одной прямой.
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Третья точка пересечения}
+  Пусть $L\colon y = \lambda(x - x_1) + y_1$ "--- прямая через $P_1 \ne \pm P_2$
+  ($\lambda = \frac{y_2 - y_1}{x_2 - x_1}$) или касательная в $P_1 = P_2$, $y_1 \ne 0$
+  ($\lambda = \frac{3x_1^2 + a}{2y_1}$). Тогда
+  $x^3 + ax + b - (\lambda(x - x_1) + y_1)^2 = (x - x_1)(x - x_2)(x - x_3)$, \
+  $x_3 = \lambda^2 - x_1 - x_2$.
+\end{theoremframe}
+
+\begin{canvasframe}{Формулы сложения}
+  \begin{algorithm}[$P_1 + P_2$]
+    \begin{itemize}
+      \item $P_1 = \ECpt$ $\Rightarrow$ $P_2$; \quad $P_2 = \ECpt$ $\Rightarrow$ $P_1$
+      \item $x_1 = x_2$, $y_1 = -y_2$ $\Rightarrow$ $\ECpt$ \quad (в том числе $P_1 = P_2$, $y_1 = 0$)
+      \item $\lambda = \dfrac{y_2 - y_1}{x_2 - x_1}$ при $P_1 \ne P_2$, \qquad
+        $\lambda = \dfrac{3x_1^2 + a}{2y_1}$ при $P_1 = P_2$
+      \item $x_3 = \lambda^2 - x_1 - x_2$, \qquad $y_3 = \lambda(x_1 - x_3) - y_1$
+    \end{itemize}
+  \end{algorithm}
+  Одно обращение в поле; $-P = (x, -y)$ "--- бесплатно.
+  \penspace[0.15\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Пример над $\QQ$}
+  $E\colon y^2 = x^3 - 15x + 18$, \quad $P = (7, 16)$, \quad $Q = (1, 2)$, \quad $\Delta = 76032$
+  \penspace[0.35\textheight]
+  \[ P + Q = \Bigl(-\frac{23}{9}, \frac{170}{27}\Bigr), \qquad 2P = \Bigl(\frac{193}{64}, \frac{223}{512}\Bigr) \]
+  \aside{что происходит со знаменателями при вычислении $nP$?}
+\end{canvasframe}
+
+\begin{theoremframe}{Группа точек}
+  $(E(K), +)$ "--- абелева группа с нулём $\ECpt$ и $-(x, y) = (x, -y)$.
+  Ассоциативность "--- без доказательства (Washington, разд.~2.4).
+\end{theoremframe}
+
+\begin{canvasframe}{Ассоциативность: проверка в Sage}
+  \begin{itemize}
+    \item Поле $K = \QQ(x_1, y_1, x_2, y_2, x_3)$; \ $a, b$ выражены через $P = (x_1, y_1)$,
+      $Q = (x_2, y_2)$
+    \item $R = (x_3, y_3)$, где $y_3$ "--- корень $Y^2 - (x_3^3 + a x_3 + b)$: расширение
+      $L = K[Y]/(Y^2 - \dots)$
+    \item Сравниваем $(P + Q) + R$ и $P + (Q + R)$ как элементы $L$: \texttt{True True}
+      (полный текст программы "--- в конспекте)
+  \end{itemize}
+  \aside{а частные случаи $P = Q$, $Q = -R$, \dots?}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{Точки порядка 2}
+  $P = (x_0, y_0) \ne \ECpt$ имеет порядок $2$ $\iff$ $y_0 = 0$. В $E(K)$ таких точек $0$, $1$
+  или $3$; \ $E[2] \cong \ZZ/2 \times \ZZ/2$ над $\overline K$.
+\end{theoremframe}
+
+\begin{theoremframe}[proposition]{Точки порядка 3 "--- точки перегиба}
+  $P = (x, y)$ имеет порядок $3$ $\iff$ $\psi_3(x) = 3x^4 + 6ax^2 + 12bx - a^2 = 0$.
+\end{theoremframe}
+
+\begin{canvasframe}{Кривые над $\GF{p}$}
+  $E\colon y^2 = x^3 + 3x + 8$ над $\GF{13}$; \ квадраты: $\{1, 3, 4, 9, 10, 12\}$
+  \[
+  \begin{array}{c|ccccccccccccc}
+  x & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12\\ \hline
+  f(x) & 8 & 12 & 9 & 5 & 6 & 5 & 8 & 8 & 11 & 10 & 11 & 7 & 4\\
+  y & & 5, 8 & 3, 10 & & & & & & & 6, 7 & & & 2, 11
+  \end{array}
+  \]
+  \begin{itemize}
+    \item $(9, 7) + (1, 8) = \ ?$ \qquad $2 \cdot (9, 7) = \ ?$
+    \item $\#E(\GF{13}) = \ ?$
+  \end{itemize}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Число точек и символ Лежандра}
+  Для $E\colon y^2 = f(x)$ над $\GF{p}$, $p > 3$:
+  \[ \#E(\GF{p}) = p + 1 + \sum_{x \in \GF{p}} \legendre{f(x)}{p}. \]
+\end{theoremframe}
+
+\begin{canvasframe}{Наивный подсчёт и алгоритм Схофа}
+  \begin{itemize}
+    \item $p$ символов Лежандра: $\bigO(p \log^2 p)$ "--- экспоненциально по $\log p$
+    \item Учебный приём: выписать квадраты по модулю $p$, затем проверять $f(x)$
+    \item Схоф (1985): полиномиальный алгоритм, $\bigO(\log^8 p)$; SEA "--- секунды для
+      $p \approx 2^{256}$
+  \end{itemize}
+  \notearea[0.3\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Хассе (без доказательства)}
+  \[ \abs{\#E(\GF{p}) - (p + 1)} \le 2\sqrt p. \]
+  $t = p + 1 - \#E$ "--- след Фробениуса; \ $t^2 \le 4p$.
+\end{theoremframe}
+
+\begin{canvasframe}{Следствия теоремы Хассе}
+  \begin{itemize}
+    \item $\#E(\GF{p}) \approx p$: группа «того же размера», что и $\Znx{p}$
+    \item Для протоколов: $\#E = h \cdot q$, $q$ "--- большое простое, кофактор $h$ мал
+    \item Дойринг: каждое $t$ с $\abs{t} \le 2\sqrt p$ реализуется некоторой кривой
+    \item Кручение $E'\colon y^2 = x^3 + d^2 a x + d^3 b$, $\legendre{d}{p} = -1$:
+      \ $\#E + \#E' = 2p + 2$
+  \end{itemize}
+  \aside{какие значения может принимать $\#E(\GF{11})$?}
+  \penspace[0.12\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Строение группы $E(\GF{p})$}
+  \begin{theorem}[без доказательства]
+    $E(\GF{p}) \cong \ZZ/n_1 \times \ZZ/n_2$, \quad $n_1 \mid n_2$, \quad $n_1 \mid p - 1$.
+  \end{theorem}
+  \begin{itemize}
+    \item $y^2 = x^3 - x$ над $\GF{7}$: точки порядка~2 "--- $(0, 0)$, $(1, 0)$, $(6, 0)$
+    \item $\#E = 8$, \quad $E(\GF{7}) \cong \ZZ/2 \times \ZZ/4$
+    \item Лагранж: порядок точки делит $\#E$
+  \end{itemize}
+  \aside{может ли быть $E(\GF{5}) \cong \ZZ/3 \times \ZZ/3$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Изоморфизмы и $j$-инвариант}
+  \begin{itemize}
+    \item $(x, y) \mapsto (u^{-2}x, u^{-3}y)$: \ $E_{a, b} \to E_{u^{-4}a,\, u^{-6}b}$ "---
+      изоморфизм групп
+    \item $j(E) = 1728 \cdot \dfrac{4a^3}{4a^3 + 27b^2}$ \quad не меняется при замене
+    \item Над $\overline K$: $j(E) = j(E') \iff E \cong E'$
+    \item $j = 0$: $y^2 = x^3 + b$ (secp256k1: $y^2 = x^3 + 7$); \ $j = 1728$: $y^2 = x^3 + ax$
+  \end{itemize}
+  \aside{кривая и её кручение: одинаковый $j$, разное $\#E$}
+  \penspace[0.1\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Вычисления без обращений}
+  \begin{itemize}
+    \item Обращение в $\GF{p}$ в десятки раз дороже умножения
+    \item Координаты Якоби: $(X : Y : Z) \leftrightarrow (X/Z^2, Y/Z^3)$, \
+      $Y^2 = X^3 + aXZ^4 + bZ^6$
+  \end{itemize}
+  \[
+    S = 4XY^2,\quad M = 3X^2 + aZ^4;\qquad 2(X : Y : Z) = (X' : Y' : Z'),
+  \]
+  \[
+    X' = M^2 - 2S,\quad Y' = M(S - X') - 8Y^4,\quad Z' = 2YZ
+  \]
+  \begin{itemize}
+    \item Лекция~9: $nP$ за $\bigO(\log n)$ удвоений и сложений
+    \item Лекция~10 (Ленстра): необратимость знаменателя по составному $N$ "--- цель!
+  \end{itemize}
+  \penspace[0.1\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Характеристика 2 и 3}
+  \begin{itemize}
+    \item $\operatorname{char} K = 2$: \ $y^2 + xy = x^3 + a_2 x^2 + a_6$ \ или \
+      $y^2 + a_3 y = x^3 + a_4 x + a_6$
+    \item $\operatorname{char} K = 3$: \ $y^2 = x^3 + a_2 x^2 + a_4 x + a_6$
+    \item В общей форме $-(x, y) = (x, -y - a_1 x - a_3)$
+  \end{itemize}
+  \aside{почему $y^2 = x^3 + ax + b$ всегда особая при $\operatorname{char} K = 2$?}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\end{document}

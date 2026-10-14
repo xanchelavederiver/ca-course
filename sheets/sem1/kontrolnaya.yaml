@@ -2,7 +2,8 @@
 # One individual variant per student; 7 slots; Montgomery multiplication and
 # Montgomery exponentiation never appear together (same task family). The legacy
 # script always used even Montgomery moduli; both the odd and the (harder) even
-# versions are offered here.
+# versions are offered here. Pools extended with the Plan 3 tasks (division, DFT, NTT,
+# sliding window, Fermat test, primitive roots, LFSR).
 id: sem1-kontrolnaya
 kind: individual
 title: Контрольная работа
@@ -43,19 +44,19 @@ groups:
   - {name: "6413", count: 42}
 
 slots:
-  - title: Умножение больших чисел
+  - title: Умножение и деление больших чисел
     tasks: [arithmetic.karatsuba, arithmetic.toom_cook, arithmetic.montgomery_mul,
-            arithmetic.montgomery_mul_even]
-  - title: Умножение с помощью БПФ
-    tasks: [arithmetic.fft_mul]
+            arithmetic.montgomery_mul_even, arithmetic.long_division]
+  - title: Свёртки и умножение с помощью БПФ
+    tasks: [arithmetic.fft_mul, arithmetic.dft_small]
   - title: Арифметика по модулю чисел Ферма и Мерсенна
-    tasks: [modular.fermat_mul, modular.mersenne_mul]
+    tasks: [modular.fermat_mul, modular.mersenne_mul, modular.ntt]
   - title: Быстрое возведение в степень
     tasks: [powmod.binary, powmod.binary_mod, powmod.qary, powmod.qary_mod, powmod.montgomery,
-            powmod.montgomery_even]
+            powmod.montgomery_even, powmod.sliding_window]
   - title: Тесты простоты
-    tasks: [number_theory.solovay_strassen, number_theory.miller_rabin]
-  - title: Порядок элемента
-    tasks: [number_theory.order_product_tree]
+    tasks: [number_theory.solovay_strassen, number_theory.miller_rabin, number_theory.fermat_test]
+  - title: Порядок элемента и первообразные корни
+    tasks: [number_theory.order_product_tree, number_theory.primitive_root]
   - title: Криптографические приложения
-    tasks: [crypto.lcg, crypto.rsa_common_modulus]
+    tasks: [crypto.lcg, crypto.rsa_common_modulus, crypto.lfsr, crypto.lfsr_recover]

@@ -1,8 +1,8 @@
 # 2nd-semester контрольная — port of tmp/практики и контрольные/main-2sem.py.
-# 5 slots, complexity budget 8: with these pools that is exactly the legacy
-# rule "one task of complexity 3, one of complexity 2, the rest 1". The even-modulus
-# Montgomery tasks (complexity 3) are an addition: a variant may now get its
-# hardest task in the first slot.
+# 5 slots, complexity budget 8: either the legacy rule "one task of complexity 3,
+# one of complexity 2, the rest 1", or (since the Plan 3 pools add more complexity-2
+# tasks) three tasks of complexity 2 and two of 1. The even-modulus Montgomery tasks
+# (complexity 3) are an addition: a variant may get its hardest task in the first slot.
 id: sem2-kontrolnaya
 kind: individual
 title: Контрольная работа
@@ -53,10 +53,13 @@ slots:
             arithmetic.montgomery_mul_even, powmod.binary_mod, powmod.qary_mod,
             powmod.montgomery, powmod.montgomery_even]
   - title: Элементы теории чисел
-    tasks: [number_theory.sqrt_cipolla, number_theory.order]
+    tasks: [number_theory.sqrt_cipolla, number_theory.order, number_theory.hensel_sqrt,
+            number_theory.sqrt_composite, number_theory.crt_general]
   - title: Дискретное логарифмирование
-    topics: [dlp]
+    tasks: [dlp.shanks, dlp.pohlig_hellman, dlp.prime_power, dlp.rho, dlp.index_calculus]
   - title: Разложение на множители
-    topics: [factoring]
+    tasks: [factoring.pollard_pm1, factoring.fermat, factoring.congruence_of_squares,
+            factoring.quadratic_sieve, factoring.lenstra, crypto.rsa_factor_from_d]
   - title: Эллиптические кривые
-    topics: [ecc]
+    tasks: [ecc.double_and_add_binary, ecc.double_and_add_ternary, ecc.ecdh, ecc.point_counting,
+            ecc.point_order, ecc.rho]

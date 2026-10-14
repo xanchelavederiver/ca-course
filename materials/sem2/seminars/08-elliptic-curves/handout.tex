@@ -1,0 +1,74 @@
+% Seminar 8 handout (sem2, lecture 8): group law on elliptic curves, point counting, Hasse.
+\documentclass{ca-handout}
+
+\seminar{8}{Группа точек эллиптической кривой}
+
+\begin{document}
+\makehandouttitle
+
+\section{Эллиптическая кривая}
+Над $\GF{p}$, $p > 3$: \ $E\colon y^2 = f(x) = x^3 + ax + b$, \ $E(\GF{p}) = \{(x, y) : y^2 = f(x)\}
+\cup \{\ECpt\}$.
+
+\begin{reminder}[title={Неособость}]
+$\Delta = -16(4a^3 + 27b^2)$. Кривая эллиптическая $\iff$ $4a^3 + 27b^2 \not\equiv 0 \pmod p$
+$\iff$ у $f$ нет кратных корней. Если $4a^3 + 27b^2 \equiv 0$, то $f = (x - x_0)^2(x + 2x_0)$,
+\ $x_0 = -\frac{3b}{2a}$ ($x_0 = 0$ при $a = 0$), особая точка "--- $(x_0, 0)$; такое уравнение
+\emph{не} задаёт эллиптическую кривую.
+\end{reminder}
+
+\section{Сложение точек}
+\begin{reminder}[title={$P_1 + P_2 = P_3$, \ $P_i = (x_i, y_i)$}]
+\begin{itemize}
+  \item $P + \ECpt = \ECpt + P = P$; \quad $-(x, y) = (x, -y)$; \quad $P - Q = P + (-Q)$.
+  \item $x_1 = x_2$ и $y_1 + y_2 \equiv 0$ (т.\,е. $P_2 = -P_1$; в том числе $P_1 = P_2$
+    с $y_1 = 0$) $\Rightarrow$ $P_1 + P_2 = \ECpt$.
+  \item Иначе
+    \[
+      \lambda = \begin{cases}
+        \dfrac{y_2 - y_1}{x_2 - x_1}, & P_1 \ne P_2,\\[2ex]
+        \dfrac{3x_1^2 + a}{2y_1}, & P_1 = P_2,
+      \end{cases}
+      \qquad
+      \begin{aligned}
+        x_3 &= \lambda^2 - x_1 - x_2,\\
+        y_3 &= \lambda(x_1 - x_3) - y_1.
+      \end{aligned}
+    \]
+\end{itemize}
+Деление "--- умножение на обратный: $d^{-1} \bmod p$ расширенным алгоритмом Евклида (или
+подбором: $d \cdot d^{-1} = kp + 1$). Проверка ответа: $y_3^2 \equiv x_3^3 + ax_3 + b$.
+\end{reminder}
+
+Геометрия: прямая через $P$, $Q$ (касательная при $P = Q$) пересекает кривую в третьей точке $R$,
+и $P + Q = -R$; три точки одной прямой дают в сумме $\ECpt$.
+
+\section{Порядок точки}
+$\ord P$ "--- наименьшее $n \ge 1$ с $nP = \ECpt$; по теореме Лагранжа $\ord P \mid \#E(\GF{p})$.
+\begin{itemize}
+  \item $\ord P = 2$ $\iff$ $y = 0$ (касательная вертикальна, $2P = \ECpt$).
+  \item $\ord P = 3$ $\iff$ $2P = -P$ $\iff$ $x(2P) = x(P)$ (точка перегиба).
+  \item Вычисляя $kP = (k - 1)P + P$, останавливаемся, когда $y(kP) = 0$ ($\ord P = 2k$) или
+    $x(kP) = x((k - 1)P)$, т.\,е. $kP = -(k-1)P$ ($\ord P = 2k - 1$).
+\end{itemize}
+
+\section{Число точек}
+\begin{reminder}[title={Символ Лежандра и формула для $\#E$}]
+$\legendre{c}{p} = 0$ при $c \equiv 0$, $1$ для ненулевого квадрата, $-1$ иначе;
+$\legendre{c}{p} \equiv c^{(p-1)/2}$. Число решений $y^2 \equiv c$ равно $1 + \legendre{c}{p}$, поэтому
+\[
+  \#E(\GF{p}) = p + 1 + \sum_{x = 0}^{p - 1} \legendre{f(x)}{p}.
+\]
+На практике: выписать квадраты $1^2, 2^2, \dots, \bigl(\frac{p-1}{2}\bigr)^2 \bmod p$; для каждого $x$
+найти $f(x)$; если $f(x)$ "--- квадрат $y^2$, то точки $(x, \pm y)$; если $f(x) = 0$ "--- одна точка
+$(x, 0)$ порядка~$2$.
+\end{reminder}
+
+\begin{reminder}[title={Теорема Хассе}]
+$\abs{\#E(\GF{p}) - (p + 1)} \le 2\sqrt p$, т.\,е. $t = p + 1 - \#E$ удовлетворяет $t^2 \le 4p$.
+\end{reminder}
+
+\section{Строение группы}
+$E(\GF{p}) \cong \ZZ/n_1 \times \ZZ/n_2$, $n_1 \mid n_2$, $n_1 \mid p - 1$. Если у $f$ три корня в
+$\GF{p}$, то точек порядка~$2$ три и группа не циклическая.
+\end{document}

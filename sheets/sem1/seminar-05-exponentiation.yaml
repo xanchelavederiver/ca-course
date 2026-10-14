@@ -1,0 +1,30 @@
+# Seminar 5 (lecture 6): fast exponentiation — binary, 4-ary, sliding window, addition
+# chains, Montgomery. Warm-up -> core -> corner cases.
+id: sem1-seminar-05-exponentiation
+kind: classroom
+title: Семинар 5. Быстрое возведение в степень
+semester: 1
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~6. Во всех задачах ведите таблицу промежуточных значений и проверяйте
+  инвариант (текущее значение равно $a$ в степени уже прочитанной части показателя).
+sections:
+  - title: Разминка
+    intro: Бинарный алгоритм слева направо; подсчёт возведений в квадрат и умножений.
+    tasks: [powmod.binary, powmod.binary_mod]
+  - title: Окна и аддитивные цепочки
+    intro: >-
+      $4$-арный метод и метод скользящего окна; сравните число операций с бинарным
+      алгоритмом с учётом предвычисления.
+    tasks: [powmod.qary_mod, powmod.sliding_window, powmod.sliding_window,
+            powmod.addition_chain]
+  - title: Метод Монтгомери
+    tasks: [powmod.montgomery, powmod.montgomery]
+  - title: Особые случаи
+    intro: >-
+      Показатели из длинных серий единиц (здесь окна выгоднее всего), показатель "--- степень
+      двойки (предвычисление не окупается) и чётный модуль в методе Монтгомери ($R = 2^k$
+      не обратим: КТО).
+    tasks: [powmod.sliding_window@runs, powmod.sliding_window@pow2, powmod.montgomery_even]

@@ -61,10 +61,11 @@ class RSACommonModulus(Task):
     topics = ("crypto.rsa",)
     complexity = 1
     solution_detail = SolutionDetail.FULL
-    notes = "Requires gcd(e1, e2) = 1, p != q, gcd(C_i, N) = 1 (legacy sem2 did not check)."
+    notes = ("Requires gcd(e1, e2) = 1, gcd(e_i, phi(N)) = 1 (valid RSA keys; e = 2 excluded), p != q, "
+             "gcd(C_i, N) = 1 (legacy sem2 did not check).")
     presets = {
-        "default": {"exps": P100[:10], "primes": P100[20:-10]},
-        "sem2": {"exps": P40[:10], "primes": P40[20:-10]},
+        "default": {"exps": P100[1:11], "primes": P100[20:-10]},
+        "sem2": {"exps": P40[1:11], "primes": P40[20:-10]},
     }
     statement = (r"Открытый текст $M$ зашифрован криптосистемой RSA с помощью пары открытых ключей "
                  r"$(e_1, N)$ и $(e_2, N)$:  \[\begin{aligned} C_1 \equiv M^{e_1}\ (\textrm{mod}\ N), "
@@ -77,7 +78,7 @@ class RSACommonModulus(Task):
                 r"$u = \VAR{u}$, $v = \VAR{v}$: $\VAR{u} \cdot \VAR{e1} \VAR{v|signed} \cdot \VAR{e2} = 1$. Тогда "
                 r"$C_1^u C_2^v \equiv M^{u e_1 + v e_2} = M$. Отрицательную степень вычисляем через обратный: "
                 r"\VAR{tx.inverse(inv)}"
-                r"\par $\VAR{neg_name}^{\VAR{neg_exp}} \equiv \VAR{inv.inv}^{\VAR{-neg_exp}} \equiv \VAR{neg_pow}$, "
+                r"\par $\VAR{neg_name}^{\VAR{neg_exp}} \equiv \VAR{inv.inv}^{\VAR{(-neg_exp)}} \equiv \VAR{neg_pow}$, "
                 r"$\VAR{pos_name}^{\VAR{pos_exp}} \equiv \VAR{pos_pow}$ (бинарным алгоритмом), "
                 r"$\VAR{neg_pow} \cdot \VAR{pos_pow} \equiv \VAR{answer}\VAR{tx.mod(n)}$."
                 r"\[M = \VAR{answer}.\]")
@@ -89,7 +90,9 @@ class RSACommonModulus(Task):
             n = p * q
             msg = rng.randrange(n // 2, n)
             c1, c2 = pow(msg, e1, n), pow(msg, e2, n)
-            if gcd(e1, e2) == 1 and p != q and gcd(c1, n) == 1 and gcd(c2, n) == 1:
+            phi = (p - 1) * (q - 1)
+            if gcd(e1, e2) == 1 and p != q and gcd(c1, n) == 1 and gcd(c2, n) == 1 \
+                    and gcd(e1, phi) == 1 and gcd(e2, phi) == 1:
                 break
         big, small = max(e1, e2), min(e1, e2)
         eu = steps.xgcd_rows(big, small)
@@ -110,6 +113,7 @@ class RSACommonModulus(Task):
         assert p["u"] * p["e1"] + p["v"] * p["e2"] == 1
         assert pow(p["c1"], p["u"], n) * pow(p["c2"], p["v"], n) % n == p["answer"]
         assert p["neg_pow"] * p["pos_pow"] % n == p["answer"]
+        assert p["e1"] % 2 == 1 and p["e2"] % 2 == 1
 
 
 def decrypt_with(vec: list[int], e: int, q: int):

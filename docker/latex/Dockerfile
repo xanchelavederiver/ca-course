@@ -1,5 +1,6 @@
 # LaTeX toolchain for all course materials.
-# pdfLaTeX + T2A/utf8 (Cyrillic via cm-super), latexmk, beamer, extsizes.
+# pdfLaTeX + T2A/utf8 (Cyrillic via cm-super), latexmk, beamer, extsizes,
+# biblatex + biber (shared bibliography latex/ca-refs.bib), chktex (lint).
 FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -15,6 +16,9 @@ RUN apt-get update \
       texlive-lang-cyrillic \
       texlive-pictures \
       texlive-science \
+      texlive-bibtex-extra \
+      biber \
+      chktex \
       cm-super \
       lmodern \
       latexmk \

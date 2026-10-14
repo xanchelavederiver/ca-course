@@ -1,0 +1,83 @@
+% Seminar 4 handout (lecture 4): smooth numbers, relations, the linear system modulo p - 1,
+% the individual logarithm.
+\documentclass{ca-handout}
+
+\seminar{4}{Метод исчисления индексов}
+
+\begin{document}
+\makehandouttitle
+
+\section{Гладкие числа и факторная база}
+Число $m$ \emph{$B$-гладкое}, если все его простые делители $\le B$; $\psi(x, B)$ "--- число
+$B$-гладких $m \le x$. При $u = \ln x / \ln B$ доля гладких чисел $\psi(x, B)/x \approx u^{-u}$
+(Кэнфилд"--~Эрдёш"--~Померанс). \emph{Факторная база} $F = \{\ell \le B : \ell \text{ простое}\}$,
+$t = \pi(B)$; неизвестные $L_\ell = \log_g \ell \in \Zn{(p - 1)}$, $g$ "--- первообразный корень.
+
+\begin{reminder}[title={Соотношение и логарифм элемента}]
+\[
+\begin{aligned}
+  g^k \bmod p &= \prod_{\ell \in F} \ell^{e_\ell} &&\Longrightarrow&
+  \sum_{\ell} e_\ell L_\ell &\equiv k \pmod{p - 1},\\
+  h g^{s} \bmod p &= \prod_{\ell \in F} \ell^{f_\ell} &&\Longrightarrow&
+  \log_g h &\equiv \sum_{\ell} f_\ell L_\ell - s \pmod{p - 1}.
+\end{aligned}
+\]
+Значения $g^k$ (и $h g^s$) удобно получать последовательно: следующее "--- предыдущее, умноженное
+на $g$. В варианте $h g^{-s}$: $\log_g h \equiv s + \sum f_\ell L_\ell$.
+\end{reminder}
+
+\begin{reminder}[title={Факторная база с $-1$}]
+Раскладывают абсолютно наименьший вычет $r \equiv g^k$, $\abs{r} < p/2$; знак даёт слагаемое
+$L_{-1}$. Так как $g^{(p-1)/2}$ "--- элемент порядка $2$, т.\,е. $-1$, то
+\[
+  L_{-1} = \log_g(-1) = \frac{p - 1}{2}.
+\]
+\end{reminder}
+
+\section{Система по модулю \texorpdfstring{$p - 1$}{p - 1}}
+$\Zn{(p-1)}$ "--- не поле. Систему решают по модулю каждого $q^e \parallel p - 1$ и собирают
+по КТО: $x \equiv \sum_i r_i M_i y_i \pmod M$, $M_i = M/m_i$, $y_i \equiv M_i^{-1} \pmod{m_i}$.
+
+\begin{reminder}[title={Метод Гаусса по модулю $q^e$}]
+\begin{itemize}
+  \item Ведущий элемент должен быть \emph{обратим}, т.\,е. не делиться на $q$; строку умножают на
+    обратный к нему и вычитают из остальных строк.
+  \item Решение единственно по модулю $q^e$ $\iff$ ранг матрицы по модулю $q$ равен $t$ $\iff$
+    в каждом столбце находится обратимый ведущий элемент. Для квадратной системы: $q \nmid \det$.
+  \item Сравнение $c L_\ell \equiv k \pmod{q^e}$ с $q \mid c$ определяет $L_\ell$ лишь по модулю
+    $q^{e - v_q(c)}$ (если вообще совместно); нужны другие соотношения.
+  \item Обычно хватает $t + s$ соотношений с небольшим запасом $s$; чаще всего система
+    вырождена по модулю $2$.
+\end{itemize}
+\end{reminder}
+
+\begin{reminder}[title={Проверка и подсказка по модулю малых $q$}]
+$L_\ell$ чётен $\iff$ $\legendre{\ell}{p} = 1$ (критерий Эйлера: $\ell^{(p-1)/2} = (-1)^{L_\ell}$).
+Вообще, $L_\ell \bmod q^e$ "--- логарифм $\ell^{(p-1)/q^e}$ по основанию $g^{(p-1)/q^e}$
+(Полиг"--~Хеллман). Напоминание: $\legendre{2}{p} = 1 \iff p \equiv \pm 1 \pmod 8$;
+$\legendre{q}{p} = \legendre{p}{q}$, если $p \equiv 1$ или $q \equiv 1 \pmod 4$
+($\legendre{q}{p} = -\legendre{p}{q}$, если оба $\equiv 3 \pmod 4$).
+\end{reminder}
+
+\section{Алгоритм и выбор \texorpdfstring{$B$}{B}}
+\begin{enumerate}
+  \item Выбрать $B$, факторную базу $F$.
+  \item Перебирая $k$, собрать $\approx t + s$ соотношений $g^k = \prod \ell^{e_\ell}$.
+  \item Решить систему по модулю каждого $q^e \parallel p - 1$, собрать $L_\ell$ по КТО;
+    проверить $g^{L_\ell} \equiv \ell$.
+  \item Найти $s$ с гладким $h g^{s}$ и вычислить $\log_g h$.
+\end{enumerate}
+
+\begin{reminder}[title={$L$-нотация и сложность (эвристически)}]
+$L_p[\alpha, c] = \exp\bigl((c + o(1))(\ln p)^{\alpha}(\ln\ln p)^{1-\alpha}\bigr)$,
+$L(p) = e^{\sqrt{\ln p \ln\ln p}}$. При $B = L_p[1/2, c]$ доля гладких $\approx
+L_p[1/2, -\frac{1}{2c}]$, попыток на этапе 1: $L_p[1/2, c + \frac{1}{2c}]$. Оптимум:
+\[
+  B \approx L(p)^{1/\sqrt 2}, \qquad \text{этап 1: } L_p[1/2, \sqrt 2], \qquad
+  \text{этап 2: } L_p[1/2, 1/\sqrt 2].
+\]
+Для малых $p$ рецепт лишь ориентир: $B$ округляют, оставляя небольшую систему.
+Решето числового поля: $L_p[1/3, 1{,}923]$. Для эллиптических кривых общего вида метод
+неприменим.
+\end{reminder}
+\end{document}

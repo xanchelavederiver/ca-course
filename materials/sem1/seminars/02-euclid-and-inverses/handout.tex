@@ -1,0 +1,77 @@
+% Seminar 2 handout (lecture 3): division (Knuth's Algorithm D), Euclid, inverses, linear congruences.
+\documentclass{ca-handout}
+
+\seminar{2}{Деление с остатком, алгоритм Евклида, обратные элементы}
+
+\begin{document}
+\makehandouttitle
+
+\section{Деление с остатком}
+Для $a \in \ZZ$, $b > 0$: $a = qb + r$, $0 \le r < b$, $q = \floor{a/b}$ (остаток неотрицателен:
+$-7 = (-3) \cdot 3 + 2$). Деление на цифру "--- один проход от старших разрядов,
+$t = rB + u_j$, $q_j = \floor{t/v}$, $r = t \bmod v$.
+
+\begin{reminder}[title={Алгоритм D Кнута: $u = (u_{m+n-1} \dots u_0)_B$, $v = (v_{n-1} \dots v_0)_B$, $n \ge 2$}]
+\begin{enumerate}
+  \item \textbf{Нормализация:} $d = \floor{B/(v_{n-1} + 1)}$, $u' = ud$ (записываем с $m + n + 1$
+    цифрами, старшая может быть $0$), $v' = vd$ "--- старшая цифра $v'_{n-1} \ge \floor{B/2}$.
+  \item Для $j = m, \dots, 0$ окно $U = (u'_{j+n} \dots u'_j)$ (текущий остаток и очередная цифра):
+    \[\hat q = \min\Bigl(\Bigl\lfloor\frac{u'_{j+n} B + u'_{j+n-1}}{v'_{n-1}}\Bigr\rfloor,\ B - 1\Bigr), \qquad
+      \hat r = u'_{j+n} B + u'_{j+n-1} - \hat q v'_{n-1}.\]
+  \item \textbf{Уточнение:} пока $\hat r < B$ и $\hat q v'_{n-2} > B\hat r + u'_{j+n-2}$:
+    $\hat q \gets \hat q - 1$, $\hat r \gets \hat r + v'_{n-1}$.
+  \item \textbf{Вычитание:} $U - \hat q v'$; если $< 0$ "--- \emph{возврат}: $\hat q \gets \hat q - 1$,
+    прибавить $v'$. Цифра частного $q_j = \hat q$, новый остаток $U - q_j v'$.
+  \item \textbf{Денормализация:} $r = (\text{последний остаток}) / d$.
+\end{enumerate}
+Всегда $\hat q - 2 \le q_j \le \hat q$ (при $v'_{n-1} \ge \floor{B/2}$); после уточнения
+$\hat q \in \{q_j, q_j + 1\}$. Сложность $\bigO(mn)$.
+\end{reminder}
+Таблица решения: \ $j \mid U \mid \hat q \mid \hat q v' \mid q_j \mid U - q_j v'$.
+
+\section{Алгоритм Евклида}
+$\gcd(a, b) = \gcd(b, a \bmod b)$, $\gcd(a, 0) = a$. Число делений при $a > b > 0$ не больше
+$1 + \log_\varphi b \approx 1 + 1{,}44 \log_2 b$ (худший случай "--- соседние числа Фибоначчи).
+Бинарный вариант: $\gcd(2a, 2b) = 2\gcd(a, b)$; $\gcd(2a, b) = \gcd(a, b)$ при нечётном $b$;
+$\gcd(a, b) = \gcd(\abs{a - b}, \min(a, b))$.
+
+\begin{reminder}[title={Расширенный алгоритм Евклида: $r_i = u_i a + v_i b$}]
+\[
+  \begin{array}{r|r|r|r}
+    r_i & q_i & u_i & v_i \\ \hline
+    a & & 1 & 0 \\
+    b & & 0 & 1 \\
+    r_{i-1} - q_i r_i & q_i = \floor{r_{i-1}/r_i} & u_{i-1} - q_i u_i & v_{i-1} - q_i v_i \\
+    \dots & & &
+  \end{array}
+\]
+Останавливаемся на $r_{k+1} = 0$: $d = r_k = \gcd(a, b) = u_k a + v_k b$ (соотношение Безу).
+Если $a < b$, первое частное равно $0$ (числа меняются местами).
+Все пары: $u = u_k + t\,\frac bd$, $v = v_k - t\,\frac ad$, $t \in \ZZ$. При $a > b > 0$:
+$\abs{u_k} \le \frac{b}{2d}$, $\abs{v_k} \le \frac{a}{2d}$; последняя строка: $\abs{u_{k+1}} = \frac bd$,
+$\abs{v_{k+1}} = \frac ad$.
+\end{reminder}
+
+\section{Обратные элементы в $\Zn{n}$}
+\begin{reminder}[title={Критерий и вычисление}]
+$a$ обратим по модулю $n$ $\iff$ $\gcd(a, n) = 1$. Расширенный алгоритм Евклида для $(n, a)$:
+$un + va = 1$ $\Rightarrow$ $a^{-1} \equiv v \pmod n$ (столбец $u_i$ можно не считать).
+Если $d = \gcd(a, n) > 1$, обратного нет: $a \cdot \frac nd \equiv 0$ ($a$ "--- делитель нуля).
+Проверка: $a \cdot a^{-1} = kn + 1$.
+\end{reminder}
+\textbf{Через теорему Эйлера:} $a^{\varphi(n)} \equiv 1$ при $\gcd(a, n) = 1$, поэтому
+$a^{-1} \equiv a^{\varphi(n) - 1}$; для простого $p$: $a^{-1} \equiv a^{p-2} \pmod p$.
+$\varphi(p^e) = p^{e-1}(p - 1)$, $\varphi(mn) = \varphi(m)\varphi(n)$ при $\gcd(m, n) = 1$,
+$\varphi(n) = n\prod_{p \mid n}(1 - \frac1p)$.
+
+\section{Линейные сравнения $ax \equiv b \pmod n$}
+\begin{reminder}[title={$d = \gcd(a, n)$, \ $ua + vn = d$ (расширенный Евклид)}]
+\begin{itemize}
+  \item $d \nmid b$: решений нет;
+  \item $d = 1$: единственное решение $x \equiv a^{-1} b \pmod n$;
+  \item $d > 1$, $d \mid b$: ровно $d$ решений по модулю $n$:
+    $x = x_0 + k\frac nd$, $k = 0, \dots, d - 1$, где $x_0 \equiv u \cdot \frac bd \pmod{\frac nd}$
+    (решение сравнения $\frac ad x \equiv \frac bd \pmod{\frac nd}$).
+\end{itemize}
+\end{reminder}
+\end{document}

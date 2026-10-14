@@ -17,6 +17,11 @@
 \RequirePackage[T1,T2A]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[english,russian]{babel}
+% U+2212 MINUS SIGN (e.g. «p − 1» in titles from course.yaml)
+\DeclareUnicodeCharacter{2212}{\ensuremath{-}}
+% Greek letters in titles taken from course.yaml (e.g. «ρ-алгоритм»)
+\DeclareUnicodeCharacter{03C1}{\ensuremath{\rho}}
+\DeclareUnicodeCharacter{03BB}{\ensuremath{\lambda}}
 
 % --- Reproducible PDFs ------------------------------------------------------------
 % No path-dependent trailer /ID; dates come from SOURCE_DATE_EPOCH (latex image).
@@ -95,6 +100,15 @@
 % --- Theorem-like environments -------------------------------------------------
 % Numbered within sections when the class has sections; beamer has its own.
 \ifca@theorems
+% Every environment below starts its paragraph at once (\leavevmode). Otherwise a
+% theorem that begins with a list (enumerate, algorithmic) loses the hyperref anchor
+% of its heading, and \ref/links to it point nowhere.
+\newcommand{\ca@newtheorem}[3]{% {env}{shared counter or empty}{name}
+  \ifx\relax#2\relax\newtheorem{ca@thm@#1}{#3}\else\newtheorem{ca@thm@#1}[#2]{#3}\fi
+  \NewDocumentEnvironment{#1}{o}{%
+    \IfNoValueTF{##1}{\begin{ca@thm@#1}}{\begin{ca@thm@#1}[{##1}]}\leavevmode
+  }{\end{ca@thm@#1}}%
+}
 \@ifclassloaded{beamer}{}{%
   \theoremstyle{plain}
   \@ifundefined{c@section}{%
@@ -102,37 +116,75 @@
   }{%
     \newtheorem{theorem}{Теорема}[section]%
   }
-  \newtheorem{lemma}[theorem]{Лемма}
-  \newtheorem{corollary}[theorem]{Следствие}
-  \newtheorem{proposition}[theorem]{Утверждение}
+  % `theorem` itself owns the counter; wrap it like the others
+  \let\ca@thm@theorem\theorem \let\endca@thm@theorem\endtheorem
+  \let\theorem\relax \let\endtheorem\relax
+  \NewDocumentEnvironment{theorem}{o}{%
+    \IfNoValueTF{#1}{\begin{ca@thm@theorem}}{\begin{ca@thm@theorem}[{#1}]}\leavevmode
+  }{\end{ca@thm@theorem}}
+  \ca@newtheorem{lemma}{theorem}{Лемма}
+  \ca@newtheorem{corollary}{theorem}{Следствие}
+  \ca@newtheorem{proposition}{theorem}{Утверждение}
   \theoremstyle{definition}
-  \newtheorem{definition}[theorem]{Определение}
-  \newtheorem{example}[theorem]{Пример}
-  \newtheorem{algorithm}[theorem]{Алгоритм}
-  \newtheorem{exercise}[theorem]{Упражнение}
+  \ca@newtheorem{definition}{theorem}{Определение}
+  \ca@newtheorem{example}{theorem}{Пример}
+  \ca@newtheorem{algorithm}{theorem}{Алгоритм}
+  \ca@newtheorem{exercise}{theorem}{Упражнение}
   \theoremstyle{remark}
-  \newtheorem{remark}[theorem]{Замечание}
+  \ca@newtheorem{remark}{theorem}{Замечание}
   \newtheorem*{note}{Примечание}
 }
 \fi
 
+% --- Pseudocode -------------------------------------------------------------------
+% algorithmicx (algpseudocode) with Russian keywords and no "end" lines; use it
+% inside the theorem-like `algorithm` environment:
+%   \begin{algorithm}[Евклид] \begin{algorithmic}[1] ... \end{algorithmic} \end{algorithm}
+\RequirePackage[noend]{algpseudocode}
+\algrenewcommand\algorithmicrequire{\textbf{Вход:}}
+\algrenewcommand\algorithmicensure{\textbf{Выход:}}
+\algrenewcommand\algorithmicif{\textbf{если}}
+\algrenewcommand\algorithmicthen{\textbf{то}}
+\algrenewcommand\algorithmicelse{\textbf{иначе}}
+\algrenewcommand\algorithmicfor{\textbf{для}}
+\algrenewcommand\algorithmicforall{\textbf{для всех}}
+\algrenewcommand\algorithmicdo{}
+\algrenewcommand\algorithmicwhile{\textbf{пока}}
+\algrenewcommand\algorithmicrepeat{\textbf{повторять}}
+\algrenewcommand\algorithmicloop{\textbf{повторять}}
+\algrenewcommand\algorithmicuntil{\textbf{пока не}}
+\algrenewcommand\algorithmicreturn{\textbf{вернуть}}
+\algrenewcommand\algorithmicfunction{\textbf{функция}}
+\algrenewcommand\algorithmicprocedure{\textbf{процедура}}
+\algrenewcommand\algorithmiccomment[1]{\hfill\textcolor{caGray}{\(\triangleright\)~#1}}
+\algnewcommand\Stop{\State \textbf{стоп}}
+
 % --- "Check yourself" questions ----------------------------------------------
-% \checkyourself{question} — typesets a highlighted question in place and
-% collects it; \printcheckyourself prints all questions collected so far
-% (use it in the dedicated section towards the end of lecture notes).
+% \checkyourself{question} — typesets a highlighted, numbered question in place
+% and collects it (with a page reference back to it); \printcheckyourself prints
+% every question collected since the last \ca@resetcheckyourself (lecture notes
+% reset at each lecture, so a book of several lectures keeps them per chapter).
+% \ca@cyqprefix makes labels/anchors unique when several lectures share a document.
 \newcounter{checkyourself}
 \newcommand{\ca@cylist}{}
+\newcommand{\ca@cyqprefix}{}
+\newcommand{\theHcheckyourself}{\ca@cyqprefix\arabic{checkyourself}}
 \newcommand{\checkyourselfname}{Проверь себя}
+\newcommand{\ca@resetcheckyourself}{\setcounter{checkyourself}{0}\gdef\ca@cylist{}}
 \newcommand{\checkyourself}[1]{%
   \refstepcounter{checkyourself}%
+  \edef\ca@cyqlabel{cyq:\ca@cyqprefix\arabic{checkyourself}}%
   \par\medskip\noindent
   \colorbox{caLight}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{%
+    \expandafter\label\expandafter{\ca@cyqlabel}%
     \textcolor{caBlue}{\textbf{\checkyourselfname~\thecheckyourself.}}~#1}}%
   \par\medskip
   \begingroup\edef\x{\endgroup
     \noexpand\g@addto@macro\noexpand\ca@cylist{%
-      \noexpand\item[\noexpand\textbf{\thecheckyourself.}]\unexpanded{#1}}}\x
+      \noexpand\ca@cyitem{\thecheckyourself}{\ca@cyqlabel}{\unexpanded{#1}}}}\x
 }
+\newcommand{\ca@cyitem}[3]{%
+  \item[\textbf{#1.}]#3\nobreak\hfill\nobreak{\small\textcolor{caGray}{(с.~\pageref{#2})}}}
 \newcommand{\printcheckyourself}{%
   \ifx\ca@cylist\@empty
     \textit{(вопросов нет)}%

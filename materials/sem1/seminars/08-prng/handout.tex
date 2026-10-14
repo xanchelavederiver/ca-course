@@ -1,0 +1,98 @@
+% Seminar 8 handout (lecture 9): LCG full period and attack, LFSR period, matrix form,
+% recovery from 2L bits (Gauss over F_2, Berlekamp–Massey).
+\documentclass{ca-handout}
+
+\seminar{8}{Генераторы псевдослучайных чисел}
+
+\begin{document}
+\makehandouttitle
+
+\section{Линейные конгруэнтные последовательности}
+$X_{n+1} = (a X_n + c) \bmod m$; \quad
+$X_{n+k} \equiv a^k X_n + c\,(1 + a + \cdots + a^{k-1}) \pmod m$; период $\le m$.
+
+\begin{reminder}[title={Теорема о максимальном периоде (Халл"--~Добелл, Кнут~A)}]
+Период равен $m$ (для любого $X_0$) $\iff$
+\quad 1)~$\gcd(c, m) = 1$; \quad 2)~$p \mid a - 1$ для всех простых $p \mid m$;
+\quad 3)~$4 \mid a - 1$, если $4 \mid m$.
+\par\smallskip
+Для $m = 2^e$: $c$ нечётно и $a \equiv 1 \pmod 4$. При $c = 0$ (мультипликативный генератор)
+период $= \ord_{m/d}(a)$, $d = \gcd(X_0, m)$, и не превосходит $\lambda(m)$; для простого $m$ он
+максимален ($m - 1$), если $a$ "--- первообразный корень.
+\end{reminder}
+
+Если $p \mid m$, $p \nmid a - 1$, то $x^* \equiv c(1 - a)^{-1} \pmod p$ "--- неподвижная точка по
+модулю $p$. Если $4 \mid m$, $a \equiv 3 \pmod 4$, то $X_{n+2} \equiv X_n \pmod 4$.
+
+\begin{reminder}[title={Восстановление параметров по выходам $X_0, X_1, \dots$}]
+$t_n = X_{n+1} - X_n$, \quad $t_{n+1} \equiv a t_n \pmod m$, \quad
+$u_n = t_{n+2} t_n - t_{n+1}^2 \equiv 0 \pmod m$, \quad $m = \gcd(u_0, u_1, \dots)$;
+\par
+$a \equiv t_1 t_0^{-1} \pmod m$ (если $\gcd(t_0, m) = 1$), \quad $c \equiv X_1 - a X_0 \pmod m$.
+\end{reminder}
+
+\section{РСЛОС над $\GF{2}$}
+$s_{n+L} = c_1 s_{n+L-1} + c_2 s_{n+L-2} + \cdots + c_L s_n$ (сложение "--- XOR).
+Характеристический многочлен $f(x) = x^L + c_1 x^{L-1} + \cdots + c_L$, многочлен связей
+$C(x) = 1 + c_1 x + \cdots + c_L x^L = x^L f(1/x)$; регистр невырожден, если $c_L = 1$.
+
+\begin{reminder}[title={Матричная форма}]
+$S_n = (s_n, s_{n+1}, \dots, s_{n+L-1})^T$, \quad $S_{n+1} = A S_n$, \quad $S_n = A^n S_0$, \quad
+$s_n$ "--- первая координата $A^n S_0$:
+\[
+  A = \begin{pmatrix}
+    0 & 1 & 0 & \cdots & 0\\
+    \vdots & & \ddots & & \vdots\\
+    0 & 0 & \cdots & 0 & 1\\
+    c_L & c_{L-1} & \cdots & c_2 & c_1
+  \end{pmatrix}.
+\]
+$A^n$ "--- бинарным алгоритмом: $n = \sum n_i 2^i$; $v \gets S_0$; для $i = 0, 1, \dots$: если
+$n_i = 1$, то $v \gets A^{2^i} v$; $A^{2^{i+1}} = (A^{2^i})^2$. Проверка: $s_n = s_{n \bmod T}$.
+\end{reminder}
+
+\begin{reminder}[title={Период ($c_L = 1$, $S_0 \ne 0$)}]
+$\ord_f(x)$ "--- наименьшее $e \ge 1$ с $x^e \equiv 1 \pmod f$.
+\begin{itemize}
+  \item Период $T \le 2^L - 1$ и $T \mid \ord_f(x)$; для приводимого $f$ он зависит от $S_0$.
+  \item $f$ неприводим $\Rightarrow$ $T = \ord_f(x)$ для любого $S_0 \ne 0$, $T \mid 2^L - 1$.
+  \item $T = 2^L - 1$ $\iff$ $f$ \emph{примитивен}: неприводим и
+    $x^{(2^L - 1)/q} \not\equiv 1 \pmod f$ для всех простых $q \mid 2^L - 1$.
+\end{itemize}
+\end{reminder}
+
+Неприводимые многочлены степени $\le 3$: $x$, $x + 1$, $x^2 + x + 1$, $x^3 + x + 1$,
+$x^3 + x^2 + 1$. Многочлен степени $L \le 7$ неприводим $\iff$ он не делится ни на один из
+них степени $\le L/2$.
+$x + 1 \mid f \iff f(1) = 0$ (чётное число ненулевых коэффициентов).
+\[
+\begin{array}{c|cccc}
+  L & 3 & 4 & 5 & 6\\ \hline
+  2^L - 1 & 7 & 3 \cdot 5 & 31 & 3^2 \cdot 7\\
+  \text{примитивные} & x^3 + x + 1 & x^4 + x + 1 & x^5 + x^2 + 1 & x^6 + x + 1
+\end{array}
+\]
+
+\section{Восстановление РСЛОС}
+\begin{reminder}[title={Метод Гаусса по $2L$ битам}]
+\[
+  \left(\begin{array}{cccc|c}
+    s_0 & s_1 & \cdots & s_{L-1} & s_L\\
+    s_1 & s_2 & \cdots & s_L & s_{L+1}\\
+    \vdots & & & \vdots & \vdots\\
+    s_{L-1} & s_L & \cdots & s_{2L-2} & s_{2L-1}
+  \end{array}\right),
+  \qquad\text{неизвестные } (c_L, c_{L-1}, \dots, c_1).
+\]
+Если линейная сложность равна $L$, решение единственно. Если ранг $r < L$, решений $2^{L - r}$;
+по лемме Месси все они порождают одну и ту же последовательность.
+\end{reminder}
+
+\begin{reminder}[title={Алгоритм Берлекэмпа"--~Месси}]
+$C \gets 1$, $B \gets 1$, $\ell \gets 0$, $m \gets -1$. Для $N = 0, 1, \dots, n - 1$:
+$d \gets s_N + \sum_{i=1}^{\ell} c_i s_{N-i}$; если $d = 1$: $T \gets C$, $C \gets C + x^{N-m} B$,
+и если $2\ell \le N$, то $\ell \gets N + 1 - \ell$, $m \gets N$, $B \gets T$.
+\par Ответ: линейная сложность $\ell$, многочлен связей $C(x)$, $f(x) = x^\ell C(1/x)$.
+Результат однозначен, если $n \ge 2\ell$.
+\end{reminder}
+\end{document}

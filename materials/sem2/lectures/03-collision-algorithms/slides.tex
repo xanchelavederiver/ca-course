@@ -1,0 +1,255 @@
+% Lecture 3 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{3}{Алгоритмы поиска коллизий. \texorpdfstring{$\rho$}{rho}-алгоритм Полларда}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{DLP: время и память}
+  \begin{itemize}
+    \item $G = \langle g \rangle$, $\abs{G} = N$, $h \in G$: найти $x$ с $g^x = h$
+    \item Шенкс: время $\bigO(\sqrt N)$, \alert{память} $\bigO(\sqrt N)$
+    \item Полиг"--~Хеллман: достаточно уметь решать DLP в группе простого порядка $q$
+    \item При $N \approx 2^{80}$: $2^{40}$ элементов в памяти "--- терабайты
+    \item Сегодня: время $\sqrt N$ "--- это цена поиска \textbf{коллизии};
+      коллизию можно искать с памятью $\bigO(1)$ ($\rho$-алгоритм Полларда)
+      и параллельно (выделенные точки)
+  \end{itemize}
+  \aside{можно ли решить DLP «универсально» быстрее, чем за $\sqrt N$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Парадокс дней рождения}
+  $a_1, \dots, a_n \in S$, $\abs{S} = N$, независимы и равновероятны.
+  $N = 365$, $n = 23$: $\Pr(\text{совпадение}) \approx 0{,}507$.
+  \textbf{Лемма:} $1 - t \le e^{-t}$ при всех $t \in \RR$.
+  \begin{theorem}[один список]
+    \[\Pr(\exists\, i < j:\ a_i = a_j) = 1 - \prod_{i=1}^{n-1}\Bigl(1 - \frac iN\Bigr)
+      \ge 1 - e^{-n(n-1)/2N}.\]
+  \end{theorem}
+  \proofarea[0.1\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема о коллизиях}
+  Пусть $A \subseteq S$, $\abs{A} = n$, $\abs{S} = N$, а $b_1, \dots, b_m \in S$ выбраны
+  независимо и равновероятно. Тогда
+  \[\Pr(\exists\, j:\ b_j \in A) = 1 - \Bigl(1 - \frac nN\Bigr)^m \ge 1 - e^{-nm/N}.\]
+\end{theoremframe}
+
+\begin{canvasframe}{Длина списков}
+  $L = \ln\frac{1}{1 - P}$. Коллизия есть с вероятностью $\ge P$, если
+  \begin{itemize}
+    \item два списка: $nm \ge NL$, в частности $n = m \ge \sqrt{NL}$;
+    \item один список: $n(n - 1) \ge 2NL$, т.\,е. $n \ge \frac{1 + \sqrt{1 + 8NL}}{2}
+      \approx \sqrt{2NL}$.
+  \end{itemize}
+  \begin{center}
+  \begin{tabular}{c|c|c}
+    $P$ & два списка, $n = m$ & один список \\ \hline
+    $1/2$ & $0{,}83\sqrt N$ & $1{,}18\sqrt N$ \\
+    $0{,}99$ & $2{,}15\sqrt N$ & $3{,}03\sqrt N$ \\
+    $1 - e^{-9}$ & $3\sqrt N$ & $4{,}24\sqrt N$
+  \end{tabular}
+  \end{center}
+  \aside{сколько значений $128$-битного хеша нужно для коллизии?}
+\end{canvasframe}
+
+\begin{theoremframe}{Ожидаемое время до первой коллизии}
+  Пусть $a_1, a_2, \dots \in S$ независимы и равновероятны, $X$ "--- номер первого элемента,
+  совпавшего с одним из предыдущих. Тогда
+  \[\mathsf{E}X \le \sqrt{\pi N/2} + 2 \qquad (\text{на самом деле } \mathsf{E}X \sim
+  \sqrt{\pi N/2} \approx 1{,}25\sqrt N).\]
+\end{theoremframe}
+
+\begin{canvasframe}{Коллизионный алгоритм для DLP}
+  \begin{itemize}
+    \item Список 1: различные случайные $y_1, \dots, y_n$, хранить $g^{y_i}$ (хеш-таблица)
+    \item Список 2: случайные $z$, вычислять $h g^{z}$ до совпадения $g^{y_i} = h g^{z}$
+    \item Ответ: $x \equiv y_i - z \pmod N$
+  \end{itemize}
+  \begin{theorem}
+    При $n = \ceil{\sqrt N}$ ожидаемое число шагов $\le \sqrt N$; всего $\bigO(\sqrt N)$
+    возведений в степень, память $\bigO(\sqrt N)$; за $9\sqrt N$ шагов успех с вероятностью
+    $\ge 1 - e^{-9}$.
+  \end{theorem}
+  \aside{почему $h g^{z}$ равномерно распределён в $\langle g \rangle$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Орбита элемента}
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \begin{definition}
+        $f\colon S \to S$, $x_{i+1} = f(x_i)$. \emph{Прямая орбита}:
+        $\mathcal{O}^+(x_0) = \{x_0, f(x_0), f^2(x_0), \dots\}$.
+      \end{definition}
+      \begin{itemize}
+        \item $x_{T+M}$ "--- первый повтор, $x_{T+M} = x_T$
+        \item $T$ "--- предпериод (хвост), $M$ "--- период (цикл)
+        \item Пример: $f(x) = x^2 + 2 \bmod 17$, $x_0 = 0$:\\
+          $0, 2, 6 \mid 4, 1, 3, 11 \mid 4, \dots$
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      \centering
+      \rhoshape[scale=0.75]{3}{4}
+    \end{column}
+  \end{columns}
+\end{canvasframe}
+
+\begin{theoremframe}{Структура орбиты}
+  \begin{enumerate}
+    \item $x_0, \dots, x_{T+M-1}$ попарно различны и исчерпывают орбиту;
+    \item $x_{i+M} = x_i$ при $i \ge T$;
+    \item $x_i = x_j$ $\iff$ $i = j$ или ($i, j \ge T$ и $i \equiv j \pmod M$).
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{theoremframe}{Алгоритм Флойда: «черепаха и заяц»}
+  Существует $i$, $1 \le i \le T + M$, с $x_i = x_{2i}$: наименьшее кратное $M$,
+  не меньшее $\max(T, 1)$.
+  \smallskip
+
+  \emph{Алгоритм:} $u \gets f(x_0)$, $v \gets f(f(x_0))$; пока $u \ne v$:
+  $u \gets f(u)$, $v \gets f(f(v))$. Память $\bigO(1)$, $3i$ вычислений $f$.
+\end{theoremframe}
+
+\begin{canvasframe}{Случайные отображения}
+  \begin{theorem}[без доказательства]
+    Для случайного $f\colon S \to S$, $\abs S = N$:
+    \[\mathsf{E}\,T \sim \mathsf{E}\,M \sim \sqrt{\pi N/8} \approx 0{,}63\sqrt N, \qquad
+      \mathsf{E}(T + M) \sim \sqrt{\pi N/2} \approx 1{,}25\sqrt N.\]
+    Флойд: в среднем $\frac{\pi^2}{12}\sqrt{\pi N/2} \approx 1{,}03\sqrt N$ итераций.
+  \end{theorem}
+  \begin{itemize}
+    \item $\mathsf{E}(T + M) \le \sqrt{\pi N/2} + 2$: пока нет повтора, значения $f$
+      «не открыты» "--- парадокс дней рождения
+    \item Эвристика: «хорошо перемешивающие» $f$ ведут себя как случайные
+    \item Брент: сравнивать $x_j$ с $x_{2^k - 1}$, $2^k \le j < 2^{k+1}$
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{$\rho$-алгоритм Полларда: блуждание}
+  $G = \langle g \rangle \le \Znx{p}$, $\ord g = n$, $h \in G$. Разбиение по $x \bmod 3$:
+  \[
+    f(x) = \begin{cases} x^2, & x \equiv 0,\\ h x, & x \equiv 1,\\ g x, & x \equiv 2, \end{cases}
+    \qquad
+    (\alpha, \beta) \mapsto \begin{cases} (2\alpha, 2\beta),\\ (\alpha, \beta + 1),\\
+      (\alpha + 1, \beta) \end{cases} \pmod n.
+  \]
+  \begin{lemma}
+    Если $x_0 = g^{\alpha_0} h^{\beta_0}$, то $x_i = g^{\alpha_i} h^{\beta_i}$ при всех $i$.
+  \end{lemma}
+  \begin{itemize}
+    \item Коллизия $x_i = x_{2i}$: \quad
+      $(\beta_i - \beta_{2i})\,x \equiv \alpha_{2i} - \alpha_i \pmod n$
+  \end{itemize}
+  \aside{зачем ветвь $x \mapsto x^2$?}
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Линейное сравнение}
+  $d = \gcd(u, n)$. Сравнение $ux \equiv v \pmod n$ разрешимо $\iff$ $d \mid v$, и тогда
+  у него ровно $d$ решений:
+  \[x \equiv \tilde x + k\frac nd \pmod n,\ k = 0, \dots, d - 1, \qquad
+    \tilde x \equiv \frac vd\Bigl(\frac ud\Bigr)^{-1} \pmod{\frac nd}.\]
+\end{theoremframe}
+
+\begin{canvasframe}{$\rho$-алгоритм Полларда}
+  \begin{enumerate}
+    \item Случайные $\alpha_0, \beta_0$; $x_0 = g^{\alpha_0}h^{\beta_0}$
+    \item Флойд: $(x_i, \alpha_i, \beta_i)$ и $(x_{2i}, \alpha_{2i}, \beta_{2i})$ до
+      $x_i = x_{2i}$
+    \item $u = \beta_i - \beta_{2i}$, $v = \alpha_{2i} - \alpha_i$:
+      \begin{itemize}
+        \item $u \equiv 0 \pmod n$ "--- неудача, заново (вероятность $\approx 1/q$);
+        \item $d = \gcd(u, n) > 1$ "--- $d$ кандидатов, проверка $g^x = h$
+      \end{itemize}
+  \end{enumerate}
+  \begin{theorem}[эвристическая]
+    Время $\approx 3 \cdot 1{,}03\sqrt n$ групповых операций, память $\bigO(1)$.
+  \end{theorem}
+  \aside{почему при простом $n$ всегда $d = 1$?}
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=8]{Пример: $114^x \equiv 372 \pmod{569}$, $\ord 114 = 71$}
+  \small
+  Старт $x_0 = 114^{10} \cdot 372^{6} \equiv 1$ ($\alpha_0 = 10$, $\beta_0 = 6$):
+  \[
+  \begin{array}{r|rrr|rrr}
+    i & x_i & \alpha_i & \beta_i & x_{2i} & \alpha_{2i} & \beta_{2i} \\ \hline
+    0 & 1 & 10 & 6 & 1 & 10 & 6 \\
+    1 & 372 & 10 & 7 & 117 & 20 & 14 \\
+    2 & 117 & 20 & 14 & 520 & 9 & 56 \\
+    3 & 33 & 40 & 28 & 400 & 18 & 43 \\
+    4 & 520 & 9 & 56 & 469 & 36 & 17 \\
+    5 & 549 & 9 & 57 & 136 & 1 & 36 \\
+    6 & 400 & 18 & 43 & 549 & 1 & 38 \\
+    7 & 291 & 18 & 44 & 291 & 2 & 6
+  \end{array}
+  \]
+  $38x \equiv -16 \pmod{71}$ \quad$\Rightarrow$\quad $x = ?$
+  \penspace[0.1\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Флойд не распараллеливается}
+  \begin{itemize}
+    \item $m$ независимых запусков: каждый ищет коллизию \emph{в своей} орбите
+    \item Минимум из $m$ времён порядка $\sqrt n$: $\approx \sqrt{n/m}$ "--- ускорение
+      лишь в $\sqrt m$ раз
+    \item Нужно ловить коллизии \emph{между} блужданиями разных вычислителей,
+      не храня все точки
+  \end{itemize}
+  \aside{почему ускорение именно $\sqrt m$?}
+  \penspace
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=6]{Выделенные точки (ван~Ооршот"--~Винер)}
+  \begin{definition}
+    \emph{Выделенная точка} "--- элемент с легко проверяемым свойством, которым обладает
+    доля $\theta$ элементов: например, $k$ младших битов равны нулю ($\theta = 2^{-k}$).
+  \end{definition}
+  \begin{itemize}
+    \item Каждый из $m$ вычислителей: случайный старт $g^{\alpha}h^{\beta}$, шаги $f$,
+      выделенные точки $(y, \alpha, \beta)$ "--- на сервер
+    \item Сервер: та же точка с другими $(\alpha', \beta')$ "--- решаем сравнение
+    \item Слившиеся блуждания идут \emph{одинаково} $\Rightarrow$ придут в одну выделенную
+      точку
+    \item Блуждание без выделенных точек за $20/\theta$ шагов "--- перезапуск
+  \end{itemize}
+\end{canvasframe}
+
+\begin{theoremframe}{Сложность метода выделенных точек}
+  Если $f$ ведёт себя как случайное отображение, а точка выделена с вероятностью $\theta$,
+  то при $m$ вычислителях
+  \[\text{время} \approx \frac{\sqrt{\pi n/2}}{m} + \frac1\theta, \qquad
+    \text{память сервера} \approx \theta\sqrt{\pi n/2}.\]
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: выделенные точки ($x \equiv 0 \bmod 8$)}
+  \small
+  $64^x \equiv 36 \pmod{431}$, $\ord 64 = 43$; два вычислителя:
+  $x_0 = 64^{40} \cdot 36^{29} \equiv 384$, \ $y_0 = 64^{3} \cdot 36^{21} \equiv 16$
+  \notearea[0.42\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Другие применения}
+  \begin{itemize}
+    \item $\rho$-метод факторизации: $f(x) = x^2 + 1 \bmod N$, коллизия по неизвестному
+      модулю $p \mid N$ обнаруживается как $\gcd(x_{2i} - x_i, N) > 1$;
+      время $\bigO(\sqrt p) = \bigO(N^{1/4})$
+    \item ECDLP: $\rho$-метод "--- лучший известный алгоритм (лекция~9)
+    \item $\lambda$-метод («кенгуру»): $x$ в отрезке длины $w$ "--- время $\bigO(\sqrt w)$
+    \item Стойкость $k$ бит $\Rightarrow$ порядок группы $\gtrsim 2^{2k}$
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Итоги}
+  \begin{itemize}
+    \item Коллизия среди случайных элементов множества из $N$ "--- за $\Theta(\sqrt N)$
+      выборок
+    \item Коллизионный алгоритм для DLP: время и память $\bigO(\sqrt N)$
+    \item Орбита: хвост $T$ + цикл $M$; Флойд находит $x_i = x_{2i}$, $i \le T + M$
+    \item $\rho$-алгоритм Полларда: время $\bigO(\sqrt q)$, память $\bigO(1)$;
+      составной порядок "--- $d$ кандидатов
+    \item Выделенные точки: линейное ускорение на $m$ вычислителях
+  \end{itemize}
+\end{canvasframe}
+\end{document}

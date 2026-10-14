@@ -1,0 +1,61 @@
+% Seminar 1 handout (lecture 2): representation, Karatsuba, Toom–Cook, master theorem.
+\documentclass{ca-handout}
+
+\seminar{1}{Умножение больших чисел}
+
+\begin{document}
+\makehandouttitle
+
+\section{Представление чисел}
+$x = \sum_{i=0}^{D-1} x_i B^i$, $0 \le x_i < B$, $x_{D-1} \ne 0$; длина
+$\mathcal{L}(x) = \floor{\log_B x} + 1$. Цифры "--- остатки от последовательного деления на $B$.
+
+\begin{reminder}[title={Сбалансированное представление ($B \ge 4$ чётно)}]
+Цифры $-\frac B2 \le \hat x_i < \frac B2$. Для любого целого $x$ (и отрицательного тоже):
+\[
+  \hat x_0 = \bigl((x + \tfrac B2) \bmod B\bigr) - \tfrac B2, \qquad x \gets (x - \hat x_0)/B, \qquad
+  \text{повторять, пока } x \ne 0.
+\]
+\end{reminder}
+
+\section{Длины и школьные алгоритмы}
+$\max(\mathcal{L}(a), \mathcal{L}(b)) \le \mathcal{L}(a + b) \le \max(\mathcal{L}(a), \mathcal{L}(b)) + 1$,
+\quad $\mathcal{L}(a) + \mathcal{L}(b) - 1 \le \mathcal{L}(ab) \le \mathcal{L}(a) + \mathcal{L}(b)$.
+Сложение "--- $\Theta(N)$, перенос $\in \{0, 1\}$; школьное умножение "--- $\Theta(N^2)$,
+$c_t = \sum_{i+j=t} a_i b_j$; квадрат: $c_t = 2\sum_{i=0}^{\floor{t/2}} a_i a_{t-i} - \mu_t$.
+
+\section{Метод Карацубы}
+\begin{reminder}[title={Один шаг: $a = a_1 K + a_0$, $b = b_1 K + b_0$, $K = B^k$, $k = \floor{n/2}$}]
+\[
+  z_2 = a_1 b_1, \quad z_0 = a_0 b_0, \quad z_1 = (a_1 + a_0)(b_1 + b_0) - z_2 - z_0, \qquad
+  ab = z_2 K^2 + z_1 K + z_0.
+\]
+Три умножения вместо четырёх; сложность $T(N) = 3T(N/2) + \Theta(N) = \Theta(N^{\log_2 3})$.
+\end{reminder}
+
+\section{Метод Тоома"--~Кука ($D = 3$)}
+$a(t) = a_2 t^2 + a_1 t + a_0$, $b(t) = b_2 t^2 + b_1 t + b_0$ "--- цифры по основанию $K$;
+$r(t) = a(t)b(t) = c_4 t^4 + \cdots + c_0$, $ab = r(K)$.
+\begin{reminder}[title={Точки $0, 1, -1, 2, \infty$ ($r(\infty) = a_2 b_2$)}]
+\[
+\begin{aligned}
+  c_0 &= r(0), \qquad c_4 = r(\infty), \qquad c_2 = \tfrac{r(1) + r(-1)}{2} - c_0 - c_4,\\
+  S &= c_1 + c_3 = \tfrac{r(1) - r(-1)}{2}, \qquad
+  T = c_1 + 4c_3 = \tfrac{r(2) - c_0 - 4c_2 - 16c_4}{2}, \qquad
+  c_3 = \tfrac{T - S}{3}, \quad c_1 = S - c_3.
+\end{aligned}
+\]
+Все деления точные. Пять длинных умножений; $T(N) = 5T(N/3) + \Theta(N) = \Theta(N^{\log_3 5})$.
+\end{reminder}
+
+\section{Основная теорема: $T(n) = a\,T(n/b) + f(n)$, $c_{\mathrm{crit}} = \log_b a$}
+\begin{enumerate}
+  \item $f = \bigO(n^c)$, $c < c_{\mathrm{crit}}$ $\Rightarrow$ $T = \Theta(n^{c_{\mathrm{crit}}})$;
+  \item $f = \Theta(n^{c_{\mathrm{crit}}} \log^k n)$, $k \ge 0$ $\Rightarrow$
+    $T = \Theta(n^{c_{\mathrm{crit}}} \log^{k+1} n)$;
+  \item $f = \Omega(n^c)$, $c > c_{\mathrm{crit}}$, и $a f(n/b) \le k f(n)$, $k < 1$ $\Rightarrow$
+    $T = \Theta(f(n))$.
+\end{enumerate}
+Если $f$ отличается от $n^{c_{\mathrm{crit}}}$ лишь логарифмическим множителем «в знаменателе»
+(например, $f = n^{c_{\mathrm{crit}}}/\log n$), теорема \emph{неприменима}.
+\end{document}

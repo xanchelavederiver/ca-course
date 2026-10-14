@@ -1,0 +1,30 @@
+# Seminar 9 (lecture 9): scalar multiplication (binary, NAF), ECDH, Pollard rho for the ECDLP.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-09-ecdlp
+kind: classroom
+title: Семинар 9. Возведение точки в степень, ECDH и ECDLP
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~9 (формулы сложения точек "--- в конспекте лекции~8).
+sections:
+  - title: Разминка
+    intro: >-
+      Несмежная форма (NAF) показателя и подсчёт групповых операций; бинарный метод
+      «удвоение"--~сложение».
+    tasks: [ecc.naf, ecc.naf, ecc.double_and_add_binary]
+  - title: Возведение в степень и ECDH
+    intro: Тернарное разложение (вычитание точки бесплатно); протокол Диффи"--~Хеллмана на кривой.
+    tasks: [ecc.double_and_add_ternary, ecc.ecdh, ecc.ecdh]
+  - title: ECDLP и $\rho$-метод Полларда
+    intro: Разбиение по $x \bmod 3$, коллизия по Флойду, решение линейного сравнения.
+    tasks: [ecc.rho, ecc.rho]
+  - title: Особые случаи
+    intro: >-
+      Точки малого порядка и секретные ключи, кратные порядку базовой точки, в ECDH;
+      необратимый коэффициент $b_i - b_{2i}$ в $\rho$-методе (составной порядок точки);
+      показатели вида $2^k - 1$ и показатели без соседних единиц.
+    tasks: [ecc.ecdh@small, ecc.ecdh@zero, ecc.rho@composite, ecc.naf@corner]

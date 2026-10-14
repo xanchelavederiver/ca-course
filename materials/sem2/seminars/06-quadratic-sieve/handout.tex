@@ -1,0 +1,74 @@
+% Seminar 6 handout (lecture 6): Fermat's method, congruence of squares, quadratic sieve.
+\documentclass{ca-handout}
+
+\seminar{6}{Метод Ферма и квадратичное решето}
+
+\begin{document}
+\makehandouttitle
+
+\section{Метод Ферма}
+Для нечётного $N$: $N = ab$, $a \ge b$ $\iff$ $N = x^2 - y^2$, $x = \frac{a + b}{2}$,
+$y = \frac{a - b}{2}$.
+\begin{reminder}[title={Алгоритм и число шагов}]
+$x \gets \ceil{\sqrt N}$, $r \gets x^2 - N$; пока $r$ не квадрат: $r \gets r + 2x + 1$,
+$x \gets x + 1$. Ответ: $N = (x - y)(x + y)$, $y = \sqrt r$.
+\par Находится пара $b \le \sqrt N \le a$ с наибольшим $b$, за
+\[
+  s = \frac{a + b}{2} - \ceil{\sqrt N} + 1 \text{ шагов}, \qquad
+  \frac{a + b}{2} - \sqrt N \le \frac{(a - b)^2}{8\sqrt N}.
+\]
+Быстро, если множители близки; при маленьком $b$ "--- около $\frac{N}{2b}$ шагов.
+Если $N = p^2$, то $x = p$, $y = 0$ уже на первом шаге.
+\end{reminder}
+Квадраты по модулю $16$ "--- только $0, 1, 4, 9$; по модулю $10$ квадрат оканчивается на
+$0, 1, 4, 5, 6, 9$. Множитель: если $q/p \approx v/u$, применяют метод к $kN$, $k = uv$, и
+берут $\gcd(x - y, N)$.
+
+\section{Сравнение квадратов}
+\begin{reminder}[title={$x^2 \equiv y^2 \pmod N$}]
+Если $x \not\equiv \pm y \pmod N$, то $d = \gcd(x - y, N)$ "--- нетривиальный делитель.
+$X \equiv Y$ $\Rightarrow$ $d = N$; \ $X \equiv -Y$ $\Rightarrow$ $d = 1$ (неудача, берём другую
+зависимость). Для $N$ с $k \ge 2$ различными нечётными простыми делителями у $y^2$ ровно
+$2^k$ корней, удача "--- с вероятностью $1 - 2^{1-k} \ge \frac12$.
+\end{reminder}
+
+\section{Трёхшаговая процедура}
+\begin{enumerate}
+  \item \textbf{Соотношения:} $a_i^2 \equiv c_i \pmod N$, $c_i = \prod_j p_j^{e_{ij}}$ по
+    факторной базе $p_1, \dots, p_t$.
+  \item \textbf{Исключение:} векторы $v_i = (e_{i1}, \dots, e_{it}) \bmod 2$; ищем
+    $\sum_{i \in S} v_i = 0$ над $\GF{2}$.
+  \item \textbf{НОД:} $X = \prod_{i \in S} a_i \bmod N$, $Y = \prod_j p_j^{\frac12 \sum_{i\in S} e_{ij}}
+    \bmod N$, $d = \gcd(X - Y, N)$.
+\end{enumerate}
+\begin{reminder}[title={Метод Гаусса над $\GF{2}$ с отслеживанием комбинаций}]
+По столбцам слева направо: ведущая строка "--- первая ещё не использованная строка с $1$
+в столбце; прибавляем её (XOR) ко всем остальным неиспользованным строкам с $1$ в этом
+столбце и записываем, из каких $v_i$ составлена каждая строка. Неиспользованные строки в конце
+нулевые "--- это и есть зависимости. При $r > t$ соотношениях зависимость существует.
+\end{reminder}
+
+\section{Квадратичное решето}
+$m = \ceil{\sqrt N}$, \ $F(t) = (t + m)^2 - N \equiv (t + m)^2 \pmod N$, \
+$0 \le F(t) \lesssim 2(t + 1)\sqrt N$.
+\begin{reminder}[title={Факторная база и позиции просеивания}]
+Нечётное простое $p \nmid N$ делит некоторое $F(t)$ $\iff$ $\legendre{N}{p} = 1$
+(критерий Эйлера: $\legendre{N}{p} \equiv N^{(p-1)/2} \pmod p$). База:
+$\mathcal F = \{2\} \cup \{p \le B : \legendre{N}{p} = 1\}$. Если $\congr{r^2}{N}{p}$, то
+\[
+  p \mid F(t) \iff t \equiv r - m \text{ или } t \equiv -r - m \pmod p;
+\]
+для $p = 2$ (при нечётном $N$): $2 \mid F(t) \iff t + m$ нечётно. Для малых $p$ корни $r$
+ищут перебором; для степеней $p^e$ "--- аналогично.
+\end{reminder}
+\textbf{Решето:} в позициях $t \equiv \pm r - m \pmod{p^e}$ делим $A[t]$ на $p$; гладкие
+значения "--- те, где осталось $1$. Нужно больше гладких значений, чем простых в базе.
+
+\begin{reminder}[title={Выбор параметров (эвристика)}]
+$L(N) = e^{\sqrt{\ln N \ln\ln N}}$. Оптимум: $B \approx L(N)^{1/2}$, длина интервала
+$M \approx L(N)$, время $L(N)^{1 + o(1)} = L_N[\frac12, 1]$ (Диксон со случайными $a$:
+$B \approx L(N)^{1/\sqrt2}$, время $L(N)^{\sqrt 2}$). Вероятность гладкости числа размера
+$N^{\gamma}$ при $B = L(N)^{\beta}$: $L(N)^{-\gamma/(2\beta)}$. Для маленьких $N$ асимптотика
+"--- лишь ориентир: если зависимостей не хватает, увеличиваем $B$ или интервал.
+\end{reminder}
+\end{document}

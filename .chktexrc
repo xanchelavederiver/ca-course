@@ -1,0 +1,22 @@
+# chktex settings for `make lint` (materials/**/*.tex).
+# Suppressed warnings (project conventions):
+#   1  command terminated with space      (\ZZ x, \cdot x: fine in math)
+#   2  non-breaking space before \ref/\cite (we write ~ where it matters; Russian text)
+#   3  enclose parenthesis with {}         ((x)_B, (a+b)^2 in math)
+#   6  no italic correction             (\itshape inside colored asides)
+#   8  wrong length of dash               ("--- is the babel-russian dash)
+#   9  ) expected, found ]              (half-open intervals [a, b))
+#  10  solo ) found                     (enumerations «1)», «2)» in Russian text)
+#  12  interword spacing \  after a period (initials and Cyrillic abbreviations)
+#  13  intersentence spacing              (abbreviations like «т.е.», «разд.»)
+#  17  number of ( doesn't match )      (the same intervals)
+#  18  use either `` or ''                (Russian quotes «»)
+#  24  delete space before \label
+#  26  space before punctuation           (math displays ending with ".")
+#  29  $\times$ vs x
+#  31  text may be ignored                (\end{tikzpicture}} inside macro arguments)
+#  35  use \mod                        (we write (\mathrm{mod}\ n) on purpose)
+#  36  space in front of parenthesis      (\left( ... in Russian text)
+#  40  punctuation outside inner math   (house style: punctuation inside displays)
+#  44  user regex: none
+CmdLine { -n1 -n2 -n3 -n6 -n8 -n9 -n10 -n12 -n13 -n17 -n18 -n24 -n26 -n29 -n31 -n35 -n36 -n40 -n44 }

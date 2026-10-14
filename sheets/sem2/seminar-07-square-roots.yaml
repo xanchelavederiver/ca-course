@@ -1,0 +1,32 @@
+# Seminar 7 (sem2, lecture 7): square roots modulo p, p^k and composite n.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-07-square-roots
+kind: classroom
+title: Семинар 7. Квадратные корни по модулю
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~7.
+sections:
+  - title: Разминка
+    intro: >-
+      Критерий Эйлера и формула $x = a^{(p+1)/4}$ для $p \equiv 3 \pmod 4$. Среди чисел $a$
+      встречаются квадратичные невычеты.
+    tasks: [number_theory.sqrt_p34, number_theory.sqrt_p34]
+  - title: Метод Чиполлы
+    tasks: [number_theory.sqrt_cipolla, number_theory.sqrt_cipolla]
+  - title: Лемма Гензеля
+    intro: Корень по модулю $p$ и его подъём до модуля $p^k$.
+    tasks: [number_theory.hensel_sqrt, number_theory.hensel_sqrt]
+  - title: Составной модуль
+    intro: Корни по модулю каждого простого (или его квадрата) и китайская теорема об остатках.
+    tasks: [number_theory.sqrt_composite, number_theory.sqrt_composite@eight]
+  - title: Особые случаи
+    intro: >-
+      Невычет по модулю одного из множителей (решений нет), $a$, не взаимно простое
+      с модулем (корней меньше, чем $2^r$); по модулю $p^k$ "--- снова проверьте критерий Эйлера.
+    tasks: [number_theory.sqrt_composite@corner, number_theory.sqrt_composite@corner,
+            number_theory.hensel_sqrt@corner]

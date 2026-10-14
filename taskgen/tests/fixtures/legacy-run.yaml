@@ -1,4 +1,7 @@
 # Small individual sheet used to freeze a Plan 1 (combined-layout) run.
+# The second slot was `topics: [ecc]` when frozen (the ecc topic then had exactly these two
+# tasks); it is pinned to them in the fixture's manifest too, since topic slots draw from the
+# current registry and change when tasks are added (see README, "Issuing").
 id: test-legacy
 kind: individual
 title: Тест
@@ -8,4 +11,4 @@ groups:
   - {name: "B", students: [Иванов, Петров]}
 slots:
   - tasks: [dlp.shanks, powmod.binary_mod]
-  - topics: [ecc]
+  - tasks: [ecc.double_and_add_binary, ecc.double_and_add_ternary]

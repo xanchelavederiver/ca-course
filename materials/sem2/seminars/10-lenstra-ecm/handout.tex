@@ -1,0 +1,75 @@
+% Seminar 10 handout (lecture 10): elliptic curves over Z/NZ, Lenstra's factorization.
+\documentclass{ca-handout}
+
+\seminar{10}{Алгоритм Ленстры}
+
+\begin{document}
+\makehandouttitle
+
+\section{Сложение точек по модулю составного \texorpdfstring{$N$}{N}}
+Кривая $E\colon y^2 = x^3 + ax + b$ над $\ZZ/N\ZZ$, $\gcd(N, 6) = 1$,
+$\gcd(4a^3 + 27b^2, N) = 1$. Для $P = (x_1, y_1)$, $Q = (x_2, y_2)$:
+\[
+  \lambda = \begin{cases}
+    (y_2 - y_1)\cdot d^{-1}, \ d = x_2 - x_1, & P \ne Q,\\
+    (3x_1^2 + a)\cdot d^{-1}, \ d = 2y_1, & P = Q,
+  \end{cases}
+  \qquad x_3 = \lambda^2 - x_1 - x_2, \quad y_3 = \lambda(x_1 - x_3) - y_1,
+\]
+все действия по модулю $N$; если $x_1 \equiv x_2$, $y_1 \equiv -y_2 \pmod N$, то
+$P + Q = \ECpt$.
+
+\begin{reminder}[title={Отказ = делитель}]
+$d^{-1} \bmod N$ находим расширенным алгоритмом Евклида для $(N, d)$. Если $g = \gcd(d, N) > 1$,
+обратного нет, и $g$ "--- делитель $N$ (нетривиальный, если $d \not\equiv 0 \pmod N$).
+По модулю простого $p \mid g$ в этот момент: при удвоении $y_1 \equiv 0$ (точка порядка $2$),
+при сложении $x_1 \equiv x_2$, т.\,е. $P \equiv \pm Q \pmod p$.
+\end{reminder}
+
+Если операция выполнилась без отказа, её результат по модулю любого простого $p \mid N$ "---
+сумма приведённых точек в группе $E(\FF_p)$.
+
+\section{Алгоритм Ленстры}
+\begin{reminder}[title={Одна кривая}]
+\begin{enumerate}
+  \item Случайные $a, x_0, y_0$; \ $b = y_0^2 - x_0^3 - a x_0 \bmod N$, \ $P = (x_0, y_0)$;
+    проверить $\gcd(4a^3 + 27b^2, N)$.
+  \item $Q_1 = P$, \ $Q_k = k\,Q_{k-1}$ ($= k!\,P$) для $k = 2, 3, \dots, B$.
+  \item Умножение на $k$ слева направо по битам $k$: $R \gets Q$; для каждого следующего бита
+    $R \gets 2R$, при бите $1$ ещё $R \gets R + Q$.
+  \item Отказ со знаменателем $d$: $g = \gcd(d, N)$; при $1 < g < N$ "--- ответ, при $g = N$
+    "--- следующая кривая.
+\end{enumerate}
+\end{reminder}
+
+Удобная запись вычислений "--- таблица:
+\[
+\begin{array}{c|l|r|r|r|r|c}
+  k & \text{шаг} & m & d & d^{-1} \bmod N & \lambda & R = mP \\ \hline
+  2 = 10_2 & 2R & 2 & \cdots & \cdots & \cdots & \cdots \\ \hline
+  3 = 11_2 & 2R & 4 & & & & \\
+  & R + Q & 6 & & & & \\ \hline
+  4 = 100_2 & 2R & 12 & & & & \\
+  & 2R & 24 & & & & \\
+\end{array}
+\]
+($m$ "--- кратность $P$ после шага: при $k$-м умножении $Q = (k - 1)!\,P$.)
+
+\begin{reminder}[title={Почему алгоритм работает}]
+Если порядок $P \bmod p$ в $E(\FF_p)$ делит $m$, а порядок $P \bmod q$ не делит, то вычисление
+$mP$ по модулю $N$ обязательно приведёт к отказу. Порядок $P \bmod p$ делит
+$\#E(\FF_p) = p + 1 - t$, $\abs{t} \le 2\sqrt p$ (Хассе), а с кривой меняется и $\#E(\FF_p)$:
+перебираем кривые, пока $\#E(\FF_p)$ не окажется гладким.
+\end{reminder}
+
+\section{Сравнение с \texorpdfstring{$p - 1$}{p - 1} алгоритмом Полларда}
+$a_k = a_{k-1}^{\,k} \bmod N$ ($a_1 = a$), $d_k = \gcd(a_k - 1, N)$: делитель $p$ найден, когда
+$(p - 1) \mid k!$ (точнее, $\ord_p(a) \mid k!$). Группа $\Znx{p}$ "--- одна, её порядок $p - 1$;
+если у $p - 1$ большой простой делитель, метод бесполезен.
+
+\begin{reminder}[title={Сложность (без доказательства)}]
+ECM находит наименьший простой делитель $p$ за $L_p[\frac12, \sqrt 2]\cdot \bigO(\log^2 N)$,
+где $L_x[\alpha, c] = \exp\bigl((c + o(1))(\ln x)^{\alpha} (\ln\ln x)^{1 - \alpha}\bigr)$;
+$\rho$-метод "--- за $\bigO(\sqrt p)$, квадратичное решето "--- за $L_N[\frac12, 1]$.
+\end{reminder}
+\end{document}

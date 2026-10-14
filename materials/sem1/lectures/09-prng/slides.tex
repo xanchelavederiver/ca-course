@@ -1,0 +1,318 @@
+% Lecture 9 slides (sem1). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{9}{Генераторы псевдослучайных чисел}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Зачем криптографии случайность}
+  \begin{itemize}
+    \item Ключи, секретные показатели Диффи"--~Хеллмана, простые числа RSA, nonce в подписях
+    \item Угадал «случайное» число "--- взломал протокол:
+    \begin{itemize}
+      \item Netscape (1995): зерно = время + номера процессов
+      \item Debian OpenSSL (2006--2008): энтропия = номер процесса
+      \item Sony PS3 (2010): одно и то же $k$ во всех подписях ECDSA
+    \end{itemize}
+    \item ГПСЧ: состояние $X_{n+1} = F(X_n)$, выход $y_n = G(X_n)$, зерно $X_0$
+  \end{itemize}
+  \aside{чем требования криптографии отличаются от требований моделирования?}
+\end{canvasframe}
+
+\begin{canvasframe}{Требования к ГПСЧ}
+  \begin{itemize}
+    \item \textbf{Статистические}: равномерность, независимость, серии, спектральный тест
+      (Кнут, т.~2, гл.~3)
+    \item \textbf{Криптографические} "--- \emph{тест следующего бита}: по $b_1, \dots, b_i$ никакой
+      полиномиальный алгоритм не угадывает $b_{i+1}$ с вероятностью $\ge \frac12 + \varepsilon$
+    \item Теорема Яо: тест следующего бита $\iff$ неотличимость от случайной
+      последовательности любым полиномиальным тестом
+  \end{itemize}
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Любой генератор зацикливается}
+  \begin{columns}[T]
+    \column{0.55\textwidth}
+      \begin{proposition}
+        $\abs{\mathcal{S}} = M$ $\Rightarrow$ $\exists\,\mu \ge 0, \lambda \ge 1$, $\mu + \lambda \le M$:
+        $X_{n+\lambda} = X_n$ при $n \ge \mu$. Если $F$ "--- биекция, то $\mu = 0$.
+      \end{proposition}
+      \aside{почему для биекции нет «хвоста»?}
+    \column{0.42\textwidth}
+      \centering\rhoshape[scale=0.5]{3}{8}
+  \end{columns}
+\end{canvasframe}
+
+\begin{canvasframe}{Линейная конгруэнтная последовательность}
+  \[X_{n+1} = (a X_n + c) \bmod m,\qquad 0 \le a, c, X_0 < m\]
+  \begin{itemize}
+    \item $c = 0$ "--- мультипликативный, $c \ne 0$ "--- смешанный генератор
+    \item $X_{n+k} \equiv a^k X_n + c\,(1 + a + \cdots + a^{k-1}) \pmod m$
+    \item ANSI C: $a = 1103515245$, $c = 12345$, $m = 2^{31}$
+    \item Период $T \le m$; ЛКП имеет \emph{максимальный период}, если $T = m$
+  \end{itemize}
+  \aside{почему свойство $T = m$ не зависит от $X_0$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Примеры ЛКП}
+  \[
+  \begin{array}{l|l|c}
+    (a, c, m) & X_0 = 0, X_1, \dots & T\\ \hline
+    (5, 3, 16) & 0, 3, 2, 13, 4, 7, 6, 1, 8, 11, 10, 5, 12, 15, 14, 9, 0 & 16\\
+    (3, 1, 16) & 0, 1, 4, 13, 8, 9, 12, 5, 0 & 8\\
+    (5, 2, 16) & 0, 2, 12, 14, 8, 10, 4, 6, 0 & 8\\
+    (7, 3, 10) & 0, 3, 4, 1, 0 & 4\\
+    (3, 1, 9) & 0, 1, 4, 4, 4, \dots & 1
+  \end{array}
+  \]
+  \aside{что общего у «плохих» строк?}
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема о максимальном периоде}
+  \textbf{(Халл"--~Добелл; Кнут, теорема~A)}
+  ЛКП имеет период $m$ $\iff$
+  \begin{enumerate}
+    \item $\gcd(c, m) = 1$;
+    \item $p \mid a - 1$ для каждого простого $p \mid m$;
+    \item $4 \mid a - 1$, если $4 \mid m$.
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{canvasframe}{Две леммы}
+  \begin{lemma}[неподвижная точка]
+    $p \mid m$, $p \nmid a - 1$ $\Rightarrow$ период $< m$.
+  \end{lemma}
+  \aside{$x^* \equiv c(1 - a)^{-1} \pmod p$}
+  \begin{lemma}
+    $S_n(a) = 1 + a + \cdots + a^{n-1}$, $a \equiv 1 \pmod p$ (и $\pmod 4$ при $p = 2$)
+    $\Rightarrow$ $v_p(S_n(a)) = v_p(n)$.
+  \end{lemma}
+  \aside{$S_{pk}(a) = S_k(a)\, S_p(a^k)$}
+\end{canvasframe}
+
+\begin{canvasframe}{Доказательство теоремы A}
+  \textbf{Необходимость}
+  \penspace[0.3\textheight]
+  \textbf{Достаточность}: $X_0 = 0$, $X_n \equiv c\,S_n(a)$, \quad
+  $X_n = 0 \iff m \mid S_n(a) \iff m \mid n$
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Мультипликативные генераторы ($c = 0$)}
+  \begin{proposition}
+    $\gcd(a, m) = 1$, $d = \gcd(X_0, m)$ $\Rightarrow$ период $= \ord_{m/d}(a) \le \lambda(m)$.
+  \end{proposition}
+  \begin{itemize}
+    \item $\lambda(2^e) = 2^{e-2}$ ($e \ge 3$), $\lambda(p^e) = p^{e-1}(p-1)$,
+      $\lambda(\prod p_i^{e_i}) = \lcm \lambda(p_i^{e_i})$
+    \item MINSTD: $m = 2^{31} - 1$, $a = 7^5 = 16807$ "--- первообразный корень, $T = m - 1$
+    \item RANDU: $a = 2^{16} + 3$, $m = 2^{31}$, $T = 2^{29}$, но
+      $X_{n+2} \equiv 6X_{n+1} - 9X_n$ "--- тройки на 15 плоскостях
+  \end{itemize}
+  \aside{проверьте $a^2 \equiv 6a - 9 \pmod{2^{31}}$}
+\end{canvasframe}
+
+\begin{canvasframe}{ЛКП предсказуемы}
+  \begin{itemize}
+    \item $m$ известен: $a \equiv (X_2 - X_1)(X_1 - X_0)^{-1}$, $c \equiv X_1 - a X_0$
+    \item $m$ неизвестен: $t_n = X_{n+1} - X_n$, \quad $t_{n+1} \equiv a\, t_n \pmod m$
+      \[u_n = t_{n+2} t_n - t_{n+1}^2 \equiv 0 \pmod m\]
+      $\Rightarrow$ $m = \gcd(u_0, u_1, \dots)$ с высокой вероятностью
+    \item Выдача только старших бит не спасает: атаки на решётках
+  \end{itemize}
+  \notearea[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=8]{РСЛОС: схема Фибоначчи}
+  \[s_{n+L} = c_1 s_{n+L-1} + \cdots + c_L s_n \quad\text{над } \GF{2},\qquad
+    f(x) = x^L + c_1 x^{L-1} + \cdots + c_L\]
+  \centering
+  \begin{tikzpicture}[x=1.15cm,y=0.85cm,
+      cell/.style={draw,thick,minimum width=1.1cm,minimum height=0.75cm},
+      xorn/.style={draw,thick,circle,inner sep=0pt,minimum size=5mm}]
+    \node[cell] (c3) at (0,0) {$s_{n+3}$};
+    \node[cell] (c2) at (1,0) {$s_{n+2}$};
+    \node[cell] (c1) at (2,0) {$s_{n+1}$};
+    \node[cell] (c0) at (3,0) {$s_{n}$};
+    \node[xorn] (x) at (2.5,1.2) {$+$};
+    \draw[-{Stealth}] (c1.north) |- (x.west);
+    \draw[-{Stealth}] (c0.north) |- (x.east);
+    \draw[-{Stealth}] (x.north) -- ++(0,0.4) -| (-0.8,0) -- (c3.west);
+    \draw[-{Stealth}] (c0.east) -- ++(0.8,0) node[right] {$s_n$};
+  \end{tikzpicture}
+
+  \raggedright
+  $f = x^4 + x + 1$, $s_{n+4} = s_{n+1} + s_n$, $S_0 = 1000$:\quad
+  $1000\,1001\,1010\,111\ |\ 1000\dots$\quad $T = 15$\\
+  Конфигурация Галуа: $r(x) \gets x\,r(x) \bmod f(x)$ "--- те же последовательности
+\end{canvasframe}
+
+\begin{canvasframe}{Матричная форма и общий член}
+  \[S_n = (s_n, \dots, s_{n+L-1})^T,\qquad S_{n+1} = A S_n,\qquad
+    A = \begin{pmatrix}
+      0 & 1 & \cdots & 0\\
+      \vdots & & \ddots & \vdots\\
+      0 & 0 & \cdots & 1\\
+      c_L & c_{L-1} & \cdots & c_1
+    \end{pmatrix}\]
+  \[S_n = A^n S_0,\qquad s_n = e_1^T A^n S_0 = \sum_{k<L} r_k s_k,\quad
+    x^n \bmod f = \sum_{k<L} r_k x^k\]
+  \aside{сложность вычисления $s_n$?}
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Минимальный многочлен матрицы $A$}
+  \begin{enumerate}
+    \item $f(A) = 0$;
+    \item $g(A) \ne 0$ при $g \ne 0$, $\deg g < L$; значит, $g(A) = 0 \iff f \mid g$;
+    \item $A$ обратима $\iff c_L = 1$.
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{theoremframe}{Период РСЛОС}
+  Пусть $c_L = 1$, $S_0 \ne 0$, $\ord_f(x) = \min\{e \ge 1 : f \mid x^e - 1\}$.
+  \begin{enumerate}
+    \item Последовательность чисто периодическая, $T \le 2^L - 1$, $T \mid \ord_f(x)$.
+    \item Если $f$ неприводим, то $T = \ord_f(x)$ для любого $S_0 \ne 0$, и
+      $\ord_f(x) \mid 2^L - 1$.
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{theoremframe}{Максимальный период}
+  $f$ \emph{примитивен}, если он неприводим и $\ord_f(x) = 2^L - 1$.
+
+  РСЛОС порождает последовательность периода $2^L - 1$ $\iff$ $f$ примитивен.
+
+  \medskip
+  \textbf{Критерий}: неприводимый $f$ примитивен $\iff$
+  $x^{(2^L-1)/q} \not\equiv 1 \pmod f$ для всех простых $q \mid 2^L - 1$.
+\end{theoremframe}
+
+\begin{canvasframe}[shrink=10]{Примеры: $L = 4$}
+  \begin{itemize}
+    \item $x^4 + x + 1$: неприводим, $x^3 \not\equiv 1$, $x^5 \equiv x^2 + x$ $\Rightarrow$
+      примитивен, $T = 15$
+    \item $x^4 + x^3 + x^2 + x + 1$: неприводим, $x^5 - 1 = (x + 1) f$ $\Rightarrow$ все $T = 5$
+      (три цикла по 5 состояний)
+    \item $x^4 + x^2 + 1 = (x^2 + x + 1)^2$: $\ord_f(x) = 6$; $1000 \to T = 6$, $1101 \to T = 3$
+  \end{itemize}
+  \small
+  \[
+  \begin{array}{c|cccccccc}
+    L & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\ \hline
+    2^L - 1 & 7 & 3 \cdot 5 & 31 & 3^2 \cdot 7 & 127 & 3 \cdot 5 \cdot 17 & 7 \cdot 73 & 3 \cdot 11 \cdot 31\\
+    \varphi(2^L - 1)/L & 2 & 2 & 6 & 6 & 18 & 16 & 48 & 60
+  \end{array}
+  \]
+  \aside{на периоде $M$-последовательности каждое ненулевое окно длины $L$ встречается
+    ровно один раз "--- почему?}
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=14]{Атака по известному открытому тексту}
+  \begin{itemize}
+    \item Поточный шифр: $c_i = m_i \oplus s_i$ $\Rightarrow$ известный кусок $m$ даёт кусок гаммы
+    \item \emph{Линейная сложность} $\Lambda(s)$ "--- длина кратчайшего РСЛОС, порождающего $s$
+  \end{itemize}
+  \begin{proposition}
+    $\Lambda(s) = L$ $\Rightarrow$ $c_1, \dots, c_L$ однозначно находятся по $2L$ битам:
+    \[\begin{pmatrix}
+      s_0 & \cdots & s_{L-1}\\ \vdots & & \vdots\\ s_{L-1} & \cdots & s_{2L-2}
+    \end{pmatrix}
+    \begin{pmatrix} c_L\\ \vdots\\ c_1\end{pmatrix} =
+    \begin{pmatrix} s_L\\ \vdots\\ s_{2L-1}\end{pmatrix}\]
+  \end{proposition}
+  \aside{почему матрица невырождена?}
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $2L = 8$ бит}
+  $1\,0\,0\,0\,1\,0\,0\,1$, \quad $L = 4$:
+  \[\left(\begin{array}{cccc|c}
+    1 & 0 & 0 & 0 & 1\\
+    0 & 0 & 0 & 1 & 0\\
+    0 & 0 & 1 & 0 & 0\\
+    0 & 1 & 0 & 0 & 1
+  \end{array}\right)
+  \quad\Rightarrow\quad (c_4, c_3, c_2, c_1) = (1, 1, 0, 0),\quad f = x^4 + x + 1\]
+  \notearea[0.3\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Лемма Месси}
+  Если РСЛОС длины $L$ порождает $s_0, \dots, s_{N-1}$, но не $s_0, \dots, s_N$, то любой РСЛОС,
+  порождающий $s_0, \dots, s_N$, имеет длину $L' \ge N + 1 - L$.
+
+  \smallskip
+  \textbf{Следствие}: РСЛОС длин $L_1, L_2$, согласованные на $N \ge L_1 + L_2$ битах, порождают
+  одну и ту же последовательность.
+\end{theoremframe}
+
+\begin{canvasframe}{Алгоритм Берлекэмпа"--~Месси}
+  \begin{algorithmic}[1]
+    \State $C \gets 1$, $B \gets 1$, $\ell \gets 0$, $m \gets -1$
+    \For{$N = 0, \dots, n - 1$}
+      \State $d \gets s_N + \sum_{i=1}^{\ell} c_i s_{N-i}$
+      \If{$d = 1$}
+        \State $T \gets C$, \quad $C \gets C + x^{N-m} B$
+        \If{$2\ell \le N$} \State $\ell \gets N + 1 - \ell$, $m \gets N$, $B \gets T$ \EndIf
+      \EndIf
+    \EndFor
+    \State \Return $(\ell, C)$
+  \end{algorithmic}
+  \aside{$\bigO(n^2)$ операций; $f(x) = x^\ell C(1/x)$}
+\end{canvasframe}
+
+\begin{canvasframe}{Берлекэмп"--~Месси: пример}
+  $s = 0, 1, 0, 1, 1, 0, 0, 1$
+  \small
+  \[
+  \begin{array}{c|c|c|l|c|l|c}
+    N & s_N & d & C(x) & \ell & B(x) & m\\ \hline
+    0 & 0 & 0 & 1 & 0 & 1 & -1\\
+    1 & 1 & 1 & 1 + x^2 & 2 & 1 & 1\\
+    2 & 0 & 0 & 1 + x^2 & 2 & 1 & 1\\
+    3 & 1 & 0 & 1 + x^2 & 2 & 1 & 1\\
+    4 & 1 & 1 & 1 + x^2 + x^3 & 3 & 1 + x^2 & 4\\
+    5 & 0 & 1 & 1 + x + x^2 & 3 & 1 + x^2 & 4\\
+    6 & 0 & 1 & 1 + x + x^4 & 4 & 1 + x + x^2 & 6\\
+    7 & 1 & 0 & 1 + x + x^4 & 4 & 1 + x + x^2 & 6
+  \end{array}
+  \]
+  $\ell = 4$, $C = 1 + x + x^4$, $f = x^4 + x^3 + 1$
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=10]{Нелинейные комбинации: генератор Геффе}
+  \[z = x_1 x_2 + (1 + x_2) x_3\]
+  \begin{itemize}
+    \item Линейная сложность $L_1 L_2 + L_2 L_3 + L_3$ "--- большая
+    \item Но $\Pr[z = x_1] = \Pr[z = x_3] = \frac34$ $\Rightarrow$ \emph{корреляционная атака}:
+      перебор $2^{L_1} + 2^{L_2} + 2^{L_3}$ вместо $2^{L_1 + L_2 + L_3}$
+    \item A5/1 (GSM): регистры длин $19, 22, 23$, мажоритарное тактирование "--- тоже взломан
+  \end{itemize}
+  \aside{проверьте $\frac34$ перебором восьми наборов $(x_1, x_2, x_3)$}
+\end{canvasframe}
+
+\begin{canvasframe}{Генератор Блюма"--~Блюма"--~Шуба}
+  \begin{itemize}
+    \item $N = pq$, $p \equiv q \equiv 3 \pmod 4$; $x_0 = s^2 \bmod N$;
+      \quad $x_{i+1} = x_i^2 \bmod N$, \quad $b_i = x_i \bmod 2$
+    \item Проходит тест следующего бита, если трудно распознавать квадратичные вычеты
+      (достаточно трудности факторизации $N$)
+    \item Пример: $N = 11 \cdot 19 = 209$, $s = 3$:
+      \[x_i: 9, 81, 82, 36, 42, 92, 104, 157, 196, 169, 137, 168, 9, \dots\]
+      \[b_i: 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, \dots\]
+    \item Медленно: одно возведение в квадрат на бит. На практике "--- DRBG на хешах
+      и блочных шифрах, ChaCha20
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Итоги}
+  \begin{itemize}
+    \item Период "--- не качество: ЛКП и $M$-последовательности имеют максимальный период, но
+      восстанавливаются по нескольким выходам
+    \item ЛКП: теорема о максимальном периоде; атака через $\gcd(t_{n+2} t_n - t_{n+1}^2)$
+    \item РСЛОС: $S_n = A^n S_0$; период $= \ord_f(x)$ для неприводимого $f$;
+      $2^L - 1$ $\iff$ $f$ примитивен
+    \item Линейная сложность $L$ $\Rightarrow$ $2L$ бит определяют всё (Гаусс, Берлекэмп"--~Месси)
+    \item Криптографические ГПСЧ: тест следующего бита, BBS, DRBG
+  \end{itemize}
+\end{canvasframe}
+\end{document}

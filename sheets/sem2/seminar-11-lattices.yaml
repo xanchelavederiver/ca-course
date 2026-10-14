@@ -1,0 +1,30 @@
+# Seminar 11 (lecture 11): lattices, Gauss reduction, Babai rounding, congruential cryptosystem.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-11-lattices
+kind: classroom
+title: 'Семинар 11. Решётки: алгоритмы Гаусса и Бабаи'
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Векторы записываются строками, базис решётки "--- строки
+  матрицы. Справочный материал "--- в раздаточном листке семинара и в конспекте лекции~11.
+sections:
+  - title: Разминка
+    intro: >-
+      Определитель решётки, коэффициент Адамара, проверка того, что два базиса порождают
+      одну решётку (матрица перехода может оказаться нецелочисленной или иметь
+      определитель $\pm 2$).
+    tasks: [lattices.determinant_hadamard, lattices.determinant_hadamard]
+  - title: Алгоритм Гаусса
+    tasks: [lattices.gauss, lattices.gauss]
+  - title: Алгоритм Бабаи
+    intro: Сначала "--- почти ортогональный базис, затем "--- плохой базис, который нужно редуцировать.
+    tasks: [lattices.babai_easy, lattices.babai_hard]
+  - title: Особые случаи и приложения
+    intro: >-
+      Плохой базис той же решётки даёт далёкий вектор; атака на конгруэнтную криптосистему
+      поиском кратчайшего вектора.
+    tasks: [lattices.babai_compare, lattices.babai_compare, crypto.congruential,
+            crypto.congruential]

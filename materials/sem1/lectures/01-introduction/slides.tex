@@ -1,0 +1,223 @@
+% Lecture 1 slides. Ported from tmp/лекции/Lecture 1. Introduction.pptx
+% (scripts/pptx2beamer.py + manual pass). Slide k of this deck = slide k of the PPTX.
+% Changes against the PPTX: the photos used as Alice/Bob/Eve are replaced by
+% pictograms (no third-party photos in the repo); the protocol slides are
+% redrawn in TikZ; RSA: Alice decrypts c_2 modulo N_A (the PPTX had N_B).
+\documentclass{ca-slides}
+
+\lecture{1}{Введение}
+\author{}
+\date{2025--2026 учебный год}
+
+% Alice (left), the channel, Bob (right); #1 = extra TikZ code
+\newcommand{\alicebob}[1]{%
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \node (A) at (0,0) {\personicon{caBlue}{Алиса}};
+    \node (B) at (10,0) {\personicon{caRed}{Боб}};
+    \draw[very thick,caGray,{Stealth[length=3mm]}-{Stealth[length=3mm]}] (1,0.3) -- (9,0.3)
+      node[midway,above,font=\small] {канал связи};
+    #1
+  \end{tikzpicture}}
+\newcommand{\eve}{\node (E) at (5,-1.9) {\personicon{caGray}{Ева}};
+  \draw[dashed,caGray] (5,0.3) -- (5,-1.2);}
+
+\begin{document}
+\titleframe
+
+% --- slide 2 ---
+\begin{canvasframe}{Формат проведения и оценки}
+  \begin{itemize}
+    \item Два семестра
+    \item В первом семестре:
+    \begin{itemize}
+      \item лекции "--- онлайн*
+      \item практики "--- очные, ведёт Позднякова Дарья Сергеевна
+      \item несколько контрольных работ "--- скорее всего очно*
+      \item несколько (ориентировочно шесть) мини-курсовых работ
+      \item (подвиги на практиках + «отлично» на КР) или (выполненная мини-курсовая)
+        наказываются \emph{автозачётом}
+    \end{itemize}
+  \end{itemize}
+\end{canvasframe}
+
+% --- slide 3 ---
+\begin{canvasframe}{Что такое компьютерная алгебра}
+  \begin{itemize}
+    \item Никто не знает\ldots
+    \item Что-то связанное с алгеброй и компьютерами\ldots
+    \item Численные методы, или, иначе, вычислительная математика (numerical analysis),
+      дают конкретные значения "--- т.\,е. решают задачи в числах
+    \item Системы компьютерной алгебры (СКА), напротив, дают решение в символьном виде
+      (в виде \emph{«формулы»})
+    \item Другими словами, СКА дают \textbf{точные решения}
+  \end{itemize}
+\end{canvasframe}
+
+% --- slide 4 ---
+\begin{canvasframe}{Алиса хочет поговорить с Бобом}
+  \vfill\centering\alicebob{}\vfill
+\end{canvasframe}
+
+% --- slide 5 ---
+\begin{canvasframe}{Алиса хочет поговорить с Бобом}
+  \vfill\centering\alicebob{\eve}\vfill
+\end{canvasframe}
+
+% --- slide 6 ---
+\begin{canvasframe}{Алиса хочет поговорить с Бобом}
+  \centering
+  \alicebob{\eve
+    \node[font=\small,align=left,anchor=north west] at (-0.8,-1.0)
+      {1.~$K \gets$ общий ключ\\[2pt]
+       2.~$M = \text{«привет, что делаешь?»}$\\ \phantom{2.~}$C = E_K(M)$};
+    \node[font=\small,align=left,anchor=north east] at (10.8,-1.0)
+      {$K$\\[2pt] $\overline{M} = D_K(C)$\\ $\overline{M} = \text{«привет, что делаешь?»}$};
+    \node[font=\small,fill=caLight] at (3.2,0.3) {$C$};}
+  \penspace[0.15\textheight]
+\end{canvasframe}
+
+% --- slide 7 ---
+\begin{canvasframe}{Согласование ключа шифрования}
+  \centering
+  \resizebox{!}{0.66\textheight}{\begin{tikzpicture}[x=1cm,y=1cm]
+    \node at (5,1.9) {$p \in \mathcal{P},\quad g \in \Zn{p}$};
+    \node (A) at (0,0) {\personicon{caBlue}{Алиса}};
+    \node (B) at (10,0) {\personicon{caRed}{Боб}};
+    \draw[-{Stealth[length=3mm]},thick] (1,0.6) -- (9,0.6) node[midway,above] {$A$};
+    \draw[{Stealth[length=3mm]}-,thick] (1,0.0) -- (9,0.0) node[midway,below] {$B$};
+    \node (E) at (5,-2.0) {\personicon{caGray}{Ева}};
+    \draw[dashed,caGray] (5,-0.4) -- (5,-1.3);
+    \node[font=\small,align=left,anchor=north] at (0,-0.9)
+      {$a \gets \mathrm{Rand}(\Zn{p})$\\ $A \gets g^a \Mod{p}$\\[2pt]
+       знает: $a, A, B$\\ $K \gets B^a \Mod{p}$};
+    \node[font=\small,align=left,anchor=north] at (10,-0.9)
+      {$b \gets \mathrm{Rand}(\Zn{p})$\\ $B \gets g^b \Mod{p}$\\[2pt]
+       знает: $A, b, B$\\ $K \gets A^b \Mod{p}$};
+    \node[font=\small,anchor=north] at (5,-3.0) {знает: $p, g, A, B$};
+    \node[draw=caBlue,thick,rounded corners,inner sep=4pt] at (5,-4.0) {$K = g^{ab} \Mod{p}$};
+  \end{tikzpicture}}
+\end{canvasframe}
+
+% --- slide 8 ---
+\begin{canvasframe}{Односторонние функции}
+  \small
+  \begin{itemize}
+    \item \textbf{Односторонняя функция} "--- функция $f$, \emph{образ} которой $y = f(x)$
+      \emph{легко} вычисляется для любого входного $x$, однако нахождение \emph{прообраза}
+      $x = f^{-1}(y)$ для заданного $y$ является \textbf{вычислительно сложной задачей}
+    \item Понятия «\emph{легко}» и «\emph{трудно}» определяются в терминах теории сложности вычислений
+    \item Существование односторонних функций не доказано
+    \item Примеры сложных задач:
+    \begin{itemize}
+      \item дискретное логарифмирование
+      \item факторизация
+      \item извлечение квадратного корня по модулю составного числа
+      \item поиск ближайших и кратчайших векторов в т.\,н. алгебраической решётке
+      \item \ldots
+    \end{itemize}
+    \item Многие из этих задач позволяют построить т.\,н. односторонние функции
+      \emph{с потайным входом} (trapdoor functions, TDF)
+    \item \textbf{Односторонняя функция с потайным входом} является односторонней функцией,
+      однако если известен некоторый \textbf{секрет}, задача нахождения прообраза может быть
+      эффективно решена
+    \item \alert{?}: \textbf{для чего нужны односторонние функции с секретом?}
+  \end{itemize}
+\end{canvasframe}
+
+% --- slide 9 ---
+\begin{canvasframe}{Асимметричное шифрование}
+  \centering\small
+  \resizebox{!}{0.66\textheight}{\begin{tikzpicture}[x=1cm,y=1cm]
+    \node at (5,1.7) {открытые ключи: $(e_A, N_A)$, $(e_B, N_B)$};
+    \node (A) at (0,0) {\personicon{caBlue}{Алиса}};
+    \node (B) at (10,0) {\personicon{caRed}{Боб}};
+    \draw[-{Stealth[length=3mm]},thick] (1,0.6) -- (9,0.6) node[midway,above] {$c_1$};
+    \draw[{Stealth[length=3mm]}-,thick] (1,0.0) -- (9,0.0) node[midway,below] {$c_2$};
+    \node[align=left,anchor=north,font=\footnotesize] at (0.3,-0.9)
+      {$N_A = p_A q_A$\\ $e_A d_A \equiv 1 \Mod{\varphi(N_A)}$\\
+       $\mathit{key}_{pub} = (e_A, N_A)$\\ $\mathit{key}_{priv} = (d_A, p_A, q_A)$\\[3pt]
+       $m_1 \gets \mathit{message}$\\ $c_1 \gets m_1^{e_B} \Mod{N_B}$\\[3pt]
+       $m_2 \gets c_2^{d_A} \Mod{N_A}$};
+    \node[align=left,anchor=north,font=\footnotesize] at (9.7,-0.9)
+      {$N_B = p_B q_B$\\ $e_B d_B \equiv 1 \Mod{\varphi(N_B)}$\\
+       $\mathit{key}_{pub} = (e_B, N_B)$\\ $\mathit{key}_{priv} = (d_B, p_B, q_B)$\\[3pt]
+       $m_1 \gets c_1^{d_B} \Mod{N_B}$\\[3pt]
+       $m_2 \gets \mathit{message}$\\ $c_2 \gets m_2^{e_A} \Mod{N_A}$};
+  \end{tikzpicture}}
+\end{canvasframe}
+
+% --- slide 10 ---
+\begin{canvasframe}{Сложные задачи}
+  \begin{itemize}
+    \item На практике качественная и количественная (асимптотическая) оценки
+      \textbf{сложности решения} какой-либо \textbf{задачи} определяются сложностью
+      \textbf{лучшего алгоритма} решения
+    \item Основной способ достижения вычислительной сложности "--- использование
+      \textbf{больших чисел}
+    \item При этом «законные» операции "--- вычисление значений односторонних функций "---
+      должны выполняться \textbf{быстро}
+    \item Курс посвящён изучению \textbf{алгебраических структур} и \textbf{сложных задач}
+      в этих структурах, использующихся для построения криптографических примитивов
+    \item В рамках курса рассмотрим:
+    \begin{itemize}
+      \item быстрые алгоритмы вычислений (умножение, возведение в степень и т.\,п.)
+      \item собственно вычислительно сложные задачи
+      \item методы решения сложных задач и оценки сложности
+    \end{itemize}
+  \end{itemize}
+\end{canvasframe}
+
+% --- slide 11 ---
+\begin{canvasframe}{Программа курса}
+  \small
+  \begin{itemize}
+    \item Арифметика больших чисел («длинная арифметика») и элементы теории чисел
+    \begin{itemize}
+      \item представление больших чисел в памяти ЭВМ, быстрые алгоритмы умножения и деления,
+        вычисление мультипликативно обратных величин
+    \end{itemize}
+    \item Простые числа и генераторы случайных чисел
+    \begin{itemize}
+      \item понятие простого числа, тесты простоты, генераторы случайных чисел и атаки на них
+    \end{itemize}
+    \item Кольца вычетов $\Zn{n}$
+    \begin{itemize}
+      \item линейные и квадратичные сравнения, сложные задачи в $\Zn{n}$ и односторонние
+        функции (в т.\,ч. с секретом) на их основе
+    \end{itemize}
+    \item Эллиптические кривые $E(\GF{p})$
+    \begin{itemize}
+      \item группа точек кривой, задача ECDLP и применение кривых для факторизации целых чисел
+    \end{itemize}
+    \item Алгебраические решётки $\Lat \subset \RR^n$ и их приложения
+    \begin{itemize}
+      \item решётки в криптоанализе, задачи поиска кратчайшего вектора решётки и ближайшего
+        к заданному, односторонние функции на их основе
+    \end{itemize}
+  \end{itemize}
+\end{canvasframe}
+
+% --- slide 12 ---
+\begin{canvasframe}{Литература}
+  \small
+  \begin{itemize}
+    \item J.~Hoffstein, J.~Pipher, J.~H.~Silverman. \emph{An Introduction to Mathematical
+      Cryptography}, 2nd ed., Springer, 2014.
+    \begin{itemize}
+      \item этот учебник можно считать основным для курса
+    \end{itemize}
+    \item Р.~Крэндалл, К.~Померанс. \emph{Простые числа: криптографические и вычислительные
+      аспекты}, Либроком, URSS, 2011.
+    \begin{itemize}
+      \item исчерпывающая информация по некоторым разделам курса
+    \end{itemize}
+    \item Д.~Э.~Кнут. \emph{Искусство программирования, т.~2}, Вильямс, 2019.
+    \begin{itemize}
+      \item порождение случайных чисел и алгоритмы арифметики больших чисел
+    \end{itemize}
+    \item О.~Н.~Василенко. \emph{Теоретико-числовые алгоритмы в криптографии}, МЦНМО, 2006.
+    \item В.~М.~Чернов, А.~О.~Корепанов. \emph{Теоретико-числовые преобразования в задачах
+      цифровой обработки сигналов}, электронное учебное пособие, 2010.
+  \end{itemize}
+\end{canvasframe}
+\end{document}

@@ -1,0 +1,67 @@
+% Seminar 6 handout (lecture 7): element order, product tree, primitive roots.
+\documentclass{ca-handout}
+
+\seminar{6}{Порядок элемента и первообразные корни}
+
+\begin{document}
+\makehandouttitle
+
+\section{Порядок элемента}
+$\ord g$ "--- наименьшее $m \ge 1$ с $g^m = 1$; $g^k = 1 \iff \ord g \mid k$;
+$\ord g \mid \abs{G}$ (Лагранж), для $\Znx{p}$: $\ord g \mid p - 1$.
+\[
+  \ord\bigl(g^k\bigr) = \frac{\ord g}{\gcd(k, \ord g)}; \qquad
+  \ord g = m \iff g^m = 1 \text{ и } g^{m/q} \ne 1 \text{ для всех простых } q \mid m.
+\]
+
+\begin{reminder}[title={Последовательное снижение ($N = \prod q_i^{e_i}$ "--- кратное $\ord g$)}]
+$o \gets N$; для каждого простого $q \mid N$: пока $q \mid o$ и $g^{o/q} = 1$, полагаем
+$o \gets o/q$. В конце $o = \ord g$. Не более $\Omega(N) = \sum e_i$ возведений в степень.
+\end{reminder}
+
+\begin{reminder}[title={Дерево произведений}]
+Листья "--- примарные делители $Q_i = q_i^{e_i}$ числа $N$, узел $S$ "--- произведение
+$P_S$ листьев поддерева. Спуск от корня: корню соответствует $g$; узел с элементом $h$
+($= g^{N/P_S}$) передаёт \emph{левому} потомку $h^{P_R}$, \emph{правому} "--- $h^{P_L}$.
+Лист $Q_i$ получает $h_i = g^{N/Q_i}$, его порядок $q_i^{k_i}$:
+$k_i$ "--- число шагов $h_i \to h_i^{q_i} \to h_i^{q_i^2} \to \dots$ до $1$. Итог:
+$\ord g = \prod_i q_i^{k_i}$. Стоимость $\bigO(\log N \log \omega(N))$ операций.
+\end{reminder}
+
+\section{Первообразные корни}
+$g$ "--- \emph{первообразный корень} по модулю $n$, если $\gcd(g, n) = 1$ и
+$\ord g = \varphi(n)$. Они существуют $\iff n \in \{1, 2, 4, p^k, 2p^k\}$ ($p$ нечётное
+простое); их ровно $\varphi(\varphi(n))$; если $g$ "--- один из них, то все они "--- $g^k$,
+$\gcd(k, \varphi(n)) = 1$. В частности, $\Znx{p}$ циклическая.
+
+\begin{reminder}[title={Критерий и поиск наименьшего корня}]
+$g$ ($\gcd(g, n) = 1$) "--- первообразный корень $\iff g^{\varphi(n)/q} \not\equiv 1 \pmod n$ для
+всех простых $q \mid \varphi(n)$. Перебор $g = 2, 3, \dots$: пропускаем $g$ с $\gcd(g, n) > 1$ и
+полные квадраты ($(h^2)^{\varphi(n)/2} = h^{\varphi(n)} = 1$); для каждого $g$ проверяем
+показатели $\varphi(n)/q$ до первой единицы.
+\end{reminder}
+
+\begin{itemize}
+  \item $\varphi(p^k) = p^{k-1}(p - 1)$, $\varphi(2p^k) = \varphi(p^k)$,
+    $\varphi(ab) = \varphi(a)\varphi(b)$ при $\gcd(a, b) = 1$.
+  \item \textbf{Подъём.} $g$ "--- корень по модулю $p^k$ ($k \ge 2$) $\iff$ $g$ "--- корень по
+    модулю $p$ и $g^{p-1} \not\equiv 1 \pmod{p^2}$; если $g^{p-1} \equiv 1 \pmod{p^2}$, годится
+    $g + p$.
+  \item \textbf{Модуль $2p^k$.} Если $g$ "--- корень по модулю $p^k$, то нечётное из $g$,
+    $g + p^k$ "--- корень по модулю $2p^k$.
+  \item \textbf{Безопасное простое} $p = 2q + 1$: $g \ne \pm 1$ "--- корень $\iff
+    g^q \equiv -1$; иначе $\ord g = q$.
+\end{itemize}
+
+\begin{reminder}[title={Модули без первообразных корней}]
+\begin{itemize}
+  \item $n = ab$, $\gcd(a, b) = 1$, $a, b > 2$: $\varphi(a), \varphi(b)$ чётны, и
+    $x^{\varphi(n)/2} = (x^{\varphi(a)})^{\varphi(b)/2} \equiv 1 \pmod a$, аналогично по
+    модулю $b$, поэтому $\ord x \le \varphi(n)/2$.
+  \item $n = 2^k$, $k \ge 3$: $x^{2^{k-2}} \equiv 1 \pmod{2^k}$ для нечётных $x$.
+  \item Функция Кармайкла (максимальный порядок): $\lambda(2^k) = 2^{k-2}$ ($k \ge 3$),
+    $\lambda(p^k) = \varphi(p^k)$ иначе, $\lambda(n) = \lcm \lambda(p_i^{k_i})$; корень есть
+    $\iff \lambda(n) = \varphi(n)$.
+\end{itemize}
+\end{reminder}
+\end{document}

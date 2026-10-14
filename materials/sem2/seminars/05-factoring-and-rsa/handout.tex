@@ -1,0 +1,79 @@
+% Seminar 5 handout (lecture 5): RSA keys, encryption, CRT decryption, factoring N from
+% phi(N) and from (e, d), common-modulus attack, Pollard p - 1.
+\documentclass{ca-handout}
+
+\seminar{5}{Факторизация, RSA и алгоритм \texorpdfstring{$p - 1$}{p - 1}}
+
+\begin{document}
+\makehandouttitle
+
+\section{Теория чисел}
+Расширенный алгоритм Евклида: $(r, u, v)_0 = (a, 1, 0)$, $(r, u, v)_1 = (b, 0, 1)$,
+$q_i = \floor{r_{i-1}/r_i}$, $(r, u, v)_{i+1} = (r, u, v)_{i-1} - q_i (r, u, v)_i$; всегда
+$r_i = u_i a + v_i b$, последний ненулевой остаток "--- $\gcd(a, b)$. Если $\gcd(a, m) = 1$ и
+$ua + vm = 1$, то $a^{-1} \equiv u \pmod m$.
+
+$\varphi(pq) = (p - 1)(q - 1)$; теорема Эйлера: $a^{\varphi(N)} \equiv 1 \pmod N$ при
+$\gcd(a, N) = 1$; Ферма: $a^{p-1} \equiv 1 \pmod p$ при $p \nmid a$.
+
+\section{RSA}
+\begin{reminder}[title={Ключи, шифрование, расшифрование}]
+$N = pq$, $\varphi(N) = (p - 1)(q - 1)$; открытая экспонента $e$ \emph{обязана}
+удовлетворять $\gcd(e, \varphi(N)) = 1$; $d \equiv e^{-1} \pmod{\varphi(N)}$.
+\[
+  c = m^e \bmod N, \qquad m = c^d \bmod N \qquad (\text{верно для всех } 0 \le m < N,
+  \text{ и при } \gcd(m, N) > 1).
+\]
+Бинарный алгоритм: биты $e$ слева направо, $r \gets r^2$, при бите $1$ ещё $r \gets r \cdot m$.
+\end{reminder}
+
+\begin{reminder}[title={Расшифрование по КТО}]
+\[
+  d_p = d \bmod (p - 1), \quad d_q = d \bmod (q - 1), \quad
+  m_p = (c \bmod p)^{d_p} \bmod p, \quad m_q = (c \bmod q)^{d_q} \bmod q,
+\]
+\[
+  m \equiv m_p \pmod p, \quad m \equiv m_q \pmod q: \qquad
+  m = m_q + q \cdot \bigl((m_p - m_q)\, q^{-1} \bmod p\bigr).
+\]
+Если $c \equiv 0 \pmod p$, то $m_p = 0$.
+\end{reminder}
+
+\section{Что равносильно разложению $N$}
+\begin{itemize}
+  \item \textbf{По $\varphi(N)$:} $p + q = N - \varphi(N) + 1$, $pq = N$; $p, q$ "--- корни
+    $x^2 - (p + q)x + N = 0$: \ $p, q = \bigl((p + q) \mp \sqrt{(p + q)^2 - 4N}\bigr)/2$.
+  \item \textbf{По $(e, d)$:} $ed - 1 = 2^t r$, $r$ нечётно. Для $a = 2, 3, 5, \dots$:
+    $x_0 = a^r \bmod N$, $x_{i+1} = x_i^2 \bmod N$ до получения $1$. Если $x_0 = 1$ или
+    перед $1$ стоит $-1 \equiv N - 1$ "--- следующее $a$; иначе $x$ (стоящее перед $1$)
+    "--- нетривиальный корень из $1$ и $\gcd(x - 1, N) \in \{p, q\}$. Вероятность успеха
+    одной попытки $\ge 1/2$.
+  \item \textbf{Общий модуль:} $c_1 = m^{e_1}$, $c_2 = m^{e_2} \bmod N$, $\gcd(e_1, e_2) = 1$,
+    $u e_1 + v e_2 = 1$ $\Rightarrow$ $m \equiv c_1^u c_2^v \pmod N$; отрицательная степень "---
+    степень обратного: $c^{-k} = (c^{-1})^k$.
+\end{itemize}
+
+\section{Алгоритм \texorpdfstring{$p - 1$}{p - 1} Полларда}
+Если $p \mid N$ и $p - 1 \mid M$, то $a^M \equiv 1 \pmod p$ и $p \mid \gcd(a^M - 1, N)$.
+$n$ \emph{$B$-степенно-гладкое}, если все $\ell^\alpha \parallel n$ не превосходят $B$
+($\iff n \mid \lcm(1, \dots, B)$).
+
+\begin{reminder}[title={Два варианта показателя}]
+\begin{itemize}
+  \item $M = j!$: \ $x_1 = a$, $x_j = x_{j-1}^{\,j} \bmod N$, $g_j = \gcd(x_j - 1, N)$,
+    $j = 2, 3, \dots$
+  \item $M = \lcm(1, \dots, B) = \prod_{\ell \le B} \ell^{e_\ell}$, $\ell^{e_\ell} \le B < \ell^{e_\ell + 1}$:
+    \ $x \gets x^{\ell^{e_\ell}} \bmod N$ по простым $\ell = 2, 3, 5, \dots$, после каждого шага
+    $\gcd(x - 1, N)$.
+\end{itemize}
+\end{reminder}
+
+\begin{reminder}[title={Неудачи}]
+$g = 1$: $p - 1$ не гладкое ни для одного $p \mid N$ "--- увеличить $B$.
+$g = N$: порядки $a$ по модулю \emph{всех} простых делителей разделили $M$ одновременно "---
+вернуться к последнему $x$ с $g = 1$ и возводить в степень $\ell$ по одному разу; если и
+тогда сразу $g = N$ "--- сменить основание $a$.
+\end{reminder}
+Сложность: $\bigO(B)$ умножений по модулю $N$ (для $M = \lcm(1, \dots, B)$); метод
+эффективен, только если $p - 1$ гладкое.
+\end{document}

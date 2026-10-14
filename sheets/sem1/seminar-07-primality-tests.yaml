@@ -1,0 +1,31 @@
+# Seminar 7 (lecture 8): primality tests. Warm-up -> core -> corner cases.
+# Issue once per seminar: make issue SHEET=<this file>.
+id: sem1-seminar-07-primality-tests
+kind: classroom
+title: Семинар 7. Тесты простоты
+semester: 1
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~8. Вычисления по модулю $N$ можно проверять на калькуляторе.
+sections:
+  - title: Разминка
+    intro: Теорема Вильсона; среди чисел могут встретиться составные (в том числе $n = 4$).
+    tasks: [number_theory.wilson, number_theory.wilson]
+  - title: Тест Ферма
+    intro: >-
+      Основания $2, 3, 5$; составные числа могут оказаться псевдопростыми и даже числами
+      Кармайкла.
+    tasks: [number_theory.fermat_test, number_theory.fermat_test]
+  - title: Тесты Миллера--Рабина и Соловея--Штрассена
+    tasks: [number_theory.miller_rabin, number_theory.miller_rabin,
+            number_theory.solovay_strassen, number_theory.solovay_strassen]
+  - title: Числа Кармайкла и сильные псевдопростые
+    intro: >-
+      Тест Ферма на числах Кармайкла; критерий Корсельта (в том числе для чисел, не свободных от
+      квадратов); тест Миллера--Рабина там, где тест Ферма ошибается, "--- и как он находит
+      делитель.
+    tasks: [number_theory.fermat_test@carmichael, number_theory.carmichael_check,
+            number_theory.carmichael_check, number_theory.fermat_vs_miller_rabin,
+            number_theory.fermat_vs_miller_rabin]

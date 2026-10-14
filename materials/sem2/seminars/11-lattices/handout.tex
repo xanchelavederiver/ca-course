@@ -1,0 +1,68 @@
+% Seminar 11 handout (lecture 11): lattices, change of basis, det and Hadamard ratio,
+% Gauss reduction, Babai rounding, the congruential cryptosystem.
+\documentclass{ca-handout}
+
+\seminar{11}{Решётки: алгоритмы Гаусса и Бабаи}
+
+\begin{document}
+\makehandouttitle
+
+\section{Решётка и её базисы}
+Векторы записываем строками; $B$ "--- матрица со строками $v_1, \dots, v_n$ (базис),
+$\Lat(B) = \{a_1 v_1 + \cdots + a_n v_n : a_i \in \ZZ\}$.
+
+\begin{reminder}[title={Смена базиса, определитель, коэффициент Адамара}]
+$\Lat(B') = \Lat(B)$ $\iff$ $U = B'B^{-1}$ \textbf{целочисленная} и $\det U = \pm 1$.
+Если $U$ целочисленная и $\abs{\det U} = k > 1$, то $\Lat(B')$ "--- подрешётка индекса $k$; если
+$U$ не целочисленная, то $\Lat(B') \not\subseteq \Lat(B)$ (даже при $\abs{\det B'} = \abs{\det B}$).
+\[
+  B^{-1} = \frac{1}{\det B}\operatorname{adj} B, \quad
+  \operatorname{adj}\begin{pmatrix} a & b \\ c & d\end{pmatrix} = \begin{pmatrix} d & -b \\ -c & a\end{pmatrix},
+\]
+\[
+  \det \Lat = \abs{\det B}, \qquad
+  \mathcal H(B) = \left(\frac{\det \Lat}{\norm{v_1}\cdots\norm{v_n}}\right)^{1/n} \in (0, 1].
+\]
+Для $3 \times 3$: $(\operatorname{adj} B)_{ij} = (-1)^{i+j} M_{ji}$, $M_{ji}$ "--- минор
+(вычёркиваем строку $j$ и столбец $i$). $\mathcal H(B) \approx 1$ "--- хороший (почти
+ортогональный) базис, $\mathcal H(B)$ мал "--- плохой. Неравенство Адамара:
+$\det \Lat \le \prod \norm{v_i}$.
+\end{reminder}
+
+\section{SVP и CVP}
+SVP: найти ненулевой $v \in \Lat$ минимальной длины $\lambda_1(\Lat)$. CVP: по $w \in \RR^n$
+найти $v \in \Lat$, ближайший к $w$. Эрмит: $\lambda_1(\Lat) \le \sqrt n\,(\det\Lat)^{1/n}$;
+в размерности $2$: $\lambda_1^2 \le \frac{2}{\sqrt3}\det\Lat$. Гауссова эвристика:
+$\lambda_1 \approx \sqrt{n/(2\pi e)}\,(\det \Lat)^{1/n}$.
+
+\section{Алгоритм Гаусса (SVP в размерности 2)}
+\begin{reminder}[title={Повторять, пока $m \ne 0$}]
+\begin{enumerate}
+  \item если $\norm{v_2} < \norm{v_1}$, поменять $v_1 \leftrightarrow v_2$;
+  \item $m = \round{v_1 \cdot v_2 / \norm{v_1}^2}$ (ближайшее целое);
+  \item если $m = 0$ "--- стоп: $v_1$ "--- кратчайший вектор; иначе $v_2 \gets v_2 - m v_1$.
+\end{enumerate}
+На выходе $\norm{v_1} \le \norm{v_2}$, $\abs{v_1 \cdot v_2} \le \frac12\norm{v_1}^2$. Трассу удобно
+вести таблицей: $v_1$, $v_2$, $\norm{v_1}^2$, $v_1 \cdot v_2$, $m$.
+\end{reminder}
+
+\section{Алгоритм Бабаи (CVP, округление)}
+\begin{reminder}[title={$w = t_1 v_1 + t_2 v_2$, \ $v = \round{t_1} v_1 + \round{t_2} v_2$}]
+Правило Крамера: $t_1 = \dfrac{\det\begin{psmallmatrix} w \\ v_2 \end{psmallmatrix}}{\det B}$,
+$t_2 = \dfrac{\det\begin{psmallmatrix} v_1 \\ w \end{psmallmatrix}}{\det B}$.
+Ошибка: $\norm{w - v} \le \frac12(\norm{v_1} + \norm{v_2})$; для ортогонального базиса $v$ "---
+ближайший вектор. Для плохого базиса результат может быть далёким: сначала редуцируйте базис
+алгоритмом Гаусса, затем применяйте Бабаи.
+\end{reminder}
+
+\section{Конгруэнтная криптосистема}
+Ключи: $f < \sqrt{q/2}$, $\sqrt{q/4} < g < \sqrt{q/2}$, $\gcd(f, qg) = 1$,
+$\congr{h}{f^{-1}g}{q}$; открытый ключ $(q, h)$. Шифрование: $0 < m < \sqrt{q/4}$,
+$0 < r < \sqrt{q/2}$, $\congr{e}{rh + m}{q}$.
+\begin{reminder}[title={Расшифрование и атака}]
+$\congr{a}{fe}{q}$, $0 \le a < q$; \ $\congr{m}{f^{-1}a}{g}$. \
+Атака: $(f, g)$ "--- короткий вектор решётки с базисом $(1, h), (0, q)$; находим кратчайший
+вектор $\pm(f', g')$ алгоритмом Гаусса, берём знак с $f' > 0$ и расшифровываем с ключом
+$(f', \abs{g'})$.
+\end{reminder}
+\end{document}

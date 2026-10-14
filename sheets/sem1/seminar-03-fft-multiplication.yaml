@@ -1,0 +1,31 @@
+# Seminar 3 (lecture 4): convolutions, DFT over F_p, convolution theorem, FFT multiplication.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem1-seminar-03-fft-multiplication
+kind: classroom
+title: Семинар 3. Свёртки и умножение с помощью БПФ
+semester: 1
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~4. Последовательности цифр записываются младшими цифрами вперёд.
+sections:
+  - title: Разминка
+    intro: >-
+      Линейная, циклическая и негациклическая свёртки; линейная свёртка через циклическую,
+      произведение чисел через переносы.
+    tasks: [arithmetic.convolution, arithmetic.convolution]
+  - title: ДПФ и теорема о свёртке
+    intro: >-
+      Длина $n = 4$ (в последней задаче раздела $n = 8$); все вычисления по модулю $p$. Для главного корня степени $2^m$ достаточно
+      проверить $\omega^{n/2} = -1$.
+    tasks: [arithmetic.dft_small, arithmetic.dft_small, arithmetic.dft_small@n8]
+  - title: Умножение с помощью БПФ
+    intro: Обоснуйте выбор длины преобразования $N$, простого $p$ и корня $\omega$.
+    tasks: [arithmetic.fft_mul, arithmetic.fft_mul]
+  - title: Особые случаи
+    intro: >-
+      Длина циклической свёртки меньше $M + N - 1$ (заворачивание); элемент с $\omega^n = 1$,
+      не являющийся главным корнем; коэффициенты свёртки, не меньшие $p$.
+    tasks: [arithmetic.convolution@wrap, arithmetic.convolution@wrap, arithmetic.dft_small@bad_root,
+            arithmetic.dft_small@bad_root]

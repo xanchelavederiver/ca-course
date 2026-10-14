@@ -1,0 +1,69 @@
+% Seminar 2 handout (sem2, lecture 2): CRT, DLP in groups of prime-power order, Pohlig–Hellman.
+\documentclass{ca-handout}
+
+\seminar{2}{Китайская теорема об остатках, алгоритм Полига–Хеллмана}
+
+\begin{document}
+\makehandouttitle
+
+\section{Обратный элемент и линейное сравнение}
+$a^{-1} \bmod m$ существует $\iff \gcd(a, m) = 1$; расширенный алгоритм Евклида для $(m, a)$
+даёт $um + va = 1$, откуда $a^{-1} \equiv v \pmod m$.
+Сравнение $at \equiv b \pmod m$ разрешимо $\iff$ $d = \gcd(a, m) \mid b$; тогда
+$t \equiv \frac bd \cdot \bigl(\frac ad\bigr)^{-1} \pmod{\frac md}$.
+
+\section{Китайская теорема об остатках}
+\begin{reminder}[title={Попарно взаимно простые модули $m_1, \dots, m_k$, $M = m_1 \cdots m_k$}]
+Система $x \equiv r_i \pmod{m_i}$ имеет единственное решение по модулю $M$:
+\[
+  x \equiv \sum_{i=1}^k r_i M_i y_i \pmod M, \qquad M_i = \frac{M}{m_i}, \qquad
+  y_i \equiv M_i^{-1} \pmod{m_i}.
+\]
+\textbf{Последовательно (Гарнер):} $x = r_1 + m_1 t$, $\;m_1 t \equiv r_2 - r_1 \pmod{m_2}$
+$\Rightarrow$ $x \bmod m_1 m_2$, и т.\,д.
+\end{reminder}
+
+\begin{reminder}[title={Произвольные модули}]
+Система совместна $\iff$ $r_i \equiv r_j \pmod{\gcd(m_i, m_j)}$ для всех $i < j$; решение
+единственно по модулю $\lcm(m_1, \dots, m_k)$.
+Присоединение $x \equiv r \pmod m$ к $x \equiv a \pmod{L}$: $x = a + Lt$,
+\[
+\begin{gathered}
+  Lt \equiv r - a \pmod m, \qquad d = \gcd(L, m) \mid r - a\,?\\
+  \tfrac Ld\, t \equiv \tfrac{r - a}{d} \pmod{\tfrac md} \ \Rightarrow\ t \equiv t_0, \qquad
+  x \equiv a + L t_0 \pmod{\lcm(L, m)}.
+\end{gathered}
+\]
+Если $d \nmid r - a$ "--- решений нет. Если $m \mid L$, новое сравнение либо лишнее, либо
+противоречит предыдущим.
+\end{reminder}
+
+\section{Порядок элемента}
+$\ord g = N$: $g^a = g^b \iff a \equiv b \pmod N$; $\ord(g^k) = N/\gcd(N, k)$,
+в частности $\ord(g^{N/n}) = n$ при $n \mid N$. Проверка $\ord g = q^e$: $g^{q^e} = 1$ и
+$g^{q^{e-1}} \ne 1$.
+
+\section{DLP в группе порядка $q^e$}
+\begin{reminder}[title={Цифры логарифма: $\ord g = q^e$, $x = x_0 + x_1 q + \cdots + x_{e-1} q^{e-1}$}]
+$\gamma = g^{q^{e-1}}$ (порядок $q$), таблица $\gamma^0, \gamma^1, \dots, \gamma^{q-1}$;
+$c_0 = g^{-1}$, $c_{i+1} = c_i^{\,q}$ (т.\,е. $c_i = g^{-q^i}$). Начиная с $u_0 = h$:
+\[
+  w_i = u_i^{\,q^{e-1-i}} = \gamma^{x_i}\ \ (\text{$x_i$ "--- по таблице}), \qquad
+  u_{i+1} = u_i \cdot c_i^{\,x_i}, \qquad i = 0, 1, \dots, e - 1.
+\]
+Контроль: $u_e = 1$. При $q = 2$ всегда $\gamma = -1$: $x_i = 0 \iff w_i = 1$.
+Сложность: $\bigO(e \log N + e \sqrt q)$ вместо $\bigO(\sqrt{q^e})$.
+\end{reminder}
+
+\section{Алгоритм Полига"--~Хеллмана}
+\begin{reminder}[title={$\ord g = N = q_1^{e_1} \cdots q_t^{e_t}$, \ $h \in \langle g \rangle$}]
+\begin{enumerate}
+  \item Для каждого $i$: $g_i = g^{N/q_i^{e_i}}$ (порядок $q_i^{e_i}$), $h_i = h^{N/q_i^{e_i}}$.
+  \item Решить $g_i^{\,y_i} = h_i$ в группе порядка $q_i^{e_i}$ (по цифрам или перебором).
+  \item По КТО: $x \equiv y_i \pmod{q_i^{e_i}}$, $i = 1, \dots, t$; ответ $x \bmod N$.
+        Проверить: $g^x = h$.
+\end{enumerate}
+Сложность $\bigO\bigl(\sum_i e_i (\log N + \sqrt{q_i})\bigr)$: стойкость определяется наибольшим
+простым делителем $N$.
+\end{reminder}
+\end{document}

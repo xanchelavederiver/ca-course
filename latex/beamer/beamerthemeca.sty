@@ -7,8 +7,9 @@
 %   \notearea[<height>]   — light grid area reserved for handwriting
 %                           (default: 0.35\textheight)
 %   \penspace[<height>]   — invisible vertical space for handwriting
-%   \begin{canvasframe}{<title>} ... \end{canvasframe}
+%   \begin{canvasframe}[<frame options>]{<title>} ... \end{canvasframe}
 %                         — top-aligned frame; remaining space left for pen
+%                           (dense ported slides: [shrink=10] etc.)
 \mode<presentation>
 
 \RequirePackage{tikz}
@@ -93,8 +94,8 @@
 }
 \newcommand{\penspace}[1][0.3\textheight]{\par\vspace*{#1}\par}
 
-\newenvironment{canvasframe}[1]{%
-  \begin{frame}[t]{#1}%
+\newenvironment{canvasframe}[2][]{%
+  \begin{frame}[t,#1]{#2}%
 }{%
   \end{frame}%
 }

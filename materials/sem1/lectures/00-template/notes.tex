@@ -1,55 +1,6 @@
-% Lecture notes template — copy to NN-topic/notes.tex and fill in.
+% Lecture notes template — copy to NN-topic/ (or run `taskgen course scaffold`).
+% The text is in notes-body.tex, so that it also builds into the semester book.
 \documentclass{ca-notes}
-
-\lecture{0}{Шаблон конспекта лекции}
-
 \begin{document}
-\makelecturetitle
-\tableofcontents
-
-\section{Модулярная арифметика}
-
-\begin{definition}
-Целые числа $a$ и $b$ \emph{сравнимы по модулю} $m \in \NN$, если $m \mid (a - b)$.
-Обозначение: $\congr{a}{b}{m}$.
-\end{definition}
-
-\begin{theorem}[Малая теорема Ферма]\label{thm:fermat}
-Если $p$ "--- простое число и $p \nmid a$, то $\congr{a^{p-1}}{1}{p}$.
-\end{theorem}
-
-\begin{proof}
-Отображение $x \mapsto ax$ "--- биекция на $\Znx{p}$, поэтому
-$\prod_{x} ax = a^{p-1} \prod_{x} x$, откуда и следует утверждение.
-\end{proof}
-
-\begin{corollary}
-Для простого $p$ и $a \in \Znx{p}$ выполнено $\ord(a) \mid p - 1$.
-\end{corollary}
-
-\checkyourself{Почему в теореме~\ref{thm:fermat} требуется условие $p \nmid a$?}
-
-\begin{example}
-$\congr{3^{6}}{1}{7}$, так как $3^6 = 729 = 104 \cdot 7 + 1$.
-\end{example}
-
-\section{Порядок элемента}
-
-\begin{proposition}
-Если $\congr{g^{n}}{1}{p}$, то $\ord(g) \mid n$.
-\end{proposition}
-
-\begin{remark}
-На этом утверждении основан метод «последовательного снижения» порядка.
-\end{remark}
-
-\checkyourself{Как найти $\ord(g)$, зная разложение $p - 1$ на простые множители?}
-
-\checkyourselfsection
-
-\begin{furtherreading}
-  \item J.~Hoffstein, J.~Pipher, J.~H.~Silverman. \emph{An Introduction to Mathematical Cryptography}, 2nd ed., Springer, 2014.
-  \item S.~D.~Galbraith. \emph{Mathematics of Public Key Cryptography}. Cambridge University Press, 2012.
-  \item Р.~Крэндалл, К.~Померанс. \emph{Простые числа: криптографические и вычислительные аспекты}.
-\end{furtherreading}
+\input{notes-body}
 \end{document}

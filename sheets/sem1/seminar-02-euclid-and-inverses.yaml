@@ -1,0 +1,30 @@
+# Seminar 2 (lecture 3): division with remainder (Knuth's Algorithm D), extended Euclid,
+# inverses modulo n, linear congruences. Warm-up -> core -> corner cases.
+# Issue once per seminar: make issue SHEET=<this file>.
+id: sem1-seminar-02-euclid-and-inverses
+kind: classroom
+title: Семинар 2. Деление с остатком, алгоритм Евклида, обратные элементы
+semester: 1
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~3.
+sections:
+  - title: Разминка
+    intro: Расширенный алгоритм Евклида; таблица $r_i, q_i, u_i, v_i$ с инвариантом $r_i = u_i a + v_i b$.
+    tasks: [number_theory.xgcd, number_theory.xgcd]
+  - title: Деление с остатком
+    intro: >-
+      Алгоритм D Кнута в десятичной системе: нормализация, оценка $\hat q$ по старшим цифрам,
+      уточнение и, если нужно, возврат.
+    tasks: [arithmetic.long_division, arithmetic.long_division@corrections]
+  - title: Обратные элементы и линейные сравнения
+    tasks: [number_theory.inverse, number_theory.inverse, number_theory.linear_congruence,
+            number_theory.linear_congruence]
+  - title: Крайние случаи
+    intro: >-
+      Общий делитель больше единицы, необратимые вычеты, сравнения с несколькими решениями
+      и без решений.
+    tasks: [number_theory.xgcd@corner, number_theory.inverse@noninvertible,
+            number_theory.linear_congruence@many, number_theory.linear_congruence@none]

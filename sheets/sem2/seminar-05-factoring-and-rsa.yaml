@@ -1,0 +1,30 @@
+# Seminar 5 (lecture 5): RSA, factoring N from phi(N) and from (e, d), Pollard p - 1.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-05-factoring-and-rsa
+kind: classroom
+title: Семинар 5. Факторизация, RSA и алгоритм $p - 1$
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~5.
+sections:
+  - title: Разминка
+    intro: Генерация ключей RSA, шифрование и расшифрование с помощью КТО.
+    tasks: [crypto.rsa_toy@plain]
+  - title: Алгоритм $p - 1$ Полларда
+    intro: Показатели $a^{j!}$; при $\gcd = N$ меняем основание.
+    tasks: [factoring.pollard_pm1, factoring.pollard_pm1]
+  - title: Что равносильно разложению модуля RSA
+    intro: >-
+      Знание $\varphi(N)$ или закрытого ключа $d$ позволяет разложить $N$; общий модуль у двух
+      ключей позволяет расшифровать сообщение без разложения.
+    tasks: [crypto.rsa_factor_from_phi, crypto.rsa_factor_from_d, crypto.rsa_common_modulus]
+  - title: Особые случаи
+    intro: >-
+      Недопустимая открытая экспонента ($\gcd(e, \varphi(N)) > 1$); сообщение, не взаимно
+      простое с $N$; алгоритм $p - 1$, когда $p - 1$ и $q - 1$ оба гладкие.
+    tasks: [crypto.rsa_toy@bad_e, crypto.rsa_toy@msg_not_coprime, factoring.pm1_backtrack,
+            factoring.pm1_backtrack]

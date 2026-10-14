@@ -1,0 +1,260 @@
+% Lecture 4 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{4}{Метод исчисления индексов}
+\author{}
+
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{План лекции}
+  \begin{itemize}
+    \item Почему $\sqrt q$ "--- не предел для $\Znx{p}$
+    \item Гладкие числа, $\psi(x, B)$, теорема Кэнфилда"--~Эрдёша"--~Померанса
+    \item $L$-нотация: субэкспоненциальная сложность
+    \item Алгоритм: соотношения $\to$ система по модулю $p - 1$ $\to$ логарифм $h$
+    \item Линейная алгебра над $\Zn{q^e}$: необратимые ведущие элементы, вырожденность по
+      модулю $2$
+    \item Оценка сложности: $L_p[1/2, \sqrt 2]$; решето числового поля $L_p[1/3, 1{,}923]$
+    \item Почему метод не работает для эллиптических кривых
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Универсальные алгоритмы и их предел}
+  \begin{itemize}
+    \item Перебор, Шенкс, $\rho$-метод, Полиг"--~Хеллман используют только
+      умножение и сравнение элементов
+    \item \textbf{Теорема Шупа}: универсальному алгоритму нужно $\Omega(\sqrt q)$ операций,
+      $q$ "--- наибольший простой делитель порядка
+    \item Но элементы $\Znx{p}$ "--- \emph{числа}: их можно раскладывать на простые!
+      \ $\log_g(ab) \equiv \log_g a + \log_g b \pmod{p - 1}$
+    \item $h \equiv 2^3 \cdot 5^2 \pmod p$ $\Rightarrow$ $\log_g h \equiv 3\log_g 2 + 2\log_g 5$
+  \end{itemize}
+  \aside{почему тогда рекомендуют $p$ длиной $3072$ бита, а не $256$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Гладкие числа}
+  \begin{definition}
+    $m \in \NN$ \emph{$B$-гладкое}, если все простые делители $m$ не превосходят $B$.
+    $\psi(x, B) = \#\{m \le x : m \text{ $B$-гладкое}\}$.
+  \end{definition}
+  \begin{itemize}
+    \item $5$-гладкие до $30$: \penspace[0.06\textheight]
+    \item $\psi(100, 5) = 34$, \quad $\psi(700, 7) = 121$, \quad $\psi(10^6, 100) = 72\,271$
+    \item Параметр $u = \dfrac{\ln x}{\ln B}$, т.\,е. $B = x^{1/u}$
+  \end{itemize}
+  \notearea[0.1\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{Простая нижняя оценка}
+  Если $B^k \le x$, то
+  \[
+    \psi(x, B) \ \ge\ \binom{\pi(B) + k - 1}{k} \ \ge\ \frac{\pi(B)^k}{k!}.
+  \]
+  При целом $u = \ln x / \ln B$ и $B \ge 17$: \ $\psi(x, B)/x \ge (\ln x)^{-u}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Теорема Кэнфилда"--~Эрдёша"--~Померанса}
+  \begin{theorem}[без доказательства]
+    Для любого $\varepsilon > 0$ равномерно по $3 \le u \le (1 - \varepsilon)\ln x / \ln\ln x$
+    \[
+      \psi\bigl(x, x^{1/u}\bigr) = x \cdot u^{-u(1 + o(1))}.
+    \]
+  \end{theorem}
+  \begin{itemize}
+    \item Доля $B$-гладких чисел $\approx u^{-u}$
+    \item $x = 10^6$, $B = 100$, $u = 3$: \ $\psi/x \approx 0{,}072$, \ $\rho(3) \approx 0{,}049$,
+      \ $u^{-u} \approx 0{,}037$
+  \end{itemize}
+  \aside{почему фиксированное $B$ не годится при $p \to \infty$?}
+\end{canvasframe}
+
+\begin{canvasframe}{$L$-нотация}
+  \begin{definition}
+    $L_x[\alpha, c] = \exp\bigl((c + o(1))(\ln x)^{\alpha}(\ln\ln x)^{1 - \alpha}\bigr)$,
+    \quad $L(x) = e^{\sqrt{\ln x \ln\ln x}}$.
+  \end{definition}
+  \begin{itemize}
+    \item $\alpha = 0$: полиномиальная, \ $\alpha = 1$: экспоненциальная сложность
+    \item $L[\alpha, a] \cdot L[\alpha, b] = L[\alpha, a + b]$, \quad
+      $L[\alpha, a] + L[\alpha, b] = L[\alpha, \max(a, b)]$
+    \item $(\ln x)^k \cdot L[\alpha, a] = L[\alpha, a]$ при $0 < \alpha < 1$
+  \end{itemize}
+  \notearea[0.25\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Ключевая выкладка}
+  Пусть $B = L_x[1/2, c]$, $u = \ln x / \ln B$. Тогда
+  \[
+    u^u = L_x\Bigl[\frac12, \frac{1}{2c}\Bigr], \qquad
+    \frac{\psi(x, B)}{x} = L_x\Bigl[\frac12, -\frac{1}{2c}\Bigr].
+  \]
+\end{theoremframe}
+
+\begin{canvasframe}{Идея метода}
+  $p$ "--- простое, $g$ "--- первообразный корень, $L_\ell = \log_g \ell \in \Zn{(p-1)}$.
+  \begin{itemize}
+    \item Факторная база $F = \{\ell \le B \text{ простые}\}$, $t = \pi(B)$
+    \item \textbf{Соотношение}: $g^k \bmod p = \prod_{\ell \in F} \ell^{e_\ell}$
+      $\Rightarrow$ $\sum_\ell e_\ell L_\ell \equiv k \pmod{p - 1}$
+    \item \textbf{Второй этап}: $h g^{-k} \bmod p = \prod \ell^{f_\ell}$ $\Rightarrow$
+      $\log_g h \equiv k + \sum f_\ell L_\ell$
+    \item Первый этап зависит только от $p$, $g$ (предвычисление!)
+  \end{itemize}
+  \proofarea[0.2\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=8]{Алгоритм исчисления индексов}
+  \begin{algorithmic}[1]
+    \Require $p$, первообразный корень $g$, $h$, граница $B$
+    \State $F \gets \{\ell \le B\}$, $t \gets \abs{F}$
+    \Repeat \Comment{этап 1}
+      \State $k$ "--- случайное, $a \gets g^k \bmod p$
+      \If{$a = \prod \ell^{e_\ell}$ над $F$}
+        \State запомнить $\sum e_\ell L_\ell \equiv k \pmod{p - 1}$
+      \EndIf
+    \Until{соотношений $\approx t + 10$ и система однозначно разрешима}
+    \State решить по модулю $q^e \parallel p - 1$, собрать $L_\ell$ по КТО
+    \Repeat \Comment{этап 2}
+      \State $k$ "--- случайное, $a \gets h g^{-k} \bmod p$
+    \Until{$a = \prod \ell^{f_\ell}$ над $F$}
+    \State \Return $k + \sum f_\ell L_\ell \bmod (p - 1)$
+  \end{algorithmic}
+\end{canvasframe}
+
+\begin{canvasframe}{Факторная база с $-1$}
+  \begin{itemize}
+    \item Абсолютно наименьший вычет $r$, $\abs{r} < p/2$, вдвое меньше $\Rightarrow$ чаще гладкий
+    \item $F = \{-1, 2, 3, 5, \dots\}$; \quad $L_{-1} = \;?$
+  \end{itemize}
+  \penspace[0.12\textheight]
+  \begin{itemize}
+    \item Пример: $p = 127$, $g = 23$: \ $g^3 \equiv 102 \equiv -25$, \ $g^6 \equiv 117 \equiv -10$
+  \end{itemize}
+  \notearea[0.12\textheight]
+  \aside{нужно ли, чтобы $g$ был первообразным корнем?}
+\end{canvasframe}
+
+\begin{canvasframe}{Система по модулю $p - 1$}
+  \begin{itemize}
+    \item $\Zn{(p-1)}$ "--- не поле: делить можно только на обратимые
+    \item КТО: $\Zn{n} \cong \prod_{q^e \parallel n} \Zn{q^e}$ $\Rightarrow$ решаем по модулю
+      каждого $q^e$
+    \item Пример: $5 L_3 \equiv 15 \pmod{700}$:
+      \quad по модулю $4$: \hspace{6em} по модулю $7$: \hspace{6em} по модулю $25$:
+  \end{itemize}
+  \notearea[0.18\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Единственность по модулю $q^e$}
+  Пусть система $Ax = b$ над $\Zn{q^e}$ ($A$ "--- $m \times t$) разрешима. Равносильны:
+  \begin{enumerate}
+    \item решение единственно;
+    \item $\operatorname{rk}(A \bmod q) = t$ над $\FF_q$;
+    \item метод Гаусса с ведущими элементами, не делящимися на $q$, проходит все $t$ столбцов.
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{theoremframe}[proposition]{Сколько нужно соотношений}
+  $t$ случайных векторов из $\FF_q^t$ линейно независимы с вероятностью
+  $\prod_{i=1}^t (1 - q^{-i})$ \ ($> 0{,}288$ при $q = 2$); \
+  $t + s$ векторов порождают $\FF_q^t$ с вероятностью $\ge 1 - q^{-s}/(q - 1)$.
+\end{theoremframe}
+
+\begin{theoremframe}[proposition]{Чётность логарифма}
+  $\log_g \ell$ чётен $\iff$ $\legendre{\ell}{p} = 1$.
+  Вообще, $\log_g \ell \bmod q^e$ "--- логарифм $\ell^{(p-1)/q^e}$ по основанию
+  $g^{(p-1)/q^e}$ (Полиг"--~Хеллман).
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: $p = 701$, $g = 11$, $F = \{2, 3, 5, 7\}$}
+  \small
+  $p - 1 = 700 = 2^2 \cdot 5^2 \cdot 7$. Гладкие $g^k$ при $k \le 29$:
+  \[
+  \begin{array}{r@{\;\equiv\;}l@{\quad}r@{\;\equiv\;}l@{\quad}r@{\;\equiv\;}l}
+    g^{3} & 630 = 2 \cdot 3^2 \cdot 5 \cdot 7 & g^{7} & 72 = 2^3 \cdot 3^2 & g^{9} & 300 = 2^2 \cdot 3 \cdot 5^2 \\
+    g^{15} & 243 = 3^5 & g^{22} & 672 = 2^5 \cdot 3 \cdot 7 & g^{28} & 320 = 2^6 \cdot 5 \\
+    g^{29} & 15 = 3 \cdot 5
+  \end{array}
+  \]
+  \notearea[0.36\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: решение и второй этап}
+  \small
+  \begin{center}
+  \begin{tabular}{c|ccc|r}
+    & $\bmod 4$ & $\bmod 25$ & $\bmod 7$ & $L_\ell$ \\ \hline
+    $\ell = 2$ & & & & \\
+    $\ell = 3$ & & & & \\
+    $\ell = 5$ & & & & \\
+    $\ell = 7$ & & & &
+  \end{tabular}
+  \end{center}
+  Второй этап, $h = 123$, $g^{-1} \equiv 255$: \quad
+  $123 = 3 \cdot 41$, \ $123g^{-1} \equiv 521$, \ $123g^{-2} \equiv 366$, \ $123g^{-3} \equiv 97$,
+  \ $123 g^{-4} \equiv 200$
+  \penspace[0.15\textheight]
+  \aside{проверьте чётность $L_\ell$ символами Лежандра}
+\end{canvasframe}
+
+\begin{canvasframe}{Стоимость: из чего она складывается}
+  $B = L_p[1/2, c]$, \quad $t = \pi(B) = L_p[1/2, c]$
+  \begin{itemize}
+    \item Попыток на этапе 1: \ $t \cdot \dfrac{p}{\psi(p, B)} = $ \penspace[0.04\textheight]
+    \item Проверка гладкости: пробное деление $L_p[1/2, c]$; метод Ленстры "--- $L_p[1/2, o(1)]$
+    \item Линейная алгебра: Гаусс $t^3$; разреженные методы (Ланцош, Видеман) $t^{2 + o(1)}$
+    \item Этап 2: $\dfrac{p}{\psi(p, B)} = $
+  \end{itemize}
+  \aside{эвристика: $g^k \bmod p$ гладкие «как случайные числа»}
+\end{canvasframe}
+
+\begin{theoremframe}{Оптимальный выбор $B$ (эвристически)}
+  При $B = L_p[1/2, 1/\sqrt 2] \approx L(p)^{1/\sqrt 2}$, быстрой проверке гладкости и разреженной
+  алгебре этап 1 стоит $L_p[1/2, \sqrt 2]$, этап 2 "--- $L_p[1/2, 1/\sqrt 2]$.
+  С пробным делением: $c = 1/2$, $L_p[1/2, 2]$.
+\end{theoremframe}
+
+\begin{canvasframe}{Масштаб (грубо, $\log_2$ числа операций)}
+  \begin{center}
+  \begin{tabular}{r|r|r|r}
+    $\log_2 p$ & $\sqrt p$ & $L_p[1/2, \sqrt 2]$ & $L_p[1/3, 1{,}923]$ (NFS) \\ \hline
+    512 & 256 & 93 & 64 \\
+    1024 & 512 & 139 & 87 \\
+    2048 & 1024 & 207 & 117 \\
+    3072 & 1536 & 261 & 139
+  \end{tabular}
+  \end{center}
+  \begin{itemize}
+    \item Решето числового поля (Гордон, 1993): $L_p[1/3, (64/9)^{1/3}]$
+    \item 2019: логарифм по модулю 795-битного простого
+    \item Logjam (2015): предвычисление для 512-битного $p$ "--- один раз для всех серверов
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Почему не эллиптические кривые}
+  Что нужно для исчисления индексов в группе $G$:
+  \begin{enumerate}
+    \item небольшое множество «малых» элементов $F \subset G$;
+    \item заметная доля элементов $G$ "--- произведения элементов $F$;
+    \item эффективное разложение.
+  \end{enumerate}
+  \begin{itemize}
+    \item $\Znx{p}$: всё даёт арифметика $\ZZ$
+    \item $\EC(\FF_p)$: у точек нет «размера», согласованного со сложением;
+      подъём на $\EC(\QQ)$ не помогает (лекция~9)
+    \item Итог: 256-битная кривая $\sim$ 3072-битное $p$
+  \end{itemize}
+  \aside{а что с группой $\Zn{n}$ по сложению?}
+\end{canvasframe}
+
+\begin{canvasframe}{Итоги}
+  \begin{itemize}
+    \item Гладкие числа: доля $\approx u^{-u}$, $u = \ln x / \ln B$
+    \item Этап 1: соотношения $g^k = \prod \ell^{e_\ell}$, система по модулю $p - 1$ (КТО,
+      обратимые ведущие элементы, малые $q$ "--- символами Лежандра / Полигом"--~Хеллманом)
+    \item Этап 2: $h g^{-k}$ гладкое $\Rightarrow$ $\log_g h$
+    \item $B \approx L(p)^{1/\sqrt 2}$, сложность $L_p[1/2, \sqrt 2]$; NFS: $L_p[1/3, 1{,}923]$
+    \item Для эллиптических кривых общего вида "--- только $\bigO(\sqrt q)$
+  \end{itemize}
+\end{canvasframe}
+\end{document}

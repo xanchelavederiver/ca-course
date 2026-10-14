@@ -1,0 +1,274 @@
+% Lecture 4 slides (sem1). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{4}{Свёртки и умножение с помощью БПФ}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Зачем: сколько стоит умножение}
+  \begin{itemize}
+    \item Школьный метод: $\Theta(N^2)$; Карацуба: $\bigO(N^{1{,}585})$;
+      Тоом"--~Кук: $\bigO(N^{1+\varepsilon})$
+    \item Сегодня: $\bigO(N \log N)$ операций в подходящем кольце "--- через
+      \textbf{быстрое преобразование Фурье}
+    \item Общий язык "--- \textbf{свёртки}: цифры произведения "--- свёртка цифр сомножителей
+    \item Криптография: RSA, DH (длинные числа); Kyber, Dilithium "--- умножение в
+      $\Zn{q}[t]/(t^{256} + 1)$, т.\,е. \emph{негациклическая свёртка}
+  \end{itemize}
+  \aside{почему нельзя просто взять Тоома"--~Кука с большим $D$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Линейная свёртка}
+  \begin{definition}
+    $x = (x_0, \dots, x_{M-1})$, $y = (y_0, \dots, y_{N-1})$:\quad
+    $z = x * y$, \quad $z_k = \sum_{i + j = k} x_i y_j$, \quad $0 \le k \le M + N - 2$.
+  \end{definition}
+  \begin{itemize}
+    \item $x(t) = \sum x_i t^i$, $y(t) = \sum y_j t^j$ $\Rightarrow$ $z(t) = x(t)\,y(t)$
+    \item Если $a = x(B)$, $b = y(B)$, то $ab = z(B)$ и $0 \le z_k \le \min(M, N)(B-1)^2$
+    \item Цифры $ab$ "--- из $z_k$ \textbf{переносами} за $\bigO(M + N)$
+  \end{itemize}
+  \aside{почему перенос $< \min(M, N) \cdot B$?}
+  \penspace[0.12\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $572 \cdot 38$}
+  $x = (2, 7, 5)$, $y = (8, 3)$ (младшие цифры первыми)
+  \[
+    z_0 = \quad\qquad z_1 = \quad\qquad z_2 = \quad\qquad z_3 =
+  \]
+  \notearea[0.45\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Циклические свёртки}
+  \small
+  \begin{definition}
+    Для $x, y$ длины $n$:
+    \[
+      (x \circledast y)_k = \sum_{i + j \equiv k\ (\mathrm{mod}\ n)} x_i y_j, \qquad
+      (x \circledast_{-} y)_k = \sum_{i + j = k} x_i y_j - \sum_{i + j = k + n} x_i y_j .
+    \]
+  \end{definition}
+  \begin{lemma}
+    Если $z = x * y$, то $(x \circledast y)_k = z_k + z_{k+n}$, $(x \circledast_{-} y)_k = z_k - z_{k+n}$;
+    т.\,е. $x(t)y(t) \bmod (t^n - 1)$ и $x(t)y(t) \bmod (t^n + 1)$.
+  \end{lemma}
+\end{canvasframe}
+
+\begin{theoremframe}{Линейная свёртка через циклическую}
+  Пусть $x$, $y$ имеют длины $M$, $N$, а $\bar x$, $\bar y$ "--- их дополнения нулями до длины
+  $L \ge M + N - 1$. Тогда $(\bar x \circledast \bar y)_k = (x * y)_k$ при $k \le M + N - 2$ и
+  $= 0$ при $M + N - 1 \le k < L$.
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: заворачивание}
+  $x = (2, 7, 5)$, $y = (8, 3)$, $x * y = (16, 62, 61, 15)$.
+  \begin{itemize}
+    \item $n = 4$: \quad $x \circledast y = {}$
+    \item $n = 3$: \quad $x \circledast y = {}$ \qquad\qquad $x \circledast_{-} y = {}$
+    \item Проверка: $21736 \bmod 999 = {}$ \qquad $21736 \bmod 1001 = {}$
+  \end{itemize}
+  \aside{как по $x \circledast y$ и $x \circledast_{-} y$ длины $n$ найти $x * y$?}
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Главные корни из единицы}
+  \begin{definition}
+    $\omega \in R$ "--- \emph{главный корень степени $n$ из единицы}, если $\omega^n = 1$ и
+    \[ \sum_{j=0}^{n-1} \omega^{jk} = 0 \quad\text{при } 0 < k < n. \]
+  \end{definition}
+  \begin{itemize}
+    \item $\CC$: $\omega = e^{2\pi i/n}$ \qquad $\GF{17}$: $\omega = 4$, $n = 4$
+      \qquad $\GF{257}$: $16$, $4$, $2$ при $n = 4, 8, 16$
+    \item $\Zn{15}$: $4^2 = 1$, но $1 + 4 = 5 \ne 0$
+  \end{itemize}
+  \aside{порядок главного корня равен $n$, если $n$ обратимо "--- почему?}
+\end{canvasframe}
+
+\begin{theoremframe}{Главные корни в поле}
+  Пусть $R$ "--- поле, $n \cdot 1 \ne 0$. Тогда $\omega$ "--- главный корень степени $n$
+  $\iff$ $\ord \omega = n$. В $\GF{p}$ он существует $\iff$ $n \mid p - 1$, и
+  $\omega = g^{(p-1)/n}$ для первообразного корня $g$.
+\end{theoremframe}
+
+\begin{theoremframe}[lemma]{Критерий для $n = 2^m$}
+  Пусть $n = 2^m$, $2$ обратимо в $R$. Тогда $\omega$ "--- главный корень степени $n$
+  $\iff$ $\omega^{n/2} = -1$.
+\end{theoremframe}
+
+\begin{canvasframe}{Дискретное преобразование Фурье}
+  \begin{definition}
+    $\omega$ "--- главный корень степени $n$. $X = \mathrm{DFT}_\omega(x)$:
+    \[ X_k = \sum_{j=0}^{n-1} x_j\, \omega^{jk} = x(\omega^k), \qquad k = 0, \dots, n-1. \]
+  \end{definition}
+  \begin{itemize}
+    \item Вычисление многочлена в точках $1, \omega, \dots, \omega^{n-1}$
+    \item Матрица Вандермонда $W = (\omega^{jk})$; по определению "--- $\Theta(n^2)$ операций
+  \end{itemize}
+  \penspace[0.1\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Обратное ДПФ}
+  Если $\omega$ "--- главный корень степени $n$ и $n$ обратимо в $R$, то $\omega^{-1}$ "---
+  главный корень и
+  \[ x_j = \frac1n \sum_{k=0}^{n-1} X_k\, \omega^{-jk}, \qquad x = n^{-1}\,\mathrm{DFT}_{\omega^{-1}}(X). \]
+\end{theoremframe}
+
+\begin{theoremframe}{Теорема о свёртке}
+  Если $\omega^n = 1$, то $\mathrm{DFT}_\omega(x \circledast y) = \mathrm{DFT}_\omega(x) \cdot
+  \mathrm{DFT}_\omega(y)$ (поточечно). Если $\omega$ главный и $n$ обратимо, то
+  \[ x \circledast y = n^{-1}\,\mathrm{DFT}_{\omega^{-1}}\bigl(\mathrm{DFT}_\omega(x) \cdot
+     \mathrm{DFT}_\omega(y)\bigr). \]
+\end{theoremframe}
+
+\begin{canvasframe}{Пример над $\CC$: $n = 4$, $\omega = i$}
+  \[
+    W = \begin{pmatrix} 1 & 1 & 1 & 1\\ 1 & i & -1 & -i\\ 1 & -1 & 1 & -1\\ 1 & -i & -1 & i \end{pmatrix},
+    \qquad \bar x = (2, 7, 5, 0), \quad \bar y = (8, 3, 0, 0)
+  \]
+  \[ X = \qquad\qquad Y = \qquad\qquad Z = XY = \]
+  \notearea[0.3\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{Негациклическая свёртка: взвешивание}
+  Пусть $\psi^n = -1$, $x'_j = \psi^j x_j$, $y'_j = \psi^j y_j$. Тогда
+  $(x' \circledast y')_k = \psi^k\, (x \circledast_{-} y)_k$.
+  \par\smallskip\textcolor{caGray}{\small Если $\psi$ "--- главный корень степени $2n$, то
+  $\omega = \psi^2$ "--- главный корень степени $n$: три ДПФ длины $n$ + $\bigO(n)$.}
+\end{theoremframe}
+
+\begin{canvasframe}{БПФ: алгоритм Кули"--~Тьюки}
+  $n = 2m$, $\omega^m = -1$:\quad
+  $X_k = \underbrace{\textstyle\sum_j x_{2j} (\omega^2)^{jk}}_{E_k}
+       + \omega^k \underbrace{\textstyle\sum_j x_{2j+1} (\omega^2)^{jk}}_{O_k}$
+  \[
+    \boxed{\;X_k = E_k + \omega^k O_k, \qquad X_{k+m} = E_k - \omega^k O_k\;}
+  \]
+  \centering
+  \begin{tikzpicture}[x=1cm, y=0.6cm, >={Stealth[length=2mm]}, font=\small]
+    \node[left] at (0, 1) {$E_k$};
+    \node[left] at (0, 0) {$O_k$};
+    \node[right] at (3, 1) {$X_k$};
+    \node[right] at (3, 0) {$X_{k+m}$};
+    \draw[->] (0, 1) -- (3, 1);
+    \draw[->] (0, 0) -- node[pos=0.18, below] {$\omega^k$} (3, 1);
+    \draw[->] (0, 1) -- (3, 0);
+    \draw[->] (0, 0) -- node[pos=0.85, below] {$-1$} (3, 0);
+  \end{tikzpicture}
+  \aside{почему $E_{k+m} = E_k$ и почему $\omega^2$ "--- главный корень степени $m$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Алгоритм БПФ}
+  \begin{algorithmic}[1]
+    \Function{FFT}{$x, \omega$} \Comment{$n = 2^r$}
+      \If{$n = 1$} \Return $(x_0)$ \EndIf
+      \State $E \gets \Call{FFT}{(x_0, x_2, \dots, x_{n-2}), \omega^2}$
+      \State $O \gets \Call{FFT}{(x_1, x_3, \dots, x_{n-1}), \omega^2}$
+      \For{$k = 0, \dots, n/2 - 1$}
+        \State $u \gets \omega^k O_k$; \quad $X_k \gets E_k + u$, \quad $X_{k+n/2} \gets E_k - u$
+      \EndFor
+      \State \Return $X$
+    \EndFunction
+  \end{algorithmic}
+  \penspace[0.15\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Сложность БПФ}
+  Пусть $n = 2^r$, $2$ обратимо в $R$, $\omega$ "--- главный корень степени $n$. БПФ вычисляет
+  $\mathrm{DFT}_\omega(x)$ за $\frac n2 \log_2 n$ умножений на степени $\omega$ и
+  $n \log_2 n$ сложений/вычитаний, т.\,е. $\bigO(n \log n)$ операций в $R$.
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: БПФ в $\GF{257}$, $n = 4$, $\omega = 16$}
+  $16^2 = 256 = -1$, \quad $\omega^{-1} = 241$, \quad $4^{-1} = 193$;\quad
+  $\bar x = (2, 7, 5, 0)$, $\bar y = (8, 3, 0, 0)$
+  \begin{center}
+  \begin{tikzpicture}[x=1cm, y=0.6cm, >={Stealth[length=1.6mm]}, font=\footnotesize]
+    \foreach \lab [count=\r from 0] in {x_0, x_2, x_1, x_3} {
+      \node[left] at (0, 3 - \r) {$\lab$};
+    }
+    \foreach \lab [count=\r from 0] in {X_0, X_1, X_2, X_3} {
+      \node[right] at (4, 3 - \r) {$\lab$};
+    }
+    \foreach \a/\b in {3/2, 1/0} {
+      \draw[->] (0, \a) -- (2, \a); \draw[->] (0, \b) -- (2, \a);
+      \draw[->] (0, \a) -- (2, \b); \draw[->] (0, \b) -- (2, \b);
+    }
+    \draw[->] (2, 3) -- (4, 3); \draw[->] (2, 1) -- (4, 3);
+    \draw[->] (2, 3) -- (4, 1); \draw[->] (2, 1) -- (4, 1);
+    \draw[->] (2, 2) -- (4, 2); \draw[->] (2, 0) -- (4, 2);
+    \draw[->] (2, 2) -- (4, 0); \draw[->] (2, 0) -- (4, 0);
+    \node[below right, inner sep=1pt] at (2.05, 0.05) {$\omega$};
+    \foreach \y in {0, 1, 2, 3} { \fill (2, \y) circle (1.2pt); }
+  \end{tikzpicture}
+  \end{center}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Нерекурсивное БПФ}
+  \begin{itemize}
+    \item На нижнем уровне рекурсии входы стоят в \textbf{двоично-обращённом} порядке:
+      \[ n = 8:\quad x_0,\ x_4,\ x_2,\ x_6,\ x_1,\ x_5,\ x_3,\ x_7 \]
+    \item Перестановка + $\log_2 n$ проходов бабочек с шагами $1, 2, \dots, n/2$ "--- на месте,
+      без рекурсии
+  \end{itemize}
+  \aside{почему $j = (j_2 j_1 j_0)_2$ оказывается на месте $(j_0 j_1 j_2)_2$?}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Умножение целых чисел с помощью БПФ}
+  \begin{algorithmic}[1]
+    \Require $a = \sum_{i<M} x_i B^i$, $b = \sum_{j<N} y_j B^j$; $L = 2^r \ge M + N - 1$;
+      главный корень $\omega$ степени $L$
+    \State дополнить $x$, $y$ нулями до длины $L$
+    \State $X \gets \Call{FFT}{\bar x, \omega}$, $Y \gets \Call{FFT}{\bar y, \omega}$
+    \State $Z_k \gets X_k Y_k$
+    \State $z \gets L^{-1}\,\Call{FFT}{Z, \omega^{-1}}$ \Comment{над $\CC$ "--- округлить}
+    \State \Return $\sum_k z_k B^k$ (переносы)
+  \end{algorithmic}
+  \aside{сколько БПФ нужно для возведения в квадрат?}
+\end{canvasframe}
+
+\begin{canvasframe}{Где считать: $\GF{p}$ или $\CC$}
+  \begin{itemize}
+    \item $0 \le z_k \le \min(M, N)(B - 1)^2$ "--- нужно восстановить \textbf{точно}
+    \item $\GF{p}$: $p > \min(M, N)(B - 1)^2$ и $L \mid p - 1$; удобны $p = c \cdot 2^k + 1$:
+      \[ 17 = 2^4 + 1,\ 97 = 3 \cdot 2^5 + 1,\ 257 = 2^8 + 1,\ 65537 = 2^{16} + 1, \]
+      \[ 998244353 = 119 \cdot 2^{23} + 1 \]
+      (БПФ над конечным полем "--- Поллард, 1971; NTT "--- лекция~5)
+    \item $\CC$: числа с плавающей точкой, результат округляется; нужна погрешность
+      $< \frac12$
+  \end{itemize}
+  \aside{как быть, если $p$ одного не хватает?}
+\end{canvasframe}
+
+\begin{canvasframe}{Точность БПФ с плавающей точкой}
+  \begin{itemize}
+    \item double: мантисса $53$ бита, $\varepsilon = 2^{-53}$
+    \item $\abs{z_k} \lesssim L B^2$ "--- нужно $\log_2 L + 2\log_2 B$ верных бит
+    \item Ошибка худшего случая $\sim C \varepsilon \log_2 L \cdot L B^2$:
+      грубо, $\log_2 L + 2\log_2 B + \log_2\log_2 L + \mathrm{const} \le 53$
+    \item Сбалансированные цифры: $\abs{z_k} \le \min(M, N) B^2/4$, а типично $\sim \sqrt L B^2$
+    \item Эксперимент: $L = 4096$, $B = 10$ "--- отклонение от целых $\approx 10^{-11}$
+  \end{itemize}
+  \penspace[0.15\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Сложность умножения с помощью БПФ}
+  Пусть $a, b < B^N$, $L = 2^r \ge 2N - 1$, $p$ "--- простое, $L \mid p - 1$, $p > N(B-1)^2$.
+  Тогда $ab$ вычисляется за $\frac32 L \log_2 L + \bigO(L)$ умножений и $3L\log_2 L$ сложений
+  в $\GF{p}$ и $\bigO(N)$ операций на переносы, т.\,е. за $\bigO(N \log N)$.
+\end{theoremframe}
+
+\begin{canvasframe}{Ещё быстрее}
+  \begin{itemize}
+    \item Битовая сложность: операции в $\GF{p}$ с $p \sim N B^2$ "--- это $\Theta(\log N)$-битные
+      числа: $\bigO(N \log N \cdot \mathsf M(\log N))$
+    \item Шёнхаге"--~Штрассен (1971): БПФ в $\Zn{(2^K + 1)}$, где $\omega = 2$ и умножения на
+      $\omega^k$ "--- сдвиги: $\bigO(n \log n \log\log n)$ бит. операций
+    \item Фюрер (2007): $n \log n \cdot 2^{\bigO(\log^* n)}$
+    \item Харви, ван~дер~Хувен (2019): $\bigO(n \log n)$
+    \item GMP: школьный $\to$ Карацуба $\to$ Тоом"--~Кук $\to$ БПФ по порогам длины
+  \end{itemize}
+\end{canvasframe}
+\end{document}

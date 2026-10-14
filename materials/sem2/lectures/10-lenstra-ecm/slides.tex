@@ -1,0 +1,304 @@
+% Lecture 10 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{10}{Алгоритм Ленстры факторизации с помощью эллиптических кривых}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Где мы находимся}
+  \begin{itemize}
+    \item RSA: стойкость $\Leftarrow$ трудность разложения $N = pq$
+    \item \emph{Специальные} методы: время зависит от наименьшего делителя $p$
+      \begin{itemize}
+        \item пробное деление, $\rho$-метод, $p - 1$ Полларда
+      \end{itemize}
+    \item \emph{Общие} методы: время зависит от размера $N$
+      \begin{itemize}
+        \item квадратичное решето, решето числового поля
+      \end{itemize}
+    \item Сегодня: метод Ленстры (ECM, 1985) "--- лучший специальный метод
+  \end{itemize}
+  \aside{почему в RSA простые $p$ и $q$ берут одной длины?}
+\end{canvasframe}
+
+\begin{canvasframe}{Напоминание: $p - 1$ алгоритм Полларда}
+  \begin{itemize}
+    \item $a_k = a^{k!} \bmod N$, \quad $d_k = \gcd(a_k - 1, N)$, \quad $k = 2, 3, \dots$
+    \item Если $(p - 1) \mid k!$, то $p \mid d_k$ (малая теорема Ферма)
+    \item Работает, если $p - 1$ \emph{гладкое}: все простые делители $\le B$
+    \item Безопасное простое $p = 2p' + 1$: нужно $k \ge p'$ "--- безнадёжно
+  \end{itemize}
+  \penspace[0.12\textheight]
+  \aside{в чём корень проблемы? группа $\Znx{p}$ одна, её порядок $p - 1$ не изменить}
+\end{canvasframe}
+
+\begin{canvasframe}{Идея Ленстры}
+  \centering
+  \begin{tabular}{c|c}
+    $p - 1$ Полларда & Ленстра \\ \hline
+    группа $\Znx{p}$ & группа $E(\FF_p)$ \\
+    порядок $p - 1$ & порядок $p + 1 - t$, \ $\abs{t} \le 2\sqrt p$ \\
+    \emph{одна} группа & \emph{своя} группа для каждой кривой \\
+    $a^{k!}$ & $k!\,P$
+  \end{tabular}
+  \bigskip
+  \begin{itemize}
+    \item Перебираем кривые, пока $\#E(\FF_p)$ не окажется гладким
+  \end{itemize}
+  \penspace[0.15\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Кривая над $\ZZ/N\ZZ$}
+  \begin{itemize}
+    \item $\gcd(N, 6) = 1$, $N$ "--- не степень простого
+    \item $E\colon y^2 = x^3 + ax + b$, \ $\gcd(4a^3 + 27b^2, N) = 1$
+    \item Точки: $(x, y) \in (\ZZ/N\ZZ)^2$ на кривой и $\ECpt$
+    \item Те же формулы:
+      \[\lambda = \frac{y_2 - y_1}{x_2 - x_1}\ \text{ или }\ \frac{3x_1^2 + a}{2y_1},\quad
+        x_3 = \lambda^2 - x_1 - x_2,\quad y_3 = \lambda(x_1 - x_3) - y_1\]
+    \item Деление на $d$ = умножение на $d^{-1} \bmod N$
+  \end{itemize}
+  \aside{а если $d^{-1} \bmod N$ не существует?}
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Обратим или нет}
+  Для $d \in \ZZ$: либо $\gcd(d, N) = 1$ и $d$ обратим по модулю $N$, либо
+  $g = \gcd(d, N) > 1$ "--- делитель $N$, причём $g < N$ при $d \not\equiv 0 \pmod N$.
+\end{theoremframe}
+
+\begin{canvasframe}{Псевдосложение $P \oplus Q$}
+  \begin{enumerate}
+    \item $P = \ECpt$ или $Q = \ECpt$ $\Rightarrow$ другая точка
+    \item $x_1 \equiv x_2$, $y_1 \equiv -y_2 \pmod N$ $\Rightarrow$ $\ECpt$
+    \item $d = 2y_1$ ($P = Q$) или $d = x_2 - x_1$ ($P \ne Q$)
+      \begin{itemize}
+        \item $\gcd(d, N) = 1$ $\Rightarrow$ формулы по модулю $N$
+        \item $\gcd(d, N) > 1$ $\Rightarrow$ \alert{отказ} "--- и делитель $N$!
+      \end{itemize}
+  \end{enumerate}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: сложение по модулю $N = 493 = 17 \cdot 29$}
+  \begin{itemize}
+    \item $y^2 = x^3 + 396x + 444$, \ $P = (103, 318)$, \ $Q = (174, 322)$
+    \item $d = 174 - 103 = 71$, \ $71^{-1} \equiv 125 \pmod{493}$
+    \item $\lambda = 4 \cdot 125 \equiv 7$, \quad $P \oplus Q = (265, 27)$
+  \end{itemize}
+  \penspace[0.15\textheight]
+  \aside{проверьте: по модулю $17$ и $29$ получаются суммы в $E(\FF_{17})$ и $E(\FF_{29})$}
+\end{canvasframe}
+
+\begin{canvasframe}{Две группы сразу}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \node[draw,rounded corners,inner sep=6pt] (N) at (0,0)
+      {$E(\ZZ/N\ZZ)$: \ $P,\ 2P,\ 3P,\ \dots$ \ (операция $\oplus$)};
+    \node[draw,rounded corners,inner sep=6pt] (p) at (-3.5,-2.2) {$E(\FF_p)$, \ $\#E(\FF_p) = p + 1 - t_p$};
+    \node[draw,rounded corners,inner sep=6pt] (q) at (3.5,-2.2) {$E(\FF_q)$, \ $\#E(\FF_q) = q + 1 - t_q$};
+    \draw[-{Stealth},thick] (N) -- node[left=4pt] {$\pi_p$} (p);
+    \draw[-{Stealth},thick] (N) -- node[right=4pt] {$\pi_q$} (q);
+  \end{tikzpicture}
+  \par\bigskip
+  \raggedright
+  $\pi_p(x, y) = (x \bmod p,\ y \bmod p)$, \ $\pi_p(\ECpt) = \ECpt$
+  \aside{$p$ и $q$ мы не знаем "--- но вычисления идут «в обеих группах»}
+\end{canvasframe}
+
+\begin{theoremframe}{Приведение сохраняет операцию}
+  Если $P \oplus Q$ выполняется без отказа, то для любого простого $p \mid N$
+  \[\pi_p(P \oplus Q) = \pi_p(P) + \pi_p(Q) \quad \text{в } E(\FF_p).\]
+\end{theoremframe}
+
+\begin{theoremframe}{Основная идея}
+  Пусть $p, q \mid N$, порядок $\pi_p(P)$ делит $m$, а порядок $\pi_q(P)$ не делит $m$.
+  Тогда вычисление $mP$ над $\ZZ/N\ZZ$ удвоением-сложением заканчивается
+  \alert{отказом}: встретится $d$ с $\gcd(d, N) > 1$.
+\end{theoremframe}
+
+\begin{canvasframe}{Что происходит в момент отказа}
+  Пусть $p \mid d$:
+  \begin{itemize}
+    \item удвоение: $y_1 \equiv 0 \pmod p$ "--- точка порядка $2$ в $E(\FF_p)$
+    \item сложение: $x_1 \equiv x_2 \pmod p$, т.\,е. $\pi_p(P) = \pm \pi_p(Q)$
+  \end{itemize}
+  \penspace[0.2\textheight]
+  \begin{itemize}
+    \item $\gcd(d, N) = N$: «особенное» случилось по модулю \emph{всех} простых сразу
+      $\Rightarrow$ другая кривая
+  \end{itemize}
+  \aside{$x_1 \equiv x_2$, но $y_1 \not\equiv \pm y_2 \pmod N$ "--- что делать?}
+\end{canvasframe}
+
+\begin{canvasframe}{Порядок $E(\FF_p)$}
+  \begin{theorem}[Хассе]
+    $\#E(\FF_p) = p + 1 - t$, \ $\abs{t} \le 2\sqrt p$.
+  \end{theorem}
+  \begin{theorem}[Дойринг]
+    Каждое $t$ с $\abs{t} \le 2\sqrt p$ реализуется некоторой кривой.
+  \end{theorem}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \draw[thick] (-5,0) -- (5,0);
+    \foreach \x/\l in {-4/{p+1-2\sqrt p}, 0/{p+1}, 4/{p+1+2\sqrt p}}
+      \draw (\x,0.12) -- (\x,-0.12) node[below,font=\small] {$\l$};
+    \fill[caBlue,opacity=0.25] (-2,-0.08) rectangle (2,0.08);
+  \end{tikzpicture}
+\end{canvasframe}
+
+\begin{canvasframe}{Распределение порядков}
+  \begin{theorem}[Ленстра]
+    Существует $c > 0$: для любого множества $S \subset (p + 1 - \sqrt p,\ p + 1 + \sqrt p)$
+    и случайных $a, b \in \FF_p$
+    \[\Pr[\#E_{a,b}(\FF_p) \in S] \ge c\,\frac{\#S - 2}{\sqrt p \log p}.\]
+  \end{theorem}
+  \penspace[0.04\textheight]
+  \aside{если доля гладких чисел в интервале равна $\sigma$, сколько кривых нужно перебрать?}
+\end{canvasframe}
+
+\begin{canvasframe}{Как выбрать кривую и точку}
+  \begin{itemize}
+    \item Найти точку на \emph{данной} кривой по модулю $N$ "--- извлечь $\sqrt{\cdot} \bmod N$
+      $\Leftrightarrow$ разложить $N$
+    \item Поэтому наоборот: случайные $a, x_0, y_0 \in \ZZ/N\ZZ$,
+      \[b = y_0^2 - x_0^3 - a x_0 \bmod N, \qquad P = (x_0, y_0)\]
+    \item Проверить $\gcd(4a^3 + 27b^2, N)$
+  \end{itemize}
+  \aside{почему не годятся только кривые $y^2 = x^3 + b$?}
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=8]{Алгоритм Ленстры (первая стадия)}
+  \begin{algorithmic}[1]
+    \For{$i = 1, \dots, C$}
+      \State случайные $a, x_0, y_0$; \ $b \gets y_0^2 - x_0^3 - a x_0$; \ проверить
+        $\gcd(4a^3 + 27b^2, N)$
+      \State $Q \gets P = (x_0, y_0)$
+      \For{$j = 2, \dots, B$}
+        \State $Q \gets j\,Q$ \Comment{удвоение-сложение, $Q = j!\,P$}
+        \If{отказ со знаменателем $d$}
+          \State $g \gets \gcd(d, N)$; \ \textbf{если} $g < N$ \Return $g$, \textbf{иначе}
+            следующая кривая
+        \EndIf
+      \EndFor
+    \EndFor
+  \end{algorithmic}
+  \aside{вместо $B!$ "--- $\lcm(1, \dots, B)$: чем лучше?}
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $N = 589$, \ $Q_k = k\,Q_{k-1} = k!\,P$}
+  $a = 3$, \ $P = (39, 378)$ \ $\Rightarrow$ \ $b = 378^2 - 39^3 - 3 \cdot 39 \equiv 399$:
+  \ $y^2 = x^3 + 3x + 399$
+  \[
+  \begin{array}{c|l|r|r|r|r|c}
+    k & \text{шаг} & m & d & d^{-1} & \lambda & R = mP \\ \hline
+    2 & 2R & 2 & & & & \\ \hline
+    3 & 2R & 4 & & & & \\
+      & R + Q & 6 & & & & \\ \hline
+    4 & 2R & 12 & & & & \\
+  \end{array}
+  \]
+  \penspace[0.06\textheight]
+  \aside{после отказа: найти $\#E(\FF_p)$ и порядок $\pi_p(P)$ "--- почему именно этот шаг?}
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=6]{Безопасные простые: $N = 10007 \cdot 100043$}
+  \small
+  $p - 1 = 2 \cdot 5003$, \ $q - 1 = 2 \cdot 50021$: алгоритм $p - 1$ "--- $k = 5003$.
+  \quad Кривые $y^2 = x^3 + ax + 1$, \ $P = (0, 1)$:
+  \[
+  \begin{array}{c|l|l|r|c}
+    a & \ord \pi_p(P) & \ord \pi_q(P) & k & \text{делитель} \\ \hline
+    1 & 61 & 2^2 \cdot 3^2 \cdot 47 \cdot 59 & 59 & q \\
+    2 & 2 \cdot 23 \cdot 109 & 2 \cdot 3 \cdot 8369 & 109 & p \\
+    3 & 3359 & 7^3 \cdot 97 & 97 & q \\
+    4 & 2 \cdot 5^2 \cdot 67 & 3 \cdot 13 \cdot 2579 & 67 & p \\
+    5 & 2 \cdot 5 \cdot 1019 & 2^2 \cdot 3 \cdot 7 \cdot 397 & > 300 & \\
+    8 & 2 \cdot 3^3 \cdot 23 & 7^2 \cdot 17 & 17 & q
+  \end{array}
+  \]
+  \aside{почему при $a = 1$ найден $q$, хотя $\ord \pi_p(P) = 61$ гораздо меньше?}
+\end{canvasframe}
+
+\begin{canvasframe}{Стоимость одной кривой}
+  \begin{itemize}
+    \item $Q \gets jQ$: $\bigO(\log j)$ псевдосложений
+    \item псевдосложение: $\bigO(1)$ умножений и одно обращение по модулю $N$:
+      $\bigO(\log^2 N)$
+    \item кривая с границей $B$: $\bigO(B \log B)$ псевдосложений
+      ($\lcm$: $\bigO(B)$)
+  \end{itemize}
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Гладкие числа и функция $L$}
+  \[L_x[\alpha, c] = \exp\bigl((c + o(1))(\ln x)^{\alpha}(\ln\ln x)^{1-\alpha}\bigr)\]
+  \begin{theorem}[Канфилд"--~Эрдёш"--~Померанс]
+    Доля $y$-гладких среди чисел $\le x$ равна $u^{-u(1 + o(1))}$, \ $u = \dfrac{\ln x}{\ln y}$.
+  \end{theorem}
+  \penspace[0.1\textheight]
+  \aside{$\alpha = 0$ и $\alpha = 1$ "--- какие это сложности?}
+\end{canvasframe}
+
+\begin{canvasframe}{Эвристика: выбор $B$}
+  \begin{itemize}
+    \item Гипотеза: $\#E(\FF_p)$ гладок с вероятностью $u^{-u}$, \ $u = \ln p/\ln B$
+    \item $T \approx B \cdot u^u$, \quad $\ln B = c\sqrt{\ln p \ln\ln p}$
+    \item $\ln T \approx \bigl(c + \frac{1}{2c}\bigr)\sqrt{\ln p \ln\ln p}$ \ $\Rightarrow$
+      \ $c = \frac{1}{\sqrt 2}$
+  \end{itemize}
+  \penspace[0.35\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=8]{Сложность алгоритма Ленстры}
+  \begin{theorem}[без доказательства]
+    При гипотезе о гладких числах в интервале Хассе алгоритм Ленстры находит наименьший
+    простой делитель $p$ числа $N$ в среднем за
+    \[L_p\bigl[\tfrac12, \sqrt 2\bigr] \cdot \bigO(\log^2 N)\]
+    битовых операций; в худшем случае ($p \approx \sqrt N$) "--- $L_N[\frac12, 1]$.
+  \end{theorem}
+  \[
+  \begin{array}{r|cccc}
+    \text{знаков в } p & 20 & 30 & 40 & 60 \\ \hline
+    \log_{10} \sqrt p & 10 & 15 & 20 & 30 \\
+    \log_{10} L_p[\frac12, \sqrt 2] & 8{,}2 & 10{,}5 & 12{,}5 & 16{,}0
+  \end{array}
+  \]
+\end{canvasframe}
+
+\begin{canvasframe}{Вторая стадия и практические приёмы}
+  \begin{itemize}
+    \item Стадия 2: $\#E(\FF_p) = s \cdot \ell$, $s$ "--- $B_1$-гладкое, $\ell \in (B_1, B_2]$ простое
+      \[\ell_{i+1} Q = \ell_i Q \oplus (\ell_{i+1} - \ell_i) Q\]
+      "--- одно псевдосложение на каждое простое $\ell$
+    \item Накопление: $\prod (\text{знаменатели}) \bmod N$, один $\gcd$ в конце
+    \item Проективные координаты: без обращений, в конце $\gcd(Z, N)$
+    \item Кривые Монтгомери и Эдвардса; программа GMP-ECM
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=6]{Сравнение методов факторизации}
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{l|l|l|l}
+    метод & сложность & зависит от & применение \\ \hline
+    пробное деление & $\bigO(p)$ & $p$ & $p < 10^{6}$--$10^{8}$ \\
+    $p - 1$ Полларда & $\approx B \log B$ & гладкости $p - 1$ & если повезёт \\
+    $\rho$ Полларда & $\bigO(\sqrt p)$ & $p$ & $p < 10^{15}$--$10^{20}$ \\
+    ECM & $L_p[\frac12, \sqrt 2]$ & $p$ & $p$ до $40$--$60$ знаков \\
+    QS & $L_N[\frac12, 1]$ & $N$ & $N$ до $\approx 100$ знаков \\
+    NFS & $L_N[\frac13, \sqrt[3]{64/9}]$ & $N$ & $N > 100$ знаков
+  \end{tabular}
+  \aside{RSA-2048: ECM $\approx 10^{42}$, NFS $\approx 10^{35}$ операций}
+\end{canvasframe}
+
+\begin{canvasframe}{Итоги}
+  \begin{itemize}
+    \item Формулы сложения над $\ZZ/N\ZZ$; отказ при обращении = делитель $N$
+    \item Приведение по модулю $p$ сохраняет операцию $\Rightarrow$ вычисления «в $E(\FF_p)$»
+    \item Отказ происходит, когда $\ord \pi_p(P) \mid k$, а $\ord \pi_q(P) \nmid k$
+    \item Свобода выбора кривой: порядок $\#E(\FF_p)$ меняется в интервале Хассе
+    \item Сложность $L_p[\frac12, \sqrt 2]$ зависит от наименьшего делителя
+  \end{itemize}
+\end{canvasframe}
+
+\end{document}

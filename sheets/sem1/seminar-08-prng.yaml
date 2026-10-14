@@ -1,0 +1,31 @@
+# Seminar 8 (lecture 9): linear congruential generators and LFSRs.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem1-seminar-08-prng
+kind: classroom
+title: Семинар 8. Генераторы псевдослучайных чисел
+semester: 1
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~9. Соглашения для РСЛОС: $s_{n+L} = c_1 s_{n+L-1} + \dots + c_L s_n$,
+  $f(x) = x^L + c_1 x^{L-1} + \dots + c_L$, $S_n = (s_n, \dots, s_{n+L-1})^T$.
+sections:
+  - title: Разминка
+    intro: Теорема о максимальном периоде линейной конгруэнтной последовательности.
+    tasks: [crypto.lcg_period, crypto.lcg_period]
+  - title: Линейный конгруэнтный генератор
+    intro: Предсказание ЛКГ по нескольким подряд идущим выходам.
+    tasks: [crypto.lcg, crypto.lcg]
+  - title: РСЛОС
+    intro: >-
+      Период, сопровождающая матрица, вычисление $s_n$ бинарным возведением матрицы в степень;
+      восстановление регистра по $2L$ битам.
+    tasks: [crypto.lfsr, crypto.lfsr_recover, crypto.berlekamp_massey]
+  - title: Особые случаи
+    intro: >-
+      Непримитивные (в том числе приводимые) характеристические многочлены; приращение $c$,
+      не взаимно простое с $m$; $4 \mid m$, но $4 \nmid a - 1$; вырожденная система при
+      восстановлении РСЛОС (линейная сложность меньше $L$).
+    tasks: [crypto.lfsr@nonprimitive, crypto.lcg_period@not_coprime, crypto.lcg_period@mod4,
+            crypto.lfsr_recover@degenerate]

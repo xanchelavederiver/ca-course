@@ -152,7 +152,7 @@ ca-course/
 - **Plan 2**: web app — FastAPI backend over the taskgen engine + React SPA
   (task editor, sheet composer, PDF preview), docker-compose service.
 - **Plan 3**: lecture slides/notes templates filled with real content; PPTX → Beamer port;
-  step-by-step solution authoring backlog.
+  task corpus gaps (step-by-step solutions were completed in Plan 1's review follow-up).
 - **Plan 4**: capstone reference implementations (dockerized) + specs; exam question sheets.
 - HTML/PPTX export pipeline (spec Misc) — revisit after Beamer baseline exists.
 

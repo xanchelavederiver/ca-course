@@ -1,0 +1,32 @@
+# Seminar 4 (lecture 5): Montgomery multiplication, arithmetic modulo Fermat and Mersenne
+# numbers, number-theoretic transforms. Warm-up -> core -> corner cases.
+# Issue once per seminar: make issue SHEET=<this file>.
+# (Montgomery exponentiation, powmod.montgomery*, belongs to seminar 5.)
+id: sem1-seminar-04-montgomery-fermat-mersenne
+kind: classroom
+title: Семинар 4. Метод Монтгомери, арифметика в кольцах Ферма и Мерсенна
+semester: 1
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~5.
+sections:
+  - title: Разминка
+    intro: Приведение по модулям $2^q - 1$ и $2^n + 1$ без деления.
+    tasks: [modular.mersenne_mul, modular.fermat_mul]
+  - title: Метод Монтгомери
+    intro: >-
+      Нечётный модуль. Проверяйте на каждом шаге, что $T + um$ делится на $R$.
+    tasks: [arithmetic.montgomery_mul, arithmetic.montgomery_mul]
+  - title: Теоретико-числовые преобразования
+    intro: >-
+      Прямое преобразование, поточечное произведение, обратное преобразование с $n^{-1}$;
+      ответ проверяется прямым вычислением свёртки.
+    tasks: [modular.ntt@fermat, modular.ntt@mersenne]
+  - title: Особые случаи
+    intro: >-
+      Чётный модуль в методе Монтгомери (КТО); код с уменьшением на единицу: нулевые
+      операнды, вычет $-1 = 2^8$, нулевая сумма; свёртка, не помещающаяся в модуль.
+    tasks: [arithmetic.montgomery_mul_even, arithmetic.montgomery_mul_even,
+            modular.fermat_dim1, modular.fermat_dim1, modular.ntt@fermat]

@@ -1,0 +1,288 @@
+% Lecture 5 slides (sem1). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{5}{Модулярная арифметика. Метод Монтгомери, кольца Ферма и Мерсенна}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Зачем ускорять умножение по модулю}
+  \small
+  \begin{itemize}
+    \item RSA, Диффи"--~Хеллман, ЭК: тысячи умножений $ab \bmod m$, $m \approx 2^{2048}$
+    \item $ab \bmod m$ = умножение + \textbf{деление с остатком} (алгоритм D)
+    \item Деление: пробные частные, коррекции, деление двойного слова на слово
+  \end{itemize}
+  \medskip
+  Три способа обойтись без деления на $m$:
+  \begin{enumerate}
+    \item метод Монтгомери: делим на $R = 2^k$ (сдвиг)
+    \item специальные модули $2^q - 1$, $2^n + 1$: приведение = сложение половин
+    \item ТЧП: «БПФ» в $\Zn{m}$, корень из единицы $= 2$
+  \end{enumerate}
+\end{canvasframe}
+
+\begin{canvasframe}{Представление Монтгомери}
+  \begin{itemize}
+    \item $m$ нечётно, $R = 2^k > m$ $\Rightarrow$ $\gcd(R, m) = 1$
+    \item $m' = -m^{-1} \bmod R$, \quad т.\,е. $m m' \equiv -1 \pmod R$
+    \item $\bar x = xR \bmod m$ "--- биекция $\Zn{m} \to \Zn{m}$
+    \item $\overline{x \pm y} \equiv \bar x \pm \bar y$, \quad
+      $\bar x \bar y \equiv \overline{xy}\, R$
+  \end{itemize}
+  \aside{нужно уметь умножать на $R^{-1}$ без деления на $m$}
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Монтгомери}
+  Пусть $m > 1$, $R > m$, $\gcd(R, m) = 1$, $m' = -m^{-1} \bmod R$, $0 \le T < mR$,
+  \[
+    u = \bigl((T \bmod R)\, m'\bigr) \bmod R, \qquad t = \frac{T + um}{R}.
+  \]
+  Тогда $t \in \ZZ$, \ $\congr{t}{TR^{-1}}{m}$, \ $0 \le t < 2m$.
+\end{theoremframe}
+
+\begin{canvasframe}{REDC и умножение по модулю}
+  \small
+  \begin{algorithmic}[1]
+    \State $u \gets \bigl((T \bmod R) \cdot m'\bigr) \bmod R$ \Comment{младшие $k$ бит}
+    \State $t \gets (T + um) / R$ \Comment{сдвиг}
+    \If{$t \ge m$} \State $t \gets t - m$ \EndIf
+  \end{algorithmic}
+  \medskip
+  \begin{itemize}
+    \item $\mathrm{REDC}(\bar x \bar y) = \overline{xy}$
+    \item $\bar x = \mathrm{REDC}\bigl(x \cdot (R^2 \bmod m)\bigr)$, \quad
+      $x = \mathrm{REDC}(\bar x)$
+    \item $ab \bmod m = \mathrm{REDC}\bigl(\mathrm{REDC}(ab) \cdot (R^2 \bmod m)\bigr)$
+  \end{itemize}
+  \aside{почему $T < mR$ во всех трёх случаях?}
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $50 \cdot 60 \bmod 97$}
+  $m = 97$, \ $R = 2^7 = 128$, \ $m^{-1} \equiv 33 \pmod{128}$, \ $m' = 95$, \
+  $R^2 \bmod m = 88$
+  \medskip
+  \[
+  \begin{array}{l|r|r|r|r}
+    & T & u & T + um & \mathrm{REDC}(T) \\ \hline
+    ab & 3000 & \phantom{000} & \phantom{00000} & \phantom{000} \\[4pt]
+    x \cdot 88 & & & & \\[4pt]
+  \end{array}
+  \]
+  \notearea[0.2\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Пословная редукция и стоимость}
+  \small
+  $R = B^N$, \ $m'_0 = -m^{-1} \bmod B$ "--- \textbf{одна цифра}
+  \begin{algorithmic}[1]
+    \For{$i = 0, \dots, N - 1$}
+      \State $u_i \gets t_i\, m'_0 \bmod B$
+      \State $t \gets t + u_i\, m\, B^i$ \Comment{обнуляет цифру $t_i$}
+    \EndFor
+    \State $t \gets t / B^N$; \ если $t \ge m$, то $t \gets t - m$
+  \end{algorithmic}
+  \begin{itemize}
+    \item $N^2 + N$ умножений цифр, ни одного деления
+    \item умножение Монтгомери: $2N^2 + N$ умножений цифр
+    \item $4m \le R$, вычеты в $[0, 2m)$ $\Rightarrow$ финальное вычитание не нужно
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Вычисление $m'$: метод Ньютона}
+  \begin{lemma}
+    $m$ нечётно, $mx \equiv 1 \pmod{2^j}$ $\Rightarrow$
+    $m \cdot x(2 - mx) \equiv 1 \pmod{2^{2j}}$.
+  \end{lemma}
+  \begin{itemize}
+    \item старт: $x_0 = m$ (верно по модулю $8$)
+    \item $3 \to 6 \to 12 \to 24 \to \dots$ бит, $\bigO(\log k)$ умножений
+  \end{itemize}
+  \proofarea[0.15\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Чётный модуль}
+  \small
+  \begin{itemize}
+    \item $m$ чётно $\Rightarrow$ $\gcd(R, m) \ne 1$, $R^{-1} \bmod m$ не существует
+    \item $m = 2^e s$, $s$ нечётно: \ $x_1 = x \bmod 2^e$ (младшие биты), \
+      $x_2 = x \bmod s$ (Монтгомери)
+    \item КТО:
+      \[
+        x \bmod m = x_1 + 2^e h, \qquad
+        h = \bigl((x_2 - x_1)\cdot (2^{-e} \bmod s)\bigr) \bmod s
+      \]
+  \end{itemize}
+  \aside{пример: $m = 2^3 \cdot 13 = 104$}
+  \notearea[0.2\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Редукция Барретта}
+  \small
+  $m$ "--- $N$-значное, $0 \le x < B^{2N}$, \ $\mu = \floor{B^{2N}/m}$ (один раз)
+  \[
+    \hat q = \left\lfloor \frac{\floor{x / B^{N-1}} \cdot \mu}{B^{N+1}} \right\rfloor,
+    \qquad q - 2 \le \hat q \le q = \floor{x/m}
+  \]
+  \begin{itemize}
+    \item $x - \hat q m \in [0, 3m)$: не более двух вычитаний
+    \item деления на $B^{N\pm1}$ "--- сдвиги; любой $m$ (и чётный)
+  \end{itemize}
+  \proofarea[0.15\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Числа Мерсенна $M = 2^q - 1$}
+  \small
+  \begin{proposition}
+    $x = H \cdot 2^q + L$, $0 \le L < 2^q$ $\Rightarrow$ $\congr{x}{H + L}{M}$.
+    При $x < 2^{2q}$ хватает двух «сворачиваний».
+  \end{proposition}
+  \begin{itemize}
+    \item сложение с циклическим переносом
+    \item $2^j x \bmod M$ "--- циклический сдвиг $q$-битового слова
+    \item $2^q - 1$ простое $\Rightarrow$ $q$ простое; \ $2^{11} - 1 = 23 \cdot 89$
+    \item псевдомерсенновы: $2^q - c$, \ $x \equiv L + cH$; \ $2^{255} - 19$, $2^{521} - 1$
+  \end{itemize}
+  \aside{$100 \cdot 117 \bmod 127$}
+\end{canvasframe}
+
+\begin{canvasframe}{Числа Ферма $2^n + 1$}
+  \small
+  \begin{proposition}
+    $m = 2^n + 1$, $x = H \cdot 2^n + L$ $\Rightarrow$ $\congr{x}{L - H}{m}$;
+    при $x \le 2^{2n}$: $L - H \in (-m, m)$.
+  \end{proposition}
+  \begin{itemize}
+    \item $2^n + 1$ простое $\Rightarrow$ $n = 2^t$; \ $F_t = 2^{2^t} + 1$
+    \item $F_0, \dots, F_4 = 3, 5, 17, 257, 65537$ "--- простые;
+      $F_5 = 641 \cdot 6700417$
+    \item вычеты $0, \dots, 2^n$ "--- $(n{+}1)$ бит, лишний бит нужен только для $2^n \equiv -1$
+  \end{itemize}
+  \aside{$200 \cdot 150 \bmod 257$}
+\end{canvasframe}
+
+\begin{canvasframe}{Код с уменьшением на единицу}
+  \small
+  $x \ne 0$: \ $0 \,|\, x' = x - 1$ \ ($n$ бит); \qquad $x = 0$: \ $1 \,|\, 0\dots0$
+  \medskip
+  \begin{itemize}
+    \item $(-x)' = \overline{x'}$ (побитовое дополнение)
+    \item $s = x' + y'$: \ перенос $\Rightarrow$ $(x + y)' = s - 2^n$; \
+      иначе $(x+y)' = s + 1$ \ ($s + 1 = 2^n$ $\Rightarrow$ нуль)
+    \item $(2x)'$: сдвиг влево, в младший бит "--- \emph{инвертированный} перенос
+    \item $P = x'y' + x' + y' = H \cdot 2^n + L$ $\Rightarrow$ $(xy)' \equiv L - H$
+  \end{itemize}
+  \aside{коды $1$, $-1$, $0$ при $n = 8$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Главные корни из единицы в $\Zn{m}$}
+  \small
+  \begin{definition}
+    $\omega$ "--- \emph{главный корень степени $n$ из единицы}, если $\omega^n = 1$ и
+    $\sum_{j=0}^{n-1} \omega^{jk} = 0$ при $1 \le k \le n - 1$.
+  \end{definition}
+  \begin{lemma}
+    $\omega^n = 1$, все $\omega^k - 1$ ($1 \le k < n$) обратимы $\Rightarrow$ $\omega$ главный.
+  \end{lemma}
+  \aside{почему в $\CC$ этого не требовалось оговаривать?}
+  \par\smallskip{\small\textcolor{caGray}{Доказательство:}}
+\end{canvasframe}
+
+\begin{theoremframe}{Существование корней}
+  Пусть $\omega^n \equiv 1 \pmod m$. Равносильно:
+  \begin{enumerate}
+    \item $\omega$ "--- главный корень степени $n$ и $\gcd(n, m) = 1$;
+    \item для каждого простого $p \mid m$ порядок $\omega$ по модулю $p$ равен $n$.
+  \end{enumerate}
+  Тогда $n \mid p - 1$ для всех $p \mid m$. Для простого $p$: корень есть $\Leftrightarrow$
+  $n \mid p - 1$.
+\end{theoremframe}
+
+\begin{canvasframe}{ТЧП и теорема о свёртке}
+  \small
+  \[
+    A_k = \sum_{j=0}^{n-1} a_j \omega^{jk}, \qquad
+    a_j = n^{-1} \sum_{k=0}^{n-1} A_k \omega^{-jk} \pmod m
+  \]
+  \[
+    c_j = \sum_{i + l \equiv j \,(\mathrm{mod}\, n)} a_i b_l \quad\Longrightarrow\quad
+    C_k = A_k B_k
+  \]
+  \begin{itemize}
+    \item ортогональность: $\sum_k \omega^{rk} = n\,[r \equiv 0]$
+    \item $n = 2^s$ $\Rightarrow$ БПФ (лекция~4) без изменений, $\bigO(n \log n)$
+    \item точность: $0 \le a_i, b_i < W$, $m > n(W - 1)^2$ $\Rightarrow$ свёртка над $\ZZ$
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $23 \cdot 14$ по модулю $17$}
+  \small
+  $n = 4$, \ $\omega = 4$ \ ($4^2 \equiv -1$), \ $\omega^{-1} \equiv -4$, \
+  $n^{-1} \equiv -4$
+  \[
+    a = (3, 2, 0, 0), \qquad b = (4, 1, 0, 0)
+  \]
+  \[
+    W = \begin{pmatrix} 1 & 1 & 1 & 1\\ 1 & 4 & -1 & -4\\ 1 & -1 & 1 & -1\\ 1 & -4 & -1 & 4
+    \end{pmatrix}
+  \]
+  \notearea[0.2\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{ТЧП Мерсенна}
+  Пусть $q$ "--- нечётное простое, $M = 2^q - 1$. Тогда в $\Zn{M}$
+  \begin{itemize}
+    \item $\omega = 2$ "--- главный корень степени $q$;
+    \item $\omega = -2$ "--- главный корень степени $2q$.
+  \end{itemize}
+\end{theoremframe}
+
+\begin{canvasframe}{ТЧП Мерсенна: свойства}
+  \begin{itemize}
+    \item $\omega^{jk} = 2^{jk \bmod q}$: умножение "--- циклический сдвиг
+    \item прямое и обратное ТЧП \textbf{без умножений}
+    \item длина $q$ или $2q$ "--- не степень двойки: нет БПФ по основанию $2$
+    \item длина привязана к слову: $M_{31} = 2^{31} - 1$, $n \le 62$
+  \end{itemize}
+  \aside{$2047 = 23 \cdot 89$: есть ли ТЧП длины $11$?}
+\end{canvasframe}
+
+\begin{theoremframe}{ТЧП Ферма}
+  $F_t = 2^b + 1$, $b = 2^t$. В $\Zn{F_t}$:
+  \begin{itemize}
+    \item $\omega = 2$ "--- главный корень степени $2b$; \ $2^{2b/n}$ "--- степени $n = 2^s$;
+    \item ($t \ge 2$) $\omega = 2^{b/4}(2^{b/2} - 1) \equiv \sqrt 2$ "--- степени $4b$;
+    \item $n^{-1} \equiv -2^{b - s}$.
+  \end{itemize}
+\end{theoremframe}
+
+\begin{canvasframe}{ТЧП Ферма: свойства и ограничения}
+  \small
+  \begin{itemize}
+    \item $n = 2^s$: БПФ, «бабочки» $x \pm \omega^k y$ "--- сдвиг и сложение
+    \item $n^{-1}$ "--- тоже сдвиг; вычеты "--- код с уменьшением на единицу
+    \item $F_3 = 257$: $\ord 2 = 16$, \ $\ord 60 = 32$ \ ($60^2 \equiv 2$)
+    \item $F_5$: $n \le 128$, цифры $13$ бит $\Rightarrow$ числа до $832$ бит
+  \end{itemize}
+  \medskip
+  \begin{tabular}{l|c|c}
+    & Мерсенн $2^q - 1$ & Ферма $2^b + 1$ \\ \hline
+    приведение & $H + L$ & $L - H$ \\
+    корень & $2$ ($n = q$), $-2$ ($2q$) & $2$ ($2b$), $\sqrt2$ ($4b$) \\
+    БПФ & нет & да \\
+  \end{tabular}
+\end{canvasframe}
+
+\begin{canvasframe}{Итоги}
+  \small
+  \begin{itemize}
+    \item Монтгомери: любой нечётный $m$; деление на $m$ $\to$ сдвиг на $k$ бит;
+      выгоден для цепочек умножений (возведение в степень "--- лекция~6)
+    \item чётный $m$: КТО по модулям $2^e$ и $s$
+    \item Барретт: любой $m$, оценка частного умножением на $\floor{B^{2N}/m}$
+    \item специальные модули: приведение за $\bigO(N)$
+    \item ТЧП: точная свёртка; в кольцах Ферма и Мерсенна "--- одни сдвиги и сложения
+  \end{itemize}
+  \aside{какой метод применим к модулю RSA?}
+\end{canvasframe}
+
+\end{document}

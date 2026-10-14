@@ -1,0 +1,301 @@
+% Lecture 7 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{7}{Квадратичные сравнения. Методы Чиполлы и Гензеля}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Зачем извлекать корни по модулю}
+  Задача: решить $x^2 \equiv a \Mod{m}$.
+  \begin{itemize}\small
+    \item Эллиптические кривые: восстановить $y$ по $x$ из $y^2 = x^3 + Ax + B$ в $\GF{p}$
+      (сжатие точек, отображение сообщения в точку)
+    \item Квадратичное решето: корни $t^2 \equiv N \Mod{p}$ и $\Mod{p^k}$ для факторной базы
+    \item Криптосистема Рабина: $c = m^2 \bmod N$, $N = pq$
+  \end{itemize}
+  \begin{center}\small
+  \begin{tabular}{l|l}
+    модуль & сложность \\ \hline
+    $p$ простое & полиномиально (вероятностно) \\
+    $p^k$ & + лемма Гензеля \\
+    $N = pq$, разложение известно & + КТО \\
+    $N = pq$, разложение неизвестно & \alert{равносильно факторизации}
+  \end{tabular}
+  \end{center}
+\end{canvasframe}
+
+\begin{canvasframe}{Квадратичные вычеты}
+  \begin{definition}
+    $a$, $p \nmid a$, "--- \emph{квадратичный вычет} по модулю $p$, если $x^2 \equiv a \Mod p$
+    разрешимо; иначе "--- \emph{невычет}.
+  \end{definition}
+  \begin{proposition}
+    Если решение есть, то их ровно два: $\pm x_0$. Вычетов и невычетов среди
+    $1, \dots, p - 1$ поровну "--- по $\frac{p-1}{2}$.
+  \end{proposition}
+  Пример, $p = 11$: \quad $1^2, 2^2, 3^2, 4^2, 5^2 \equiv 1, 4, 9, 5, 3$.
+  \aside{почему важно, что $p$ нечётно?}
+\end{canvasframe}
+
+\begin{theoremframe}{Критерий Эйлера}
+  Пусть $p$ "--- нечётное простое, $p \nmid a$. Тогда
+  \[
+    a^{(p-1)/2} \equiv \begin{cases} \phantom{-}1, & a \text{ "--- вычет},\\
+      -1, & a \text{ "--- невычет} \end{cases} \pmod p.
+  \]
+\end{theoremframe}
+
+\begin{canvasframe}{Символ Лежандра}
+  \[
+    \legendre{a}{p} = \begin{cases} 0, & p \mid a,\\ 1, & a \text{ "--- вычет},\\
+      -1, & a \text{ "--- невычет}, \end{cases}
+    \qquad \legendre{a}{p} \equiv a^{(p-1)/2} \Mod p.
+  \]
+  \begin{enumerate}
+    \item $\legendre{ab}{p} = \legendre{a}{p}\legendre{b}{p}$
+    \item $\legendre{-1}{p} = (-1)^{(p-1)/2}$, \quad $\legendre{2}{p} = (-1)^{(p^2-1)/8}$
+    \item $\legendre{p}{q}\legendre{q}{p} = (-1)^{\frac{p-1}{2}\cdot\frac{q-1}{2}}$
+      \quad (закон взаимности; без доказательства)
+  \end{enumerate}
+  Число решений $x^2 \equiv a \Mod p$ равно $1 + \legendre{a}{p}$.
+  \quad\textcolor{caRed}{\textbf{?}~$\legendre{10}{89} = \;?$}
+\end{canvasframe}
+
+\begin{theoremframe}{Случай $p \equiv 3 \pmod 4$}
+  Если $p \equiv 3 \Mod 4$ и $a$ "--- вычет, то $x = a^{(p+1)/4} \bmod p$ "--- корень:
+  $x^2 \equiv a \Mod p$.
+  \par\smallskip Для невычета $a$ то же $x$ даёт $x^2 \equiv -a$.
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: $p = 23$, $a = 2$}
+  $\dfrac{p+1}{4} = 6$: \qquad $x = 2^6 = 64 \equiv \;?$
+  \penspace[0.3\textheight]
+  \aside{а если $a = 5$?}
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{Случай $p \equiv 5 \pmod 8$: формула Аткина}
+  Пусть $p \equiv 5 \Mod 8$, $a$ "--- вычет,
+  \[
+    b = (2a)^{(p-5)/8}, \qquad i = 2ab^2, \qquad x = ab(i - 1).
+  \]
+  Тогда $i^2 \equiv -1$ и $x^2 \equiv a \Mod p$.
+\end{theoremframe}
+
+\begin{canvasframe}{Трудный случай $p \equiv 1 \pmod 8$}
+  \begin{itemize}
+    \item Все известные быстрые алгоритмы используют \emph{невычет}
+    \item Случайное число "--- невычет с вероятностью $\frac12$
+    \item Детерминированный полиномиальный поиск невычета не известен
+      (при ОГР наименьший невычет $< 2\ln^2 p$)
+    \item Алгоритмы типа Лас-Вегас: ответ всегда верен, время случайно
+  \end{itemize}
+  \bigskip
+  Два алгоритма:
+  \begin{itemize}
+    \item Тоннелли"--~Шенкс: $\bigO(\log p + s^2)$ умножений, $p - 1 = 2^s q$
+    \item Чиполла: $\bigO(\log p)$ умножений независимо от $s$
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Алгоритм Тоннелли"--~Шенкса}
+  \small
+  $p - 1 = 2^s q$, $q$ нечётно; $z$ "--- невычет.
+  \begin{algorithmic}[1]
+    \State $c \gets z^q$, $x \gets a^{(q+1)/2}$, $b \gets a^q$, $m \gets s$
+    \While{$b \ne 1$}
+      \State $i \gets \min\{i \ge 1 : b^{2^i} = 1\}$
+      \State $d \gets c^{2^{m-i-1}}$; \ $x \gets xd$, $c \gets d^2$, $b \gets bd^2$, $m \gets i$
+    \EndWhile
+    \State \Return $x$
+  \end{algorithmic}
+  Инварианты: $x^2 = ab$, \ $\ord c = 2^m$, \ $\ord b \mid 2^{m-1}$.
+  \penspace[0.05\textheight]
+  \aside{что делает алгоритм при $p \equiv 3 \Mod 4$?}
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Чиполла, шаг 1: выбор $t$}
+  Если $a$ "--- вычет по модулю $p$, то $t^2 - a$ "--- невычет ровно для $\frac{p-1}{2}$
+  значений $t \in \GF{p}$. Среднее число попыток $\frac{2p}{p-1} \approx 2$.
+\end{theoremframe}
+
+\begin{canvasframe}{Чиполла, шаг 2: поле $\GF{p^2} = \GF{p}(\omega)$}
+  $d = t^2 - a$ "--- невычет $\Rightarrow$ $X^2 - d$ неприводим,
+  \[
+    \GF{p^2} = \{u + v\omega : u, v \in \GF{p}\}, \qquad \omega^2 = d,
+  \]
+  \[
+    (u_1 + v_1\omega)(u_2 + v_2\omega) = (u_1u_2 + d\,v_1v_2) + (u_1v_2 + u_2v_1)\,\omega.
+  \]
+  \begin{lemma}[Фробениус]
+    $(u + v\omega)^p = u - v\omega$.
+  \end{lemma}
+  \proofarea[0.1\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Чиполлы}
+  Пусть $a$ "--- вычет, $d = t^2 - a$ "--- невычет, $\omega^2 = d$. Тогда
+  \[
+    x = (t + \omega)^{(p+1)/2} \in \GF{p} \quad\text{и}\quad x^2 \equiv a \Mod p.
+  \]
+\end{theoremframe}
+
+\begin{canvasframe}{Алгоритм Чиполлы и сложность}
+  \begin{algorithmic}[1]
+    \Require $\legendre{a}{p} = 1$ \ (проверить критерием Эйлера!)
+    \Repeat \ $t \gets 1, 2, \dots$ (или случайно), $d \gets t^2 - a$
+    \Until{$d^{(p-1)/2} \equiv -1$}
+    \State $x + y\omega \gets (t + \omega)^{(p+1)/2}$ бинарным алгоритмом в $\GF{p}(\omega)$
+    \State \Return $x$ \Comment{$y = 0$}
+  \end{algorithmic}
+  \medskip
+  Сложность: \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $x^2 \equiv 10 \pmod{13}$}
+  Критерий Эйлера: $10^6 \equiv \;?$
+  \penspace[0.07\textheight]
+  Подбор $t$: \quad $t = 1$: $1 - 10 \equiv 4$; \quad $t = 2$: $4 - 10 \equiv 7$, \ $7^6 \equiv \;?$
+  \penspace[0.07\textheight]
+  $\omega^2 = 7$, \quad $(2 + \omega)^7$, \quad $7 = 111_2$:
+  \[
+    \begin{array}{c|c|c}
+      \text{бит} & r^2 & r \\ \hline
+      1 & \hspace{7em} & \hspace{7em} \\
+      1 & & \\
+      1 & &
+    \end{array}
+  \]
+\end{canvasframe}
+
+\begin{canvasframe}{От $p$ к $p^k$: идея Ньютона}
+  \centering
+  \begin{tikzpicture}[scale=0.9, >=stealth]
+    \draw[->] (-0.3,0) -- (5.2,0) node[right] {$x$};
+    \draw[thick, caBlue, domain=0.6:4.6, samples=40] plot (\x, {0.18*\x*\x - 0.9});
+    \fill (4.2,2.275) circle (1.5pt) node[above left] {$x_k$};
+    \draw[dashed] (4.2,0) -- (4.2,2.275);
+    \draw[caRed] (4.2,2.275) -- ({4.2 - 2.275/1.512},0);
+    \fill[caRed] ({4.2 - 2.275/1.512},0) circle (1.5pt) node[below right] {$x_{k+1}$};
+    \fill (2.236,0) circle (1.5pt) node[below left] {$\sqrt{5}$};
+  \end{tikzpicture}
+  \[
+    x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}
+  \]
+  По модулю $p^k$: «точность» "--- степень $p$, делящая $f(x_k)$.
+\end{canvasframe}
+
+\begin{theoremframe}{Лемма Гензеля}
+  Пусть $f \in \ZZ[X]$, $f(x_k) \equiv 0 \Mod{p^k}$, $f'(x_k) \not\equiv 0 \Mod p$. Тогда
+  существует единственный по модулю $p^{k+1}$ корень $x_{k+1} \equiv x_k \Mod{p^k}$:
+  \[
+    x_{k+1} = x_k + t p^k, \qquad t \equiv -\frac{f(x_k)}{p^k}\, f'(x_k)^{-1} \Mod p .
+  \]
+\end{theoremframe}
+
+\begin{canvasframe}{Квадратичный подъём (Ньютон)}
+  \begin{proposition}
+    Если $f(x) \equiv 0 \Mod{p^k}$, $f'(x)$ обратим по модулю $p$,
+    $u \equiv f'(x)^{-1} \Mod{p^{2k}}$, то
+    \[
+      x' = x - f(x)\,u \quad\text{"--- корень по модулю } p^{2k}.
+    \]
+  \end{proposition}
+  \proofarea[0.1\textheight]
+  \aside{сколько шагов нужно до $p^{100}$?}
+  \aside{где ещё в курсе встречался подъём «удвоением точности»?}
+\end{canvasframe}
+
+\begin{theoremframe}{Сравнение $x^2 \equiv a \pmod{p^k}$}
+  Пусть $p$ "--- нечётное простое, $p \nmid a$. Тогда $x^2 \equiv a \Mod{p^k}$ имеет
+  $1 + \legendre{a}{p} \in \{0, 2\}$ решений;
+  \[
+    x_{j+1} = x_j + t_j p^j, \qquad t_j \equiv -\frac{x_j^2 - a}{p^j}\,(2x_1)^{-1} \Mod p.
+  \]
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: $x^2 \equiv 2 \pmod{343}$, $343 = 7^3$}
+  $x_1 = 3$ ($3^2 = 9 \equiv 2$), \quad $(2x_1)^{-1} = 6^{-1} \equiv \;? \Mod 7$
+  \[
+    \begin{array}{c|c|c|c|c|c}
+      j & x_j & x_j^2 - 2 \bmod 7^{j+1} & (x_j^2 - 2)/7^j & t_j & x_{j+1} \\ \hline
+      1 & 3 & \hspace{3em} & \hspace{3em} & \hspace{2em} & \hspace{3em} \\[1ex]
+      2 & & & & &
+    \end{array}
+  \]
+  \aside{а если $p \mid a$? $x^2 \equiv 9 \Mod{81}$}
+\end{canvasframe}
+
+\begin{canvasframe}{Модуль $2^k$}
+  $a$ нечётно. Число решений $x^2 \equiv a \Mod{2^k}$:
+  \begin{center}
+  \begin{tabular}{c|c}
+    $k = 1$ & $1$ \\
+    $k = 2$ & $2$ при $a \equiv 1 \Mod 4$, иначе $0$ \\
+    $k \ge 3$ & $4$ ($\pm x$, $\pm x + 2^{k-1}$) при $a \equiv 1 \Mod 8$, иначе $0$
+  \end{tabular}
+  \end{center}
+  $x^2 \equiv 1 \Mod 8$: \ $x \in \{1, 3, 5, 7\}$.
+  \penspace[0.18\textheight]
+  \aside{почему лемма Гензеля здесь неприменима?}
+\end{canvasframe}
+
+\begin{theoremframe}{Составной модуль}
+  Пусть $n = p_1^{e_1} \cdots p_r^{e_r}$ нечётно, $\gcd(a, n) = 1$. Число решений
+  $x^2 \equiv a \Mod n$ равно
+  \[
+    \prod_{i=1}^r \Bigl(1 + \legendre{a}{p_i}\Bigr) \in \{0, 2^r\}.
+  \]
+  Корни: $x = \sum_i (\pm r_i)\, e_i \bmod n$, \ $e_i \equiv 1 \Mod{p_i^{e_i}}$,
+  $e_i \equiv 0$ по остальным модулям.
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: $x^2 \equiv 23 \pmod{77}$}
+  $77 = 7 \cdot 11$.
+  \begin{itemize}
+    \item по модулю $7$: $23 \equiv 2$, \ $2^{(7+1)/4} = \;?$
+    \item по модулю $11$: $23 \equiv 1$, \ корни $\pm 1$
+    \item базис КТО: $e_1 = 11 \cdot (11^{-1} \bmod 7) = \;?$, \
+      $e_2 = 7 \cdot (7^{-1} \bmod 11) = \;?$
+  \end{itemize}
+  \penspace[0.35\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Рабина}
+  Пусть $N = pq$.
+  \begin{enumerate}
+    \item Если $x^2 \equiv y^2 \Mod N$, $y \not\equiv \pm x$, то $\gcd(x - y, N) \in \{p, q\}$.
+    \item Алгоритм, извлекающий корни по модулю $N$, даёт вероятностный алгоритм
+      факторизации $N$ (в среднем $\le 2$ обращения).
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{canvasframe}{Криптосистема Рабина}
+  \centering
+  \begin{tikzpicture}[>=stealth]
+    \node (A) at (0,0) {\personicon{caBlue}{Алиса}};
+    \node (B) at (8,0) {\personicon{caRed}{Боб}};
+    \draw[->, thick] (1,0.7) -- node[above] {$N = pq$ (открытый ключ)} (7,0.7);
+    \draw[<-, thick] (1,0.1) -- node[below] {$c = m^2 \bmod N$} (7,0.1);
+  \end{tikzpicture}
+  \par\raggedright
+  Алиса ($p \equiv q \equiv 3 \Mod 4$): $m_p = c^{(p+1)/4} \bmod p$, \ $m_q = c^{(q+1)/4} \bmod q$,
+  КТО $\Rightarrow$ $4$ кандидата; верный "--- по избыточности текста.
+  \begin{itemize}
+    \item расшифрование без $p, q$ $\Leftrightarrow$ факторизация $N$
+    \item атака с выбором шифртекста раскладывает $N$
+    \item \textcolor{caRed}{\textbf{?}~$N = 77$, $c = 23$: какие кандидаты?}
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Итоги}
+  \begin{itemize}
+    \item Критерий Эйлера: $\legendre{a}{p} \equiv a^{(p-1)/2}$ "--- проверка за $\bigO(\log p)$
+      умножений
+    \item $p \equiv 3 \Mod 4$: $x = a^{(p+1)/4}$; \ $p \equiv 5 \Mod 8$: формула Аткина
+    \item Общий случай: Тоннелли"--~Шенкс или Чиполла, $(t + \omega)^{(p+1)/2}$ в $\GF{p^2}$
+    \item $p^k$: лемма Гензеля, $x_{k+1} = x_k - f(x_k) f'(x_k)^{-1}$
+    \item $n$ составное: КТО, $2^r$ корней
+    \item $N = pq$ без разложения: корни $\Leftrightarrow$ факторизация (Рабин)
+  \end{itemize}
+\end{canvasframe}
+\end{document}

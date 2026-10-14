@@ -1,0 +1,277 @@
+% Lecture 5 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{5}{Задача факторизации, RSA и алгоритм \texorpdfstring{$p - 1$}{p - 1} Полларда}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{RSA}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm,scale=0.8,every node/.style={transform shape}]
+    \node (A) at (0,0) {\personicon{caBlue}{Алиса}};
+    \node (B) at (10,0) {\personicon{caRed}{Боб}};
+    \draw[{Stealth[length=3mm]}-,thick] (1,0.6) -- (9,0.6) node[midway,above] {$c$};
+    \draw[-{Stealth[length=3mm]},thick] (1,0.0) -- (9,0.0) node[midway,below] {$(N, e)$};
+    \node[font=\small,align=left,anchor=north] at (0.5,-0.9)
+      {$N = pq$, $\varphi(N) = (p-1)(q-1)$\\
+       $d \equiv e^{-1} \Mod{\varphi(N)}$\\ $m \gets c^d \bmod N$};
+    \node[font=\small,align=left,anchor=north] at (10,-0.9)
+      {$0 \le m < N$\\ $c \gets m^e \bmod N$};
+    \node (E) at (5,-1.6) {\personicon{caGray}{Ева}};
+    \node[font=\small,anchor=north] at (5,-2.5) {знает: $N, e, c$};
+  \end{tikzpicture}
+  \aside{почему Ева не может вычислить $d$, как Алиса?}
+\end{canvasframe}
+
+\begin{canvasframe}{Основная теорема арифметики}
+  \small
+  \begin{lemma}
+    Наименьший делитель $d > 1$ числа $n > 1$ прост; если $n$ составное, то $d \le \sqrt n$.
+  \end{lemma}
+  \begin{lemma}[Евклид]
+    $p$ простое, $p \mid ab$ $\Rightarrow$ $p \mid a$ или $p \mid b$.
+  \end{lemma}
+  \begin{theorem}
+    Каждое $n > 1$ "--- произведение простых, единственное с точностью до порядка.
+  \end{theorem}
+  \aside{$6 = 2 \cdot 3 = (1 + \sqrt{-5})(1 - \sqrt{-5})$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Доказательство}
+  \penspace[0.6\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Задача факторизации}
+  \small
+  По составному $N$ найти \emph{один} нетривиальный делитель $1 < d < N$.
+  \begin{itemize}
+    \item Простоту проверяем быстро (Миллер"--~Рабин)
+    \item Перебор $d = 2, \dots, \floor{\sqrt N}$: $\bigO(\sqrt N) = \bigO(2^{n/2})$
+      делений, $n = \log_2 N$
+    \item $L_N[\alpha, c] = \exp\bigl(c (\ln N)^\alpha (\ln\ln N)^{1-\alpha}\bigr)$
+  \end{itemize}
+  \aside{сколько делений для $2048$ бит?}
+\end{canvasframe}
+
+\begin{canvasframe}{Сложность факторизации}
+  \small
+  \begin{tabular}{ll}
+    перебор делителей & $L_N[1, \frac12] = N^{1/2}$\\
+    $p - 1$ Полларда & зависит от гладкости $p - 1$\\
+    квадратичное решето (лекция 6) & $L_N[\frac12, 1]$\\
+    эллиптические кривые (лекция 10) & $L_p[\frac12, \sqrt 2]$\\
+    решето числового поля & $L_N[\frac13, 1{,}923]$
+  \end{tabular}
+  \par\medskip
+  Рекорд: RSA-250, $829$ бит (2020)
+\end{canvasframe}
+
+\begin{canvasframe}{Расширенный алгоритм Евклида}
+  \small
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      $(r, u, v)_0 = (a, 1, 0)$, $(r, u, v)_1 = (b, 0, 1)$,\\
+      $(r, u, v)_{i+1} = (r, u, v)_{i-1} - q_i (r, u, v)_i$
+      \begin{theorem}[Безу]
+        $r_i = u_i a + v_i b$; последний $r_i \ne 0$ "--- $\gcd(a, b)$;
+        шагов $\le 2\log_2 b + 1$.
+      \end{theorem}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \[\xgcdtable{3120}{17}\]
+    \end{column}
+  \end{columns}
+  \aside{$17^{-1} \bmod 3120$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Функция Эйлера}
+  \small
+  \begin{definition}
+    $\varphi(N) = \abs{\Znx{N}}$ "--- число вычетов, взаимно простых с $N$.
+  \end{definition}
+  \begin{proposition}
+    $\varphi(p^k) = p^k - p^{k-1}$, \ $\varphi(pq) = (p - 1)(q - 1)$, \
+    $\varphi(mn) = \varphi(m)\varphi(n)$ при $\gcd(m, n) = 1$.
+  \end{proposition}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Эйлера}
+  Если $\gcd(a, N) = 1$, то $a^{\varphi(N)} \equiv 1 \Mod{N}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Криптосистема RSA}
+  \small
+  \begin{enumerate}
+    \item \textbf{Ключи:} $p \ne q$ простые, $N = pq$; $\gcd(e, \varphi(N)) = 1$;
+      $d \equiv e^{-1} \Mod{\varphi(N)}$. Открытый ключ $(N, e)$, закрытый "--- $d$.
+    \item \textbf{Шифрование:} $c = m^e \bmod N$, \ $0 \le m < N$.
+    \item \textbf{Расшифрование:} $m = c^d \bmod N$.
+  \end{enumerate}
+  \aside{а если $\gcd(e, \varphi(N)) > 1$?}
+  \aside{стоимость операций?}
+\end{canvasframe}
+
+\begin{theoremframe}{Корректность RSA}
+  $ed \equiv 1 \Mod{\varphi(N)}$ $\Rightarrow$ $m^{ed} \equiv m \Mod{N}$ для \emph{всех} $m$,
+  и при $\gcd(m, N) > 1$.
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: $p = 61$, $q = 53$, $e = 17$}
+  \small
+  $N = 3233$, $\varphi(N) = 3120$, $d = 2753$;\quad $m = 65$, $17 = 10001_2$:
+  \[65 \to 992 \to 1232 \to 1547 \to 789 \xrightarrow{\cdot 65} 2790 = c\]
+  \penspace[0.35\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Расшифрование по КТО}
+  \small
+  \[
+    d_p = d \bmod (p - 1),\quad d_q = d \bmod (q - 1),\quad m_p = c^{d_p} \bmod p,\quad
+    m_q = c^{d_q} \bmod q
+  \]
+  \[
+    m = m_q + q \cdot \bigl((m_p - m_q)\, q^{-1} \bmod p\bigr) \qquad (\text{Гарнер})
+  \]
+  \aside{во сколько раз быстрее?}
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Стойкость RSA и факторизация}
+  \centering\small
+  \begin{tikzpicture}[
+      box/.style={draw=caBlue,thick,rounded corners,inner sep=4pt,align=center}]
+    \node[box] (F) at (0,0) {разложение $N$};
+    \node[box] (P) at (4.2,0) {$\varphi(N)$};
+    \node[box] (D) at (8.2,0) {ключ $d$};
+    \node[box] (R) at (4.2,-1.6) {задача RSA: $c \mapsto c^{1/e} \bmod N$};
+    \draw[{Stealth}-{Stealth},thick] (F) -- (P);
+    \draw[{Stealth}-{Stealth},thick] (P) -- (D);
+    \draw[-{Stealth},thick] (F) |- (R);
+    \draw[-{Stealth},thick,dashed,caRed] (R) -| node[pos=0.25,below] {?} (D);
+  \end{tikzpicture}
+  \par\medskip\raggedright
+  $p + q = N - \varphi(N) + 1$, \ $pq = N$ \ $\Rightarrow$ \ $x^2 - (p + q)x + N = 0$
+  \aside{$N = 3233$, $\varphi(N) = 3120$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Разложение $N$ по ключам $e$ и $d$}
+  \small
+  \begin{lemma}
+    $N = pq$: $x^2 \equiv 1 \Mod{N}$ имеет 4 корня $\pm 1, \pm x_0$;
+    $x \not\equiv \pm 1$ $\Rightarrow$ $\gcd(x - 1, N) \in \{p, q\}$.
+  \end{lemma}
+  \textbf{Алгоритм.} $ed - 1 = 2^t r$, $r$ нечётно; $x_0 = a^r$, $x_{i+1} = x_i^2 \bmod N$
+  до $1$. Если $x_0 = 1$ или перед $1$ стоит $-1$ "--- другое $a$; иначе
+  $\gcd(x_i - 1, N)$.
+  \aside{где мы это уже видели?}
+\end{canvasframe}
+
+\begin{theoremframe}{Вероятность успеха}
+  Для случайного $a$ одна попытка успешна с вероятностью $\ge 1/2$.
+\end{theoremframe}
+
+\begin{canvasframe}{Атака с общим модулем}
+  \small
+  \begin{proposition}
+    $c_i = m^{e_i} \bmod N$, $\gcd(e_1, e_2) = 1$, $u e_1 + v e_2 = 1$
+    $\Rightarrow$ $m \equiv c_1^u c_2^v \Mod{N}$.
+  \end{proposition}
+  Пример: $N = 3233$, $e_1 = 17$, $e_2 = 7$, $c_1 = 2790$, $c_2 = 1317$.
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{«Учебный» RSA небезопасен}
+  \small
+  \begin{itemize}
+    \item $e = 3$, $m < N^{1/3}$: $c = m^3$ над $\ZZ$
+    \item Хостад: одно $m$, $e = 3$, модули $N_1, N_2, N_3$ $\Rightarrow$ КТО
+    \item Детерминированность; $(m_1 m_2)^e = m_1^e m_2^e$
+    \item Общий простой у $N_A$, $N_B$: $\gcd(N_A, N_B)$
+    \item Один $N$ на нескольких пользователей
+  \end{itemize}
+  $\Rightarrow$ случайное дополнение (OAEP, PKCS\,\#1)
+\end{canvasframe}
+
+\begin{canvasframe}{Алгоритм $p - 1$ Полларда: идея}
+  \small
+  $p \mid N$, \ $p - 1 \mid M$ \ $\Rightarrow$ \ $a^M \equiv 1 \Mod{p}$ \ $\Rightarrow$ \
+  $p \mid \gcd(a^M - 1, N)$
+  \begin{definition}
+    $n$ \emph{$B$-гладкое}: все простые делители $\le B$;
+    \emph{$B$-степенно-гладкое}: все $\ell^\alpha \parallel n$ не больше $B$,
+    т.\,е. $n \mid \lcm(1, \dots, B)$.
+  \end{definition}
+  $M = B!$ \ или \ $M = \lcm(1, \dots, B) = \prod_{\ell \le B} \ell^{\floor{\log_\ell B}}$
+  \aside{$1200 = 2^4 \cdot 3 \cdot 5^2$?}
+\end{canvasframe}
+
+\begin{theoremframe}{Алгоритм $p - 1$: обоснование}
+  $p \mid N$, $p - 1$ $B$-степенно-гладкое, $\gcd(a, N) = 1$ $\Rightarrow$
+  $p \mid \gcd(a^M - 1, N)$; если $\operatorname{ord}_q a \nmid M$ для $q \mid N$, то
+  делитель нетривиален.
+\end{theoremframe}
+
+\begin{canvasframe}{Алгоритм $p - 1$}
+  \small
+  \begin{algorithmic}[1]
+    \State $x \gets a$ \Comment{$a = 2$}
+    \For{$j = 2, \dots, B$}
+      \State $x \gets x^j \bmod N$, \quad $g \gets \gcd(x - 1, N)$ \Comment{$x = a^{j!}$}
+      \If{$1 < g < N$} \Return $g$ \EndIf
+      \If{$g = N$} \Return неудача: назад / другое $a$ \EndIf
+    \EndFor
+    \State \Return неудача: увеличить $B$
+  \end{algorithmic}
+  \aside{почему не $a = N - 1$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $N = 1238231$, $a = 2$}
+  \footnotesize
+  \[
+  \begin{array}{c|rrrrrrrrr}
+    j & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\ \hline
+    2^{j!} & 4 & 64 & 680213 & 137976 & 722863 & 1062990 & 774506 & 341300 & 1029258\\
+    \gcd & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & ?
+  \end{array}
+  \]
+  \penspace[0.45\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Неудачи: $\gcd = 1$ и $\gcd = N$}
+  \small
+  \begin{itemize}
+    \item $g = 1$: у всех $p - 1$ большой простой множитель $\Rightarrow$ увеличить $B$
+    \item $g = N$: порядки $a$ по всем $p \mid N$ разделили $M$ одновременно
+      $\Rightarrow$ вернуться к промежуточному $x$, добавлять $\ell^{e}$, затем $\ell$;
+      иначе другое $a$
+  \end{itemize}
+  \aside{$N = 41 \cdot 61$, $B = 10$?}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Сложность алгоритма $p - 1$}
+  \small
+  \begin{proposition}
+    $a^{\lcm(1, \dots, B)} \bmod N$: $\bigO(B)$ умножений ($\psi(B) \sim B$);
+    $a^{B!}$: $\bigO(B \log B)$.
+  \end{proposition}
+  \begin{itemize}
+    \item Время зависит от гладкости $p - 1$, а не от $N$
+    \item $\Pr[p - 1 \text{ $B$-гладкое}] \approx u^{-u}$, $u = \frac{\ln p}{\ln B}$
+    \item Вторая стадия: один множитель $Q \in (B_1, B_2]$
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Следствия для RSA и что дальше}
+  \small
+  \begin{itemize}
+    \item «Сильные» простые: у $p - 1$ и $p + 1$ есть большой простой делитель;
+      $p = 2p' + 1$
+    \item Случайные $1024$-битные $p$: гладкость $p - 1$ практически невероятна
+    \item Ленстра: $\Znx{p}$ $\to$ $E(\FF_p)$, порядок меняется с кривой (лекция 10)
+    \item Квадратичное решето "--- лекция 6
+  \end{itemize}
+\end{canvasframe}
+
+\end{document}

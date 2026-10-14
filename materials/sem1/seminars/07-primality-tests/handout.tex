@@ -1,0 +1,78 @@
+% Seminar 7 handout (lecture 8): Wilson, Fermat, Carmichael/Korselt, Miller-Rabin, Jacobi, Solovay-Strassen.
+\documentclass{ca-handout}
+
+\seminar{7}{Тесты простоты}
+
+\begin{document}
+\makehandouttitle
+
+\section{Теорема Вильсона}
+$n > 1$ простое $\iff$ $\congr{(n - 1)!}{-1}{n}$. Для составного $n > 4$: $(n - 1)! \equiv 0 \pmod n$;
+для $n = 4$: $3! \equiv 2$. Вычисление: $f_k = f_{k-1} \cdot k \bmod n$; $n - 2$ умножений "---
+экспонента от длины $\log n$, практического значения не имеет. Для простого $p$ числа
+$2, \ldots, p - 2$ разбиваются на пары взаимно обратных: $x \equiv x^{-1} \iff x^2 \equiv 1 \iff x \equiv \pm 1$.
+
+\section{Тест Ферма}
+\begin{reminder}[title={Малая теорема Ферма и псевдопростые числа}]
+Если $p$ простое и $p \nmid a$, то $\congr{a^{p-1}}{1}{p}$. Для нечётного $n$ и основания $a$:
+\begin{itemize}
+  \item $\gcd(a, n) > 1$ или $a^{n-1} \not\equiv 1 \pmod n$ $\Rightarrow$ $a$ "--- \emph{свидетель}, $n$ составное;
+  \item $\congr{a^{n-1}}{1}{n}$ $\Rightarrow$ $n$ \emph{вероятно простое} по основанию $a$; составное
+    такое $n$ "--- \emph{псевдопростое}, $a$ "--- \emph{лжесвидетель} ($341 = 11 \cdot 31$ по основанию $2$).
+\end{itemize}
+\end{reminder}
+$a^{n-1} \bmod n$ "--- бинарным методом слева направо: по битам $n - 1$ от старшего, $r \gets r^2$,
+при бите $1$ ещё $r \gets r \cdot a$ (все вычисления по модулю $n$). Лжесвидетели образуют
+подгруппу $L_F(n) \subseteq \Znx{n}$; если есть хоть один свидетель в $\Znx{n}$, то
+$\abs{L_F(n)} \le \varphi(n)/2$. Для $n = p_1 \cdots p_k$ (различные простые)
+$\abs{L_F(n)} = \prod_i \gcd(n - 1, p_i - 1)$.
+
+\section{Числа Кармайкла}
+\begin{reminder}[title={Критерий Корсельта}]
+Составное $n$ "--- \emph{число Кармайкла} ($a^{n-1} \equiv 1$ для всех $a \in \Znx{n}$) $\iff$
+$n$ свободно от квадратов и $p - 1 \mid n - 1$ для каждого простого $p \mid n$.
+\end{reminder}
+Число Кармайкла нечётно и имеет $\ge 3$ простых делителя. Примеры: $561 = 3 \cdot 11 \cdot 17$,
+$1105 = 5 \cdot 13 \cdot 17$, $1729 = 7 \cdot 13 \cdot 19$, $2465 = 5 \cdot 17 \cdot 29$,
+$2821 = 7 \cdot 13 \cdot 31$, $6601 = 7 \cdot 23 \cdot 41$, $8911 = 7 \cdot 19 \cdot 67$.
+Тест Ферма выявляет их только основанием, имеющим общий делитель с $n$. Если $p^2 \mid n$, то
+$a = 1 + n/p$ "--- свидетель, взаимно простой с $n$: $a^{k} \equiv 1 + k\,n/p \pmod n$.
+
+\section{Тест Миллера"--~Рабина}
+\begin{reminder}[title={Один раунд с основанием $a$}]
+$n - 1 = 2^s d$, $d$ нечётно; $x_0 = a^d \bmod n$, $x_i = x_{i-1}^2 \bmod n$ ($x_s = a^{n-1}$).
+\begin{itemize}
+  \item $x_0 = 1$ или $x_i = n - 1$ при некотором $0 \le i < s$ $\Rightarrow$ раунд пройден
+    (для простого $n$ это так при любом $a$);
+  \item иначе $a$ "--- \emph{свидетель Миллера}, $n$ составное.
+\end{itemize}
+Составное $n$, прошедшее раунд, "--- \emph{сильно псевдопростое} по основанию $a$ ($2047 = 23 \cdot 89$
+по основанию $2$). Сильных лжесвидетелей $\le \varphi(n)/4$ (при $n > 9$): $k$ раундов ошибаются
+с вероятностью $\le 4^{-k}$.
+\end{reminder}
+Если $x_j \ne \pm 1$, а $x_{j+1} = x_j^2 = 1$, то $x_j$ "--- нетривиальный корень из единицы и
+$n = \gcd(x_j - 1, n) \cdot \gcd(x_j + 1, n)$ "--- нетривиальное разложение
+($561$, $a = 2$: $x = 67$, $\gcd(66, 561) = 33$, $\gcd(68, 561) = 17$).
+
+\section{Символы Лежандра и Якоби}
+$\legendre{a}{p} = 1$, $-1$, $0$ "--- $a$ квадратичный вычет, невычет, $p \mid a$. Критерий Эйлера:
+$\congr{a^{(p-1)/2}}{\legendre{a}{p}}{p}$. Символ Якоби: $\legendre{a}{p_1 \cdots p_k} = \prod_i \legendre{a}{p_i}$
+(для нечётного $n$; $\legendre{a}{n} = 1$ \emph{не} означает, что $a$ "--- квадрат по модулю $n$).
+\begin{reminder}[title={Правила вычисления ($m, n$ нечётные, положительные)}]
+\[
+\begin{gathered}
+  \legendre{a}{n} = \legendre{a \bmod n}{n}, \qquad \legendre{ab}{n} = \legendre{a}{n}\legendre{b}{n}, \qquad
+  \legendre{-1}{n} = (-1)^{\frac{n-1}{2}},\\
+  \legendre{2}{n} = (-1)^{\frac{n^2-1}{8}} = \begin{cases} 1, & n \equiv \pm 1 \pmod 8,\\ -1, & n \equiv \pm 3 \pmod 8,\end{cases}\\
+  \legendre{m}{n} = (-1)^{\frac{m-1}{2}\cdot\frac{n-1}{2}} \legendre{n}{m}\ \text{ при } \gcd(m, n) = 1
+  \quad (\text{знак } - \text{ только при } m \equiv n \equiv 3 \pmod 4).
+\end{gathered}
+\]
+\end{reminder}
+
+\section{Тест Соловея"--~Штрассена}
+Раунд: $j = \legendre{a}{n}$; если $j = 0$ или $a^{(n-1)/2} \not\equiv j \pmod n$, то $n$ составное.
+Составное $n$, прошедшее раунд, "--- \emph{эйлерово псевдопростое} по основанию $a$
+($561$ по основанию $2$). Эйлеровых лжесвидетелей $\le \varphi(n)/2$: ошибка $k$ раундов
+$\le 2^{-k}$. Миллер"--~Рабин не слабее: сильно псевдопростое $\Rightarrow$ эйлерово псевдопростое.
+\end{document}

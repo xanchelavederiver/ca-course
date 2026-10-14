@@ -1,0 +1,328 @@
+% Lecture 12 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{12}{Алгоритм LLL}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Хороший и плохой базис}
+  \centering
+  \latticefigure[scale=0.42]{4}{2}{5}{3}\quad
+  \latticefigure[scale=0.42]{1}{1}{1}{-1}
+  \par\medskip
+  \raggedright
+  Одна и та же решётка, $\det \Lat = 2$: \quad $(4, 2), (5, 3)$ \quad и \quad $(1, 1), (1, -1)$
+  \begin{itemize}
+    \item SVP, CVP легко решаются по хорошему базису (лекция~11)
+    \item $n = 2$: алгоритм Гаусса; \ $n > 2$: \alert{LLL} (Ленстра, Ленстра, Ловас, 1982)
+    \item полиномиальное время, $\|b_1\| \le 2^{(n-1)/2} \lambda_1(\Lat)$
+  \end{itemize}
+  \aside{почему экспоненциальный множитель всё равно полезен?}
+\end{canvasframe}
+
+\begin{canvasframe}{Где нужен LLL}
+  \begin{itemize}
+    \item рюкзачные криптосистемы, задача о сумме подмножества малой плотности
+    \item конгруэнтная система, GGH и NTRU малой размерности: ключ "--- короткий вектор
+    \item метод Копперсмита: малые корни $f(x) \equiv 0 \pmod N$ $\Rightarrow$ атаки на RSA
+    \item факторизация многочленов над $\QQ$ (исходная задача статьи LLL)
+    \item \textbf{обратная сторона}: стойкость ML-KEM, ML-DSA (NIST, 2024) "---
+      LLL и BKZ \emph{не} справляются в размерностях в сотни
+  \end{itemize}
+  \notearea[0.15\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Ортогонализация Грама"--~Шмидта}
+  \begin{definition}
+    $b_1^* = b_1$, \quad $b_i^* = b_i - \sum_{j<i} \mu_{ij} b_j^*$, \quad
+    $\mu_{ij} = \dfrac{\langle b_i, b_j^*\rangle}{B_j}$, \quad $B_j = \|b_j^*\|^2$.
+  \end{definition}
+  \begin{columns}[T]
+    \begin{column}{0.5\linewidth}
+      \begin{itemize}
+        \item $b_i^*$ попарно ортогональны
+        \item $b_i^*$ "--- проекция $b_i$ на $V_{i-1}^\perp$, $V_i = \Span(b_1, \dots, b_i)$
+        \item $\|b_i\|^2 = B_i + \sum_{j<i} \mu_{ij}^2 B_j$
+        \item без нормировки: всё в $\QQ$; \ \textcolor{caRed}{$b_2^* \in \Lat$?}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\linewidth}
+      \centering
+      \begin{tikzpicture}[scale=0.7]
+        \draw[-{Stealth},very thick,caRed] (0,0) -- (3,0) node[below] {$b_1 = b_1^*$};
+        \draw[-{Stealth},very thick,caBlue] (0,0) -- (2,2) node[above] {$b_2$};
+        \draw[-{Stealth},thick,caBlue,dashed] (0,0) -- (0,2) node[left] {$b_2^*$};
+        \draw[dotted] (2,0) -- (2,2);
+        \draw[|-|,thin] (0,-0.55) -- (2,-0.55) node[midway,below] {$\mu_{21} b_1$};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{canvasframe}
+
+\begin{theoremframe}{Определитель через ортогонализацию}
+  $\det \Lat = \prod_{i=1}^n \|b_i^*\|$ \ (для $\Lat \subset \RR^n$: \
+  $\abs{\det \mathbf B} = \prod_i \|b_i^*\|$).
+  \par\smallskip
+  \emph{Следствие} (Адамар): $\det \Lat \le \prod_i \|b_i\|$.
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: ортогонализация}
+  $b_1 = (1, 0, 1)$, \quad $b_2 = (1, 1, 0)$, \quad $b_3 = (0, 2, 1)$
+  \[
+    \begin{array}{c|c|c|c}
+      i & b_i & b_i^* & B_i \\ \hline
+      1 & (1, 0, 1) & \phantom{(\tfrac12, 1, -\tfrac12)} & \phantom{\tfrac32} \\[6pt]
+      2 & (1, 1, 0) & & \\[6pt]
+      3 & (0, 2, 1) & & \\[6pt]
+    \end{array}
+  \]
+  $\mu_{21} = \hspace{2cm} \mu_{31} = \hspace{2cm} \mu_{32} =$
+  \par\medskip
+  Проверка: $B_1 B_2 B_3 = (\det \mathbf B)^2 =$
+  \notearea[0.08\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Нижняя оценка для $\lambda_1$}
+  Для \emph{любого} базиса решётки $\Lat$: \quad
+  $\lambda_1(\Lat) \ge \min_i \|b_i^*\|$.
+\end{theoremframe}
+
+\begin{canvasframe}{LLL-приведённый базис}
+  \begin{definition}
+    $\tfrac14 < \delta < 1$ (обычно $\delta = \tfrac34$). Базис \emph{LLL-приведён}, если
+    \begin{enumerate}
+      \item $\abs{\mu_{ij}} \le \tfrac12$ при $j < i$ \hfill (условие размера)
+      \item $B_k \ge (\delta - \mu_{k,k-1}^2)\, B_{k-1}$, $k = 2, \dots, n$
+        \hfill (условие Ловаса)
+    \end{enumerate}
+  \end{definition}
+  \begin{itemize}
+    \item Ловас $\iff$ $\|\pi_{k-1}(b_k)\|^2 \ge \delta \|\pi_{k-1}(b_{k-1})\|^2$,
+      $\pi_{k-1}$ "--- проекция на $V_{k-2}^\perp$
+    \item слабая форма: $B_k \ge \tfrac12 B_{k-1}$ при $\delta = \tfrac34$
+  \end{itemize}
+  \aside{почему $\delta > \tfrac14$?}
+\end{canvasframe}
+
+\begin{theoremframe}{Свойства LLL-приведённого базиса ($\delta = \frac34$)}
+  \begin{enumerate}
+    \item $B_j \le 2^{i-j} B_i$, \quad $\|b_j\|^2 \le 2^{i-1} B_i$ \ ($j \le i$)
+    \item $\|b_1\| \le 2^{(n-1)/2}\, \lambda_1(\Lat)$
+    \item $\|b_1\| \le 2^{(n-1)/4} (\det \Lat)^{1/n}$
+    \item $\prod_i \|b_i\| \le 2^{n(n-1)/4} \det \Lat$
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{canvasframe}{Теория и практика}
+  \begin{itemize}
+    \item гарантия: $\|b_1\| / (\det\Lat)^{1/n} \le 2^{(n-1)/4} \approx 1{,}19^n$
+    \item практика (Гама"--~Нгуен, 2008): $\approx 1{,}02^n$ для LLL, $\approx 1{,}013^n$
+      для BKZ-20
+    \item в размерностях до нескольких десятков LLL часто находит кратчайший вектор
+  \end{itemize}
+  \aside{базис $(5, 0), (2, 4)$ "--- LLL-приведённый? кратчайший ли $b_1$?}
+  \notearea[0.2\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Уменьшение размера}
+  Замена $b_k \gets b_k - q b_j$ ($j < k$, $q \in \ZZ$) не меняет решётку и все $b_i^*$, $B_i$;
+  \ $\mu_{kl} \gets \mu_{kl} - q \mu_{jl}$ при $l \le j$ ($\mu_{jj} = 1$).
+  \par\smallskip
+  $\Rightarrow$ $q = \lfloor \mu_{kj} \rceil$ для $j = k - 1, \dots, 1$ даёт
+  $\abs{\mu_{kj}} \le \tfrac12$ при всех $j < k$.
+\end{theoremframe}
+
+\begin{theoremframe}[lemma]{Обмен $b_{k-1} \leftrightarrow b_k$}
+  Меняются только $b_{k-1}^*$, $b_k^*$; \ при $\mu = \mu_{k,k-1}$:
+  \[
+    b_{k-1}'^* = b_k^* + \mu\, b_{k-1}^*, \qquad B_{k-1}' = B_k + \mu^2 B_{k-1}, \qquad
+    B_{k-1}' B_k' = B_{k-1} B_k.
+  \]
+  Если условие Ловаса нарушено, то $B_{k-1}' < \delta B_{k-1}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Алгоритм LLL}
+  \small
+  \begin{algorithmic}[1]
+    \State ортогонализация: $\mu_{ij}$, $B_i$; \ $k \gets 2$
+    \While{$k \le n$}
+      \For{$j = k - 1, \dots, 1$}
+        \State $q \gets \lfloor \mu_{kj} \rceil$; \ $b_k \gets b_k - q b_j$; \
+          обновить $\mu_{k\cdot}$ \Comment{размер}
+      \EndFor
+      \If{$B_k \ge (\frac34 - \mu_{k,k-1}^2) B_{k-1}$} \Comment{Ловас}
+        \State $k \gets k + 1$
+      \Else
+        \State $b_{k-1} \leftrightarrow b_k$, пересчитать ортогонализацию; \
+          $k \gets \max(k - 1, 2)$
+      \EndIf
+    \EndWhile
+  \end{algorithmic}
+  \medskip
+  Инвариант: $b_1, \dots, b_{k-1}$ LLL-приведены.
+  \aside{почему после обмена $k$ уменьшается?}
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $n = 2$, $b_1 = (13, 7)$, $b_2 = (17, 9)$}
+  \[
+    \begin{array}{c|c|c|c|c|c|c}
+      k & b_1 & b_2 & B_1 & \mu_{21} \to q & B_2 & \text{Ловас} \\ \hline
+      2 & (13, 7) & (17, 9) & 218 & \tfrac{142}{109} \to 1 & & \\[8pt]
+      2 & & & & & & \\[8pt]
+      2 & & & & & & \\[8pt]
+    \end{array}
+  \]
+  \aside{как найти $B_2$, не вычисляя $b_2^*$? (подсказка: $\det \Lat = 2$)}
+  \notearea[0.1\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $n = 3$}
+  $b_1 = (0, 3, 0)$, \quad $b_2 = (0, 4, 1)$, \quad $b_3 = (-1, 1, -1)$, \quad $\delta = \tfrac34$
+  \[
+    \begin{array}{c|c|c}
+      b_i & b_i^* & B_i \\ \hline
+      (0, 3, 0) & (0, 3, 0) & 9 \\
+      (0, 4, 1) & (0, 0, 1) & 1 \\
+      (-1, 1, -1) & (-1, 0, 0) & 1
+    \end{array}
+    \qquad \mu_{21} = \tfrac43, \ \mu_{31} = \tfrac13, \ \mu_{32} = -1
+  \]
+  \notearea[0.3\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Потенциал}
+  \[
+    d_i = \prod_{j \le i} B_j = \det\bigl(\langle b_s, b_t\rangle\bigr)_{s,t \le i}
+    = \bigl(\det \Lat(b_1, \dots, b_i)\bigr)^2, \qquad D = \prod_{i=1}^{n-1} d_i
+  \]
+  \begin{itemize}
+    \item $b_i \in \ZZ^m$ $\Rightarrow$ $d_i \in \NN$, \ $D \ge 1$
+    \item уменьшение размера: $D$ не меняется
+    \item обмен на шаге $k$: меняется только $d_{k-1}$
+  \end{itemize}
+  \proofarea[0.15\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Завершаемость и сложность}
+  Каждый обмен уменьшает $D$ хотя бы в $\frac43$ раза. Если $\|b_i\|^2 \le X$, то обменов
+  не больше $\frac{n(n-1)}{2} \log_{4/3} X$, итераций $\bigO(n^2 \log X)$, арифметических
+  операций $\bigO(n^3 m \log X)$.
+  \par\smallskip
+  {\small Битовая сложность (без доказательства): $\bigO(n^5 m \log^3 X)$; L$^2$ (fplll):
+  $\bigO(n^4 m \log X\,(n + \log X))$.}
+\end{theoremframe}
+
+\begin{canvasframe}{Связь с алгоритмом Гаусса ($n = 2$)}
+  \begin{itemize}
+    \item $\|b_2\|^2 = B_2 + \mu_{21}^2 B_1$ $\Rightarrow$ Ловас: $\|b_2\|^2 \ge \delta \|b_1\|^2$
+    \item $\delta = 1$: ровно алгоритм Гаусса (точное SVP)
+    \item $\delta = \tfrac34$: может остановиться раньше, но $\|b_1\|^2 \le \tfrac43 \lambda_1^2$
+    \item LLL "--- «Гаусс для соседних пар» $\pi_{k-1}(b_{k-1}), \pi_{k-1}(b_k)$
+  \end{itemize}
+  \aside{почему при $\delta = 1$ не доказать полиномиальность?}
+  \notearea[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{CVP: ближайшая плоскость (Бабаи)}
+  \begin{columns}[T]
+    \begin{column}{0.55\linewidth}
+      \small
+      \begin{algorithmic}[1]
+        \State $t \gets w$
+        \For{$i = n, \dots, 1$}
+          \State $c_i \gets \lfloor \langle t, b_i^*\rangle / B_i \rceil$
+          \State $t \gets t - c_i b_i$
+        \EndFor
+        \State \Return $v = w - t$
+      \end{algorithmic}
+      \medskip
+      $w - v = \sum_i e_i b_i^*$, \ $\abs{e_i} \le \tfrac12$
+    \end{column}
+    \begin{column}{0.42\linewidth}
+      \centering
+      \begin{tikzpicture}[scale=0.55]
+        \foreach \cc in {-1,0,1,2} {
+          \draw[caGray] (-2.5,\cc*1.5) -- (3.5,\cc*1.5);
+          \foreach \i in {-2,...,3} \fill[caGray] ({\i+0.4*\cc},\cc*1.5) circle (2pt);
+        }
+        \fill[caRed] (1.1,1.9) circle (2.5pt) node[above right] {$w$};
+        \draw[-{Stealth},thick,caBlue] (1.1,1.9) -- (1.1,1.5);
+        \node[caBlue,font=\small] at (3.6,1.5) [right] {$H_{c_n}$};
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+  \aside{чем это отличается от округления координат?}
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Бабаи (1986)}
+  Для LLL-приведённого базиса ($\delta = \frac34$) алгоритм ближайшей плоскости находит
+  $v \in \Lat$ с
+  \[
+    \|w - v\| \le 2^{n/2} \min_{u \in \Lat} \|w - u\|.
+  \]
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: ближайшая плоскость}
+  $b_1 = (1, 32)$, \ $b_2 = (40, 1)$ (LLL-приведён), \ $w = (53, 117)$
+  \begin{itemize}
+    \item $B_1 = 1025$, \ $\mu_{21} = \tfrac{72}{1025}$, \
+      $b_2^* = \tfrac{1}{1025}(40928, -1279)$, \ $B_2 = \tfrac{1279^2}{1025}$
+    \item $c_2 = \lfloor \langle w, b_2^* \rangle / B_2 \rceil = $
+    \item $t = $
+    \item $c_1 = $
+  \end{itemize}
+  \notearea[0.3\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Сумма подмножества и рюкзаки}
+  $\sum_i x_i M_i = S$, \ $x_i \in \{0, 1\}$. \quad Решётка со строками
+  \[
+    (2, 0, \dots, 0, M_1), \ \dots, \ (0, \dots, 0, 2, M_n), \ (1, 1, \dots, 1, S)
+  \]
+  \begin{itemize}
+    \item $\sum x_i b_i - b_{n+1} = (2x_1 - 1, \dots, 2x_n - 1, 0)$, длина $\sqrt n$
+    \item плотность $d = n / \log_2 \max M_i$; Лагариас"--~Одлыжко: $d < 0{,}6463$
+      $\Rightarrow$ SVP
+    \item $M = (612354, 823741, 504219, 931577, 718260, 555013)$, $S = 2603163$:
+      LLL даёт $(-1, 1, -1, -1, 1, -1, 0)$
+  \end{itemize}
+  \aside{как отсюда прочитать $x$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Конгруэнтная система, GGH, NTRU}
+  \begin{itemize}
+    \item конгруэнтная система: $(f, g)$ "--- короткий вектор в $\Lat\bigl((1, h), (0, q)\bigr)$
+    \item GGH: закрытый ключ "--- хороший базис, открытый "--- плохой; Нгуен (1999):
+      вскрыты тестовые шифртексты до размерности $350$
+    \item NTRU: $(f, g)$ "--- короткий вектор решётки размерности $2N$
+      с базисом $\begin{pmatrix} I & H \\ 0 & qI\end{pmatrix}$
+  \end{itemize}
+  \notearea[0.3\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Метод Копперсмита}
+  \begin{theorem}[без доказательства]
+    $f \in \ZZ[x]$ унитарный, $\deg f = d$. Все $x_0$ с $f(x_0) \equiv 0 \pmod N$,
+    $\abs{x_0} < N^{1/d}$, находятся за время $\mathrm{poly}(d, \log N)$.
+  \end{theorem}
+  \begin{itemize}
+    \item идея: решётка из $x^j N^{k-i} f(x)^i$; LLL $\Rightarrow$ многочлен $g$ с малыми
+      коэффициентами и $g(x_0) = 0$ над $\ZZ$
+    \item RSA, $e = 3$: стереотипные сообщения
+    \item $N = pq$: известна половина старших бит $p$ $\Rightarrow$ разложение
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{BKZ и постквантовая криптография}
+  \begin{itemize}
+    \item BKZ-$\beta$ (Шнорр"--~Ойхнер): точное SVP в блоках размера $\beta$;
+      $\beta = 2$ "--- LLL, $\beta = n$ "--- SVP
+    \item время $2^{\Theta(\beta)}$ (просеивание): $2^{0{,}292\beta}$, квантово
+      $2^{0{,}265\beta}$
+    \item ML-KEM / ML-DSA: параметры так, чтобы нужно было $\beta \gtrsim 400$
+  \end{itemize}
+  \aside{что растёт экспоненциально: размер модуля или размерность?}
+  \notearea[0.25\textheight]
+\end{canvasframe}
+
+\end{document}

@@ -1,0 +1,32 @@
+# Seminar 1 (sem 2, lecture 1): DLP, toy Diffie-Hellman / ElGamal, Shanks (BSGS).
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-01-dlp-and-bsgs
+kind: classroom
+title: Семинар 1. Дискретный логарифм. Алгоритм Шенкса
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~1.
+sections:
+  - title: Разминка
+    intro: >-
+      Порядок элемента и тривиальный алгоритм дискретного логарифмирования: перечисляем
+      степени $g, g^2, \dots$ до возврата в $1$.
+    tasks: [number_theory.order, dlp.brute_force, dlp.brute_force]
+  - title: Протоколы на основе DLP
+    intro: >-
+      Игрушечные примеры протокола Диффи--Хеллмана и шифрования Эль-Гамаля; все степени
+      вычисляются бинарным алгоритмом.
+    tasks: [dlp.diffie_hellman, dlp.elgamal]
+  - title: Алгоритм Шенкса
+    tasks: [dlp.shanks, dlp.shanks]
+  - title: Особые случаи
+    intro: >-
+      Основание $g$ не является первообразным корнем: маленькие подгруппы, показатели, кратные
+      $\ord(g)$, элементы $h \notin \langle g \rangle$. Алгоритм Шенкса со списками длины
+      $\lceil\sqrt{\ord g}\,\rceil$.
+    tasks: [dlp.diffie_hellman@small_subgroup, dlp.diffie_hellman@small_subgroup,
+            dlp.shanks_subgroup, dlp.shanks_subgroup, dlp.shanks_subgroup]

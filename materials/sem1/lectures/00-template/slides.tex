@@ -1,4 +1,4 @@
-% Lecture slides template — copy to NN-topic/slides.tex and fill in.
+% Lecture slides template — copy to NN-topic/slides.tex (or run `taskgen course scaffold`).
 % Slides are canvases: definitions/statements only, proofs are written by pen.
 \documentclass{ca-slides}
 
@@ -15,12 +15,13 @@
   \notearea
 \end{frame}
 
-\begin{canvasframe}{Малая теорема Ферма}
-  \begin{theorem}
-    Если $p$ "--- простое и $p \nmid a$, то $\congr{a^{p-1}}{1}{p}$.
-  \end{theorem}
-  \textcolor{caGray}{Доказательство:}
-  \penspace
+\begin{theoremframe}{Малая теорема Ферма}
+  Если $p$ "--- простое и $p \nmid a$, то $\congr{a^{p-1}}{1}{p}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Расширенный алгоритм Евклида}
+  \[\xgcdtable{240}{46}\]
+  \penspace[0.2\textheight]
 \end{canvasframe}
 
 \begin{frame}{Порядок элемента}
@@ -30,5 +31,12 @@
     \item \alert{Вопрос:} как найти $\ord(g)$ без перебора?
   \end{itemize}
   \notearea[0.3\textheight]
+\end{frame}
+
+\begin{frame}{Рисунки из \texttt{ca-figures}}
+  \centering
+  \rhoshape[scale=0.7]{4}{6}\qquad
+  \ecaddfigure[scale=0.55]\qquad
+  \latticefigure[scale=0.35]{2}{1}{1}{3}
 \end{frame}
 \end{document}

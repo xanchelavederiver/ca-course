@@ -1,34 +1,54 @@
 # Topic taxonomy for task tags (slug: Russian title).
 # Every dotted prefix of a topic must be listed too.
 # Sheets may select tasks by topic; "dlp" matches "dlp.*".
+# Lectures in course.yaml list the topics they cover (`taskgen course check`).
 
 arithmetic: Арифметика больших чисел
+arithmetic.representation: Представление больших чисел
+arithmetic.complexity: Оценки сложности, рекуррентные соотношения
+arithmetic.division: Деление с остатком
 arithmetic.multiplication: Быстрое умножение
+arithmetic.convolution: Свёртки и умножение с помощью БПФ
 arithmetic.montgomery: Арифметика Монтгомери
 arithmetic.modular: Арифметика в кольцах вычетов по модулю чисел Ферма и Мерсенна
+arithmetic.ntt: Теоретико-числовые преобразования
 
 powmod: Быстрое возведение в степень
 
 number_theory: Элементы теории чисел и теории групп
+number_theory.euclid: Алгоритм Евклида и обратные элементы
+number_theory.crt: Китайская теорема об остатках
 number_theory.primality: Тесты простоты
 number_theory.order: Порядок элемента
+number_theory.primitive_root: Первообразные корни
 number_theory.sqrt: Квадратичные сравнения
+number_theory.hensel: Лемма Гензеля
 
 dlp: Дискретное логарифмирование в кольце вычетов
 dlp.generic: Универсальные алгоритмы DLP
 dlp.pohlig_hellman: Алгоритм Полига-Хеллмана
+dlp.collisions: Теорема о коллизиях
+dlp.rho: ρ-алгоритм Полларда
 dlp.index_calculus: Метод исчисления индексов
 
 factoring: Разложение целых чисел на множители
+factoring.pm1: Алгоритм p - 1 Полларда
+factoring.fermat: Разложение на основе разности квадратов
+factoring.quadratic_sieve: Квадратичное решето
+factoring.ecm: Алгоритм Ленстры (эллиптические кривые)
 
 ecc: Эллиптические кривые
+ecc.group_law: Группа точек эллиптической кривой
 ecc.scalar_mult: Быстрое возведение точки в степень
+ecc.ecdlp: Задача ECDLP и её применение
 
 lattices: Решётки
 lattices.cvp: Задача о ближайшем векторе
 lattices.svp: Задача о кратчайшем векторе
+lattices.lll: Алгоритм LLL
 
 crypto: Криптографические приложения
 crypto.prng: Генераторы псевдослучайных чисел
+crypto.lfsr: Регистры сдвига с линейной обратной связью
 crypto.rsa: RSA
 crypto.lattice: Криптосистемы на решётках

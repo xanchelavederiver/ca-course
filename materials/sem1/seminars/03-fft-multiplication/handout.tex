@@ -1,0 +1,78 @@
+% Seminar 3 handout (lecture 4): convolutions, DFT over F_p, convolution theorem, FFT multiplication.
+\documentclass{ca-handout}
+
+\seminar{3}{Свёртки и умножение с помощью БПФ}
+
+\begin{document}
+\makehandouttitle
+
+\section{Свёртки}
+Последовательности $x = (x_0, \dots, x_{M-1})$, $y = (y_0, \dots, y_{N-1})$ "--- коэффициенты
+многочленов $x(t) = \sum x_i t^i$, $y(t) = \sum y_j t^j$ (младшие первыми).
+
+\begin{reminder}[title={Линейная, циклическая и негациклическая свёртки}]
+\[
+  (x * y)_k = \sum_{i + j = k} x_i y_j \quad (0 \le k \le M + N - 2), \qquad (x * y)(t) = x(t)\,y(t);
+\]
+для последовательностей длины $n$ и $z = x * y$:
+\[
+  (x \circledast y)_k = \sum_{i + j \equiv k\ (\mathrm{mod}\ n)} x_i y_j = z_k + z_{k+n}, \qquad
+  (x \circledast_{-} y)_k = z_k - z_{k+n}
+\]
+"--- произведение $x(t)y(t)$ по модулю $t^n - 1$ и $t^n + 1$ соответственно.
+\end{reminder}
+
+\textbf{Дополнение нулями.} Если $L \ge M + N - 1$ и $x$, $y$ дополнены нулями до длины $L$,
+то циклическая свёртка длины $L$ совпадает с линейной. При $L < M + N - 1$ старшие коэффициенты
+«заворачиваются» на младшие позиции.
+
+\textbf{Умножение чисел.} Если $a = \sum x_i B^i$, $b = \sum y_j B^j$, то
+$ab = \sum_k z_k B^k$, $0 \le z_k \le \min(M, N)(B - 1)^2$; цифры $ab$ получаются переносами:
+$t = z_k + c$, цифра $t \bmod B$, новый перенос $c = \floor{t / B}$.
+
+\section{Главные корни из единицы и ДПФ}
+
+\begin{reminder}[title={Главный корень степени $n$ из единицы в кольце $R$}]
+$\omega^n = 1$ и $\sum_{j=0}^{n-1} \omega^{jk} = 0$ при $0 < k < n$.
+\begin{itemize}
+  \item В поле (при $n \ne 0$ в нём): $\omega$ главный $\iff$ порядок $\omega$ равен ровно $n$.
+  \item $n = 2^m$, $2$ обратимо: $\omega$ главный $\iff$ $\omega^{n/2} = -1$.
+  \item В $\GF{p}$ он есть $\iff$ $n \mid p - 1$; $\omega = g^{(p-1)/n}$, $g$ "--- первообразный корень
+    ($g^{(p-1)/q} \ne 1$ для всех простых $q \mid p - 1$).
+\end{itemize}
+\end{reminder}
+Примеры: $\GF{13}$: $\omega = 5$ ($n = 4$); $\GF{17}$: $\omega = 4$ ($n = 4$), $\omega = 2$ ($n = 8$);
+$\GF{257}$: $\omega = 16, 4, 2$ ($n = 4, 8, 16$). Элемент $-1$ \emph{не} главный корень степени~$4$.
+
+\begin{reminder}[title={ДПФ, обратное ДПФ, теорема о свёртке}]
+\[
+  X_k = \sum_{j=0}^{n-1} x_j \omega^{jk} = x(\omega^k), \qquad
+  x_j = n^{-1} \sum_{k=0}^{n-1} X_k \omega^{-jk}, \qquad
+  \mathrm{DFT}_\omega(x \circledast y) = \mathrm{DFT}_\omega(x) \cdot \mathrm{DFT}_\omega(y).
+\]
+Показатель $jk$ можно брать по модулю $n$; $\omega^{-1} = \omega^{n-1}$; обратное ДПФ "--- это ДПФ
+с корнем $\omega^{-1}$ и умножением на $n^{-1}$.
+\end{reminder}
+
+\section{Быстрое преобразование Фурье}
+$n = 2m$, $E = \mathrm{DFT}_{\omega^2}(x_0, x_2, \dots)$, $O = \mathrm{DFT}_{\omega^2}(x_1, x_3, \dots)$:
+\begin{reminder}[title={Бабочка Кули"--~Тьюки}]
+\[
+  X_k = E_k + \omega^k O_k, \qquad X_{k+m} = E_k - \omega^k O_k, \qquad 0 \le k < m.
+\]
+Сложность: $\frac n2 \log_2 n$ умножений и $n \log_2 n$ сложений. Для $n = 4$:
+$E = (x_0 + x_2,\ x_0 - x_2)$, $O = (x_1 + x_3,\ x_1 - x_3)$.
+\end{reminder}
+
+\section{Умножение с помощью БПФ}
+\begin{enumerate}
+  \item Цифры $a$ и $b$ (младшие первыми); $L$ "--- степень двойки, $L \ge M + N - 1$; дополнить нулями.
+  \item Простое $p > \min(M, N)(B - 1)^2$ с $L \mid p - 1$ (удобны $p = c \cdot 2^k + 1$:
+    $17, 97, 193, 257, 65537, \dots$), главный корень $\omega$ степени $L$, $\omega^{-1}$, $L^{-1} \bmod p$.
+  \item $X = \mathrm{DFT}_\omega(\bar x)$, $Y = \mathrm{DFT}_\omega(\bar y)$, $Z_k = X_k Y_k$,
+    $z = L^{-1} \mathrm{DFT}_{\omega^{-1}}(Z)$ "--- это и есть $z_k$ (все $< p$).
+  \item $ab = \sum_k z_k B^k$ переносами. Итого $\bigO(N \log N)$ операций в $\GF{p}$.
+\end{enumerate}
+Над $\CC$ ($\omega = e^{2\pi i/L}$) результат округляется до целых; нужна погрешность $< \frac12$,
+т.\,е. $\log_2 L + 2\log_2 B$ плюс запас в несколько бит не больше $53$ (double).
+\end{document}

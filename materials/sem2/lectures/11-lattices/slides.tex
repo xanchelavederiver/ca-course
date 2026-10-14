@@ -1,0 +1,273 @@
+% Lecture 11 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{11}{Решётки. Алгоритмы Гаусса и Бабаи}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Зачем криптографу решётки}
+  \begin{itemize}
+    \item DLP и факторизация решаются на квантовом компьютере (алгоритм Шора)
+    \item Постквантовые стандарты NIST (2024): ML-KEM (Kyber), ML-DSA (Dilithium) "---
+      \textbf{на решётках}
+    \item Решётки "--- инструмент криптоанализа: рюкзаки, RSA с малой экспонентой, подписи
+      с плохими случайными числами
+    \item Сегодня: решётки, SVP и CVP, размерность $2$ (Гаусс), алгоритмы Бабаи
+  \end{itemize}
+  \notearea[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Конгруэнтная криптосистема}
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \node (A) at (0,0) {\personicon{caBlue}{Алиса}};
+    \node (B) at (10,0) {\personicon{caRed}{Боб}};
+    \draw[very thick,caGray,-{Stealth[length=3mm]}] (1,0.55) -- (9,0.55)
+      node[midway,above,font=\small] {$(q, h)$};
+    \draw[very thick,caGray,-{Stealth[length=3mm]}] (9,0.0) -- (1,0.0)
+      node[midway,below,font=\small] {$e \equiv rh + m \pmod q$};
+    \node[font=\small,align=left,anchor=north] at (0.6,-1.0)
+      {$f < \sqrt{q/2}$, $\sqrt{q/4} < g < \sqrt{q/2}$\\ $h \equiv f^{-1} g \pmod q$\\[2pt]
+       $a \equiv fe \pmod q$\\ $b \equiv f^{-1} a \pmod g$};
+    \node[font=\small,align=left,anchor=north] at (9.6,-1.0)
+      {$0 < m < \sqrt{q/4}$\\ $0 < r < \sqrt{q/2}$};
+  \end{tikzpicture}
+  \aside{почему $b = m$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Атака: короткий вектор}
+  \begin{itemize}
+    \item $fh \equiv g \pmod q$ $\Rightarrow$ $fh = g + Rq$ $\Rightarrow$
+      \[ f\,(1, h) - R\,(0, q) = (f, g) \]
+    \item $\norm{(1, h)}, \norm{(0, q)} \sim q$, а $\norm{(f, g)} < \sqrt q$
+    \item Нужно найти \textbf{короткий} вектор среди $\{a_1 (1, h) + a_2 (0, q) : a_i \in \ZZ\}$
+  \end{itemize}
+  \aside{нужен ли Еве именно $(f, g)$?}
+  \penspace
+\end{canvasframe}
+
+\begin{canvasframe}{Решётка}
+  \begin{definition}
+    $v_1, \dots, v_n \in \RR^m$ линейно независимы. \emph{Решётка}
+    \[\Lat = \Lat(v_1, \dots, v_n) = \{a_1 v_1 + \cdots + a_n v_n : a_i \in \ZZ\} = \{xB : x \in \ZZ^n\},\]
+    $B$ "--- матрица со строками $v_i$ (\emph{базис}), $n$ "--- размерность.
+  \end{definition}
+  \begin{itemize}
+    \item Примеры: $\ZZ^n$; $\{(x, y) : xh \equiv y \pmod q\}$; решётки на рисунке
+    \item $\Lat$ "--- дискретная аддитивная подгруппа $\RR^n$
+  \end{itemize}
+  \penspace[0.15\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Один и тот же $\Lat$, разные базисы}
+  \centering
+  \latticefigure[scale=0.8]{2}{1}{-1}{1}\qquad
+  \latticefigure[scale=0.8]{-4}{1}{-5}{2}
+  \par\medskip
+  $v_1 = (2, 1)$, $v_2 = (-1, 1)$ \hspace{3.5cm} $v_1 = (-4, 1)$, $v_2 = (-5, 2)$
+  \aside{как связаны эти базисы?}
+\end{canvasframe}
+
+\begin{theoremframe}{Смена базиса}
+  $\Lat(B) = \Lat(B')$ $\iff$ $B' = UB$, где $U \in \mathrm{GL}_n(\ZZ)$: $U$ целочисленная,
+  $\det U = \pm 1$.
+\end{theoremframe}
+
+\begin{canvasframe}{Определитель решётки}
+  \begin{definition}
+    $\det \Lat = \abs{\det B}$ "--- не зависит от базиса.
+  \end{definition}
+  \begin{itemize}
+    \item $\det B' = \det U \det B = \pm\det B$
+    \item Равные определители $\not\Rightarrow$ равные решётки: $\Lat((2, 0), (0, 1))$ и
+      $\Lat((1, 0), (0, 2))$
+    \item $U$ целочисленная, $\abs{\det U} = k > 1$ $\Rightarrow$ $\Lat(B')$ "--- подрешётка
+      индекса $k$
+  \end{itemize}
+  \aside{$(3, 1), (1, 2)$ и $(4, 3), (2, 4)$ "--- одна решётка?}
+  \penspace[0.12\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Фундаментальная область}
+  \begin{definition}
+    $\mathcal F(v_1, \dots, v_n) = \{t_1 v_1 + \cdots + t_n v_n : 0 \le t_i < 1\}$
+  \end{definition}
+  \begin{itemize}
+    \item Каждый $w \in \RR^n$ единственным образом: $w = t + v$, $t \in \mathcal F$, $v \in \Lat$
+    \item $\operatorname{vol}(\mathcal F) = \abs{\det B} = \det \Lat$
+    \item $\#\{\Lat \cap \text{шар радиуса } R\} \approx \operatorname{vol}(\text{шара})/\det \Lat$
+  \end{itemize}
+  \proofarea[0.18\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Грам"--~Шмидт и неравенство Адамара}
+  \[v_1^* = v_1, \qquad v_i^* = v_i - \sum_{j<i} \mu_{ij} v_j^*, \qquad
+    \mu_{ij} = \frac{v_i \cdot v_j^*}{\norm{v_j^*}^2}\]
+  \begin{theorem}[Адамар]
+    $\det \Lat = \prod \norm{v_i^*} \le \prod \norm{v_i}$; равенство $\iff$ $v_i$ ортогональны.
+  \end{theorem}
+  Коэффициент Адамара:
+  $\mathcal H(B) = \bigl(\det \Lat / (\norm{v_1}\cdots\norm{v_n})\bigr)^{1/n} \in (0, 1]$
+  \aside{$\mathcal H$ для базисов на рисунке: $0{,}974$ и $0{,}368$}
+\end{canvasframe}
+
+\begin{canvasframe}{SVP и CVP}
+  \begin{itemize}
+    \item \textbf{SVP}: найти $v \in \Lat \setminus \{0\}$ минимальной длины $\lambda_1(\Lat)$
+    \item \textbf{CVP}: по $w \in \RR^n$ найти $v \in \Lat$, ближайший к $w$
+    \item apprSVP / apprCVP: с множителем $\psi(n)$
+    \item CVP NP-трудна; SVP NP-трудна (вероятностные сведения); при $\psi = 2^{n/2}$ "---
+      полиномиально (LLL, лекция~12)
+    \item Вход алгоритма "--- \textbf{базис}; трудность зависит от его качества
+  \end{itemize}
+  \notearea[0.2\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Минковского}
+  $S \subset \RR^n$ ограничено, выпукло, $S = -S$,
+  $\operatorname{vol}(S) > 2^n \det \Lat$ $\Rightarrow$ $S$ содержит ненулевой вектор $\Lat$.
+  (Для замкнутого $S$ достаточно $\ge$.)
+\end{theoremframe}
+
+\begin{canvasframe}{Теорема Эрмита и гауссова эвристика}
+  \begin{theorem}[Эрмит]
+    $\lambda_1(\Lat) \le \sqrt n\,(\det \Lat)^{1/n}$.
+  \end{theorem}
+  \penspace[0.2\textheight]
+  \textbf{Гауссова эвристика:} для «случайной» решётки
+  \[\lambda_1(\Lat) \approx \sigma(\Lat) = \left(\frac{\Gamma(1 + n/2)\det \Lat}{\pi^{n/2}}\right)^{1/n}
+    \approx \sqrt{\frac{n}{2\pi e}}\,(\det \Lat)^{1/n}\]
+  \aside{откуда эта формула?}
+\end{canvasframe}
+
+\begin{canvasframe}{Алгоритм Гаусса}
+  \begin{algorithmic}[1]
+    \Require базис $v_1, v_2$ решётки $\Lat \subset \RR^2$
+    \Repeat
+      \If{$\norm{v_2} < \norm{v_1}$} \State $v_1 \leftrightarrow v_2$ \EndIf
+      \State $m \gets \round{v_1 \cdot v_2 / \norm{v_1}^2}$
+      \State $v_2 \gets v_2 - m v_1$
+    \Until{$m = 0$}
+    \State \Return $(v_1, v_2)$
+  \end{algorithmic}
+  \aside{почему решётка не меняется?}
+  \aside{аналогия с алгоритмом Евклида}
+\end{canvasframe}
+
+\begin{theoremframe}{Алгоритм Гаусса: корректность}
+  Алгоритм останавливается; на выходе $\norm{v_1} \le \norm{v_2}$,
+  $\abs{v_1 \cdot v_2} \le \frac12\norm{v_1}^2$, $v_1$ "--- кратчайший вектор $\Lat$, $v_2$ "---
+  кратчайший среди не кратных $v_1$.
+\end{theoremframe}
+
+\begin{canvasframe}{Алгоритм Гаусса: пример}
+  $v_1 = (16, 26)$, $v_2 = (20, 34)$, $\det \Lat = 24$, $\mathcal H \approx 0{,}141$
+  \[
+  \begin{array}{c|r|r|r|r|r}
+   & v_1 & v_2 & \norm{v_1}^2 & v_1 \cdot v_2 & m \\ \hline
+  1 & (16, 26) & (20, 34) & 932 & 1204 & 1 \\
+  2^{\leftrightarrow} & (4, 8) & (16, 26) & 80 & 272 & 3 \\
+  3^{\leftrightarrow} & (4, 2) & (4, 8) & 20 & 32 & 2 \\
+  4 & (4, 2) & (-4, 4) & 20 & -8 & 0
+  \end{array}
+  \]
+  \aside{$\lambda_1 = \sqrt{20}$; $\mathcal H$ нового базиса?}
+  \penspace[0.1\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Следствие: $\gamma_2 = 2/\sqrt3$}
+  \begin{corollary}
+    Для $\Lat \subset \RR^2$: $\lambda_1(\Lat)^2 \le \frac{2}{\sqrt3}\det \Lat$; равенство "---
+    для шестиугольной решётки.
+  \end{corollary}
+  \proofarea[0.3\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=5]{Атака на конгруэнтную систему}
+  $q = 1\,000\,003$, $h = 529\,234$; Гаусс для $(1, h), (0, q)$:
+  \[
+  \begin{array}{c|r|r|r}
+   & v_1 & v_2 & m \\ \hline
+  1 & (1, 529\,234) & (0, 1\,000\,003) & 2 \\
+  2^{\leftrightarrow} & (-2, -58\,465) & (1, 529\,234) & -9 \\
+  3^{\leftrightarrow} & (-17, 3\,049) & (-2, -58\,465) & -19 \\
+  4^{\leftrightarrow} & (-325, -534) & (-17, 3\,049) & -4 \\
+  5 & (-325, -534) & (-1\,317, 913) & 0
+  \end{array}
+  \]
+  $(f, g) = (325, 534)$; $e = 819\,522$: $a \equiv fe \equiv 343\,852$,
+  $m \equiv f^{-1} a \equiv 511 \cdot 343\,852 \equiv 478 \pmod{534}$.
+  \aside{$\sigma(\Lat) = \sqrt{q/\pi} \approx 564$}
+\end{canvasframe}
+
+\begin{canvasframe}{Алгоритм Бабаи (округление)}
+  \begin{algorithmic}[1]
+    \Require базис $v_1, \dots, v_n$, вектор $w$
+    \State $t = wB^{-1}$, т.\,е. $w = t_1 v_1 + \cdots + t_n v_n$
+    \State \Return $v = \round{t_1} v_1 + \cdots + \round{t_n} v_n$
+  \end{algorithmic}
+  \begin{proposition}
+    $\norm{w - v} \le \frac12 \sum \norm{v_i}$; для ортогонального базиса $v$ "--- ближайший.
+  \end{proposition}
+  \proofarea[0.15\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Хороший и плохой базисы}
+  \centering
+  \latticefigure[scale=0.5]{2}{1}{-1}{1}\qquad
+  \latticefigure[scale=0.5]{-4}{1}{-5}{2}
+  \par\raggedright
+  $w = (-\frac{11}{4}, \frac14)$:\quad хороший базис $t = (-\frac56, \frac{13}{12})$ $\to$
+  $(-3, 0)$, $\norm{w - v} \approx 0{,}354$;\\
+  \phantom{$w = (-\frac{11}{4}, \frac14)$:}\quad плохой базис $s = (\frac{17}{12}, -\frac{7}{12})$ $\to$
+  $(1, -1)$, $\norm{w - v} \approx 3{,}953$
+  \aside{отметьте $w$ и оба ответа на рисунке}
+\end{canvasframe}
+
+\begin{canvasframe}{Алгоритм ближайшей плоскости}
+  \begin{algorithmic}[1]
+    \Require базис $v_1, \dots, v_n$, вектор $w$; $v_i^*$ "--- Грам"--~Шмидт; $w' \gets w$
+    \For{$i = n, \dots, 1$}
+      \State $c_i \gets \round{w' \cdot v_i^* / \norm{v_i^*}^2}$;\quad $w' \gets w' - c_i v_i$
+    \EndFor
+    \State \Return $v = w - w'$
+  \end{algorithmic}
+  \begin{proposition}
+    $\norm{w - v}^2 \le \frac14 \sum \norm{v_i^*}^2$; если $\norm{w - u} < \frac12 \min\norm{v_i^*}$,
+    $u \in \Lat$, то $v = u$.
+  \end{proposition}
+  \penspace[0.12\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Бабаи + редукция}
+  \begin{itemize}
+    \item Плохой базис $\Rightarrow$ сначала редукция (Гаусс при $n = 2$, LLL при $n > 2$),
+      затем Бабаи
+    \item Для LLL-редуцированного базиса: $\norm{w - v} \le 2^{n/2} \min_{u \in \Lat}\norm{w - u}$
+      (лекция~12)
+  \end{itemize}
+  \notearea[0.4\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Криптосистемы на решётках}
+  \begin{itemize}
+    \item \textbf{GGH} (1997): секрет "--- хороший базис $V$, открыт плохой $W = UV$;
+      $e = mW + r$; расшифрование "--- Бабаи с базисом $V$
+    \item \textbf{Рюкзак} (Меркл"--~Хеллман, 1978): решение задачи о сумме подмножества "---
+      короткий вектор решётки; взломан (Лагариас"--~Одлыжко, LLL)
+    \item \textbf{NTRU}: конгруэнтная система с многочленами, решётка размерности $2N$,
+      базис $\begin{psmallmatrix} I & H \\ 0 & qI\end{psmallmatrix}$
+  \end{itemize}
+  \aside{почему нельзя публиковать хороший базис?}
+\end{canvasframe}
+
+\begin{canvasframe}{Итоги}
+  \begin{itemize}
+    \item Решётка, базисы, $\mathrm{GL}_n(\ZZ)$, $\det \Lat$, $\mathcal H(B)$
+    \item SVP/CVP; Минковский, Эрмит, гауссова эвристика
+    \item $n = 2$: Гаусс решает SVP; конгруэнтная криптосистема взломана
+    \item Бабаи: хороший базис $\Rightarrow$ хорошее приближение CVP
+    \item Далее: алгоритм LLL "--- «Гаусс в размерности $n$»
+  \end{itemize}
+\end{canvasframe}
+\end{document}

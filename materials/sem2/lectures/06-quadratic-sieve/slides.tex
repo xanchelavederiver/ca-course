@@ -1,0 +1,273 @@
+% Lecture 6 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+
+\lecture{6}{Разность квадратов и квадратичное решето}
+\author{}
+
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Зачем раскладывать на множители}
+  \begin{itemize}
+    \item RSA: зная $N = pq$ и $p$, вычисляем $\varphi(N)$ и $d = e^{-1} \bmod \varphi(N)$
+    \item \emph{Специальные} алгоритмы используют свойства множителей:
+    \begin{itemize}
+      \item пробное деление, $\rho$-метод "--- маленький $p$
+      \item $(p-1)$-метод Полларда "--- гладкое $p - 1$
+      \item \textbf{метод Ферма} "--- близкие $p$ и $q$
+    \end{itemize}
+    \item \emph{Универсальные} алгоритмы: Диксон, \textbf{квадратичное решето}, решето
+      числового поля "--- все основаны на \textbf{разности квадратов}
+      \[x^2 \equiv y^2 \pmod N, \qquad x \not\equiv \pm y\]
+    \item Ферма (1643) $\to$ Крайчик (1920-е) $\to$ Моррисон"--~Бриллхарт (1975) $\to$
+      Диксон, Померанс (1981) $\to$ NFS (1990-е)
+  \end{itemize}
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Разность квадратов}
+  Пусть $N$ нечётно. Отображение $(a, b) \mapsto (x, y) = \bigl(\frac{a+b}{2}, \frac{a-b}{2}\bigr)$
+  "--- биекция между разложениями $N = ab$, $a \ge b \ge 1$, и представлениями
+  $N = x^2 - y^2$, $x > 0$, $y \ge 0$.
+\end{theoremframe}
+
+\begin{canvasframe}{Метод Ферма}
+  \begin{algorithm}[метод Ферма]
+  \begin{algorithmic}[1]
+  \State $x \gets \ceil{\sqrt N}$, \quad $r \gets x^2 - N$
+  \While{$r$ "--- не полный квадрат}
+    \State $r \gets r + 2x + 1$, \quad $x \gets x + 1$
+  \EndWhile
+  \State \Return $(x - \sqrt r,\ x + \sqrt r)$
+  \end{algorithmic}
+  \end{algorithm}
+  \textbf{Пример:} $N = 8051$, \quad $N = 5959$
+  \aside{как быстро проверить, что $r$ "--- не квадрат?}
+  \vfill
+\end{canvasframe}
+
+\begin{theoremframe}{Число шагов метода Ферма}
+  Пусть $b$ "--- наибольший делитель $N$, не превосходящий $\sqrt N$, $a = N/b$. Метод
+  Ферма возвращает $N = b \cdot a$ после $s = \frac{a+b}{2} - \ceil{\sqrt N} + 1$ шагов, и
+  \[\frac{a + b}{2} - \sqrt N = \frac{(\sqrt a - \sqrt b)^2}{2} \le \frac{(a - b)^2}{8\sqrt N}.\]
+\end{theoremframe}
+
+\begin{canvasframe}{Когда метод Ферма быстр}
+  \begin{itemize}
+    \item $q - p \le C N^{1/4}$ $\Rightarrow$ не больше $C^2/8 + 1$ шагов
+    \item $p$ мало $\Rightarrow$ $s \approx \frac{N}{2p}$ шагов "--- хуже пробного деления
+    \item \textbf{Вывод для RSA:} FIPS 186: $\abs{p - q} > 2^{n/2 - 100}$
+    \item 2022: ключи RSA принтеров с близкими $p, q$ раскладывались методом Ферма за секунды
+  \end{itemize}
+  \aside{сколько шагов для $N = p^2$? для простого $N$?}
+  \vfill
+\end{canvasframe}
+
+\begin{canvasframe}{Множители $kN$}
+  \begin{itemize}
+    \item Если $q/p \approx v/u$, то у $kN = (vp)(uq)$, $k = uv$, множители близки
+    \item Метод Ферма для $kN$: $kN = x^2 - y^2$, делитель $N$ "--- $\gcd(x - y, N)$
+    \item Пример: $N = 31007 = 101 \cdot 307$: для $N$ "--- $28$ шагов, для $3N = 93021$ "--- один
+    \item Метод Лемана (1974): перебор $k \le N^{1/3}$, сложность $\bigO(N^{1/3})$
+  \end{itemize}
+  \vfill
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Сравнение квадратов}
+  Если $\congr{x^2}{y^2}{N}$ и $x \not\equiv \pm y \pmod N$, то
+  $1 < \gcd(x - y, N) < N$.
+\end{theoremframe}
+
+\begin{theoremframe}{Вероятность успеха}
+  Пусть $N = p_1^{e_1} \cdots p_k^{e_k}$ нечётно, $k \ge 2$, $\gcd(y, N) = 1$. Сравнение
+  $\congr{x^2}{y^2}{N}$ имеет ровно $2^k$ решений, из них два "--- $\pm y$. Для случайного
+  решения $x$ делитель $\gcd(x - y, N)$ нетривиален с вероятностью $1 - 2^{1-k} \ge \frac12$.
+  \par\smallskip\textbf{Лемма.} Для нечётного простого $p \nmid y$:
+  $\congr{x^2}{y^2}{p^e}$ $\iff$ $x \equiv \pm y \pmod{p^e}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Трёхшаговая процедура}
+  \begin{enumerate}
+    \item \textbf{Построение соотношений:} $a_i^2 \equiv c_i \pmod N$, где
+      $c_i = \prod_j p_j^{e_{ij}}$ раскладываются по \emph{факторной базе} $\{p_1, \dots, p_t\}$
+    \item \textbf{Исключение:} найти $S$, для которого $\prod_{i \in S} c_i$ "--- квадрат,
+      т.\,е. все $\sum_{i \in S} e_{ij}$ чётны
+    \item \textbf{НОД:} $X = \prod_{i \in S} a_i$, \ $Y = \prod_j p_j^{\frac12\sum_{i \in S} e_{ij}}$,
+      \ $d = \gcd(X - Y, N)$
+  \end{enumerate}
+  \textbf{Пример (Померанс):} $N = 1649$, $a = 41, 42, 43$
+  \vfill
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{Линейная алгебра над $\GF{2}$}
+  $v(c) = (e_1 \bmod 2, \dots, e_t \bmod 2) \in \GF{2}^t$; \ $c$ "--- квадрат $\iff$ $v(c) = 0$.
+  \par Если $r > t$, то у векторов $v_1, \dots, v_r \in \GF{2}^t$ не меньше $2^{r-t} - 1$
+  непустых зависимостей $\sum_{i \in S} v_i = 0$.
+\end{theoremframe}
+
+\begin{canvasframe}{Исключение Гаусса над $\GF{2}$}
+  \begin{itemize}
+    \item Строки $v_i$, сложение строк "--- XOR; запоминаем, из каких $v_i$ составлена строка
+    \item Обнулившиеся строки дают множества $S$
+    \item Плотный метод: $\bigO(t^3)$ битовых операций ($t^3/64$ словных)
+    \item Матрица \emph{разреженная} ($\le \log_2 N$ единиц в строке): блочный Ланцош,
+      блочный Видеман "--- $\bigO(t^2 w)$
+    \item Собирают $t + 10$ соотношений: все зависимости неудачны с вероятностью $\lesssim 2^{-10}$
+  \end{itemize}
+  \vfill
+\end{canvasframe}
+
+\begin{canvasframe}{Гладкие числа}
+  \begin{definition}
+    $n$ "--- \emph{$B$-гладкое}, если все простые делители $n$ не больше $B$;
+    $\psi(X, B) = \#\{1 \le n \le X : n \text{ "--- } B\text{-гладкое}\}$.
+  \end{definition}
+  \begin{proposition}
+    Для $1 \le u \le 2$: \ $\psi(X, X^{1/u}) / X \to 1 - \ln u$ \ при $X \to \infty$.
+  \end{proposition}
+  \aside{$\psi(100, 5) = ?$}
+  \vfill
+\end{canvasframe}
+
+\begin{canvasframe}{Теорема Кэнфилда"--~Эрдёша"--~Померанса}
+  \begin{theorem}[без доказательства]
+    Равномерно по $3 \le u \le (1 - \varepsilon)\frac{\ln X}{\ln\ln X}$:
+    \quad $\psi(X, X^{1/u}) = X \cdot u^{-u(1 + o(1))}$.
+  \end{theorem}
+  \begin{definition}
+    $L(X) = e^{\sqrt{\ln X \ln\ln X}}$, \qquad
+    $L_X[\alpha, c] = e^{(c + o(1))(\ln X)^{\alpha}(\ln\ln X)^{1 - \alpha}}$.
+  \end{definition}
+  \begin{itemize}
+    \item $\alpha = 0$ "--- полиномиально по $\ln X$, $\alpha = 1$ "--- экспоненциально
+    \item $L(X)^c = X^{o(1)}$
+  \end{itemize}
+\end{canvasframe}
+
+\begin{theoremframe}[corollary]{Вероятность гладкости в $L$-нотации}
+  При $X = N^{\gamma + o(1)}$ и $B = L(N)^{\beta}$:
+  \[\frac{\psi(X, B)}{X} = L(N)^{-\frac{\gamma}{2\beta} + o(1)}.\]
+\end{theoremframe}
+
+\begin{canvasframe}{Метод Диксона}
+  \begin{itemize}
+    \item Случайное $a$, $c = a^2 \bmod N$, пробное деление на простые $p \le B$
+    \item Набрать $\pi(B) + 10$ соотношений, затем $\GF{2}$ и НОД
+    \item $B = L(N)^{\beta}$: \ $P(\text{гладкое}) = L^{-\frac{1}{2\beta}}$, попыток
+      $L^{\beta + \frac{1}{2\beta}}$
+    \item Пробное деление: $L^{2\beta + \frac{1}{2\beta}}$ $\Rightarrow$ $\beta = \frac12$, $L^{2}$
+    \item Быстрая проверка гладкости: $\beta = \frac{1}{\sqrt2}$, \ $L(N)^{\sqrt2}$
+    \item Диксон (1981): первая \emph{доказанная} субэкспоненциальная оценка
+  \end{itemize}
+  \vfill
+\end{canvasframe}
+
+\begin{canvasframe}{Квадратичное решето: идея}
+  \[F(t) = (t + m)^2 - N, \qquad m = \ceil{\sqrt N}, \qquad
+    (t + m)^2 \equiv F(t) \pmod N\]
+  \begin{enumerate}
+    \item \textbf{Малые вычеты:} $0 \le F(t) < 2(t + 1)\sqrt N + (t + 1)^2 \approx 2t\sqrt N$
+      "--- порядка $\sqrt N$, а не $N$
+    \item \textbf{Просеивание:} $p \mid F(t)$ зависит только от $t \bmod p$
+  \end{enumerate}
+  \vfill
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{Факторная база}
+  Пусть $p$ "--- нечётное простое, $p \nmid N$.
+  \begin{enumerate}
+    \item Если $p \mid F(t)$ при некотором $t$, то $\legendre{N}{p} = 1$.
+    \item Если $\legendre{N}{p} = 1$, $\congr{r^2}{N}{p}$, то $p \mid F(t)$ $\iff$
+      $t \equiv \pm r - m \pmod p$ (два класса).
+  \end{enumerate}
+  $\mathcal F = \{2\} \cup \{p \le B : \legendre{N}{p} = 1\}$, \ $\abs{\mathcal F} \approx \frac12\pi(B)$.
+\end{theoremframe}
+
+\begin{canvasframe}{Просеивание}
+  \begin{itemize}
+    \item $A[t] \gets F(t)$; для каждого $p \in \mathcal F$, $p^e$ и корня $\rho$ сравнения
+      $\congr{(\rho + m)^2}{N}{p^e}$: \ $A[t] \gets A[t]/p$ при $t \equiv \rho \pmod{p^e}$
+    \item $A[t] = 1$ $\iff$ $F(t)$ гладкое
+    \item Корни: Тонелли"--~Шенкс, Чиполла; степени $p^e$ "--- подъём Гензеля (лекция~7)
+    \item \textbf{Логарифмы:} $A[t] \mathrel{+}= \log_2 p$; кандидаты
+      $A[t] \ge \log_2 F(t) - T$ "--- затем пробное деление
+  \end{itemize}
+  \vfill
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Стоимость просеивания}
+  Просеивание интервала длины $M$ по простым $p \le B$ стоит
+  $\bigO(M \ln\ln B + \pi(B)\log N)$ операций, т.\,е. $\bigO(\ln\ln B)$ на одно значение.
+\end{theoremframe}
+
+\begin{canvasframe}[shrink=5]{Пример: $N = 9553$, $m = 98$, $B = 17$}
+  $\mathcal F = \{2, 3, 11, 17\}$ \quad ($\legendre{N}{5} = \legendre{N}{7} = \legendre{N}{13} = -1$)
+  \par\smallskip
+  \small
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{c|*{10}{c}}
+    $t$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\ \hline
+    $F(t)$ & 51 & 248 & 447 & 648 & 851 & 1056 & 1263 & 1472 & 1683 & 1896 \\
+    $2$ & & & & & & & & & & \\
+    $3$ & & & & & & & & & & \\
+    $11$ & & & & & & & & & & \\
+    $17$ & & & & & & & & & & \\ \hline
+    $t$ & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 \\ \hline
+    $F(t)$ & 2111 & 2328 & 2547 & 2768 & 2991 & 3216 & 3443 & 3672 & 3903 & 4136 \\
+    $2$ & & & & & & & & & & \\
+    $3$ & & & & & & & & & & \\
+    $11$ & & & & & & & & & & \\
+    $17$ & & & & & & & & & &
+  \end{tabular}
+  \aside{где делится на $2, 3, 11, 17$? какие зависимости?}
+\end{canvasframe}
+
+\begin{theoremframe}{Сложность квадратичного решета (эвристика)}
+  (H): $F(t)$ гладкие с той же вероятностью, что случайные числа того же размера.
+  При (H) и $B = L(N)^{1/2}$, $M = L(N)^{1 + o(1)}$ QS работает за
+  $L(N)^{1 + o(1)} = L_N[\frac12, 1]$; при $B = L(N)^{\beta}$ "--- за
+  $L(N)^{\max(\beta + \frac{1}{4\beta},\, 2\beta) + o(1)}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Вывод оценки}
+  \begin{enumerate}
+    \item Размер: $F(t) = N^{1/2 + o(1)}$
+    \item Гладкость: $P = L^{-\frac{1}{4\beta}}$ \ (следствие, $\gamma = \frac12$)
+    \item Длина интервала: $M = \pi(B)/P = L^{\beta + \frac{1}{4\beta}}$
+    \item Решето: $\bigO(M \ln\ln B)$; \ линейная алгебра: $L^{2\beta}$ (Гаусс: $L^{3\beta}$)
+    \item Минимум $\max(\beta + \frac{1}{4\beta}, 2\beta)$: \ $\beta = ?$
+  \end{enumerate}
+  \aside{а с плотным методом Гаусса?}
+  \vfill
+\end{canvasframe}
+
+\begin{canvasframe}{Улучшения}
+  \begin{itemize}
+    \item Интервал $-M \le t \le M$, «простое» $p_0 = -1$ в базе
+    \item \textbf{MPQS} (Монтгомери): $F_{a,b}(t) = (at + b)^2 - N$, \ $b^2 \equiv N \pmod a$,
+      \ $a \approx \sqrt{2N}/M$; \ SIQS "--- быстрая смена многочленов
+    \item \textbf{Большие простые:} (гладкое)$\cdot q$, $B < q < B^2$; два таких с одним $q$
+      дают соотношение
+    \item Логарифмическое решето кусками по размеру кэша
+  \end{itemize}
+  \vfill
+\end{canvasframe}
+
+\begin{canvasframe}[shrink=5]{Сравнение алгоритмов и рекорды}
+  \small
+  \begin{tabular}{l|l}
+    алгоритм & сложность \\ \hline
+    пробное деление & $\bigO(p) \le N^{1/2}$ \\
+    $\rho$-метод Полларда & $\bigO(\sqrt p) \le N^{1/4}$ \\
+    метод Ферма & $\bigO((q - p)^2/\sqrt N)$, худший случай $\bigO(N)$ \\
+    метод Диксона & $L_N[\frac12, \sqrt2]$ \\
+    квадратичное решето & $L_N[\frac12, 1]$ \\
+    метод Ленстры (ЕСМ) & $L_p[\frac12, \sqrt2]$ \\
+    решето числового поля & $L_N[\frac13, 1{,}923]$
+  \end{tabular}
+  \begin{itemize}
+    \item RSA-129 (1994): MPQS, $\approx 600$ добровольцев, 8 месяцев
+    \item RSA-240 (2019), RSA-250 (2020, 829 бит): NFS
+    \item QS "--- лучший до $\approx 100$ десятичных знаков
+  \end{itemize}
+\end{canvasframe}
+\end{document}

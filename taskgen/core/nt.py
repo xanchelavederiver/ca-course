@@ -28,7 +28,8 @@ _MR_BASES = (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37)
 
 
 def is_prime(n: int) -> bool:
-    """Deterministic Miller–Rabin for n < 3.3e24."""
+    """Deterministic Miller–Rabin for n < 3.18e23 (bases 2..37; the least counterexample is
+    318665857834031151167461)."""
     if n < 2:
         return False
     for p in _MR_BASES:

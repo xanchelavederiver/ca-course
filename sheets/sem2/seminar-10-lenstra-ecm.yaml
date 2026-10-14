@@ -1,0 +1,34 @@
+# Seminar 10 (lecture 10): Lenstra's elliptic curve factorization.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-10-lenstra-ecm
+kind: classroom
+title: Семинар 10. Алгоритм Ленстры
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~10. Все вычисления "--- по модулю составного $N$; обратные элементы
+  находятся расширенным алгоритмом Евклида.
+sections:
+  - title: Разминка
+    intro: >-
+      Одно сложение или удвоение точек над $\mathbb{Z}/N\mathbb{Z}$. Знаменатель может
+      оказаться необратимым "--- тогда вместо точки получается делитель $N$.
+    tasks: [factoring.ec_mod_n_add, factoring.ec_mod_n_add, factoring.ec_mod_n_add]
+  - title: Алгоритм $p - 1$ Полларда (для сравнения)
+    tasks: [factoring.pollard_pm1]
+  - title: Алгоритм Ленстры
+    intro: >-
+      $Q_k = k\,Q_{k-1} = k!\,P$; умножение на $k$ "--- удвоением-сложением. Вторая кривая
+      из условия нужна, только если первая не дала нетривиального делителя.
+    tasks: [factoring.lenstra, factoring.lenstra, factoring.lenstra]
+  - title: Особые случаи
+    intro: >-
+      Знаменатель, необратимый по модулю обоих простых сразу ($\gcd = N$), и точка порядка $2$
+      по модулю одного из простых делителей.
+    tasks:
+      - factoring.lenstra@gcd_n
+      - factoring.ec_mod_n_add@fail
+      - factoring.ec_mod_n_add@fail

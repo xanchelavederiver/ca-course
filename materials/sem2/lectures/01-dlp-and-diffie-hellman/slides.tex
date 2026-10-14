@@ -1,0 +1,307 @@
+% Lecture 1 slides (sem2). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{1}{Задача дискретного логарифмирования. Алгоритм Шенкса}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Согласование ключа по открытому каналу}
+  \begin{itemize}
+    \item Алисе и Бобу нужен общий секретный ключ для симметричного шифра
+    \item Канал прослушивает Ева; встретиться лично нельзя
+    \item Диффи и Хеллман (1976): асимметрия двух задач в $\Znx{p}$
+    \begin{itemize}
+      \item $x \mapsto g^x \bmod p$ "--- легко: $\bigO(\log x)$ умножений
+      \item $g^x \bmod p \mapsto x$ "--- \textbf{дискретный логарифм} "--- по-видимому, трудно
+    \end{itemize}
+    \item План: DLP $\to$ Диффи"--~Хеллман, Эль-Гамаль $\to$ перебор $\bigO(n)$ $\to$
+      алгоритм Шенкса $\bigO(\sqrt n)$ $\to$ нижняя оценка $\Omega(\sqrt q)$
+  \end{itemize}
+  \aside{почему нельзя просто «зашифровать ключ»?}
+\end{canvasframe}
+
+\begin{canvasframe}{Напоминание: порядок элемента}
+  $\ord(g)$ "--- наименьшее $n \ge 1$ с $g^n = 1$;\quad
+  $\langle g \rangle = \{g^k : k \in \ZZ\}$
+  \begin{proposition}
+    Пусть $\ord(g) = n$. Тогда
+    \begin{enumerate}
+      \item $g^k = 1 \iff n \mid k$;\quad $g^k = g^l \iff \congr{k}{l}{n}$;
+      \item $\langle g \rangle = \{1, g, \dots, g^{n-1}\}$, все различны;
+      \item $n \mid |G|$ (Лагранж).
+    \end{enumerate}
+  \end{proposition}
+  \textbf{Теорема.} $\Znx{p}$ "--- циклическая группа порядка $p - 1$ (первообразные корни).
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{Подгруппы циклической группы}
+  Пусть $G = \langle \gamma \rangle$, $|G| = N$, $d \mid N$. Тогда в $G$ ровно одна подгруппа
+  порядка $d$:
+  \[
+    H_d = \{y \in G : y^d = 1\} = \langle \gamma^{N/d} \rangle .
+  \]
+  В частности, если $\ord(g) = n$, то $h \in \langle g \rangle \iff h^n = 1$.
+\end{theoremframe}
+
+\begin{canvasframe}{Дискретный логарифм (DLP)}
+  \begin{definition}
+    Даны $g, h \in G$. Найти $x \in \ZZ$: $g^x = h$.
+    Решение единственно по модулю $n = \ord(g)$; $x = \log_g h \in [0, n - 1]$.
+    Классика: $G = \Znx{p}$; также $\GF{q}^*$, эллиптические кривые.
+  \end{definition}
+  \small\[
+  \begin{array}{c|cccccccccccc}
+    k & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 \\ \hline
+    2^k \bmod 13 & 1 & 2 & 4 & 8 & 3 & 6 & 12 & 11 & 9 & 5 & 10 & 7
+  \end{array}
+  \]
+  \aside{$\log_2 7$? $\log_2 15$? решить $3^x \equiv 2 \pmod{13}$}
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{Логарифм "--- изоморфизм}
+  Пусть $\ord(g) = n$. Отображение $\log_g \colon \langle g \rangle \to \Zn{n}$ "--- изоморфизм:
+  \[
+    \log_g(h_1 h_2) \equiv \log_g h_1 + \log_g h_2, \qquad \log_g(h^k) \equiv k \log_g h \pmod n .
+  \]
+  Для другого образующего $g'$: $\log_{g'} h \equiv \log_g h \cdot (\log_g g')^{-1} \pmod n$.
+\end{theoremframe}
+
+\begin{canvasframe}{Трудность зависит от представления}
+  \begin{itemize}
+    \item Все циклические группы порядка $n$ изоморфны $(\Zn{n}, +)$
+    \item В $(\Zn{n}, +)$: «$g^x = h$» $\iff$ $xg \equiv h \pmod n$ "--- алгоритм Евклида,
+      полиномиально
+    \item Трудно \emph{вычислять} изоморфизм $\log_g \colon \langle g \rangle \to \Zn{n}$
+    \item Логарифмы складываются по модулю $\ord(g)$ (т.\,е. $p - 1$), а не по модулю $p$
+  \end{itemize}
+  \aside{чему равен $\log_g(-1)$ для первообразного корня $g$?}
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Протокол Диффи"--~Хеллмана}
+  \centering
+  \resizebox{!}{0.58\textheight}{\begin{tikzpicture}[x=1cm,y=1cm]
+    \node at (5,1.9) {открыто: $p$, $g$, $n = \ord(g)$};
+    \node at (0,0) {\personicon{caBlue}{Алиса}};
+    \node at (10,0) {\personicon{caRed}{Боб}};
+    \draw[-{Stealth[length=3mm]},thick] (1,0.6) -- (9,0.6) node[midway,above] {$A$};
+    \draw[{Stealth[length=3mm]}-,thick] (1,0.0) -- (9,0.0) node[midway,below] {$B$};
+    \node at (5,-2.2) {\personicon{caGray}{Ева}};
+    \draw[dashed,caGray] (5,-0.6) -- (5,-1.5);
+    \node[font=\small,align=left,anchor=north] at (0,-0.9)
+      {$a \gets [1, n - 1]$\\ $A \gets g^a \bmod p$\\[3pt] $K \gets B^a \bmod p$};
+    \node[font=\small,align=left,anchor=north] at (10,-0.9)
+      {$b \gets [1, n - 1]$\\ $B \gets g^b \bmod p$\\[3pt] $K \gets A^b \bmod p$};
+    \node[font=\small,anchor=north] at (5,-2.8) {знает: $p, g, A, B$};
+  \end{tikzpicture}}
+  \aside{корректность? стоимость для Алисы?}
+\end{canvasframe}
+
+\begin{canvasframe}{Пример}
+  $p = 941$, $g = 627$, $p - 1 = 2^2 \cdot 5 \cdot 47$ \hfill (HPS, разд.~2.3)
+  \begin{itemize}
+    \item Алиса: $a = 347$, $A = 627^{347} \equiv 390$
+    \item Боб: $b = 781$, $B = 627^{781} \equiv 691$
+    \item $K = 691^{347} \equiv 390^{781} \equiv 470 \pmod{941}$
+  \end{itemize}
+  \textbf{Игрушечный пример у доски:} $p = 23$, $g = 5$, $a = 6$, $b = 15$.
+  \penspace[0.35\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Что знает Ева: CDH и DDH}
+  \begin{definition}
+    \textbf{CDH}: по $g, g^a, g^b$ найти $g^{ab}$.\\
+    \textbf{DDH}: по $g, g^a, g^b, g^c$ решить, верно ли $g^c = g^{ab}$.
+  \end{definition}
+  \begin{proposition}
+    DDH $\le$ CDH $\le$ DLP.
+  \end{proposition}
+  \begin{itemize}
+    \item Обратные сведения в общем случае неизвестны
+    \item Активная Ева: «человек посередине» $\Rightarrow$ подписи
+  \end{itemize}
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{DDH в $\Znx{p}$ легка}
+  Пусть $g$ "--- первообразный корень по модулю $p > 2$. По $g^a$ за $\bigO(\log p)$ умножений
+  определяется чётность $a$:
+  \[
+    (g^a)^{(p-1)/2} = (-1)^a .
+  \]
+  Поэтому при несовпадении чётностей $ab$ и $c$ тройка $(g^a, g^b, g^c)$ не является тройкой DH.
+\end{theoremframe}
+
+\begin{canvasframe}{Шифрование Эль-Гамаля (1985)}
+  \begin{itemize}
+    \item \textbf{Ключи} (Алиса): секрет $a$, открытый ключ $A = g^a \bmod p$
+    \item \textbf{Шифрование} (Боб, $m \in \Znx{p}$): случайное одноразовое $k$,
+      \[
+        c_1 = g^k, \qquad c_2 = m A^k
+      \]
+    \item \textbf{Расшифрование}: $m = c_2 (c_1^a)^{-1} = c_2\, c_1^{p - 1 - a}$
+  \end{itemize}
+  Пример (HPS, разд.~2.4): $p = 467$, $g = 2$, $a = 153$, $A = 224$; $m = 331$, $k = 197$
+  $\Rightarrow$ $(c_1, c_2) = (87, 57)$; $c_1^a \equiv 367$, $367^{-1} \equiv 14$, $57 \cdot 14
+  \equiv 331$.
+  \aside{почему нельзя повторять $k$?}
+  \penspace[0.12\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{Стойкость Эль-Гамаля}
+  Расшифровать любой шифртекст Эль-Гамаля без секретного ключа можно тогда и только тогда, когда
+  можно решать CDH для пар $(A, c_1)$.
+\end{theoremframe}
+
+\begin{canvasframe}{Тривиальный алгоритм: перебор}
+  \begin{algorithm}[перебор]
+  \begin{algorithmic}[1]
+    \Require $g, h$; $n = \ord(g)$ (или граница $N \ge n$)
+    \State $y \gets 1$
+    \For{$x = 0, \dots, n - 1$}
+      \If{$y = h$} \Return $x$ \EndIf
+      \State $y \gets y g$
+    \EndFor
+    \State \Return «решений нет»
+  \end{algorithmic}
+  \end{algorithm}
+  \begin{itemize}
+    \item Время $\bigO(n)$ групповых операций (в среднем $n/2$), память $\bigO(1)$
+    \item Вход "--- $\log_2 p$ бит: $n \approx 2^{2048}$ $\Rightarrow$ экспонента от длины входа
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Выбор параметров}
+  \begin{itemize}
+    \item Полиг"--~Хеллман (лекция~2): сложность определяется наибольшим простым $q \mid \ord(g)$
+    \item Универсальные алгоритмы: $\bigO(\sqrt q)$, и лучше нельзя
+    \item Исчисление индексов в $\Znx{p}$ (лекция~4): $p$ гораздо длиннее $q$
+    \item Стандарт: $|p| = 2048$"--~$3072$ бит, $g$ простого порядка $q$, $|q| \ge 256$ бит
+    \item Безопасное простое $p = 2q + 1$: порядки $1, 2, q, 2q$; $\ord(4) = q$
+    \item Проверка входящего $A$: $1 < A < p - 1$, $A^q \equiv 1$
+  \end{itemize}
+  \aside{что будет, если $g = p - 1$?}
+  \penspace[0.12\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Уровни стойкости (NIST SP 800-57)}
+  \centering
+  \begin{tabular}{c|c|c|c}
+    стойкость, бит & DH: $\log_2 p$ & DH: $\log_2 q$ & EC: $\log_2 q$ \\ \hline
+    $80$  & $1024$  & $160$ & $160$ \\
+    $112$ & $2048$  & $224$ & $224$ \\
+    $128$ & $3072$  & $256$ & $256$ \\
+    $192$ & $7680$  & $384$ & $384$ \\
+    $256$ & $15360$ & $512$ & $512$
+  \end{tabular}
+  \par\medskip\raggedright
+  \begin{itemize}
+    \item $\log_2 q \approx 2 \times$ стойкость "--- из-за алгоритмов за $\sqrt q$
+    \item $p$ длинный "--- из-за субэкспоненциального исчисления индексов
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Алгоритм Шенкса: идея}
+  \begin{itemize}
+    \item Обмен памяти на время: два списка длины $m \approx \sqrt n$
+    \item Малые шаги: $L_1 = \{g^j : 0 \le j < m\}$
+    \item Большие шаги: $L_2 = \{h \cdot g^{-im} : 0 \le i < m\}$
+    \item Совпадение $g^j = h g^{-im}$ $\Rightarrow$ $x = im + j$
+  \end{itemize}
+  \centering
+  \begin{tikzpicture}[x=0.55cm,y=1cm]
+    \draw[thick] (0,0) -- (20,0);
+    \foreach \i in {0,5,10,15,20} \draw (\i,-0.12) -- (\i,0.12);
+    \node[below,font=\small] at (0,-0.1) {$0$};
+    \node[below,font=\small] at (5,-0.1) {$m$};
+    \node[below,font=\small] at (10,-0.1) {$2m$};
+    \node[below,font=\small] at (15,-0.1) {$3m$};
+    \node[below,font=\small] at (20,-0.1) {$m^2 \ge n$};
+    \foreach \j in {0,...,4} \fill[caBlue] (\j,0) circle (2pt);
+    \fill[caRed] (13,0) circle (3pt) node[above,font=\small] {$x = 2m + 3$};
+  \end{tikzpicture}
+  \penspace[0.12\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}[lemma]{Лемма о коллизии}
+  Пусть $\ord(g) = n$, $m^2 \ge n$. Тогда $L_1 \cap L_2 \ne \varnothing \iff h \in \langle g
+  \rangle$, и из $g^j = h g^{-im}$ следует $g^{im + j} = h$.
+\end{theoremframe}
+
+\begin{canvasframe}{Алгоритм Шенкса (BSGS)}
+  \footnotesize
+  \begin{algorithm}[Шенкс]
+  \begin{algorithmic}[1]
+    \Require $g, h$; $n = \ord(g)$ или граница $N \ge \ord(g)$
+    \State $m \gets \ceil{\sqrt n}$; $u \gets g^{-m}$; $T \gets$ хеш-таблица; $y \gets 1$
+    \For{$j = 0, \dots, m - 1$} \State $T[y] \gets j$ (если ключа ещё нет); $y \gets yg$ \EndFor
+    \For{$i = 0, \dots, m - 1$, начиная с $y = h$}
+      \If{$y \in T$} \Return $im + T[y]$ \EndIf
+      \State $y \gets y u$
+    \EndFor
+    \State \Return «решений нет»
+  \end{algorithmic}
+  \end{algorithm}
+\end{canvasframe}
+
+\begin{theoremframe}{Сложность алгоритма Шенкса}
+  Алгоритм Шенкса находит $\log_g h$ за $\bigO(\sqrt n)$ групповых операций
+  ($\le 2m + \bigO(\log n)$ умножений) с памятью $\bigO(\sqrt n)$ элементов. С сортировкой вместо
+  хеш-таблицы "--- $\bigO(\sqrt n \log n)$ сравнений.
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: $2^x \equiv 81 \pmod{101}$}
+  $n = 100$, $m = 10$; малые шаги:
+  \[
+  \begin{array}{c|cccccccccc}
+    j & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\ \hline
+    2^j & 1 & 2 & 4 & 8 & 16 & 32 & 64 & 27 & 54 & 7
+  \end{array}
+  \]
+  $2^{10} \equiv 14$, \quad $2^{-10} \equiv 14^{-1} \equiv \ ?$ \quad большие шаги $y_i = 81 \cdot
+  2^{-10 i}$:
+  \[
+  \begin{array}{c|cccccccc}
+    i & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+    y_i & 81 & \phantom{00} & \phantom{00} & \phantom{00} & \phantom{00} & \phantom{00}
+      & \phantom{00} & \phantom{00}
+  \end{array}
+  \]
+\end{canvasframe}
+
+\begin{canvasframe}{Варианты}
+  \begin{itemize}
+    \item Неравные списки: $m_1 m_2 \ge n$; время $m_1 + m_2$, память $m_1$
+    \item Хранить $g^{im}$, искать $h g^{j}$: $x = im - j$ (HPS, разд.~2.7)
+    \item $x$ в интервале длины $w$ $\Rightarrow$ $\bigO(\sqrt w)$
+    \item $\ord(g) < p - 1$ известен $\Rightarrow$ $m = \ceil{\sqrt{\ord g}}$
+    \item Нет совпадений $\Rightarrow$ $h \notin \langle g \rangle$ (проверка: $h^{\ord g} \ne 1$)
+  \end{itemize}
+  \aside{память для группы порядка $2^{128}$?}
+  \penspace[0.15\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Нижняя оценка для универсальных алгоритмов}
+  \small
+  Универсальный алгоритм: только групповые операции и сравнения (элементы "--- случайные коды).
+  \begin{theorem}[Шуп, 1997; без доказательства]
+    $q$ "--- наибольший простой делитель $n$. Универсальный алгоритм, решающий DLP в циклической
+    группе порядка $n$ с вероятностью $\ge 1/2$, делает $\Omega(\sqrt q)$ операций.
+  \end{theorem}
+  \begin{itemize}
+    \item Шенкс, $\rho$ (лекция~3), Полиг"--~Хеллман (лекция~2) "--- оптимальны
+    \item Обход "--- через представление: исчисление индексов (лекция~4)
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Итоги}
+  \begin{itemize}
+    \item DLP: $g^x = h$; $x$ единственно по модулю $\ord(g)$; решение есть $\iff h^{\ord g} = 1$
+    \item Диффи"--~Хеллман, Эль-Гамаль: стойкость $\le$ трудности DLP, равна трудности CDH
+    \item Перебор $\bigO(n)$ / $\bigO(1)$; Шенкс $\bigO(\sqrt n)$ / $\bigO(\sqrt n)$;
+      нижняя оценка $\Omega(\sqrt q)$
+    \item Параметры: подгруппа большого простого порядка; проверять $A^q = 1$
+  \end{itemize}
+  \notearea[0.3\textheight]
+\end{canvasframe}
+
+\end{document}

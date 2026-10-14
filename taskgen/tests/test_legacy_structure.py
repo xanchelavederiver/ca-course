@@ -18,7 +18,14 @@ from .conftest import SHEETS
 LEGACY = Path(__file__).parent / "fixtures" / "legacy-sem1-tasks.tex"
 
 
+# Deliberate wording changes since the legacy script (the Mersenne modulus 255 is not prime).
+RENAMED = {"в поле Ферма": "в кольце вычетов по модулю числа Ферма",
+           "в поле Мерсенна": "в кольце вычетов по модулю числа Мерсенна"}
+
+
 def skeleton(s: str) -> str:
+    for old, new in RENAMED.items():
+        s = s.replace(old, new)
     return " ".join(re.sub(r"\d+", "N", s).split())
 
 

@@ -1,0 +1,292 @@
+% Lecture 3 slides (sem1). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+
+\lecture{3}{Деление с остатком и алгоритм Евклида}
+\author{}
+
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Зачем: ключи RSA}
+  \centering
+  \begin{tikzpicture}[x=0.9cm,y=0.8cm]
+    \node (B) at (0,0) {\personicon{caRed}{Боб}};
+    \node (A) at (10,0) {\personicon{caBlue}{Алиса}};
+    \draw[very thick,caGray,-{Stealth[length=3mm]}] (1,0.3) -- (9,0.3)
+      node[midway,above,font=\small] {открытый ключ $(N, e)$};
+    \node[font=\small,align=left,anchor=north] at (0.4,-1.0)
+      {$p = 61$, $q = 53$, $N = pq = 3233$\\
+       $\varphi(N) = (p-1)(q-1) = 3120$, $e = 17$\\
+       $d = e^{-1} \bmod \varphi(N) = \ ?$};
+    \node[font=\small,align=left,anchor=north] at (9.4,-1.0)
+      {$C = M^e \bmod N$};
+  \end{tikzpicture}
+  \begin{itemize}
+    \item умножение в $\Zn{N}$ "--- умножение и \textbf{деление с остатком} больших чисел
+    \item секретный ключ "--- \textbf{обратный элемент}: $ed \equiv 1 \pmod{\varphi(N)}$
+  \end{itemize}
+  \aside{как найти $d$ без перебора?}
+\end{canvasframe}
+
+\begin{theoremframe}{Деление с остатком}
+  Для любых $a \in \ZZ$ и $b > 0$ существуют единственные $q, r \in \ZZ$:
+  \[a = qb + r, \qquad 0 \le r < b, \qquad q = \floor{a/b},\ r = a \bmod b.\]
+\end{theoremframe}
+
+\begin{canvasframe}{Деление на цифру}
+  \begin{algorithm}
+    $u = (u_{n-1} \dots u_0)_B$, $0 < v < B$. \quad $r \gets 0$;\\
+    для $j = n - 1, \dots, 0$: \quad $t \gets rB + u_j$, \quad $q_j \gets \floor{t/v}$, \quad
+    $r \gets t \bmod v$.
+  \end{algorithm}
+  \begin{itemize}
+    \item $r < v \Rightarrow t < vB \Rightarrow q_j < B$: одна команда процессора «$2$ цифры $:$ цифра»
+    \item сложность $\Theta(n)$
+  \end{itemize}
+  Пример: $9876543 : 7$
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Школьное деление: где трудность?}
+  $u = (u_{m+n-1} \dots u_0)_B$, \ $v = (v_{n-1} \dots v_0)_B$, $v_{n-1} \ne 0$; \ частное "---
+  $m + 1$ цифр.
+  \begin{itemize}
+    \item шаг: окно $U = (U_n U_{n-1} \dots U_0)_B < vB$ (остаток $+$ очередная цифра)
+    \item цифра частного $q = \floor{U/v} \in \{0, \dots, B - 1\}$ "--- \alert{как её найти?}
+    \item оценка по старшим цифрам:
+      \[\hat q = \min\Bigl(\Bigl\lfloor \frac{U_n B + U_{n-1}}{v_{n-1}} \Bigr\rfloor,\ B - 1\Bigr)\]
+  \end{itemize}
+  \aside{насколько $\hat q$ может отличаться от $q$, например, для $v = 199$, $U = 0900$?}
+\end{canvasframe}
+
+\begin{theoremframe}{Оценка цифры частного (Кнут)}
+  Пусть $0 \le U < vB$. Тогда
+  \begin{enumerate}
+    \item $\hat q \ge q$;
+    \item если $v_{n-1} \ge \floor{B/2}$, то $\hat q - 2 \le q \le \hat q$.
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{theoremframe}[lemma]{Нормализация}
+  Пусть $d = \floor{B / (v_{n-1} + 1)}$. Тогда $vd$ "--- $n$-значное число и его старшая цифра
+  $\ge \floor{B/2}$. Частное $\floor{ud / vd} = \floor{u/v}$, остаток умножается на $d$.\\[1ex]
+  \small $B = 10$: \ $v_{n-1} = 1, 2, 3, 4 \ \to\ d = 5, 3, 2, 2$; \quad $B = 2^{32}$: сдвиг до
+  старшего бита $1$.
+\end{theoremframe}
+
+\begin{theoremframe}[lemma]{Уточнение оценки}
+  $\hat r = U_n B + U_{n-1} - \hat q v_{n-1}$.
+  \begin{enumerate}
+    \item Если $\hat q v_{n-2} > B\hat r + U_{n-2}$, то $q < \hat q$ \ (уменьшаем $\hat q$, повторяем).
+    \item Иначе $q \ge \hat q - 1$.
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{canvasframe}[shrink=14]{Алгоритм D Кнута}
+  \small
+  \begin{algorithmic}[1]
+    \State $d \gets \floor{B / (v_{n-1} + 1)}$; \ $u \gets ud = (u_{m+n} \dots u_0)_B$, \ $v \gets vd$
+      \Comment{D1}
+    \For{$j = m, \dots, 0$}
+      \State $\hat q \gets \min(\floor{(u_{j+n} B + u_{j+n-1}) / v_{n-1}}, B - 1)$,
+        $\hat r \gets u_{j+n} B + u_{j+n-1} - \hat q v_{n-1}$ \Comment{D3}
+      \While{$\hat r < B$ и $\hat q v_{n-2} > B \hat r + u_{j+n-2}$}
+        \State $\hat q \gets \hat q - 1$, \ $\hat r \gets \hat r + v_{n-1}$
+      \EndWhile
+      \State $(u_{j+n} \dots u_j) \gets (u_{j+n} \dots u_j) - \hat q v$ \Comment{D4}
+      \If{$< 0$} \State $\hat q \gets \hat q - 1$, прибавить $v$ \Comment{D6: возврат} \EndIf
+      \State $q_j \gets \hat q$
+    \EndFor
+    \State $r \gets (u_{n-1} \dots u_0) / d$ \Comment{D8}
+  \end{algorithmic}
+  \aside{сложность: $\bigO(mn)$ "--- почему?}
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $195264 : 105$, \ $B = 10$}
+  $d = \ \underline{\hspace{1cm}}$, \quad $u' = \ \underline{\hspace{2.5cm}}$, \quad
+  $v' = \ \underline{\hspace{1.5cm}}$
+  \[
+  \renewcommand{\arraystretch}{1.3}
+  \begin{array}{c|c|c|c|c|c}
+    j & U & \hat q & \hat q v' & q_j & U - q_j v' \\ \hline
+    3 & \hspace{1.6cm} & \hspace{1.6cm} & \hspace{1.6cm} & \hspace{0.8cm} & \hspace{1.8cm}\\
+    2 & & & & & \\
+    1 & & & & & \\
+    0 & & & & &
+  \end{array}
+  \]
+  $q = \ \underline{\hspace{2cm}}$, \quad $r = \ \underline{\hspace{2cm}}$
+  \aside{на каком шаге понадобится возврат?}
+\end{canvasframe}
+
+\begin{canvasframe}{Деление через умножение}
+  \begin{itemize}
+    \item \textbf{Ньютон} для $1/v$: \quad $x_{k+1} = x_k(2 - v x_k)$, \quad
+      $1 - v x_{k+1} = (1 - v x_k)^2$
+      \begin{itemize}
+        \item точность удваивается $\Rightarrow$ деление за $\bigO(M(N))$
+      \end{itemize}
+    \item \textbf{Барретт}: модуль $n$ из $k$ цифр, $\mu = \floor{B^{2k}/n}$ (один раз), $x < B^{2k}$:
+      \[\tilde q = \Bigl\lfloor \floor{x / B^{k-1}}\, \mu \,/\, B^{k+1} \Bigr\rfloor, \qquad
+        q - 2 \le \tilde q \le q\]
+    \item \textbf{Монтгомери} "--- лекция~5
+  \end{itemize}
+  \aside{почему $\tilde q \ge q - 2$?}
+  \penspace[0.1\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{НОД и алгоритм Евклида}
+  \begin{lemma}
+    $\gcd(a, b) = \gcd(a - kb, b)$; \ в частности $\gcd(a, b) = \gcd(b, a \bmod b)$.
+  \end{lemma}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \begin{algorithmic}[1]
+        \While{$b \ne 0$}
+          \State $(a, b) \gets (b, a \bmod b)$
+        \EndWhile
+        \State \Return $a$
+      \end{algorithmic}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \[\euclidchain{1071}{462}\]
+    \end{column}
+  \end{columns}
+  \aside{почему алгоритм останавливается и возвращает $\gcd$?}
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Ламе}
+  Если $a > b > 0$ и алгоритм Евклида выполняет $k$ делений, то $b \ge F_{k+1}$, $a \ge F_{k+2}$
+  ($F_1 = F_2 = 1$, $F_{j+2} = F_{j+1} + F_j$).\\[1ex]
+  \textbf{Следствие.} $k \le 1 + \log_\varphi b \approx 1 + 1{,}44 \log_2 b$; \ $k \le 5 \times$
+  (число десятичных цифр $b$). \ Битовая сложность $\bigO(\log a \log b)$.
+\end{theoremframe}
+
+\begin{canvasframe}{Бинарный алгоритм Евклида (Стейн)}
+  \begin{itemize}
+    \item $\gcd(2a, 2b) = 2\gcd(a, b)$, \quad $\gcd(2a, b) = \gcd(a, b)$ при нечётном $b$
+    \item $\gcd(a, b) = \gcd(\abs{a - b}, \min(a, b))$, \ для нечётных $a, b$ разность чётна
+    \item только вычитания и сдвиги, $\bigO(\log a + \log b)$ итераций
+  \end{itemize}
+  Пример: $\gcd(1071, 462)$
+  \penspace[0.2\textheight]
+  \aside{почему число итераций логарифмическое?}
+\end{canvasframe}
+
+\begin{canvasframe}{Расширенный алгоритм Евклида}
+  Храним вместе с остатками их запись через $a$ и $b$:
+  \[r_i = u_i a + v_i b, \qquad (r_0, u_0, v_0) = (a, 1, 0), \quad (r_1, u_1, v_1) = (b, 0, 1)\]
+  \[q_i = \floor{r_{i-1}/r_i}: \qquad r_{i+1} = r_{i-1} - q_i r_i, \quad
+    u_{i+1} = u_{i-1} - q_i u_i, \quad v_{i+1} = v_{i-1} - q_i v_i\]
+  \aside{почему инвариант сохраняется?}
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Пример: $\gcd(240, 46)$}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \[\xgcdtable{240}{46}\]
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \penspace[0.1\textheight]
+      \aside{$2 = 240u + 46v$, \ $u, v = \ ?$}
+      \aside{что означает последняя строка?}
+    \end{column}
+  \end{columns}
+\end{canvasframe}
+
+\begin{theoremframe}{Соотношение Безу}
+  Для любых $a, b \in \ZZ$ существуют $u, v \in \ZZ$: \ $ua + vb = \gcd(a, b)$.
+  \begin{itemize}
+    \item $\gcd(a, b)$ "--- наименьшее натуральное число вида $ua + vb$
+    \item все решения: $(u + kb/d,\ v - ka/d)$, $k \in \ZZ$
+    \item если $a \mid bc$ и $\gcd(a, b) = 1$, то $a \mid c$
+  \end{itemize}
+\end{theoremframe}
+
+\begin{theoremframe}{Оценки коэффициентов}
+  Пусть $a > b > 0$, $d = \gcd(a, b) = r_k$. Тогда $u_i u_{i+1} \le 0$ и
+  \[r_i \abs{u_{i+1}} + r_{i+1} \abs{u_i} = b, \qquad r_i \abs{v_{i+1}} + r_{i+1} \abs{v_i} = a,\]
+  откуда $\abs{u_k} \le \dfrac{b}{2d}$, \ $\abs{v_k} \le \dfrac{a}{2d}$, \ $\abs{u_{k+1}} = \dfrac bd$,
+  \ $\abs{v_{k+1}} = \dfrac ad$.
+\end{theoremframe}
+
+\begin{theoremframe}{Обратимые элементы $\Zn{n}$}
+  $[a] \in \Zn{n}$ обратим $\iff \gcd(a, n) = 1$. Если $ua + vn = 1$, то $a^{-1} \equiv u \pmod n$.
+  Если $d = \gcd(a, n) > 1$, то $a \cdot \frac nd \equiv 0$ "--- делитель нуля.\\[1ex]
+  \textbf{Следствие.} $\Zn{n}$ "--- поле $\iff n$ простое.
+\end{theoremframe}
+
+\begin{canvasframe}{Пример: $17^{-1} \bmod 3120$}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \[\xgcdtable{3120}{17}\]
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{itemize}
+        \item столбец $u_i$ не нужен
+        \item $\abs{v} \le n/2$
+        \item сложность $\bigO(\log^2 n)$
+      \end{itemize}
+      \aside{$d = \ ?$ \ Проверка?}
+    \end{column}
+  \end{columns}
+  \penspace[0.1\textheight]
+  \aside{а $15^{-1} \bmod 3120$?}
+\end{canvasframe}
+
+\begin{theoremframe}{Функция Эйлера}
+  $\varphi(n) = \abs{\Znx{n}}$. Если $\gcd(m, n) = 1$, то $\varphi(mn) = \varphi(m)\varphi(n)$;
+  \[\varphi(p^e) = p^{e-1}(p - 1), \qquad \varphi(n) = n \prod_{p \mid n} \Bigl(1 - \frac 1p\Bigr).\]
+\end{theoremframe}
+
+\begin{theoremframe}{Теорема Эйлера}
+  Если $\gcd(a, n) = 1$, то $a^{\varphi(n)} \equiv 1 \pmod n$. \quad
+  (Ферма: $a^{p-1} \equiv 1 \pmod p$, $p \nmid a$.)\\[1ex]
+  \textbf{Следствие.} $a^{-1} \equiv a^{\varphi(n) - 1} \pmod n$. \quad Пример: $7^{-1} \bmod 40$.
+\end{theoremframe}
+
+\begin{canvasframe}{Два способа обращения}
+  \begin{tabular}{l|c|c}
+    & расширенный Евклид & $a^{\varphi(n) - 1}$ \\ \hline
+    битовая сложность & $\bigO(\log^2 n)$ & $\bigO(\log^3 n)$ \\
+    нужно знать & только $n$ & $\varphi(n)$ (разложение $n$!) \\
+    время работы & зависит от $a$ & одинаковое для всех $a$ \\
+    необратимый $a$ & даёт $\gcd > 1$ & даёт неверный ответ
+  \end{tabular}
+  \aside{почему знание $\varphi(N)$ для $N = pq$ равносильно знанию $p$ и $q$?}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Линейные сравнения $ax \equiv b \pmod n$}
+  Пусть $d = \gcd(a, n)$.
+  \begin{enumerate}
+    \item $d \nmid b$ $\Rightarrow$ решений нет;
+    \item $d \mid b$ $\Rightarrow$ ровно $d$ решений $x_0 + k\frac nd$, $k = 0, \dots, d - 1$, где
+      $x_0 \equiv u \cdot \frac bd \pmod{\frac nd}$, \ $ua + vn = d$.
+  \end{enumerate}
+\end{theoremframe}
+
+\begin{canvasframe}{Пример}
+  \[21x \equiv 14 \pmod{91}, \qquad\qquad 21x \equiv 15 \pmod{91}\]
+  \penspace[0.4\textheight]
+  \aside{сколько решений у $ax \equiv 0 \pmod n$?}
+\end{canvasframe}
+
+\begin{canvasframe}{Итоги}
+  \small
+  \begin{tabular}{l|l}
+    операция & сложность (школьные методы) \\ \hline
+    сложение, вычитание & $\Theta(N)$ \\
+    умножение & $\Theta(N^2)$ \ (Карацуба: $\bigO(N^{1{,}585})$) \\
+    деление $2N : N$ (алгоритм D) & $\Theta(N^2)$ \ (Ньютон: $\bigO(M(N))$) \\
+    $\gcd$, расширенный Евклид, обращение & $\bigO(N^2)$ \\
+    обращение по Эйлеру & $\bigO(N^3)$
+  \end{tabular}
+  \medskip
+  \begin{itemize}
+    \item дальше: метод Монтгомери (лекция~5), возведение в степень (лекция~6), КТО (семестр~2)
+  \end{itemize}
+\end{canvasframe}
+
+\end{document}

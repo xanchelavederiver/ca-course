@@ -1,0 +1,30 @@
+# Seminar 4 (lecture 4): index calculus in (Z/pZ)^*.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-04-index-calculus
+kind: classroom
+title: Семинар 4. Метод исчисления индексов
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~4. Во всех задачах $g$ "--- первообразный корень по модулю $p$.
+sections:
+  - title: Разминка
+    intro: >-
+      Гладкие числа и сбор соотношений; второй этап при известных логарифмах факторной базы.
+    tasks: [dlp.ic_relations, dlp.ic_individual_log]
+  - title: Система по модулю $p - 1$
+    intro: >-
+      Решение по модулю примарных делителей $p - 1$ и сборка по КТО; ведущий элемент должен быть
+      обратим.
+    tasks: [dlp.ic_linear_system, dlp.ic_linear_system]
+  - title: Метод исчисления индексов целиком
+    tasks: [dlp.index_calculus, dlp.index_calculus]
+  - title: Особые случаи
+    intro: >-
+      Первые соотношения не определяют логарифмы (система вырождена по модулю простого делителя
+      $p - 1$, чаще всего $2$); факторная база с $-1$ и абсолютно наименьшими вычетами.
+    tasks: [dlp.ic_linear_system@singular, dlp.ic_linear_system@singular, dlp.ic_relations@signed,
+            dlp.ic_individual_log@signed]

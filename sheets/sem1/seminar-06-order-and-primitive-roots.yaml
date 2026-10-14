@@ -1,0 +1,32 @@
+# Seminar 6 (lecture 7): element order, product tree, primitive roots.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem1-seminar-06-order-and-primitive-roots
+kind: classroom
+title: Семинар 6. Порядок элемента и первообразные корни
+semester: 1
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~7.
+sections:
+  - title: Разминка
+    intro: Небольшие модули; порядок элемента делит $p - 1$.
+    tasks: [number_theory.order@sem2, number_theory.order@sem2]
+  - title: Вычисление порядка
+    intro: >-
+      Последовательное снижение и дерево произведений. Сравните число возведений в степень
+      в двух методах.
+    tasks: [number_theory.order, number_theory.order_product_tree, number_theory.order_product_tree]
+  - title: Первообразные корни
+    intro: >-
+      Наименьший первообразный корень; все первообразные корни, если известен один.
+    tasks: [number_theory.primitive_root, number_theory.primitive_root,
+            number_theory.all_primitive_roots]
+  - title: Особые случаи
+    intro: >-
+      Порядок может оказаться равным $p - 1$ (элемент "--- первообразный корень); модуль
+      может иметь вид $p^k$ или $2p^k$, а может не иметь первообразных корней вовсе.
+    tasks: [number_theory.order, number_theory.primitive_root@prime_power,
+            number_theory.primitive_root@twice, number_theory.primitive_root@none,
+            number_theory.all_primitive_roots]

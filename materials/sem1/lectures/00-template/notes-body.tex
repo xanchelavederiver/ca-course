@@ -1,0 +1,66 @@
+% Lecture notes body template: \input by notes.tex and \subimport'ed by the
+% semester book (make book SEM=N). Labels: prefix with the lecture number (l0:...).
+\begin{lecture}{0}{Шаблон конспекта лекции}
+
+\section{Модулярная арифметика}
+
+\begin{definition}
+Целые числа $a$ и $b$ \emph{сравнимы по модулю} $m \in \NN$, если $m \mid (a - b)$.
+Обозначение: $\congr{a}{b}{m}$.
+\end{definition}
+
+\begin{theorem}[Малая теорема Ферма]\label{l0:fermat}
+Если $p$ "--- простое число и $p \nmid a$, то $\congr{a^{p-1}}{1}{p}$.
+\end{theorem}
+
+\begin{proof}
+Отображение $x \mapsto ax$ "--- биекция на $\Znx{p}$, поэтому
+$\prod_{x} ax = a^{p-1} \prod_{x} x$, откуда и следует утверждение.
+\end{proof}
+
+\begin{corollary}
+Для простого $p$ и $a \in \Znx{p}$ выполнено $\ord(a) \mid p - 1$.
+\end{corollary}
+
+\checkyourself{Почему в теореме~\ref{l0:fermat} требуется условие $p \nmid a$?}
+
+\begin{example}
+$\congr{3^{6}}{1}{7}$, так как $3^6 = 729 = 104 \cdot 7 + 1$.
+\end{example}
+
+\section{Алгоритм Евклида}
+
+\begin{algorithm}[расширенный алгоритм Евклида]
+\begin{algorithmic}[1]
+\Require $a \ge b \ge 0$.
+\Ensure $d = \gcd(a, b)$ и $u, v$: $ua + vb = d$.
+\State $(r_0, u_0, v_0) \gets (a, 1, 0)$, $(r_1, u_1, v_1) \gets (b, 0, 1)$, $i \gets 1$
+\While{$r_i \ne 0$}
+  \State $q \gets \floor{r_{i-1} / r_i}$
+  \State $(r_{i+1}, u_{i+1}, v_{i+1}) \gets (r_{i-1}, u_{i-1}, v_{i-1}) - q\,(r_i, u_i, v_i)$
+  \State $i \gets i + 1$
+\EndWhile
+\State \Return $(r_{i-1}, u_{i-1}, v_{i-1})$
+\end{algorithmic}
+\end{algorithm}
+
+Трасса для $a = 240$, $b = 46$ (таблица вычисляется самим \LaTeX{} из
+\texttt{ca-figures.sty}):
+\[\xgcdtable{240}{46}\qquad \euclidchain{240}{46}\]
+
+\checkyourself{Как найти $\ord(g)$, зная разложение $p - 1$ на простые множители?}
+
+\begin{remark}
+Примеры, сгенерированные taskgen, перечислены в файле \texttt{examples.yaml} рядом
+с конспектом; каждый подключается командой \texttt{\textbackslash taskexample\{<name>\}}.
+\end{remark}
+
+\checkyourselfsection
+
+\begin{furtherreading}
+  \readitem[гл.~1]{hps}{основной учебник курса}
+  \readitem[гл.~2]{galbraith}{}
+  \readitem[разд.~4.5.2]{knuth-taocp2}{алгоритм Евклида и его анализ}
+  \readitem{cp-algorithms}{}
+\end{furtherreading}
+\end{lecture}

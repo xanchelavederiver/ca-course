@@ -1,0 +1,30 @@
+# Seminar 3 (lecture 3): collision theorem, Pollard rho with Floyd, distinguished points.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-03-pollard-rho
+kind: classroom
+title: Семинар 3. Коллизии и $\rho$-алгоритм Полларда
+semester: 2
+document:
+  toc: false
+preset: sem2
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~3.
+sections:
+  - title: Разминка
+    intro: >-
+      Теорема о коллизиях: вероятность совпадения и длина списков (парадокс дней рождения,
+      хеш-функции, коллизионный алгоритм для DLP).
+    tasks: [dlp.collision_probability, dlp.collision_probability, dlp.collision_probability]
+  - title: $\rho$-алгоритм Полларда
+    intro: >-
+      Подгруппа простого порядка; таблица «черепахи» и «зайца» до совпадения
+      $x_i = x_{2i}$, затем линейное сравнение по модулю порядка.
+    tasks: [dlp.rho, dlp.rho, dlp.rho]
+  - title: Особые случаи
+    intro: >-
+      Составной порядок основания: сравнение $(\beta_i - \beta_{2i})x \equiv
+      \alpha_{2i} - \alpha_i$ имеет $d = \gcd(\beta_i - \beta_{2i}, n) > 1$ решений, и нужное
+      выбирается проверкой. Метод выделенных точек: коллизия двух блужданий (или блуждания
+      с самим собой) обнаруживается в выделенной точке.
+    tasks: [dlp.rho@composite, dlp.rho@composite, dlp.rho_distinguished, dlp.rho_distinguished]

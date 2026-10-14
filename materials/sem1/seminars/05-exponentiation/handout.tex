@@ -1,0 +1,77 @@
+% Seminar 5 handout (lecture 6): binary, 2^k-ary and sliding-window exponentiation,
+% addition chains, Montgomery exponentiation (odd and even modulus).
+\documentclass{ca-handout}
+
+\seminar{5}{Быстрое возведение в степень}
+
+\begin{document}
+\makehandouttitle
+
+\section{Обозначения}
+$e = (e_\lambda \dots e_1 e_0)_2$, $e_\lambda = 1$; \ $\lambda(e) = \floor{\log_2 e}$ "--- число
+битов без старшего, $\nu(e)$ "--- число единиц. $E_i = \floor{e/2^i} = (e_\lambda \dots e_i)_2$ "---
+показатель, «прочитанный» до бита $i$ включительно. Операции: К "--- возведение в квадрат,
+У "--- умножение.
+
+\section{Бинарный алгоритм}
+\begin{reminder}[title={Слева направо: $\lambda(e)$ К и $\nu(e) - 1$ У}]
+$r \gets a$; для $i = \lambda - 1, \dots, 0$: \ $r \gets r^2$, \ если $e_i = 1$, то $r \gets r \cdot a$.
+Инвариант: после бита $i$ \ $r = a^{E_i}$. Удобно вести таблицу «бит $\mid$ $r^2$ $\mid$ $r$
+$\mid$ $E_i$».
+\end{reminder}
+Справа налево: $y \gets 1$, $x \gets a$; для $i = 0, 1, \dots$: если $e_i = 1$, то $y \gets yx$;
+$x \gets x^2$. Инвариант $y \cdot x^{f} = a^e$, где $f = \floor{e / 2^{i}}$ "--- ещё не
+обработанная часть показателя. В среднем $1{,}5\lambda$ операций, в худшем случае $2\lambda$.
+
+\section{$2^k$-арный метод (на семинаре $k = 2$)}
+$e = (d_s \dots d_0)_{4}$ "--- биты группируются по два, начиная с младших. Таблица
+$a^0, a^1, a^2, a^3$ ($2$ У). Затем $r \gets a^{d_s}$ и для каждой следующей цифры:
+$r \gets r^4$ (два К), $r \gets r \cdot a^{d_j}$ (при $d_j \ne 0$).
+
+\section{Скользящее окно ширины $k$}
+\begin{reminder}[title={Предвычисление: $a^2$, $a^3 = a \cdot a^2$, $a^5 = a^3 \cdot a^2$, \dots, $a^{2^k - 1}$
+($1$ К и $2^{k-1} - 1$ У)}]
+Биты читаются слева направо. Нулевой бит "--- окно «$0$»: $r \gets r^2$. Единичный бит открывает
+окно длиной $\le k$, которое \textbf{оканчивается единицей} (берём самое длинное такое);
+окно $w$ длины $s$: $r \gets r^{2^s} \cdot a^{w}$ ($s$ К и одно У). Первое окно: $r \gets a^{w}$
+без возведений в квадрат.\\
+Пример: $1903 = 11101101111_2$, $k = 3$: окна $111\,|\,0\,|\,11\,|\,0\,|\,111\,|\,1$.
+\end{reminder}
+Число К: $1 + (\lambda + 1 - \ell_1)$, где $\ell_1$ "--- длина первого окна; число У:
+$(2^{k-1} - 1) + (t - 1)$, где $t$ "--- число окон с единицами. Для сравнения с бинарным методом
+считайте \emph{всё}, включая предвычисление.
+
+\section{Аддитивные цепочки}
+$1 = c_0 < c_1 < \cdots < c_L = e$, каждый $c_i = c_j + c_k$ ($j, k < i$, возможно $j = k$);
+цепочка длины $L$ даёт $a^e$ за $L$ операций ($a^{c_i} = a^{c_j} a^{c_k}$).
+Бинарному методу соответствует цепочка удвоений и прибавлений единицы, длина
+$\lambda + \nu - 1$. Нижняя оценка: $\ell(e) \ge \ceil{\log_2 e}$, так как $c_i \le 2^i$.
+Приёмы поиска коротких цепочек: метод множителей ($e = fg$: цепочка для $f$, затем для $g$,
+умноженная на $f$), окна, «$e = 2^j \pm$ мало», перебор с отсечением $c_i \cdot 2^{L - i} < e$.
+
+\section{Метод Монтгомери}
+\begin{reminder}[title={Параметры: $m$ нечётно, $R = 2^k$ "--- наименьшая степень двойки, $R > m$}]
+$m' = -m^{-1} \bmod R$, \ $R^2 \bmod m$. \ Для $0 \le T < mR$:
+\[
+  u = (T \bmod R)\, m' \bmod R, \qquad t = (T + um)/R, \qquad
+  \text{при } t \ge m \ \ t \gets t - m;
+\]
+результат $\mathrm{REDC}(T) = t \equiv TR^{-1} \pmod m$, $0 \le t < m$.
+\end{reminder}
+Форма Монтгомери $\bar x = xR \bmod m$; \ $\mathrm{REDC}(\bar x \bar y) = \overline{xy}$.
+\begin{reminder}[title={Возведение в степень: вход и выход "--- по одному REDC}]
+$\bar a = \mathrm{REDC}\bigl(a \cdot (R^2 \bmod m)\bigr)$, \ $\bar x \gets \bar a$; для битов
+после старшего: $\bar x \gets \mathrm{REDC}(\bar x^2)$, при бите $1$ ещё
+$\bar x \gets \mathrm{REDC}(\bar x \bar a)$; ответ $\mathrm{REDC}(\bar x) = a^e \bmod m$.
+Инвариант: $\bar x = a^{E_i} R \bmod m$ (проверка по ходу вычислений!).
+\end{reminder}
+\textbf{Чётный модуль.} $R = 2^k$ не обратим по модулю $m = 2^t s$ ($s$ нечётно). Считаем
+$a^e \bmod 2^t$ бинарным методом, $a^e \bmod s$ "--- методом Монтгомери и объединяем по КТО:
+$x \equiv r_1 \pmod{2^t}$, $x \equiv r_2 \pmod s$ $\Rightarrow$
+$x = r_1 + 2^t \bigl((r_2 - r_1)\,(2^t)^{-1} \bmod s\bigr)$.
+
+\section{Лестница Монтгомери (постоянное время)}
+$R_0 \gets 1$, $R_1 \gets a$; для $i = \lambda, \dots, 0$: при $e_i = 1$ \
+$(R_0, R_1) \gets (R_0 R_1, R_1^2)$, при $e_i = 0$ \ $(R_0, R_1) \gets (R_0^2, R_0 R_1)$.
+Инвариант $R_0 = a^{E_i}$, $R_1 = R_0 a$; на каждом бите одно К и одно У независимо от бита.
+\end{document}

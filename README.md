@@ -17,13 +17,16 @@ run in containers.
 make images      # once: builds ca-course/latex and ca-course/taskgen (Sage, ~5 GB)
 make test        # pytest + task validation + compile a generated sheet
 make demos       # compile the template document of every LaTeX class
+make materials   # all lecture notes, slides, handouts + the two semester books
 ```
 
 ## Layout
 
 ```
-docker/        latex (TeX Live, pdfLaTeX + cm-super) and taskgen (SageMath) images
-latex/         shared LaTeX: ca-common.sty, ca-{notes,slides,handout,sheet,exam,capstone}.cls, beamer theme
+course.yaml    the course map: semesters -> lectures/seminars, topics, exam questions
+docker/        latex (TeX Live, pdfLaTeX + cm-super, biber, chktex) and taskgen (SageMath) images
+latex/         shared LaTeX: ca-common.sty, ca-{notes,slides,handout,sheet,exam,capstone}.cls, beamer theme,
+               ca-figures.sty (TikZ figures/traces), ca-biblio.sty + ca-refs.bib (shared bibliography)
 materials/     LaTeX sources of course content (see materials/README.md)
 taskgen/       task database + generator (Python, runs in the Sage container)
   core/          task model, registry, seeding, sheet specs, sampler, engine, audit
@@ -33,7 +36,8 @@ taskgen/       task database + generator (Python, runs in the Sage container)
 sheets/        sheet specs (YAML) by semester
 archive/       audit trail of issued sheets (committed)
 build/         generated artifacts (gitignored)
-scripts/       latex-build{,-dir}.sh (Makefile, inside the latex container), latex-worker.py (web app)
+scripts/       latex-build{,-dir,-many}.sh (Makefile, inside the latex container), latex-worker.py (web app),
+               pptx2beamer.py (PPTX deck -> ca-slides skeleton)
 webapp/        local web app: backend/ (FastAPI, runs in the Sage image), frontend/ (React SPA)
 ```
 
@@ -46,6 +50,52 @@ make pdf FILE=materials/sem1/lectures/00-template/notes.tex   # -> build/materia
 Documents use pdfLaTeX with `\documentclass{ca-notes}` etc.; `latex/` is on
 `TEXINPUTS` inside the container. PDFs are reproducible (fixed
 `SOURCE_DATE_EPOCH`, no trailer ID).
+
+## Course content
+
+`course.yaml` is the single source of truth for the course: for each semester
+the lectures (number, slug, title, the task-taxonomy topics they cover, the
+exam questions they prepare for) and the seminars (lectures they belong to,
+classroom sheet). Directory names follow it:
+`materials/semN/lectures/NN-slug/`, `materials/semN/seminars/NN-slug/`,
+`sheets/semN/seminar-NN-slug.yaml`.
+
+```sh
+make course-check          # gaps: missing notes/slides/handouts/sheets, exam questions no lecture
+                           # covers, topics without tasks, stale worked examples, duplicate labels
+docker compose run --rm taskgen course scaffold     # create missing directories/sheets from templates
+make examples              # regenerate the taskgen worked examples of the notes
+make materials [SEM=1]     # build notes, slides, handouts (+ the semester books)
+make book SEM=1            # build/materials/sem1/notes-book.pdf: all notes of a semester
+make seminar-sheets [SEM=1]   # drafts of the seminar classroom sheets
+make lint                  # chktex on materials/**/*.tex (suppressions in .chktexrc)
+```
+
+- **Lecture notes**: the text is in `notes-body.tex` (`\begin{lecture}{N}{title}
+  ... \end{lecture}`); `notes.tex` is a thin wrapper, and the semester book
+  `\subimport`s every body as a chapter (theorems numbered
+  lecture.section.k, one bibliography). Check-yourself questions are collected
+  per lecture with page references; the reading list cites `latex/ca-refs.bib`
+  with section locators (`\readitem[разд.~4.3]{knuth-taocp2}{...}`).
+- **Worked examples**: `examples.yaml` next to the notes lists taskgen tasks
+  with fixed seeds; `make examples` renders them to `examples/<name>.tex`
+  (committed; `\taskexample{<name>}` includes one). Generation validates each
+  instance, and `course check` reports fragments that no longer match.
+- **Slides** are canvases for pen annotation: statements and figures, proofs
+  are written live (`theoremframe`, `\proofarea`, `\penspace`, `\aside`).
+  Decks of the legacy PPTX lectures were converted with
+  `scripts/pptx2beamer.py` (text, bullet levels, native equations -> LaTeX,
+  pictures, notes; `% TODO` where a picture of a formula or handwriting needs
+  retyping) and then reviewed by hand; slide k of the port is slide k of the
+  PPTX:
+
+  ```sh
+  docker compose run --rm --entrypoint sage taskgen -python scripts/pptx2beamer.py \
+      "tmp/лекции/Lecture 2. ....pptx" materials/sem1/lectures/02-big-integer-arithmetic
+  ```
+- **Seminars**: a handout (1–2 pages, no proofs) and one classroom sheet,
+  ordered warm-up -> core -> corner cases. Issue it once per seminar
+  (`make issue SHEET=...`) so the archived PDFs are the ones used in class.
 
 ## Task sheets
 
@@ -83,6 +133,12 @@ Commit your code changes **before** issuing: the manifest records the git
 commit (and warns if the tree is dirty). Generation is deterministic: master
 seed → per-variant seeds `sha256(master, sheet, variant, slot)`, so any single
 variant can be regenerated alone (`--variant`).
+
+Slots that select tasks by `topics` draw from the task registry *as it is at
+generation time*: adding a task to such a topic changes the slot's pool, and a
+later `regen` of an archived run then reports a mismatch (the archived PDFs stay
+the ground truth). Sheets meant to be issued should list their tasks
+explicitly, as `sheets/sem1/kontrolnaya.yaml` and `sheets/sem2/kontrolnaya.yaml` do.
 
 ### Sheet specs
 
@@ -136,7 +192,9 @@ manifests show it.
 
 `make draft SHEET=sheets/catalog/all-tasks.yaml` builds one instance of every
 task and preset (statement + full step-by-step solution) into
-`build/sheets/catalog-all-tasks/`. Every task must provide a full solution
+`build/sheets/catalog-all-tasks/`. The catalog is generated: run
+`docker compose run --rm taskgen catalog` after adding tasks (a test checks it
+is current). Every task must provide a full solution
 (`solution_detail = FULL`, enforced by the tests); algorithm traces live in
 `taskgen/core/steps.py`, shared LaTeX fragments (Euclid/CRT/REDC/Gauss tables)
 in `taskgen/render/templates/macros.tex.j2` (import with

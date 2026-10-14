@@ -33,7 +33,8 @@ def test_sem2_budget_and_families():
     for k in range(300):
         tasks = sampler.select(pools, random.Random(k), spec.budget, spec.distinct_families)
         assert sum(t.complexity for t in tasks) == 8
-        assert sorted(t.complexity for t in tasks) == [1, 1, 1, 2, 3]  # legacy tier rule
+        # the legacy tier rule (3 + 2 + 1 + 1 + 1), or three complexity-2 tasks (Plan 3 pools)
+        assert sorted(t.complexity for t in tasks) in ([1, 1, 1, 2, 3], [1, 1, 2, 2, 2])
         assert len({t.family_name() for t in tasks}) == len(tasks)
         for t, pool in zip(tasks, pools):
             assert t.ref in {c.ref for c in pool}
@@ -103,5 +104,9 @@ def test_sheet_validation_errors():
 
 def test_topic_matching_is_hierarchical():
     ids = {c.id for c in registry.tasks_matching(["dlp"])}
-    assert ids == {"dlp.shanks", "dlp.pohlig_hellman", "dlp.index_calculus"}
+    assert {"dlp.shanks", "dlp.pohlig_hellman", "dlp.index_calculus", "dlp.rho"} <= ids
+    assert ids == {c.id for c in registry.all_tasks()
+                   if any(t == "dlp" or t.startswith("dlp.") for t in c.topics)}
+    assert {c.id for c in registry.tasks_matching(["dlp.generic"])} >= {"dlp.shanks"}
+    assert "dlp.rho" not in {c.id for c in registry.tasks_matching(["dlp.generic"])}
     assert not registry.tasks_matching(["dl"])

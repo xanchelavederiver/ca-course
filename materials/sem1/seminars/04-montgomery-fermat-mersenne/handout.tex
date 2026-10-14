@@ -1,0 +1,69 @@
+% Seminar 4 handout (lecture 5): Montgomery multiplication (odd and even modulus),
+% arithmetic modulo 2^q - 1 and 2^n + 1, diminished-one code, number-theoretic transforms.
+\documentclass{ca-handout}
+
+\seminar{4}{Метод Монтгомери, арифметика в кольцах Ферма и Мерсенна}
+
+\begin{document}
+\makehandouttitle
+
+\section{Метод Монтгомери (нечётный модуль $m$)}
+$R = 2^k$ "--- наименьшая степень двойки, большая $m$; $\gcd(R, m) = 1$;
+$m' = -m^{-1} \bmod R$ (расширенный алгоритм Евклида или $x \gets x(2 - mx)$ по модулю
+$2^{2j}$); $R^2 \bmod m$ вычисляется один раз.
+\begin{reminder}[title={$\mathrm{REDC}(T) = TR^{-1} \bmod m$ при $0 \le T < mR$}]
+\[
+  u = \bigl((T \bmod R)\, m'\bigr) \bmod R, \qquad t = \frac{T + um}{R} \in [0, 2m), \qquad
+  \text{если } t \ge m, \text{ то } t \gets t - m.
+\]
+Умножение: $x = \mathrm{REDC}(ab) = abR^{-1}$, затем
+$ab \bmod m = \mathrm{REDC}\bigl(x \cdot (R^2 \bmod m)\bigr)$.
+В представлении $\bar x = xR \bmod m$: $\mathrm{REDC}(\bar x \bar y) = \overline{xy}$,
+$\bar x = \mathrm{REDC}(x \cdot R^2)$, $x = \mathrm{REDC}(\bar x)$.
+\end{reminder}
+Проверка: $T + um$ должно делиться на $R$ (младшие $k$ бит "--- нули).
+
+\section{Чётный модуль $m = 2^e s$, $s$ нечётно}
+$R^{-1} \bmod m$ не существует. Считаем $x_1 = ab \bmod 2^e$ (младшие $e$ бит) и
+$x_2 = ab \bmod s$ методом Монтгомери с модулем $s$, затем по КТО:
+\[
+  ab \bmod m = x_1 + 2^e h, \qquad h = \bigl((x_2 - x_1) \cdot (2^{-e} \bmod s)\bigr) \bmod s.
+\]
+
+\section{Модули специального вида}
+\begin{reminder}[title={Мерсенн $M = 2^q - 1$ и Ферма $m = 2^n + 1$}]
+$2^q \equiv 1$: $x = H \cdot 2^q + L$, $0 \le L < 2^q$ $\Rightarrow$ $x \equiv H + L \pmod M$ (повторять, пока $x > M$; если $x = M$, ответ $0$);
+умножение на $2^j$ "--- циклический сдвиг $q$-битового слова.\\
+$2^n \equiv -1$: $x = H \cdot 2^n + L$, $0 \le L < 2^n$ $\Rightarrow$ $x \equiv L - H \pmod m$; если $L < H$, прибавить $m$.
+\end{reminder}
+\textbf{Код с уменьшением на единицу} по модулю $2^n + 1$ ($n + 1$ бит): $x \ne 0$ $\mapsto$
+$0 \,|\, x' = x - 1$; $0 \mapsto 1 \,|\, 0\dots0$. Например, при $n = 8$: $1 \mapsto 0\,00000000$,
+$-1 = 256 \mapsto 0\,11111111$. Для $x, y \ne 0$:
+\begin{itemize}
+  \item $s = x' + y'$; есть перенос ($s \ge 2^n$) $\Rightarrow$ $(x + y)' = s - 2^n$; иначе
+    $(x + y)' = s + 1$, а если $s + 1 = 2^n$, то $x + y \equiv 0$ (признак нуля);
+  \item $P = x'y' + x' + y' = H \cdot 2^n + L$ $\Rightarrow$ $(xy)' = L - H$ (при $L < H$
+    прибавить $2^n + 1$);
+  \item $(-x)'$ "--- побитовое дополнение $x'$; с нулём: $0 + y = y$, $0 \cdot y = 0$.
+\end{itemize}
+
+\section{Теоретико-числовое преобразование (ТЧП)}
+$\omega$ "--- главный корень степени $n$ из единицы в $\Zn{m}$, $\gcd(n, m) = 1$.
+\begin{reminder}[title={Прямое, обратное преобразование и свёртка}]
+\[
+  A_k = \sum_{j=0}^{n-1} a_j \omega^{jk}, \qquad C_k = A_k B_k, \qquad
+  c_j = n^{-1} \sum_{k=0}^{n-1} C_k \omega^{-jk} \pmod m,
+\]
+$c_j = \sum_{i} a_i b_{(j - i) \bmod n}$ "--- циклическая свёртка (по модулю $m$; над $\ZZ$,
+если $m > n \max a_i \max b_i$).
+\end{reminder}
+\begin{tabular}{@{}lllll@{}}
+  кольцо & $\omega$ & $n$ & $\omega^{-1}$ & $n^{-1}$ \\ \hline
+  $F_2 = 17$ & $4$ ($4^2 \equiv -1$) & $4$ & $13 \equiv -4$ & $13 \equiv -4$ \\
+  $F_3 = 257$ & $16$ ($16^2 \equiv -1$) & $4$ & $241 \equiv -16$ & $193 \equiv -2^6$ \\
+  $F_3 = 257$ & $4$ & $8$ & $193 \equiv -2^6$ & $225 \equiv -2^5$ \\
+  $M_5 = 31$ & $2$ & $5$ & $16$ & $25$ \\
+  $M_q = 2^q - 1$ & $2$ / $-2$ & $q$ / $2q$ & $2^{q-1}$ / $-2^{q-1}$ & \\
+  $F_t = 2^b + 1$ & $2^{2b/n}$ & $2^s \le 2b$ & & $-2^{b-s}$ \\
+\end{tabular}
+\end{document}

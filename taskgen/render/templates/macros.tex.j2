@@ -12,9 +12,9 @@ r_i & q_i & u_i & v_i \\ \hline
 
 \#{ Inverse via extended Euclid: steps.inverse_rows(a, m) }
 \BLOCK{macro inverse(inv)}
-Обратный к $\VAR{inv.a}$ по модулю $\VAR{inv.m}$ (расширенный алгоритм Евклида для $(\VAR{inv.m}, \VAR{inv.a})$):
+ Обратный к $\VAR{inv.a}$ по модулю $\VAR{inv.m}$ (расширенный алгоритм Евклида для $(\VAR{inv.m}, \VAR{inv.a})$):
 \VAR{xgcd_table(inv.rows, inv.m, inv.a)}
-$\VAR{inv.a}^{-1} \equiv \VAR{inv.v} \equiv \VAR{inv.inv}\VAR{mod(inv.m)}$.
+$\VAR{inv.a}^{-1} \equiv \BLOCK{if inv.v != inv.inv}\VAR{inv.v} \equiv \BLOCK{endif}\VAR{inv.inv}\VAR{mod(inv.m)}$.
 \BLOCK{endmacro}
 
 \#{ CRT: steps.crt(residues, moduli) }

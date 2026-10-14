@@ -1,0 +1,67 @@
+% Seminar 9 handout (lecture 9): double-and-add, NAF, ECDH, Pollard rho for the ECDLP.
+\documentclass{ca-handout}
+
+\seminar{9}{Возведение точки в степень, ECDH и ECDLP}
+
+\begin{document}
+\makehandouttitle
+
+\section{Сложение точек}
+$E\colon y^2 = x^3 + ax + b$ над $\FF_p$, $\ECpt$ "--- нейтральный элемент, $-(x, y) = (x, -y)$.
+\begin{reminder}[title={$P_1 + P_2 = P_3$, $P_i = (x_i, y_i)$}]
+Если $x_1 = x_2$ и $y_1 = -y_2$ (в частности, $2P$ при $y = 0$), то $P_1 + P_2 = \ECpt$. Иначе
+\[
+  \lambda = \begin{cases} \dfrac{y_2 - y_1}{x_2 - x_1}, & P_1 \ne P_2,\\[8pt]
+  \dfrac{3x_1^2 + a}{2y_1}, & P_1 = P_2,\end{cases} \qquad
+  x_3 = \lambda^2 - x_1 - x_2, \qquad y_3 = \lambda(x_1 - x_3) - y_1.
+\]
+\end{reminder}
+
+\section{Возведение точки в степень}
+\begin{reminder}[title={«Удвоение"--~сложение» (слева направо)}]
+$n = (n_{L-1} \dots n_0)_2$, $n_{L-1} = 1$: \ $R \gets P$; для $i = L - 2, \dots, 0$:
+$R \gets 2R$, и если $n_i = 1$, то $R \gets R + P$. \\
+Операций: $(L - 1)$ удвоений $+ (w(n) - 1)$ сложений; максимум $2\log_2 n$, в среднем
+$1{,}5\log_2 n$.
+\end{reminder}
+
+\begin{reminder}[title={Тернарное разложение (NAF): $n = \sum z_i 2^i$, $z_i \in \{-1, 0, 1\}$, $z_i z_{i+1} = 0$}]
+Справа налево: $n_0 = n$; если $n_i$ чётно, $z_i = 0$, иначе $z_i = 2 - (n_i \bmod 4)$;
+$n_{i+1} = (n_i - z_i)/2$. NAF существует и единственна, длина $\le L + 1$. \\
+В схеме выше при $z_i = -1$ выполняется $R \gets R - P = R + (x_P, -y_P)$ "--- по цене сложения.
+Операций: максимум $\frac32\log_2 n$, в среднем $\frac43\log_2 n$ (плотность ненулевых цифр $\frac13$).
+\end{reminder}
+Пример: $15 = 1111_2 = (1000\bar 1)$: $3 + 3 = 6$ операций против $4 + 1 = 5$.
+Если по ходу вычислений $kX = \ECpt$, то $\ord X \mid k$.
+
+\section{Протокол Диффи"--~Хеллмана (ECDH)}
+Открыто: $p$, $E$, точка $P$ порядка $q$. Алиса: секрет $a$, открытый ключ $A = aP$; Боб:
+$b$, $B = bP$. Общий ключ $K = aB = bA = abP$, общий секрет "--- $x(K)$. Ева видит $P, A, B$;
+решив ECDLP $A = aP$, она найдёт $K = aB$. Проверки: $B \ne \ECpt$, $B \in E$, $qB = \ECpt$; при
+$a \equiv 0 \pmod{\ord P}$ получаем $A = \ECpt$ и $K = \ECpt$.
+
+\section{ECDLP и \texorpdfstring{$\rho$}{rho}-метод Полларда}
+ECDLP: по $P$ и $Q = nP$ найти $n \bmod N$, $N = \ord P$. Перебор "--- $\bigO(N)$,
+$\rho$-метод "--- $\bigO(\sqrt N)$ операций и $\bigO(1)$ памяти.
+\begin{reminder}[title={Блуждание $R_j = a_j P + b_j Q$ (всё по модулю $N$)}]
+\[
+  x(R) \bmod 3 = \begin{cases}
+    0 \text{ (или } R = \ECpt): & R \gets R + P,\quad a \gets a + 1;\\
+    1: & R \gets 2R,\quad (a, b) \gets (2a, 2b);\\
+    2: & R \gets R + Q,\quad b \gets b + 1.
+  \end{cases}
+\]
+Старт $R_0 = P$ ($a_0 = 1$, $b_0 = 0$). Флойд: для $i = 1, 2, \dots$ сравниваем $R_i$ и $R_{2i}$
+(удобно выписать $R_0, R_1, \dots, R_{2i}$ в одну таблицу).
+\end{reminder}
+\begin{reminder}[title={Коллизия $R_i = R_{2i}$}]
+\[
+  (b_i - b_{2i})\, n \equiv a_{2i} - a_i \pmod N.
+\]
+Если $d = \gcd(b_i - b_{2i}, N) = 1$: $n \equiv (a_{2i} - a_i)(b_i - b_{2i})^{-1}$. Если $d > 1$:
+делим сравнение на $d$, находим $n_0 \bmod N/d$ и проверяем кандидатов $n_0 + kN/d$,
+$0 \le k < d$. Если $b_i \equiv b_{2i}$ "--- коллизия бесполезна, начать заново с
+$R_0 = P + Q$.
+\end{reminder}
+Всегда проверяйте ответ: $nP = Q$.
+\end{document}

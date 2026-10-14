@@ -1,0 +1,86 @@
+% Seminar 12 handout (lecture 12): Gram--Schmidt, LLL-reduced bases, the LLL algorithm.
+\documentclass{ca-handout}
+
+\seminar{12}{Алгоритм LLL}
+
+\begin{document}
+\makehandouttitle
+
+Векторы "--- строки; $\langle x, y\rangle$ "--- скалярное произведение; $\lfloor x \rceil$ "---
+ближайшее целое; все вычисления ведутся в \emph{точных дробях}.
+
+\section{Ортогонализация Грама"--~Шмидта}
+\begin{reminder}[title={Формулы}]
+\[
+  b_1^* = b_1, \qquad b_i^* = b_i - \sum_{j<i} \mu_{ij} b_j^*, \qquad
+  \mu_{ij} = \frac{\langle b_i, b_j^*\rangle}{B_j}, \qquad B_j = \|b_j^*\|^2 .
+\]
+$b_i^*$ попарно ортогональны; $\|b_i\|^2 = B_i + \sum_{j<i} \mu_{ij}^2 B_j$;
+\quad $\det \Lat = \prod_i \|b_i^*\|$, т.\,е. $B_1 B_2 \cdots B_n = (\det \mathbf{B})^2$
+(удобная проверка, а в размерности $2$ "--- быстрый способ найти $B_2 = (\det\mathbf B)^2/B_1$).
+\end{reminder}
+
+\section{LLL-приведённый базис ($\delta = \frac34$)}
+\begin{reminder}[title={Определение и свойства}]
+\begin{enumerate}
+  \item условие размера: $\abs{\mu_{ij}} \le \frac12$ при всех $j < i$;
+  \item условие Ловаса: $B_k \ge \bigl(\frac34 - \mu_{k,k-1}^2\bigr) B_{k-1}$, $k = 2, \dots, n$.
+\end{enumerate}
+Следствия: $B_j \le 2^{i-j} B_i$ ($j \le i$); \ $\|b_1\| \le 2^{(n-1)/2} \lambda_1(\Lat)$; \
+$\|b_1\| \le 2^{(n-1)/4} (\det\Lat)^{1/n}$; \ $\lambda_1(\Lat) \ge \min_i \|b_i^*\|$ для
+любого базиса.
+\end{reminder}
+При $n = 2$: $\|b_2\|^2 = B_2 + \mu_{21}^2 B_1$, и условие Ловаса означает
+$\|b_2\|^2 \ge \frac34 \|b_1\|^2$ (у алгоритма Гаусса "--- $\|b_2\| \ge \|b_1\|$).
+
+\section{Алгоритм LLL}
+\begin{reminder}[title={Один шаг (текущий индекс $k$; в начале $k = 2$)}]
+\begin{enumerate}
+  \item \textbf{Уменьшение размера.} Для $j = k - 1, k - 2, \dots, 1$: \
+    $q = \lfloor \mu_{kj} \rceil$ (при $\abs{\mu_{kj}} \le \frac12$ $q = 0$);
+    $b_k \gets b_k - q b_j$, \ $\mu_{kl} \gets \mu_{kl} - q \mu_{jl}$ ($l < j$), \
+    $\mu_{kj} \gets \mu_{kj} - q$. Векторы $b_i^*$ и числа $B_i$ не меняются.
+  \item \textbf{Условие Ловаса.} Если $B_k \ge (\frac34 - \mu_{k,k-1}^2) B_{k-1}$, то
+    $k \gets k + 1$.
+  \item \textbf{Обмен.} Иначе $b_{k-1} \leftrightarrow b_k$, пересчитать ортогонализацию,
+    $k \gets \max(k - 1, 2)$.
+\end{enumerate}
+Конец, когда $k = n + 1$. Ответ "--- LLL-приведённый базис той же решётки.
+\end{reminder}
+После обмена ($\mu = \mu_{k,k-1}$) меняются только $b_{k-1}^*, b_k^*$:
+\[
+  B_{k-1}' = B_k + \mu^2 B_{k-1}, \qquad B_k' = \frac{B_{k-1} B_k}{B_{k-1}'}, \qquad
+  \mu_{k,k-1}' = \frac{\mu B_{k-1}}{B_{k-1}'} .
+\]
+Потенциал $D = \prod_{i=1}^{n-1} d_i$, $d_i = B_1 \cdots B_i \in \NN$, при каждом обмене
+уменьшается более чем в $\frac43$ раза; уменьшение размера его не меняет.
+
+\begin{reminder}[title={Проверка ответа}]
+\begin{itemize}
+  \item $\det \Lat$ не изменился; новый базис "--- целочисленная комбинация старого с
+    матрицей перехода $U$, $\det U = \pm 1$;
+  \item для нового базиса выполнены оба условия (пересчитайте $\mu_{ij}$ и $B_i$);
+  \item $\|b_1\|^2 \le 2^{n-1} \min_i B_i$.
+\end{itemize}
+\end{reminder}
+
+\section{Алгоритм ближайшей плоскости (Бабаи)}
+Для LLL-приведённого базиса и $w \in \RR^n$: $t \gets w$; для $i = n, \dots, 1$:
+$c_i = \lfloor \langle t, b_i^*\rangle / B_i \rceil$, $t \gets t - c_i b_i$; ответ
+$v = w - t$, причём $\|w - v\| \le 2^{n/2} \operatorname{dist}(w, \Lat)$.
+
+\section{Образец записи трассы ($n = 2$)}
+$b_1 = (13, 7)$, $b_2 = (17, 9)$, $\det\Lat = 2$, поэтому $B_2 = 4 / B_1$:
+\[
+  \begin{array}{c|c|c|c|c|c|c}
+    \text{шаг} & b_1 & b_2 \text{ после уменьшения} & B_1 & \mu_{21} \to q,\ \mu_{21}'
+      & B_2 \text{ vs } (\frac34 - \mu_{21}'^2) B_1 & \text{итог} \\ \hline
+    1 & (13, 7) & (17, 9) - (13, 7) = (4, 2) & 218 & \tfrac{142}{109} \to 1,\ \tfrac{33}{109}
+      & \tfrac{2}{109} < \tfrac{31287}{218} & \leftrightarrow \\ \noalign{\vspace{2pt}}
+    2 & (4, 2) & (13, 7) - 3(4, 2) = (1, 1) & 20 & \tfrac{33}{10} \to 3,\ \tfrac{3}{10}
+      & \tfrac15 < \tfrac{66}{5} & \leftrightarrow \\ \noalign{\vspace{2pt}}
+    3 & (1, 1) & (4, 2) - 3(1, 1) = (1, -1) & 2 & 3 \to 3,\ 0 & 2 \ge \tfrac32 & k = 3
+  \end{array}
+\]
+Ответ: $(1, 1)$, $(1, -1)$. Потенциал $D = d_1 = B_1$: $218 \to 20 \to 2$.
+\end{document}

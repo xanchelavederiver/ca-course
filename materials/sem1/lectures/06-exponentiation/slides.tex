@@ -1,0 +1,334 @@
+% Lecture 6 slides (sem1). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+\lecture{6}{Быстрое возведение в степень}
+\author{}
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Зачем быстро возводить в степень}
+  \begin{itemize}
+    \item Диффи"--~Хеллман: $g^a \bmod p$, \ $p \approx 2^{2048}$, \ $a \approx 2^{256}$
+    \item RSA: $c = m^e \bmod N$, \ $m = c^d \bmod N$, \ $d \approx N \approx 2^{2048}$
+    \item Тесты простоты: $a^{n-1} \bmod n$
+    \item Эллиптические кривые: $kP = P + P + \cdots + P$
+  \end{itemize}
+  \medskip
+  Наивно: $a^e = a \cdot a \cdots a$ "--- $e - 1$ умножений. При $e \approx 2^{2048}$?
+  \aside{сколько умножений нужно на самом деле?}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Степени в моноиде}
+  \begin{itemize}
+    \item Моноид $(M, \cdot, 1)$: операция ассоциативна, есть нейтральный элемент
+    \item Примеры: $\Zn{m}$, $\Znx{m}$, матрицы $n \times n$, $\GF{p}[x]/(f)$, точки $\EC(\GF{p})$
+    \item $a^0 = 1$, \ $a^{e+1} = a^e a$; \ в группе $a^{-e} = (a^{-1})^e$
+  \end{itemize}
+  \begin{proposition}
+    $a^{e+f} = a^e a^f$, \quad $(a^e)^f = a^{ef}$.
+  \end{proposition}
+  \medskip
+  Обозначения: $e = (e_\lambda \dots e_1 e_0)_2$, $e_\lambda = 1$, \
+  $\lambda(e) = \floor{\log_2 e}$, \ $\nu(e) = \sum e_i$ "--- вес.
+  \aside{нужна ли коммутативность $M$?}
+  \penspace[0.15\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Бинарный алгоритм справа налево}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{algorithmic}[1]
+        \State $y \gets 1$, $x \gets a$, $f \gets e$
+        \While{$f > 0$}
+          \If{$f$ нечётно} $y \gets yx$ \EndIf
+          \State $f \gets \floor{f/2}$
+          \If{$f > 0$} $x \gets x^2$ \EndIf
+        \EndWhile
+        \State \Return $y$
+      \end{algorithmic}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      $a^e = \prod\limits_{e_i = 1} a^{2^i}$\\[1ex]
+      Инвариант: $y \cdot x^f = a^e$
+    \end{column}
+  \end{columns}
+  \medskip
+  \[
+    7^{45} \bmod 101, \quad 45 = 101101_2: \qquad
+    \begin{array}{c|cccccc}
+      e_i & 1 & 0 & 1 & 1 & 0 & 1 \\ \hline
+      x & 7 & 49 & 78 & 24 & 71 & 92 \\
+      y & & & & & & \\
+    \end{array}
+  \]
+\end{canvasframe}
+
+\begin{canvasframe}{Бинарный алгоритм слева направо}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{algorithmic}[1]
+        \State $r \gets a$
+        \For{$i = \lambda - 1, \dots, 0$}
+          \State $r \gets r^2$
+          \If{$e_i = 1$} $r \gets r a$ \EndIf
+        \EndFor
+        \State \Return $r$
+      \end{algorithmic}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      Схема Горнера:\\
+      $e = (\dots(e_\lambda \cdot 2 + e_{\lambda-1}) \cdot 2 + \dots) \cdot 2 + e_0$\\[1ex]
+      $E_i = \floor{e/2^i}$
+    \end{column}
+  \end{columns}
+  \[
+    7^{45} \bmod 101: \qquad
+    \begin{array}{c|cccccc}
+      e_i & 1 & 0 & 1 & 1 & 0 & 1 \\ \hline
+      r & & & & & & \\
+      E_i & 1 & 2 & 5 & 11 & 22 & 45
+    \end{array}
+  \]
+  \aside{чем отличаются варианты? когда умножение на $a$ почти бесплатно?}
+\end{canvasframe}
+
+\begin{theoremframe}{Число операций бинарного алгоритма}
+  Алгоритм слева направо возвращает $a^e$, выполняя ровно $\lambda(e)$ возведений в квадрат
+  и $\nu(e) - 1$ умножений; всего $\le 2\lambda(e)$, в среднем $\frac32\lambda(e)$.
+\end{theoremframe}
+
+\begin{canvasframe}{$2^k$-арный метод}
+  $e = (d_s \dots d_0)_{2^k}$; \ предвычисление $A_d = a^d$, $d = 0, \dots, 2^k - 1$
+  \begin{algorithmic}[1]
+    \State $r \gets A_{d_s}$
+    \For{$j = s - 1, \dots, 0$}
+      \State $r \gets r^{2^k}$ \Comment{$k$ квадратов}
+      \If{$d_j \ne 0$} $r \gets r \cdot A_{d_j}$ \EndIf
+    \EndFor
+  \end{algorithmic}
+  \medskip
+  Стоимость: $\underbrace{2^k - 2}_{\text{таблица}} + \underbrace{\le\lambda}_{\text{квадраты}}
+  + \underbrace{\le \lambda/k}_{\text{умножения}}$
+  \medskip
+
+  Пример: $7^{45} \bmod 101$, $45 = (2\,3\,1)_4$, таблица $1, 7, 49, 40$
+  \penspace[0.08\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Брауэра}
+  $a^e$ можно вычислить за
+  $\lambda(e) + (1 + o(1))\dfrac{\lambda(e)}{\log_2 \lambda(e)}$ умножений.
+\end{theoremframe}
+
+\begin{canvasframe}{Скользящее окно}
+  \begin{itemize}
+    \item Нули между окнами "--- по одному: $r \gets r^2$
+    \item Окно начинается и \textbf{заканчивается} единицей, длина $\le k$
+    \item Таблица только нечётных степеней: $a, a^3, \dots, a^{2^k - 1}$ \ ($2^{k-1}$ значений)
+    \item Окно $w$ длины $s$: \ $r \gets r^{2^s} \cdot a^w$
+  \end{itemize}
+  \[
+    1903 = 11101101111_2, \ k = 3: \qquad 111\,|\,0\,|\,11\,|\,0\,|\,111\,|\,1
+  \]
+  \aside{почему достаточно нечётных степеней?}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Скользящее окно: пример}
+  $7^{1903} \bmod 101$, \ $k = 3$: \ $a^2 = 49$, \ $a^3 = 40$, \ $a^5 = 41$, \ $a^7 = 90$
+  \[
+  \begin{array}{c|l|c|r|r}
+    \text{окно} & \text{квадраты} & \text{множитель} & r & \text{показатель} \\ \hline
+    111 & \text{---} & a^7 & 90 & 7 \\
+    0 & & & & 14 \\
+    11 & & a^3 & & 59 \\
+    0 & & & & 118 \\
+    111 & & a^7 & & 951 \\
+    1 & & a & & 1903
+  \end{array}
+  \]
+  Скользящее окно: $9 + 6 = 15$ операций; \ бинарный: $10 + 8 = 18$.
+  \penspace[0.1\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Оптимальная ширина окна}
+  \small
+  Модель: $2^k$-арный $\lambda + 2^k - 2 + \frac{\lambda}{k}(1 - 2^{-k})$; \
+  окно $\lambda + 2^{k-1} + \frac{\lambda}{k+1}$; \ бинарный $1{,}5\lambda$.
+  \[
+  \begin{array}{r|cc|cc|c}
+    \lambda & k & 2^k\text{-арный} & k & \text{окно} & \text{бинарный} \\ \hline
+    160 & 4 & 212 & 4 & 200 & 240 \\
+    512 & 5 & 641 & 5 & 613 & 768 \\
+    1024 & 5 & 1252 & 6 & 1202 & 1536 \\
+    2048 & 6 & 2446 & 7 & 2368 & 3072
+  \end{array}
+  \]
+  \aside{почему в среднем на окно приходится $k + 1$ битов?}
+  \penspace[0.12\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Знаковые цифры: NAF}
+  \begin{itemize}
+    \item Если обращение дёшево (эллиптические кривые: $-P$ бесплатно), можно
+      использовать цифры $-1, 0, 1$
+    \item $2^n - 1 = (11\dots1)_2 = 2^n - 2^0$
+    \item \emph{NAF}: $e = \sum d_i 2^i$, $d_i \in \{-1, 0, 1\}$, $d_i d_{i+1} = 0$
+    \item $d_0 = 2 - (e \bmod 4)$ при нечётном $e$
+    \item $1903 = 2^{11} - 2^7 - 2^4 - 1$: \ вес $4$ вместо $8$
+    \item Средняя доля ненулевых цифр NAF "--- $1/3$
+  \end{itemize}
+  \aside{NAF чисел $45$ и $255$?}
+  \penspace[0.12\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Существование и единственность NAF}
+  Каждое натуральное $e$ имеет единственную несмежную форму; её длина не больше $\lambda(e) + 2$.
+\end{theoremframe}
+
+\begin{canvasframe}{Аддитивные цепочки}
+  \begin{definition}
+    $1 = c_0 < c_1 < \cdots < c_L = e$, \ $c_i = c_j + c_k$, \ $j, k < i$; \
+    $\ell(e)$ "--- наименьшая длина $L$.
+  \end{definition}
+  \begin{itemize}
+    \item Цепочка длины $L$ $\Rightarrow$ $a^e$ за $L$ умножений
+    \item Бинарный метод для $45$: $1, 2, 4, 5, 10, 11, 22, 44, 45$
+    \item $15$: бинарный $1, 2, 3, 6, 7, 14, 15$; \ лучше $1, 2, 3, 6, 12, 15$ \ ($15 = 3 \cdot 5$)
+  \end{itemize}
+  \begin{theorem}
+    $\ceil{\log_2 e} \le \ell(e) \le \lambda(e) + \nu(e) - 1$.
+  \end{theorem}
+  \penspace[0.12\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Аддитивные цепочки: что известно}
+  \begin{itemize}
+    \item Шёнхаге: $\ell(e) \ge \log_2 e + \log_2 \nu(e) - 2{,}13$
+    \item Эрдёш: для почти всех $e$ \
+      $\ell(e) = \lambda(e) + (1 + o(1))\,\lambda(e) / \log_2 \lambda(e)$
+    \item Кратчайшая цепочка для набора чисел "--- NP-полная задача
+    \item Гипотеза Шольца"--~Брауэра: $\ell(2^n - 1) \le n - 1 + \ell(n)$
+    \item $\ell(2e) \le \ell(e) + 1$, \ $\ell(ef) \le \ell(e) + \ell(f)$
+  \end{itemize}
+  \aside{почему $\ell(15) \ne 4$?}
+  \penspace[0.2\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Напоминание: REDC}
+  $m$ нечётно, $R = 2^k > m$, \ $m' = -m^{-1} \bmod R$, \ $0 \le T < mR$:
+  \[
+    u = (T \bmod R)\, m' \bmod R, \qquad t = \frac{T + um}{R}, \qquad
+    \text{если } t \ge m, \text{ то } t \gets t - m.
+  \]
+  \begin{lemma}
+    $\mathrm{REDC}(T) \equiv TR^{-1} \pmod m$, \ $0 \le \mathrm{REDC}(T) < m$.
+  \end{lemma}
+  \begin{itemize}
+    \item Форма Монтгомери: $\bar x = xR \bmod m$
+    \item $\mathrm{REDC}(\bar x \bar y) = \overline{xy}$, \
+      $\mathrm{REDC}(x \cdot (R^2 \bmod m)) = \bar x$, \ $\mathrm{REDC}(\bar x) = x$
+  \end{itemize}
+  \aside{почему одно умножение «по Монтгомери» не выгодно?}
+\end{canvasframe}
+
+\begin{canvasframe}{Возведение в степень по Монтгомери}
+  \begin{algorithmic}[1]
+    \Require нечётное $m$, $R$, $m'$, $R^2 \bmod m$; \ $0 \le a < m$
+    \State $\bar a \gets \mathrm{REDC}(a \cdot (R^2 \bmod m))$, \quad $\bar x \gets \bar a$
+    \For{$i = \lambda - 1, \dots, 0$}
+      \State $\bar x \gets \mathrm{REDC}(\bar x^2)$
+      \If{$e_i = 1$} $\bar x \gets \mathrm{REDC}(\bar x \bar a)$ \EndIf
+    \EndFor
+    \State \Return $\mathrm{REDC}(\bar x)$
+  \end{algorithmic}
+  \medskip
+  \begin{itemize}
+    \item Делений на $m$ в цикле нет: $\bmod R$ "--- маска, $/R$ "--- сдвиг
+    \item $m'$, $R^2 \bmod m$ "--- один раз для модуля
+    \item Вход и выход "--- 2 REDC на всё возведение
+  \end{itemize}
+\end{canvasframe}
+
+\begin{theoremframe}{Корректность}
+  Алгоритм возвращает $a^e \bmod m$; инвариант: после шага $i$
+  \ $\bar x = a^{E_i} R \bmod m$, \ $0 \le \bar x < m$. Число умножений с REDC "---
+  $\lambda(e) + \nu(e) - 1$, плюс два REDC.
+\end{theoremframe}
+
+\begin{canvasframe}[shrink=5]{Пример: $7^{45} \bmod 101$}
+  $R = 128$, \ $m' = 19$, \ $R^2 \bmod 101 = 22$, \ $45 = 101101_2$
+  \renewcommand{\arraystretch}{1.12}
+  \[
+  \begin{array}{l|r|r|r|r}
+    & \hspace{3em} T & \hspace{2em} u & \hspace{2em} t & \hspace{1em}\mathrm{REDC}(T) \\ \hline
+    \bar a = \mathrm{REDC}(7 \cdot 22) & 154 & 110 & 88 & 88 \\
+    \text{бит } 0:\ \bar x^2 & 7744 & & & \\
+    \text{бит } 1:\ \bar x^2 & & & & \\
+    \phantom{\text{бит } 1:\ }\bar x \bar a & & & & \\
+    \text{бит } 1:\ \bar x^2 & & & & \\
+    \phantom{\text{бит } 1:\ }\bar x \bar a & & & & \\
+    \text{бит } 0:\ \bar x^2 & & & & \\
+    \text{бит } 1:\ \bar x^2 & & & & \\
+    \phantom{\text{бит } 1:\ }\bar x \bar a & & & & \\
+    \text{выход} & & & & 32
+  \end{array}
+  \]
+  \aside{чётный $m$: $m = 2^t s$ и КТО}
+\end{canvasframe}
+
+\begin{canvasframe}{Побочные каналы}
+  \begin{itemize}
+    \item Бинарный алгоритм: умножение только при $e_i = 1$
+    \item Время и энергопотребление зависят от секретного показателя
+    \item Кохер (1996): атака по времени на RSA, DH, DSS
+    \item SPA: последовательность «К, К, У, К, У, \dots» видна на осциллограмме
+    \item Защита: \emph{постоянное время} "--- операции не зависят от битов
+  \end{itemize}
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Лестница Монтгомери}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \begin{algorithmic}[1]
+        \State $R_0 \gets 1$, $R_1 \gets a$
+        \For{$i = \lambda, \dots, 0$}
+          \If{$e_i = 1$}
+            \State $R_0 \gets R_0 R_1$, $R_1 \gets R_1^2$
+          \Else
+            \State $R_1 \gets R_0 R_1$, $R_0 \gets R_0^2$
+          \EndIf
+        \EndFor
+        \State \Return $R_0$
+      \end{algorithmic}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      Инвариант: $R_1 = R_0 \cdot a$\\[1ex]
+      $7^{45} \bmod 101$:\\
+      $(7, 49), (49, 40), (41, 85),$\\
+      $(51, 54), (76, 27), (32, 22)$
+    \end{column}
+  \end{columns}
+  \aside{почему это защищает от SPA? что ещё может «утечь»?}
+\end{canvasframe}
+
+\begin{theoremframe}{Корректность лестницы}
+  После обработки бита $i$: $R_0 = a^{E_i}$, $R_1 = a^{E_i + 1}$. На каждом бите "--- ровно одно
+  умножение и одно возведение в квадрат.
+\end{theoremframe}
+
+\begin{canvasframe}{Итоги}
+  \begin{itemize}
+    \item Бинарный: $\lambda + \nu - 1$ операций, в среднем $1{,}5\lambda$
+    \item Окна: $\lambda + \lambda/\log_2\lambda\,(1 + o(1))$
+    \item Нижняя оценка: $\ceil{\log_2 e}$
+    \item NAF: доля умножений $1/3$ (эллиптические кривые)
+    \item Монтгомери: всё в форме $\bar x = xR \bmod m$, без делений на $m$
+    \item Секретный показатель: лестница Монтгомери, постоянное время
+  \end{itemize}
+  \medskip
+  Дальше: порядок элемента (лекция~7), тесты простоты (лекция~8), RSA и DH (семестр~2)
+\end{canvasframe}
+
+\end{document}

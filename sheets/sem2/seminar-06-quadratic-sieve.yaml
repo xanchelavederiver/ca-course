@@ -1,0 +1,32 @@
+# Seminar 6 (lecture 6): Fermat's method, congruence of squares, quadratic sieve.
+# Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
+id: sem2-seminar-06-quadratic-sieve
+kind: classroom
+title: Семинар 6. Метод Ферма и квадратичное решето
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~6.
+sections:
+  - title: Разминка. Метод Ферма
+    intro: >-
+      Перебор $x$ от $\lceil\sqrt N\,\rceil$; число шагов сравните с оценкой через
+      разность множителей.
+    tasks: [factoring.fermat, factoring.fermat]
+  - title: Сравнение квадратов
+    intro: >-
+      Линейная алгебра над $\mathbb{F}_2$: найти набор соотношений с квадратным
+      произведением и получить делитель как $\gcd(X - Y, N)$.
+    tasks: [factoring.congruence_of_squares, factoring.congruence_of_squares]
+  - title: Квадратичное решето
+    intro: Факторная база, позиции просеивания, гладкие значения и зависимость.
+    tasks: [factoring.quadratic_sieve, factoring.quadratic_sieve]
+  - title: Особые случаи
+    intro: >-
+      Первая найденная зависимость может дать тривиальный делитель; метод Ферма для
+      полного квадрата и для далёких множителей.
+    tasks: [factoring.congruence_of_squares@trivial, factoring.fermat@square,
+            factoring.fermat@far]

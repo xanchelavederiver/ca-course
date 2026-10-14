@@ -1,0 +1,290 @@
+% Lecture 8 slides (sem1). Canvases: statements and figures; proofs are written live.
+\documentclass{ca-slides}
+
+\lecture{8}{Простые числа и тесты простоты}
+\author{}
+
+\begin{document}
+\titleframe
+
+\begin{canvasframe}{Зачем нужны тесты простоты}
+  \begin{itemize}
+    \item Диффи"--~Хеллман: простое $p$ длиной $\ge 2048$ бит; RSA: два случайных простых
+      по $\ge 1024$ бита; эллиптические кривые над $\GF{p}$
+    \item Таблиц таких чисел нет "--- простые \textbf{генерируют}: случайное число $\to$
+      проверка $\to$ следующее
+    \item Пробное деление: $\sqrt N \approx 2^{512}$ делений "--- невозможно
+    \item Нужны тесты, полиномиальные по \emph{длине} $\log N$
+  \end{itemize}
+  \aside{сколько кандидатов придётся проверить?}
+\end{canvasframe}
+
+\begin{theoremframe}{Простых чисел бесконечно много}
+  (Евклид) Простых чисел бесконечно много. Более того, $p_n \le 2^{2^{n-1}}$ и
+  $\pi(x) > \log_2 \log_2 x$ при $x \ge 2$.
+\end{theoremframe}
+
+\begin{canvasframe}{Биномиальный коэффициент $\binom{2n}{n}$}
+  \small
+  \begin{lemma}
+    \begin{enumerate}
+      \item $2^n \le \binom{2n}{n} \le 4^n$;
+      \item если $p^e \,\|\, \binom{2n}{n}$, то $p^e \le 2n$ \quad
+        (формула Лежандра: $e = \sum_j \bigl(\floor{2n/p^j} - 2\floor{n/p^j}\bigr)$);
+      \item $\prod_{n < p \le 2n} p \bigm| \binom{2n}{n}$.
+    \end{enumerate}
+  \end{lemma}
+  \proofarea[0.05\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Чебышёва}
+  При $x \ge 2$:\quad
+  $\displaystyle \frac{\ln 2}{2} \cdot \frac{x - 1}{\ln x} \le \pi(x) \le 8\,\frac{x}{\ln x}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Асимптотический закон}
+  \small
+  \begin{theorem}[Адамар, Валле"--~Пуссен, 1896]
+    $\pi(x) \sim \dfrac{x}{\ln x}$ \quad (без доказательства)
+  \end{theorem}
+  \begin{center}
+  \begin{tabular}{r|r|r|c}
+    $x$ & $\pi(x)$ & $x / \ln x$ & отношение \\ \hline
+    $10^3$ & $168$ & $144{,}8$ & $1{,}160$ \\
+    $10^6$ & $78\,498$ & $72\,382{,}4$ & $1{,}084$ \\
+    $10^9$ & $50\,847\,534$ & $48\,254\,942{,}4$ & $1{,}054$
+  \end{tabular}
+  \end{center}
+  \begin{itemize}
+    \item Случайное число около $x$ простое с вероятностью $\approx 1/\ln x$
+    \item $x = 2^{1024}$: $\ln x \approx 709{,}8$ $\Rightarrow$ одно из $\approx 355$ нечётных
+  \end{itemize}
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Вильсона}
+  Натуральное $n > 1$ простое $\iff$ $\congr{(n - 1)!}{-1}{n}$.
+
+  \smallskip Лемма: если $p$ простое и $\congr{x^2}{1}{p}$, то $\congr{x}{\pm 1}{p}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Тест Вильсона}
+  \begin{itemize}
+    \item $f \gets 1$; для $k = 2, \ldots, n - 1$: $f \gets f k \bmod n$; простое $\iff f = n - 1$
+    \item Составное $n > 4$: $(n - 1)! \equiv 0 \pmod n$; \quad $n = 4$: $3! \equiv 2$
+    \item Пример: $n = 11$ и $n = 9$
+  \end{itemize}
+  \penspace[0.3\textheight]
+  \begin{itemize}
+    \item Сложность: $n - 2$ умножений "--- \alert{экспонента} от длины $\log n$
+  \end{itemize}
+  \aside{почему это хуже пробного деления?}
+\end{canvasframe}
+
+\begin{theoremframe}{Теорема Эйлера и малая теорема Ферма}
+  Если $\gcd(a, n) = 1$, то $\congr{a^{\varphi(n)}}{1}{n}$. В частности, для простого $p \nmid a$:
+  $\congr{a^{p-1}}{1}{p}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Тест Ферма}
+  \begin{definition}
+    $n$ нечётное. $a$ "--- \emph{свидетель Ферма}, если $a^{n-1} \not\equiv 1 \pmod n$.
+    Если $\congr{a^{n-1}}{1}{n}$, то $n$ \emph{вероятно простое} по основанию $a$; составное
+    такое $n$ "--- \emph{псевдопростое} по основанию $a$, а $a$ "--- \emph{лжесвидетель}.
+  \end{definition}
+  \begin{itemize}
+    \item Раунд: случайное $a$, проверить $\gcd(a, n) = 1$ и $a^{n-1} \bmod n = 1$;
+      стоимость $\bigO(\log^3 n)$
+    \item $341 = 11 \cdot 31$: $2^{10} = 1024 = 3 \cdot 341 + 1$ $\Rightarrow$ $2^{340} \equiv 1$;
+      \ $3^{340} \equiv 56$
+  \end{itemize}
+  \notearea[0.12\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}[proposition]{Лжесвидетели образуют подгруппу}
+  $L_F(n) = \{a \in \Znx{n} : a^{n-1} \equiv 1\}$ "--- подгруппа. Если есть хотя бы один свидетель
+  $a \in \Znx{n}$, то $\abs{L_F(n)} \le \varphi(n)/2$. Для $n = p_1 \cdots p_k$ (различные простые)
+  $\abs{L_F(n)} = \prod_i \gcd(n - 1, p_i - 1)$.
+\end{theoremframe}
+
+\begin{canvasframe}{Числа Кармайкла}
+  \begin{definition}
+    Составное $n$ "--- \emph{число Кармайкла}, если $\congr{a^{n-1}}{1}{n}$ для всех $a \in \Znx{n}$.
+  \end{definition}
+  \begin{itemize}
+    \item $561 = 3 \cdot 11 \cdot 17$, $1105$, $1729 = 7 \cdot 13 \cdot 19$, $2465$, $2821$,
+      $6601$, $8911$, \ldots
+    \item Тест Ферма ошибается для \emph{всех} взаимно простых оснований
+    \item Тест Ферма с основаниями $2, 3, 5$ на $1729$:
+  \end{itemize}
+  \penspace[0.3\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Критерий Корсельта}
+  Составное $n$ "--- число Кармайкла $\iff$ $n$ свободно от квадратов и $p - 1 \mid n - 1$
+  для всех простых $p \mid n$.
+\end{theoremframe}
+
+\begin{canvasframe}{Числа Кармайкла: следствия}
+  \small
+  \begin{corollary}
+    Число Кармайкла нечётно и имеет не менее трёх простых делителей.
+  \end{corollary}
+  \begin{proposition}[Чернек]
+    Если $6k + 1$, $12k + 1$, $18k + 1$ простые, их произведение "--- число Кармайкла.
+    \quad $k = 1$: $1729$; \ $k = 6$: $294\,409$.
+  \end{proposition}
+  \begin{theorem}[Алфорд, Грэнвилл, Померанс, 1994]
+    Чисел Кармайкла бесконечно много: $C(x) > x^{2/7}$ при больших $x$ (без доказательства).
+  \end{theorem}
+\end{canvasframe}
+
+\begin{theoremframe}{Основа теста Миллера"--~Рабина}
+  Пусть $p$ нечётное простое, $p - 1 = 2^s d$, $d$ нечётно, $p \nmid a$. Тогда
+  \[
+    a^d \equiv 1 \pmod p \qquad\text{или}\qquad a^{2^i d} \equiv -1 \pmod p \text{ при некотором }
+    0 \le i < s.
+  \]
+\end{theoremframe}
+
+\begin{canvasframe}{Тест Миллера"--~Рабина}
+  \begin{itemize}
+    \item $n - 1 = 2^s d$; \ $x_0 = a^d$, $x_i = x_{i-1}^2$, \ $x_s = a^{n-1}$
+    \item $a$ "--- \emph{свидетель Миллера}, если $x_0 \ne 1$ и $-1 \notin \{x_0, \ldots, x_{s-1}\}$;
+      иначе $n$ \emph{сильно псевдопростое}, $a$ "--- \emph{сильный лжесвидетель}
+    \item Свидетель Ферма $\Rightarrow$ свидетель Миллера
+    \item Нетривиальный корень $x^2 \equiv 1$, $x \not\equiv \pm 1$ $\Rightarrow$
+      $\gcd(x - 1, n)$ "--- делитель $n$
+  \end{itemize}
+  Пример: $n = 561$, $a = 2$: \ $560 = 2^4 \cdot 35$
+  \penspace[0.25\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Сильных лжесвидетелей не больше половины}
+  Если $n$ нечётное составное, то сильные лжесвидетели содержатся в собственной подгруппе
+  $\Znx{n}$; их не больше $\varphi(n)/2$.
+
+  \smallskip\small Подсказка: $t = \max\{i : \exists a\ a^{2^i d} \equiv -1\}$,
+  $B = \{a : a^{2^t d} \equiv \pm 1\}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Оценка Монье"--~Рабина}
+  \begin{theorem}[Монье, Рабин, 1980]
+    Для нечётного составного $n > 9$ сильных лжесвидетелей $\le \varphi(n)/4$
+    \quad (без доказательства).
+  \end{theorem}
+  \begin{itemize}
+    \item $k$ раундов со случайными основаниями: ошибка $\le 4^{-k}$
+    \item Оценка точна: у $91 = 7 \cdot 13$ ровно $18 = 72/4$ сильных лжесвидетелей
+    \item Для \emph{случайных} больших $n$ ошибка гораздо меньше $4^{-k}$
+  \end{itemize}
+  \aside{почему $a = \pm 1$ бесполезны?}
+\end{canvasframe}
+
+\begin{canvasframe}{Детерминированные варианты}
+  \small
+  \begin{tabular}{l|l}
+    основания & точен при $n <{}$ \\ \hline
+    $2$ & $2047 = 23 \cdot 89$ \\
+    $2, 3$ & $1\,373\,653$ \\
+    $2, 3, 5, 7$ & $3\,215\,031\,751$ \\
+    $2, \ldots, 37$ (12 простых) & $\approx 3{,}2 \cdot 10^{23}$ \quad ($> 2^{64}$) \\
+    $2, \ldots, 41$ (13 простых) & $\approx 3{,}3 \cdot 10^{24}$
+  \end{tabular}
+  \begin{itemize}
+    \item Миллер (1976), Бах (1990): при GRH есть свидетель $a < 2 \ln^2 n$
+    \item AKS (2002): детерминированный тест за полиномиальное время
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Символ Лежандра}
+  \begin{definition}
+    $p$ нечётное простое. $\legendre{a}{p} = 0$ при $p \mid a$, $1$ "--- если $a$ квадратичный
+    вычет, $-1$ "--- если невычет.
+  \end{definition}
+  \begin{itemize}
+    \item $\legendre{ab}{p} = \legendre{a}{p}\legendre{b}{p}$ \ (следует из критерия Эйлера)
+    \item Квадраты по модулю $11$: $1, 3, 4, 5, 9$
+  \end{itemize}
+  \notearea[0.2\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Критерий Эйлера}
+  Для нечётного простого $p$: \ $\congr{a^{(p-1)/2}}{\legendre{a}{p}}{p}$.
+  \hfill\small (пример: $2^5 \bmod 11 = ?$)
+\end{theoremframe}
+
+\begin{canvasframe}{Закон взаимности и символ Якоби}
+  \small
+  \begin{theorem}[Гаусс; без доказательства]
+    $\legendre{p}{q}\legendre{q}{p} = (-1)^{\frac{p-1}{2}\cdot\frac{q-1}{2}}$, \quad
+    $\legendre{2}{p} = (-1)^{\frac{p^2-1}{8}}$, \quad $\legendre{-1}{p} = (-1)^{\frac{p-1}{2}}$.
+  \end{theorem}
+  \begin{definition}
+    $n = p_1 \cdots p_k$ нечётное: \ $\legendre{a}{n} = \prod_i \legendre{a}{p_i}$ (символ Якоби).
+  \end{definition}
+  \begin{itemize}
+    \item Те же правила для символа Якоби (доказать!)
+    \item $\legendre{2}{15} = 1$, но $2$ "--- не квадрат по модулю $15$
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Вычисление символа Якоби}
+  \begin{itemize}
+    \item Как алгоритм Евклида: $a \bmod n$; выделить $2$; перевернуть; $\bigO(\log^2 n)$
+    \item Разлагать на множители \textbf{не нужно}
+  \end{itemize}
+  \[
+    \legendre{1001}{9907} = \legendre{9907}{1001} = \legendre{898}{1001} = \cdots
+  \]
+  \penspace[0.4\textheight]
+\end{canvasframe}
+
+\begin{canvasframe}{Тест Соловея"--~Штрассена}
+  \begin{definition}
+    Нечётное составное $n$ "--- \emph{эйлерово псевдопростое} по основанию $a$, если
+    $a^{(n-1)/2} \equiv \legendre{a}{n} \pmod n$.
+  \end{definition}
+  \begin{itemize}
+    \item Раунд: случайное $a$; $j = \legendre{a}{n}$; составное, если $j = 0$ или
+      $a^{(n-1)/2} \not\equiv j$
+    \item $561$: $2^{280} \equiv 1 = \legendre{2}{561}$ "--- эйлерово псевдопростое по основанию $2$
+    \item $1729$: $a^{864} \equiv 1$ для всех $a$, но $\legendre{a}{1729} = -1$ у половины
+  \end{itemize}
+  \notearea[0.2\textheight]
+\end{canvasframe}
+
+\begin{theoremframe}{Эйлеровых лжесвидетелей не больше половины}
+  (Соловей, Штрассен, 1977) Для нечётного составного $n$ эйлеровы лжесвидетели образуют
+  собственную подгруппу $\Znx{n}$; ошибка $k$ раундов $\le 2^{-k}$.
+\end{theoremframe}
+
+\begin{canvasframe}{Сравнение тестов}
+  \small
+  \begin{center}
+  \begin{tabular}{l|c|c|c}
+    тест & условие & лжесвидетели & «непробиваемые» \\ \hline
+    Вильсон & $(n-1)! \equiv -1$ & нет & нет, но $\Theta(n)$ \\
+    Ферма & $a^{n-1} \equiv 1$ & $\le 1/2$ или все & числа Кармайкла \\
+    Соловей"--~Штрассен & $a^{\frac{n-1}{2}} \equiv \legendre{a}{n}$ & $\le 1/2$ & нет \\
+    Миллер"--~Рабин & $x_0 = 1$ или $x_i = -1$ & $\le 1/4$ & нет
+  \end{tabular}
+  \end{center}
+  \begin{itemize}
+    \item Сильно псевдопростое $\Rightarrow$ эйлерово псевдопростое (без доказательства)
+    \item На практике: пробное деление на малые простые + Миллер"--~Рабин
+  \end{itemize}
+\end{canvasframe}
+
+\begin{canvasframe}{Генерация случайного простого числа}
+  \begin{enumerate}
+    \item Случайное нечётное $n \in [2^{b-1}, 2^b)$
+    \item Пробное деление на $3, 5, 7, \ldots, B$ "--- отсеивает большинство кандидатов
+    \item $k$ раундов Миллера"--~Рабина; не прошло "--- к шагу 1
+  \end{enumerate}
+  \begin{itemize}
+    \item В среднем $\approx \frac12 \ln 2^b \approx 0{,}35\,b$ кандидатов
+  \end{itemize}
+  \aside{сколько кандидатов для $b = 2048$?}
+  \notearea[0.25\textheight]
+\end{canvasframe}
+\end{document}

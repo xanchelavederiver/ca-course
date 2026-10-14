@@ -1,0 +1,32 @@
+# Seminar 2 (lecture 2): Chinese remainder theorem, DLP in groups of prime-power order,
+# Pohlig–Hellman. Warm-up -> core -> corner cases.
+id: sem2-seminar-02-crt-and-pohlig-hellman
+kind: classroom
+title: Семинар 2. Китайская теорема об остатках, алгоритм Полига–Хеллмана
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
+  в конспекте лекции~2.
+sections:
+  - title: Разминка
+    intro: >-
+      Китайская теорема об остатках для попарно взаимно простых модулей; обратные элементы
+      находим расширенным алгоритмом Евклида.
+    tasks: [number_theory.crt, number_theory.crt]
+  - title: Логарифмирование в группе порядка $q^e$
+    intro: >-
+      Цифры $x$ в $q$-ичной системе находятся по одной; для каждой цифры достаточно таблицы
+      степеней элемента порядка $q$.
+    tasks: [dlp.prime_power, dlp.prime_power]
+  - title: Алгоритм Полига--Хеллмана
+    intro: Сведение к подгруппам примарного порядка и сборка ответа по КТО.
+    tasks: [dlp.pohlig_hellman, dlp.pohlig_hellman]
+  - title: Особые случаи
+    intro: >-
+      Модули, не являющиеся попарно взаимно простыми (система может оказаться несовместной);
+      высокие степени двойки; вырожденные логарифмы ($h = 1$, $h = g^{-1}$, $h$ малого порядка).
+    tasks: [number_theory.crt_general@unsolvable, number_theory.crt_general@solvable,
+            dlp.prime_power@q2, dlp.prime_power@degenerate]
