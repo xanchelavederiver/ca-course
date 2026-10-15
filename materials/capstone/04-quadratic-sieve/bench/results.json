@@ -1,0 +1,2274 @@
+{
+ "capstone": "quadratic-sieve",
+ "command": "sage -python reference/main.py",
+ "slack": 10.0,
+ "started": 1791959805,
+ "duration_s": 195.881,
+ "machine": {
+  "python": "3.12.3",
+  "kernel": "6.8.0-142-generic",
+  "machine": "x86_64",
+  "image": "taskgen",
+  "cpus_visible": 16,
+  "cpu_count": 16,
+  "cpu": "AMD EPYC 7352 24-Core Processor",
+  "mem_total_kb": 32863288,
+  "governor": "n/a (not exposed)",
+  "loadavg_1m": 1.09375
+ },
+ "summary": {
+  "n40": {
+   "x": 40,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.005935560562647879,
+   "mean_s": 0.005706197745166719,
+   "p90_s": 0.006719997152686119,
+   "max_s": 0.0067484870087355375,
+   "max_rss_kb": 14720,
+   "timeout_s": 120.0,
+   "limit_s": 0.06748487008735538
+  },
+  "n50": {
+   "x": 50,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.007909070001915097,
+   "mean_s": 0.008521300205029548,
+   "p90_s": 0.011471328791230917,
+   "max_s": 0.011693394044414163,
+   "max_rss_kb": 14764,
+   "timeout_s": 120.0,
+   "limit_s": 0.11693394044414163
+  },
+  "n60": {
+   "x": 60,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.019067800953052938,
+   "mean_s": 0.01907460610382259,
+   "p90_s": 0.021423844853416085,
+   "max_s": 0.023926007095724344,
+   "max_rss_kb": 14960,
+   "timeout_s": 120.0,
+   "limit_s": 0.23926007095724344
+  },
+  "n70": {
+   "x": 70,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.035333243547938764,
+   "mean_s": 0.03596467890311032,
+   "p90_s": 0.04405099502764642,
+   "max_s": 0.053110259119421244,
+   "max_rss_kb": 14960,
+   "timeout_s": 120.0,
+   "limit_s": 0.5311025911942124
+  },
+  "n80": {
+   "x": 80,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.07483142346609384,
+   "mean_s": 0.08865176250692457,
+   "p90_s": 0.1046738619916141,
+   "max_s": 0.1524620030540973,
+   "max_rss_kb": 15232,
+   "timeout_s": 120.0,
+   "limit_s": 1.524620030540973
+  },
+  "n90": {
+   "x": 90,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.22645038808695972,
+   "mean_s": 0.23334936001338064,
+   "p90_s": 0.25979848112910986,
+   "max_s": 0.36761565296910703,
+   "max_rss_kb": 15704,
+   "timeout_s": 120.0,
+   "limit_s": 3.6761565296910703
+  },
+  "n100": {
+   "x": 100,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.5242676415946335,
+   "mean_s": 0.5606544673908502,
+   "p90_s": 0.6913267120253295,
+   "max_s": 0.7279707710258663,
+   "max_rss_kb": 16348,
+   "timeout_s": 120.0,
+   "limit_s": 7.279707710258663
+  },
+  "n110": {
+   "x": 110,
+   "n": 8,
+   "ok": 8,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 1.5510293690022081,
+   "mean_s": 1.5997383277863264,
+   "p90_s": 2.2643438598606735,
+   "max_s": 2.2643438598606735,
+   "max_rss_kb": 17476,
+   "timeout_s": 120.0,
+   "limit_s": 22.643438598606735
+  },
+  "n120": {
+   "x": 120,
+   "n": 8,
+   "ok": 8,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 3.622739440877922,
+   "mean_s": 3.8778430102101993,
+   "p90_s": 5.746349525172263,
+   "max_s": 5.746349525172263,
+   "max_rss_kb": 19556,
+   "timeout_s": 200.0,
+   "limit_s": 57.463495251722634
+  },
+  "n140": {
+   "x": 140,
+   "n": 5,
+   "ok": 5,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 23.29138169903308,
+   "mean_s": 25.831520760431886,
+   "p90_s": 38.337255184073,
+   "max_s": 38.337255184073,
+   "max_rss_kb": 30592,
+   "timeout_s": 400.0,
+   "limit_s": 383.37255184073
+  },
+  "corner60": {
+   "x": null,
+   "n": 16,
+   "ok": 16,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.0003214840544387698,
+   "mean_s": 0.008039614447625354,
+   "p90_s": 0.02419512183405459,
+   "max_s": 0.02462240494787693,
+   "max_rss_kb": 14904,
+   "timeout_s": 120.0,
+   "limit_s": 0.2462240494787693
+  },
+  "pp100": {
+   "x": null,
+   "n": 6,
+   "ok": 6,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.0003946060314774513,
+   "mean_s": 0.00041024317033588886,
+   "p90_s": 0.0005050650797784328,
+   "max_s": 0.0005050650797784328,
+   "max_rss_kb": 14604,
+   "timeout_s": 120.0,
+   "limit_s": 0.0050506507977843285
+  },
+  "small100": {
+   "x": null,
+   "n": 4,
+   "ok": 4,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.0015756640350446105,
+   "mean_s": 0.0015818442916497588,
+   "p90_s": 0.0016078250482678413,
+   "max_s": 0.0016078250482678413,
+   "max_rss_kb": 14648,
+   "timeout_s": 120.0,
+   "limit_s": 0.016078250482678413
+  },
+  "unbal100": {
+   "x": null,
+   "n": 4,
+   "ok": 4,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.4533372044097632,
+   "mean_s": 0.4763267647358589,
+   "p90_s": 0.5906079490669072,
+   "max_s": 0.5906079490669072,
+   "max_rss_kb": 16240,
+   "timeout_s": 120.0,
+   "limit_s": 5.906079490669072
+  },
+  "repeat100": {
+   "x": null,
+   "n": 4,
+   "ok": 4,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.5816512904129922,
+   "mean_s": 0.683002611680422,
+   "p90_s": 1.0075470269657671,
+   "max_s": 1.0075470269657671,
+   "max_rss_kb": 16204,
+   "timeout_s": 120.0,
+   "limit_s": 10.075470269657671
+  },
+  "close100": {
+   "x": null,
+   "n": 4,
+   "ok": 4,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.5760855694534257,
+   "mean_s": 0.5429966342053376,
+   "p90_s": 0.645983099937439,
+   "max_s": 0.645983099937439,
+   "max_rss_kb": 16128,
+   "timeout_s": 120.0,
+   "limit_s": 6.45983099937439
+  },
+  "multi80": {
+   "x": null,
+   "n": 6,
+   "ok": 6,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.09626571298576891,
+   "mean_s": 0.09208428153457741,
+   "p90_s": 0.10094626806676388,
+   "max_s": 0.10094626806676388,
+   "max_rss_kb": 15256,
+   "timeout_s": 120.0,
+   "limit_s": 1.0094626806676388
+  },
+  "multi100": {
+   "x": null,
+   "n": 6,
+   "ok": 6,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.49813281698152423,
+   "mean_s": 0.5070431898348033,
+   "p90_s": 0.6185609770473093,
+   "max_s": 0.6185609770473093,
+   "max_rss_kb": 16256,
+   "timeout_s": 120.0,
+   "limit_s": 6.185609770473093
+  }
+ },
+ "requirements": {
+  "ReqSlack": "10",
+  "ReqBits": "100",
+  "ReqSeconds": "10"
+ },
+ "warnings": [],
+ "records": [
+  {
+   "id": "n40-000",
+   "size": "n40",
+   "tags": [
+    "balanced",
+    "bits40",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.005813182098791003,
+   "repeat": 1,
+   "rss_kb": 14664,
+   "message": ""
+  },
+  {
+   "id": "n40-001",
+   "size": "n40",
+   "tags": [
+    "balanced",
+    "bits40",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.004934427095577121,
+   "repeat": 1,
+   "rss_kb": 14668,
+   "message": ""
+  },
+  {
+   "id": "n40-002",
+   "size": "n40",
+   "tags": [
+    "balanced",
+    "bits40",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.004588457057252526,
+   "repeat": 1,
+   "rss_kb": 14668,
+   "message": ""
+  },
+  {
+   "id": "n40-003",
+   "size": "n40",
+   "tags": [
+    "balanced",
+    "bits40",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.004407461965456605,
+   "repeat": 1,
+   "rss_kb": 14672,
+   "message": ""
+  },
+  {
+   "id": "n40-004",
+   "size": "n40",
+   "tags": [
+    "balanced",
+    "bits40",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.005233836127445102,
+   "repeat": 1,
+   "rss_kb": 14672,
+   "message": ""
+  },
+  {
+   "id": "n40-005",
+   "size": "n40",
+   "tags": [
+    "balanced",
+    "bits40",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.006719997152686119,
+   "repeat": 1,
+   "rss_kb": 14700,
+   "message": ""
+  },
+  {
+   "id": "n40-006",
+   "size": "n40",
+   "tags": [
+    "balanced",
+    "bits40",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0067484870087355375,
+   "repeat": 1,
+   "rss_kb": 14716,
+   "message": ""
+  },
+  {
+   "id": "n40-007",
+   "size": "n40",
+   "tags": [
+    "balanced",
+    "bits40",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.006440348923206329,
+   "repeat": 1,
+   "rss_kb": 14716,
+   "message": ""
+  },
+  {
+   "id": "n40-008",
+   "size": "n40",
+   "tags": [
+    "balanced",
+    "bits40",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.006057939026504755,
+   "repeat": 1,
+   "rss_kb": 14716,
+   "message": ""
+  },
+  {
+   "id": "n40-009",
+   "size": "n40",
+   "tags": [
+    "balanced",
+    "bits40",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.006117840996012092,
+   "repeat": 1,
+   "rss_kb": 14720,
+   "message": ""
+  },
+  {
+   "id": "n50-000",
+   "size": "n50",
+   "tags": [
+    "balanced",
+    "bits50",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.007334765046834946,
+   "repeat": 1,
+   "rss_kb": 14648,
+   "message": ""
+  },
+  {
+   "id": "n50-001",
+   "size": "n50",
+   "tags": [
+    "balanced",
+    "bits50",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.008651371113955975,
+   "repeat": 1,
+   "rss_kb": 14676,
+   "message": ""
+  },
+  {
+   "id": "n50-002",
+   "size": "n50",
+   "tags": [
+    "balanced",
+    "bits50",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.007593051064759493,
+   "repeat": 1,
+   "rss_kb": 14680,
+   "message": ""
+  },
+  {
+   "id": "n50-003",
+   "size": "n50",
+   "tags": [
+    "balanced",
+    "bits50",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00986211420968175,
+   "repeat": 1,
+   "rss_kb": 14744,
+   "message": ""
+  },
+  {
+   "id": "n50-004",
+   "size": "n50",
+   "tags": [
+    "balanced",
+    "bits50",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.011693394044414163,
+   "repeat": 1,
+   "rss_kb": 14756,
+   "message": ""
+  },
+  {
+   "id": "n50-005",
+   "size": "n50",
+   "tags": [
+    "balanced",
+    "bits50",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.011471328791230917,
+   "repeat": 1,
+   "rss_kb": 14760,
+   "message": ""
+  },
+  {
+   "id": "n50-006",
+   "size": "n50",
+   "tags": [
+    "balanced",
+    "bits50",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0071207089349627495,
+   "repeat": 1,
+   "rss_kb": 14760,
+   "message": ""
+  },
+  {
+   "id": "n50-007",
+   "size": "n50",
+   "tags": [
+    "balanced",
+    "bits50",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.008225088939070702,
+   "repeat": 1,
+   "rss_kb": 14764,
+   "message": ""
+  },
+  {
+   "id": "n50-008",
+   "size": "n50",
+   "tags": [
+    "balanced",
+    "bits50",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.006702106911689043,
+   "repeat": 1,
+   "rss_kb": 14764,
+   "message": ""
+  },
+  {
+   "id": "n50-009",
+   "size": "n50",
+   "tags": [
+    "balanced",
+    "bits50",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.006559072993695736,
+   "repeat": 1,
+   "rss_kb": 14764,
+   "message": ""
+  },
+  {
+   "id": "n60-000",
+   "size": "n60",
+   "tags": [
+    "balanced",
+    "bits60",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.02013153093867004,
+   "repeat": 1,
+   "rss_kb": 14880,
+   "message": ""
+  },
+  {
+   "id": "n60-001",
+   "size": "n60",
+   "tags": [
+    "balanced",
+    "bits60",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.018649309873580933,
+   "repeat": 1,
+   "rss_kb": 14892,
+   "message": ""
+  },
+  {
+   "id": "n60-002",
+   "size": "n60",
+   "tags": [
+    "balanced",
+    "bits60",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.021423844853416085,
+   "repeat": 1,
+   "rss_kb": 14896,
+   "message": ""
+  },
+  {
+   "id": "n60-003",
+   "size": "n60",
+   "tags": [
+    "balanced",
+    "bits60",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.016228991094976664,
+   "repeat": 1,
+   "rss_kb": 14904,
+   "message": ""
+  },
+  {
+   "id": "n60-004",
+   "size": "n60",
+   "tags": [
+    "balanced",
+    "bits60",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.01734864292666316,
+   "repeat": 1,
+   "rss_kb": 14928,
+   "message": ""
+  },
+  {
+   "id": "n60-005",
+   "size": "n60",
+   "tags": [
+    "balanced",
+    "bits60",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.023926007095724344,
+   "repeat": 1,
+   "rss_kb": 14928,
+   "message": ""
+  },
+  {
+   "id": "n60-006",
+   "size": "n60",
+   "tags": [
+    "balanced",
+    "bits60",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.019486292032524943,
+   "repeat": 1,
+   "rss_kb": 14940,
+   "message": ""
+  },
+  {
+   "id": "n60-007",
+   "size": "n60",
+   "tags": [
+    "balanced",
+    "bits60",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.017017594072967768,
+   "repeat": 1,
+   "rss_kb": 14944,
+   "message": ""
+  },
+  {
+   "id": "n60-008",
+   "size": "n60",
+   "tags": [
+    "balanced",
+    "bits60",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.016931602032855153,
+   "repeat": 1,
+   "rss_kb": 14944,
+   "message": ""
+  },
+  {
+   "id": "n60-009",
+   "size": "n60",
+   "tags": [
+    "balanced",
+    "bits60",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0196022461168468,
+   "repeat": 1,
+   "rss_kb": 14960,
+   "message": ""
+  },
+  {
+   "id": "n70-000",
+   "size": "n70",
+   "tags": [
+    "balanced",
+    "bits70",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.053110259119421244,
+   "repeat": 1,
+   "rss_kb": 14860,
+   "message": ""
+  },
+  {
+   "id": "n70-001",
+   "size": "n70",
+   "tags": [
+    "balanced",
+    "bits70",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.04405099502764642,
+   "repeat": 1,
+   "rss_kb": 14880,
+   "message": ""
+  },
+  {
+   "id": "n70-002",
+   "size": "n70",
+   "tags": [
+    "balanced",
+    "bits70",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.04073325404897332,
+   "repeat": 1,
+   "rss_kb": 14896,
+   "message": ""
+  },
+  {
+   "id": "n70-003",
+   "size": "n70",
+   "tags": [
+    "balanced",
+    "bits70",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.03462318400852382,
+   "repeat": 1,
+   "rss_kb": 14916,
+   "message": ""
+  },
+  {
+   "id": "n70-004",
+   "size": "n70",
+   "tags": [
+    "balanced",
+    "bits70",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0245084420312196,
+   "repeat": 1,
+   "rss_kb": 14920,
+   "message": ""
+  },
+  {
+   "id": "n70-005",
+   "size": "n70",
+   "tags": [
+    "balanced",
+    "bits70",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.03385924198664725,
+   "repeat": 1,
+   "rss_kb": 14944,
+   "message": ""
+  },
+  {
+   "id": "n70-006",
+   "size": "n70",
+   "tags": [
+    "balanced",
+    "bits70",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.03649062500335276,
+   "repeat": 1,
+   "rss_kb": 14952,
+   "message": ""
+  },
+  {
+   "id": "n70-007",
+   "size": "n70",
+   "tags": [
+    "balanced",
+    "bits70",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.036043303087353706,
+   "repeat": 1,
+   "rss_kb": 14956,
+   "message": ""
+  },
+  {
+   "id": "n70-008",
+   "size": "n70",
+   "tags": [
+    "balanced",
+    "bits70",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.024222093867138028,
+   "repeat": 1,
+   "rss_kb": 14960,
+   "message": ""
+  },
+  {
+   "id": "n70-009",
+   "size": "n70",
+   "tags": [
+    "balanced",
+    "bits70",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0320053908508271,
+   "repeat": 1,
+   "rss_kb": 14952,
+   "message": ""
+  },
+  {
+   "id": "n80-000",
+   "size": "n80",
+   "tags": [
+    "balanced",
+    "bits80",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.1524620030540973,
+   "repeat": 1,
+   "rss_kb": 15092,
+   "message": ""
+  },
+  {
+   "id": "n80-001",
+   "size": "n80",
+   "tags": [
+    "balanced",
+    "bits80",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.06439340300858021,
+   "repeat": 1,
+   "rss_kb": 15108,
+   "message": ""
+  },
+  {
+   "id": "n80-002",
+   "size": "n80",
+   "tags": [
+    "balanced",
+    "bits80",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.07053332310169935,
+   "repeat": 1,
+   "rss_kb": 15140,
+   "message": ""
+  },
+  {
+   "id": "n80-003",
+   "size": "n80",
+   "tags": [
+    "balanced",
+    "bits80",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.1046738619916141,
+   "repeat": 1,
+   "rss_kb": 15160,
+   "message": ""
+  },
+  {
+   "id": "n80-004",
+   "size": "n80",
+   "tags": [
+    "balanced",
+    "bits80",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.09838678897358477,
+   "repeat": 1,
+   "rss_kb": 15168,
+   "message": ""
+  },
+  {
+   "id": "n80-005",
+   "size": "n80",
+   "tags": [
+    "balanced",
+    "bits80",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.07563417591154575,
+   "repeat": 1,
+   "rss_kb": 15196,
+   "message": ""
+  },
+  {
+   "id": "n80-006",
+   "size": "n80",
+   "tags": [
+    "balanced",
+    "bits80",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.07341273291967809,
+   "repeat": 1,
+   "rss_kb": 15192,
+   "message": ""
+  },
+  {
+   "id": "n80-007",
+   "size": "n80",
+   "tags": [
+    "balanced",
+    "bits80",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.10240216110832989,
+   "repeat": 1,
+   "rss_kb": 15212,
+   "message": ""
+  },
+  {
+   "id": "n80-008",
+   "size": "n80",
+   "tags": [
+    "balanced",
+    "bits80",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0705905039794743,
+   "repeat": 1,
+   "rss_kb": 15208,
+   "message": ""
+  },
+  {
+   "id": "n80-009",
+   "size": "n80",
+   "tags": [
+    "balanced",
+    "bits80",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.07402867102064192,
+   "repeat": 1,
+   "rss_kb": 15232,
+   "message": ""
+  },
+  {
+   "id": "n90-000",
+   "size": "n90",
+   "tags": [
+    "balanced",
+    "bits90",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.20692010992206633,
+   "repeat": 1,
+   "rss_kb": 15504,
+   "message": ""
+  },
+  {
+   "id": "n90-001",
+   "size": "n90",
+   "tags": [
+    "balanced",
+    "bits90",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.1762042751070112,
+   "repeat": 1,
+   "rss_kb": 15608,
+   "message": ""
+  },
+  {
+   "id": "n90-002",
+   "size": "n90",
+   "tags": [
+    "balanced",
+    "bits90",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.209965692833066,
+   "repeat": 1,
+   "rss_kb": 15648,
+   "message": ""
+  },
+  {
+   "id": "n90-003",
+   "size": "n90",
+   "tags": [
+    "balanced",
+    "bits90",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.22939977515488863,
+   "repeat": 1,
+   "rss_kb": 15652,
+   "message": ""
+  },
+  {
+   "id": "n90-004",
+   "size": "n90",
+   "tags": [
+    "balanced",
+    "bits90",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.18529014708474278,
+   "repeat": 1,
+   "rss_kb": 15676,
+   "message": ""
+  },
+  {
+   "id": "n90-005",
+   "size": "n90",
+   "tags": [
+    "balanced",
+    "bits90",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.23823139094747603,
+   "repeat": 1,
+   "rss_kb": 15688,
+   "message": ""
+  },
+  {
+   "id": "n90-006",
+   "size": "n90",
+   "tags": [
+    "balanced",
+    "bits90",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.2365670739673078,
+   "repeat": 1,
+   "rss_kb": 15692,
+   "message": ""
+  },
+  {
+   "id": "n90-007",
+   "size": "n90",
+   "tags": [
+    "balanced",
+    "bits90",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.2235010010190308,
+   "repeat": 1,
+   "rss_kb": 15696,
+   "message": ""
+  },
+  {
+   "id": "n90-008",
+   "size": "n90",
+   "tags": [
+    "balanced",
+    "bits90",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.36761565296910703,
+   "repeat": 1,
+   "rss_kb": 15704,
+   "message": ""
+  },
+  {
+   "id": "n90-009",
+   "size": "n90",
+   "tags": [
+    "balanced",
+    "bits90",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.25979848112910986,
+   "repeat": 1,
+   "rss_kb": 15704,
+   "message": ""
+  },
+  {
+   "id": "n100-000",
+   "size": "n100",
+   "tags": [
+    "balanced",
+    "bits100",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.4721115198917687,
+   "repeat": 1,
+   "rss_kb": 15944,
+   "message": ""
+  },
+  {
+   "id": "n100-001",
+   "size": "n100",
+   "tags": [
+    "balanced",
+    "bits100",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.6913267120253295,
+   "repeat": 1,
+   "rss_kb": 16032,
+   "message": ""
+  },
+  {
+   "id": "n100-002",
+   "size": "n100",
+   "tags": [
+    "balanced",
+    "bits100",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.4538083910010755,
+   "repeat": 1,
+   "rss_kb": 16132,
+   "message": ""
+  },
+  {
+   "id": "n100-003",
+   "size": "n100",
+   "tags": [
+    "balanced",
+    "bits100",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.6195866449270397,
+   "repeat": 1,
+   "rss_kb": 16160,
+   "message": ""
+  },
+  {
+   "id": "n100-004",
+   "size": "n100",
+   "tags": [
+    "balanced",
+    "bits100",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.7279707710258663,
+   "repeat": 1,
+   "rss_kb": 16188,
+   "message": ""
+  },
+  {
+   "id": "n100-005",
+   "size": "n100",
+   "tags": [
+    "balanced",
+    "bits100",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.6507150509860367,
+   "repeat": 1,
+   "rss_kb": 16196,
+   "message": ""
+  },
+  {
+   "id": "n100-006",
+   "size": "n100",
+   "tags": [
+    "balanced",
+    "bits100",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.43576441798359156,
+   "repeat": 1,
+   "rss_kb": 16204,
+   "message": ""
+  },
+  {
+   "id": "n100-007",
+   "size": "n100",
+   "tags": [
+    "balanced",
+    "bits100",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.5091823621187359,
+   "repeat": 1,
+   "rss_kb": 16204,
+   "message": ""
+  },
+  {
+   "id": "n100-008",
+   "size": "n100",
+   "tags": [
+    "balanced",
+    "bits100",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.539352921070531,
+   "repeat": 1,
+   "rss_kb": 16224,
+   "message": ""
+  },
+  {
+   "id": "n100-009",
+   "size": "n100",
+   "tags": [
+    "balanced",
+    "bits100",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.506725882878527,
+   "repeat": 1,
+   "rss_kb": 16348,
+   "message": ""
+  },
+  {
+   "id": "n110-000",
+   "size": "n110",
+   "tags": [
+    "balanced",
+    "bits110",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 1.7335062480997294,
+   "repeat": 1,
+   "rss_kb": 17056,
+   "message": ""
+  },
+  {
+   "id": "n110-001",
+   "size": "n110",
+   "tags": [
+    "balanced",
+    "bits110",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 1.4599548841360956,
+   "repeat": 1,
+   "rss_kb": 17196,
+   "message": ""
+  },
+  {
+   "id": "n110-002",
+   "size": "n110",
+   "tags": [
+    "balanced",
+    "bits110",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 1.4990065810270607,
+   "repeat": 1,
+   "rss_kb": 17316,
+   "message": ""
+  },
+  {
+   "id": "n110-003",
+   "size": "n110",
+   "tags": [
+    "balanced",
+    "bits110",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 1.861186790978536,
+   "repeat": 1,
+   "rss_kb": 17324,
+   "message": ""
+  },
+  {
+   "id": "n110-004",
+   "size": "n110",
+   "tags": [
+    "balanced",
+    "bits110",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 1.6030521569773555,
+   "repeat": 1,
+   "rss_kb": 17340,
+   "message": ""
+  },
+  {
+   "id": "n110-005",
+   "size": "n110",
+   "tags": [
+    "balanced",
+    "bits110",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 1.326358244055882,
+   "repeat": 1,
+   "rss_kb": 17464,
+   "message": ""
+  },
+  {
+   "id": "n110-006",
+   "size": "n110",
+   "tags": [
+    "balanced",
+    "bits110",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 1.0504978571552783,
+   "repeat": 1,
+   "rss_kb": 17464,
+   "message": ""
+  },
+  {
+   "id": "n110-007",
+   "size": "n110",
+   "tags": [
+    "balanced",
+    "bits110",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 2.2643438598606735,
+   "repeat": 1,
+   "rss_kb": 17476,
+   "message": ""
+  },
+  {
+   "id": "n120-000",
+   "size": "n120",
+   "tags": [
+    "balanced",
+    "bits120",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 4.44126583612524,
+   "repeat": 1,
+   "rss_kb": 18632,
+   "message": ""
+  },
+  {
+   "id": "n120-001",
+   "size": "n120",
+   "tags": [
+    "balanced",
+    "bits120",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 3.770939157810062,
+   "repeat": 1,
+   "rss_kb": 18864,
+   "message": ""
+  },
+  {
+   "id": "n120-002",
+   "size": "n120",
+   "tags": [
+    "balanced",
+    "bits120",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 3.376289412844926,
+   "repeat": 1,
+   "rss_kb": 19328,
+   "message": ""
+  },
+  {
+   "id": "n120-003",
+   "size": "n120",
+   "tags": [
+    "balanced",
+    "bits120",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 3.25975066004321,
+   "repeat": 1,
+   "rss_kb": 19460,
+   "message": ""
+  },
+  {
+   "id": "n120-004",
+   "size": "n120",
+   "tags": [
+    "balanced",
+    "bits120",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 2.703344123903662,
+   "repeat": 1,
+   "rss_kb": 19492,
+   "message": ""
+  },
+  {
+   "id": "n120-005",
+   "size": "n120",
+   "tags": [
+    "balanced",
+    "bits120",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 3.4745397239457816,
+   "repeat": 1,
+   "rss_kb": 19492,
+   "message": ""
+  },
+  {
+   "id": "n120-006",
+   "size": "n120",
+   "tags": [
+    "balanced",
+    "bits120",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 4.2502656418364495,
+   "repeat": 1,
+   "rss_kb": 19556,
+   "message": ""
+  },
+  {
+   "id": "n120-007",
+   "size": "n120",
+   "tags": [
+    "balanced",
+    "bits120",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 5.746349525172263,
+   "repeat": 1,
+   "rss_kb": 19556,
+   "message": ""
+  },
+  {
+   "id": "n140-000",
+   "size": "n140",
+   "tags": [
+    "balanced",
+    "bits140",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 23.15999510209076,
+   "repeat": 1,
+   "rss_kb": 28736,
+   "message": ""
+  },
+  {
+   "id": "n140-001",
+   "size": "n140",
+   "tags": [
+    "balanced",
+    "bits140",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 15.802931047976017,
+   "repeat": 1,
+   "rss_kb": 29604,
+   "message": ""
+  },
+  {
+   "id": "n140-002",
+   "size": "n140",
+   "tags": [
+    "balanced",
+    "bits140",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 23.29138169903308,
+   "repeat": 1,
+   "rss_kb": 29688,
+   "message": ""
+  },
+  {
+   "id": "n140-003",
+   "size": "n140",
+   "tags": [
+    "balanced",
+    "bits140",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 28.566040768986568,
+   "repeat": 1,
+   "rss_kb": 30592,
+   "message": ""
+  },
+  {
+   "id": "n140-004",
+   "size": "n140",
+   "tags": [
+    "balanced",
+    "bits140",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 38.337255184073,
+   "repeat": 1,
+   "rss_kb": 30592,
+   "message": ""
+  },
+  {
+   "id": "corner60-000",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "perfect-square"
+   ],
+   "status": "ok",
+   "wall_s": 0.00026998715475201607,
+   "repeat": 1,
+   "rss_kb": 14672,
+   "message": ""
+  },
+  {
+   "id": "corner60-001",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "small-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.00044715218245983124,
+   "repeat": 1,
+   "rss_kb": 14672,
+   "message": ""
+  },
+  {
+   "id": "corner60-002",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "small-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.02419512183405459,
+   "repeat": 1,
+   "rss_kb": 14856,
+   "message": ""
+  },
+  {
+   "id": "corner60-003",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "repeated-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.022379841888323426,
+   "repeat": 1,
+   "rss_kb": 14876,
+   "message": ""
+  },
+  {
+   "id": "corner60-004",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "prime-power",
+    "square"
+   ],
+   "status": "ok",
+   "wall_s": 0.00026948703452944756,
+   "repeat": 1,
+   "rss_kb": 14876,
+   "message": ""
+  },
+  {
+   "id": "corner60-005",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "small-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.00037298095412552357,
+   "repeat": 1,
+   "rss_kb": 14876,
+   "message": ""
+  },
+  {
+   "id": "corner60-006",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "close-factors",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.02462240494787693,
+   "repeat": 1,
+   "rss_kb": 14892,
+   "message": ""
+  },
+  {
+   "id": "corner60-007",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "cube",
+    "prime-power"
+   ],
+   "status": "ok",
+   "wall_s": 0.00021241512149572372,
+   "repeat": 1,
+   "rss_kb": 14892,
+   "message": ""
+  },
+  {
+   "id": "corner60-008",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "cube",
+    "prime-power"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001870938576757908,
+   "repeat": 1,
+   "rss_kb": 14892,
+   "message": ""
+  },
+  {
+   "id": "corner60-009",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "semiprime",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.022670320002362132,
+   "repeat": 1,
+   "rss_kb": 14896,
+   "message": ""
+  },
+  {
+   "id": "corner60-010",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "cube",
+    "prime-power"
+   ],
+   "status": "ok",
+   "wall_s": 0.00022346596233546734,
+   "repeat": 1,
+   "rss_kb": 14896,
+   "message": ""
+  },
+  {
+   "id": "corner60-011",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "prime-power",
+    "square"
+   ],
+   "status": "ok",
+   "wall_s": 0.00017767399549484253,
+   "repeat": 1,
+   "rss_kb": 14896,
+   "message": ""
+  },
+  {
+   "id": "corner60-012",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "semiprime",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.01677960716187954,
+   "repeat": 1,
+   "rss_kb": 14900,
+   "message": ""
+  },
+  {
+   "id": "corner60-013",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "perfect-square"
+   ],
+   "status": "ok",
+   "wall_s": 0.00021953601390123367,
+   "repeat": 1,
+   "rss_kb": 14900,
+   "message": ""
+  },
+  {
+   "id": "corner60-014",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "cube",
+    "prime-power"
+   ],
+   "status": "ok",
+   "wall_s": 0.00017122412100434303,
+   "repeat": 1,
+   "rss_kb": 14900,
+   "message": ""
+  },
+  {
+   "id": "corner60-015",
+   "size": "corner60",
+   "tags": [
+    "bits60",
+    "close-factors",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.015435518929734826,
+   "repeat": 1,
+   "rss_kb": 14904,
+   "message": ""
+  },
+  {
+   "id": "pp100-000",
+   "size": "pp100",
+   "tags": [
+    "bits100",
+    "prime-power",
+    "square"
+   ],
+   "status": "ok",
+   "wall_s": 0.00041466206312179565,
+   "repeat": 1,
+   "rss_kb": 14600,
+   "message": ""
+  },
+  {
+   "id": "pp100-001",
+   "size": "pp100",
+   "tags": [
+    "bits100",
+    "perfect-square"
+   ],
+   "status": "ok",
+   "wall_s": 0.00037393998354673386,
+   "repeat": 1,
+   "rss_kb": 14600,
+   "message": ""
+  },
+  {
+   "id": "pp100-002",
+   "size": "pp100",
+   "tags": [
+    "bits100",
+    "prime-power",
+    "square"
+   ],
+   "status": "ok",
+   "wall_s": 0.0003581990022212267,
+   "repeat": 1,
+   "rss_kb": 14600,
+   "message": ""
+  },
+  {
+   "id": "pp100-003",
+   "size": "pp100",
+   "tags": [
+    "bits100",
+    "prime-power",
+    "square"
+   ],
+   "status": "ok",
+   "wall_s": 0.000374549999833107,
+   "repeat": 1,
+   "rss_kb": 14600,
+   "message": ""
+  },
+  {
+   "id": "pp100-004",
+   "size": "pp100",
+   "tags": [
+    "bits100",
+    "perfect-square"
+   ],
+   "status": "ok",
+   "wall_s": 0.00043504289351403713,
+   "repeat": 1,
+   "rss_kb": 14600,
+   "message": ""
+  },
+  {
+   "id": "pp100-005",
+   "size": "pp100",
+   "tags": [
+    "bits100",
+    "perfect-square"
+   ],
+   "status": "ok",
+   "wall_s": 0.0005050650797784328,
+   "repeat": 1,
+   "rss_kb": 14604,
+   "message": ""
+  },
+  {
+   "id": "small100-000",
+   "size": "small100",
+   "tags": [
+    "bits100",
+    "small-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.0016078250482678413,
+   "repeat": 1,
+   "rss_kb": 14648,
+   "message": ""
+  },
+  {
+   "id": "small100-001",
+   "size": "small100",
+   "tags": [
+    "bits100",
+    "small-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.0015813850332051516,
+   "repeat": 1,
+   "rss_kb": 14648,
+   "message": ""
+  },
+  {
+   "id": "small100-002",
+   "size": "small100",
+   "tags": [
+    "bits100",
+    "small-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.0015699430368840694,
+   "repeat": 1,
+   "rss_kb": 14648,
+   "message": ""
+  },
+  {
+   "id": "small100-003",
+   "size": "small100",
+   "tags": [
+    "bits100",
+    "small-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.001568224048241973,
+   "repeat": 1,
+   "rss_kb": 14648,
+   "message": ""
+  },
+  {
+   "id": "unbal100-000",
+   "size": "unbal100",
+   "tags": [
+    "bits100",
+    "semiprime",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.5906079490669072,
+   "repeat": 1,
+   "rss_kb": 15948,
+   "message": ""
+  },
+  {
+   "id": "unbal100-001",
+   "size": "unbal100",
+   "tags": [
+    "bits100",
+    "semiprime",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.47056695888750255,
+   "repeat": 1,
+   "rss_kb": 16052,
+   "message": ""
+  },
+  {
+   "id": "unbal100-002",
+   "size": "unbal100",
+   "tags": [
+    "bits100",
+    "semiprime",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.4361074499320239,
+   "repeat": 1,
+   "rss_kb": 16200,
+   "message": ""
+  },
+  {
+   "id": "unbal100-003",
+   "size": "unbal100",
+   "tags": [
+    "bits100",
+    "semiprime",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.40802470105700195,
+   "repeat": 1,
+   "rss_kb": 16240,
+   "message": ""
+  },
+  {
+   "id": "repeat100-000",
+   "size": "repeat100",
+   "tags": [
+    "bits100",
+    "repeated-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.5981118290219456,
+   "repeat": 1,
+   "rss_kb": 16040,
+   "message": ""
+  },
+  {
+   "id": "repeat100-001",
+   "size": "repeat100",
+   "tags": [
+    "bits99",
+    "repeated-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.5611608389299363,
+   "repeat": 1,
+   "rss_kb": 16116,
+   "message": ""
+  },
+  {
+   "id": "repeat100-002",
+   "size": "repeat100",
+   "tags": [
+    "bits100",
+    "repeated-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.5651907518040389,
+   "repeat": 1,
+   "rss_kb": 16204,
+   "message": ""
+  },
+  {
+   "id": "repeat100-003",
+   "size": "repeat100",
+   "tags": [
+    "bits100",
+    "repeated-factor"
+   ],
+   "status": "ok",
+   "wall_s": 1.0075470269657671,
+   "repeat": 1,
+   "rss_kb": 16192,
+   "message": ""
+  },
+  {
+   "id": "close100-000",
+   "size": "close100",
+   "tags": [
+    "bits100",
+    "close-factors",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.3738322979770601,
+   "repeat": 1,
+   "rss_kb": 16024,
+   "message": ""
+  },
+  {
+   "id": "close100-001",
+   "size": "close100",
+   "tags": [
+    "bits100",
+    "close-factors",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.5481106359511614,
+   "repeat": 1,
+   "rss_kb": 16044,
+   "message": ""
+  },
+  {
+   "id": "close100-002",
+   "size": "close100",
+   "tags": [
+    "bits100",
+    "close-factors",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.60406050295569,
+   "repeat": 1,
+   "rss_kb": 16128,
+   "message": ""
+  },
+  {
+   "id": "close100-003",
+   "size": "close100",
+   "tags": [
+    "bits100",
+    "close-factors",
+    "semiprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.645983099937439,
+   "repeat": 1,
+   "rss_kb": 16128,
+   "message": ""
+  },
+  {
+   "id": "multi80-000",
+   "size": "multi80",
+   "tags": [
+    "4-primes",
+    "bits80",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.073380331043154,
+   "repeat": 1,
+   "rss_kb": 15136,
+   "message": ""
+  },
+  {
+   "id": "multi80-001",
+   "size": "multi80",
+   "tags": [
+    "3-primes",
+    "bits80",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.09897393407300115,
+   "repeat": 1,
+   "rss_kb": 15140,
+   "message": ""
+  },
+  {
+   "id": "multi80-002",
+   "size": "multi80",
+   "tags": [
+    "3-primes",
+    "bits80",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.10094626806676388,
+   "repeat": 1,
+   "rss_kb": 15200,
+   "message": ""
+  },
+  {
+   "id": "multi80-003",
+   "size": "multi80",
+   "tags": [
+    "4-primes",
+    "bits80",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.09450531983748078,
+   "repeat": 1,
+   "rss_kb": 15228,
+   "message": ""
+  },
+  {
+   "id": "multi80-004",
+   "size": "multi80",
+   "tags": [
+    "4-primes",
+    "bits79",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.09802610613405704,
+   "repeat": 1,
+   "rss_kb": 15252,
+   "message": ""
+  },
+  {
+   "id": "multi80-005",
+   "size": "multi80",
+   "tags": [
+    "3-primes",
+    "bits80",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.0866737300530076,
+   "repeat": 1,
+   "rss_kb": 15256,
+   "message": ""
+  },
+  {
+   "id": "multi100-000",
+   "size": "multi100",
+   "tags": [
+    "4-primes",
+    "bits100",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.6185609770473093,
+   "repeat": 1,
+   "rss_kb": 15980,
+   "message": ""
+  },
+  {
+   "id": "multi100-001",
+   "size": "multi100",
+   "tags": [
+    "4-primes",
+    "bits100",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.4000144270248711,
+   "repeat": 1,
+   "rss_kb": 16092,
+   "message": ""
+  },
+  {
+   "id": "multi100-002",
+   "size": "multi100",
+   "tags": [
+    "3-primes",
+    "bits100",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.6084622971247882,
+   "repeat": 1,
+   "rss_kb": 16036,
+   "message": ""
+  },
+  {
+   "id": "multi100-003",
+   "size": "multi100",
+   "tags": [
+    "4-primes",
+    "bits100",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.448748362949118,
+   "repeat": 1,
+   "rss_kb": 16140,
+   "message": ""
+  },
+  {
+   "id": "multi100-004",
+   "size": "multi100",
+   "tags": [
+    "4-primes",
+    "bits100",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.5475172710139304,
+   "repeat": 1,
+   "rss_kb": 16256,
+   "message": ""
+  },
+  {
+   "id": "multi100-005",
+   "size": "multi100",
+   "tags": [
+    "3-primes",
+    "bits100",
+    "multi-factor"
+   ],
+   "status": "ok",
+   "wall_s": 0.41895580384880304,
+   "repeat": 1,
+   "rss_kb": 16256,
+   "message": ""
+  }
+ ]
+}

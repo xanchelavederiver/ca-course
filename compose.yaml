@@ -25,6 +25,16 @@ services:
     build:
       context: .
       dockerfile: docker/taskgen/Dockerfile
+    environment:
+      CA_IMAGE: taskgen
+
+  # C toolchain for compiled capstone references (Plan 4: `make bench`, `make check-capstone`).
+  capstone-c:
+    <<: *repo
+    image: ca-course/capstone-c:latest
+    build:
+      context: .
+      dockerfile: docker/capstone-c/Dockerfile
 
   # --- web app (Plan 2): `make web` / `make web-dev` -------------------------------
   # Only ever published on 127.0.0.1: the app runs the instructor's task code.

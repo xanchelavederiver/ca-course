@@ -1,0 +1,275 @@
+{
+  "capstone": "lll",
+  "generator": "lll",
+  "generator_version": 1,
+  "seed": 20261014,
+  "taskgen_version": "0.4.0",
+  "sizes": {
+    "gauss": {
+      "count": 30,
+      "sha256": "360aaaf3303c1826449109be1f5313e57bede1d11d08c9528d5b53e8f96c7bb8",
+      "commit": true,
+      "params": {
+        "op": "gauss",
+        "bits": [
+          8,
+          32,
+          128,
+          512
+        ]
+      }
+    },
+    "check": {
+      "count": 30,
+      "sha256": "ed0f26563b6cac065aa322d97a00ec5ff0e19c84730f20c2aadae02a736a4dd6",
+      "commit": true,
+      "params": {
+        "op": "check",
+        "dims": [
+          1,
+          10
+        ],
+        "bits": [
+          8,
+          32
+        ],
+        "deltas": [
+          "3/4",
+          "99/100",
+          "1",
+          "1/2"
+        ]
+      }
+    },
+    "corner": {
+      "count": 36,
+      "sha256": "723c4d2e0e2fddc7c7d631ee4e4a7b5f59c5e0e1c03a43faf0639450f4c5a1ca",
+      "commit": true,
+      "params": {
+        "op": "lll",
+        "dims": [
+          2,
+          12
+        ],
+        "bits": [
+          8,
+          32
+        ],
+        "deltas": [
+          "99/100",
+          "3/4"
+        ],
+        "kinds": [
+          "already_reduced",
+          "nearly_dependent",
+          "orthogonal",
+          "dim1",
+          "dependent",
+          "rank_deficient",
+          "zero_vector",
+          "duplicate",
+          "delta1",
+          "delta_low",
+          "scrambled",
+          "qary"
+        ]
+      }
+    },
+    "cong": {
+      "count": 12,
+      "sha256": "42d4f879fa5331eacee6e7af0eda94cebb2090450a5964907726fdc2d7b62e98",
+      "commit": true,
+      "params": {
+        "op": "congruential",
+        "bits": [
+          32,
+          64,
+          128,
+          256,
+          512,
+          1024
+        ]
+      }
+    },
+    "knap16": {
+      "count": 8,
+      "sha256": "b20459e86cf79101e73156b0ec1f195ec56f53be5f048994167879ef3d46f653",
+      "commit": true,
+      "params": {
+        "op": "knapsack",
+        "n": 16
+      }
+    },
+    "knap32": {
+      "count": 8,
+      "sha256": "71e77ce788ee2020f8900677af7927196b09c71fe4cf3a70419edf32ce70a10b",
+      "commit": true,
+      "params": {
+        "op": "knapsack",
+        "n": 32
+      }
+    },
+    "knap48": {
+      "count": 8,
+      "sha256": "c3df2a60871742c23beb4d0ad4db684263d9e4b164cee998e53a95b3985d719c",
+      "commit": false,
+      "params": {
+        "op": "knapsack",
+        "n": 48
+      }
+    },
+    "knap64": {
+      "count": 6,
+      "sha256": "8b89266b18b4cd5c3b32c821b49e984431f78d3a580829fc246e7d3927194dd7",
+      "commit": false,
+      "params": {
+        "op": "knapsack",
+        "n": 64
+      }
+    },
+    "lll5": {
+      "count": 10,
+      "sha256": "c4394b0740dda18274f1834349fccd5dabf75ef9c6c35a4e5ed45688c8b89146",
+      "commit": true,
+      "params": {
+        "op": "lll",
+        "n": 5,
+        "bits": [
+          16,
+          64,
+          128
+        ],
+        "deltas": [
+          "99/100",
+          "3/4"
+        ]
+      }
+    },
+    "lll10": {
+      "count": 10,
+      "sha256": "e91c48b22e6b63b6b0b498dcb93544edd603017dd25c31b94ccbc30f2c0f6496",
+      "commit": true,
+      "params": {
+        "op": "lll",
+        "n": 10,
+        "bits": [
+          16,
+          64,
+          128
+        ],
+        "deltas": [
+          "99/100",
+          "3/4"
+        ]
+      }
+    },
+    "lll15": {
+      "count": 10,
+      "sha256": "50bf01a2f35f858387dc997ce31154aa3fd20a5e65bf2ce15dba692d0f44192d",
+      "commit": true,
+      "params": {
+        "op": "lll",
+        "n": 15,
+        "bits": [
+          16,
+          64,
+          128
+        ],
+        "deltas": [
+          "99/100",
+          "3/4"
+        ]
+      }
+    },
+    "lll20": {
+      "count": 10,
+      "sha256": "731ea4baa485b6922a1090f5c9b0187fc3cbdf6a3f3338550a774e6afaa5dc65",
+      "commit": false,
+      "params": {
+        "op": "lll",
+        "n": 20,
+        "bits": [
+          16,
+          64,
+          128
+        ],
+        "deltas": [
+          "99/100",
+          "3/4"
+        ]
+      }
+    },
+    "lll25": {
+      "count": 10,
+      "sha256": "ae7951982cef0e95163312418a3065bbbceb3a92610227707f5c8e15eaecd779",
+      "commit": false,
+      "params": {
+        "op": "lll",
+        "n": 25,
+        "bits": [
+          16,
+          64,
+          128
+        ],
+        "deltas": [
+          "99/100",
+          "3/4"
+        ]
+      }
+    },
+    "lll30": {
+      "count": 16,
+      "sha256": "b4cdcb3a7e4dce9136a1dcf4c4d6bf5c3ce12ede111f11b25e01ee46a9929974",
+      "commit": false,
+      "params": {
+        "op": "lll",
+        "n": 30,
+        "bits": [
+          16,
+          64,
+          128
+        ],
+        "deltas": [
+          "99/100",
+          "3/4"
+        ]
+      }
+    },
+    "lll40": {
+      "count": 12,
+      "sha256": "7dfaa184ccc0155d4d257c7c18a423619a5c149c89fa6d73c659f0abe2146b00",
+      "commit": false,
+      "params": {
+        "op": "lll",
+        "n": 40,
+        "bits": [
+          16,
+          64,
+          128
+        ],
+        "deltas": [
+          "99/100",
+          "3/4"
+        ]
+      }
+    },
+    "lll50": {
+      "count": 10,
+      "sha256": "a37e28343d3a88c44be3e03c23bd6865efbad2f1ef4129dfbf64162df6d9ba88",
+      "commit": false,
+      "params": {
+        "op": "lll",
+        "n": 50,
+        "bits": [
+          16,
+          64,
+          128
+        ],
+        "deltas": [
+          "99/100",
+          "3/4"
+        ]
+      }
+    }
+  }
+}

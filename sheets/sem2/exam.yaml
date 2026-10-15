@@ -1,0 +1,67 @@
+# 2nd-semester экзамен, written part: individual variants with wider coverage than the
+# контрольная. One slot per topic block of the question list
+# (materials/sem2/exam/questions.yaml, numbers in the slot comments); `taskgen exam
+# coverage --sem 2` shows which questions the slots cover. Tasks are listed explicitly
+# (stable pools for issued runs, see README). Coverage gaps (questions without tasks on
+# their topic): none — the theory-only parts (the trivial complexity estimates in 1, 10, 22,
+# the orbit structure in 6, the parameter choice of the quadratic sieve in 14) are asked
+# orally.
+# Budget: 10 slots, complexity 1-3 each (10..25); 15-17 keeps the variants comparable.
+id: sem2-exam
+kind: individual
+title: Экзамен (письменная часть)
+semester: 2
+preset: sem2
+document:
+  toc: false
+intro: |
+  Письменная часть экзамена по курсу компьютерной алгебры (2-й семестр).
+
+  Каждому студенту предназначен индивидуальный вариант, номер которого совпадает с номером студента в списке группы. Вариант состоит из десяти заданий, по одному на каждый раздел курса.
+
+  \textbf{Обратите внимание}: варианты для студентов групп 6411, 6412 и 6413 приведены в разделах «Варианты группы 6411», «Варианты группы 6412» и «Варианты группы 6413», соответственно!
+
+  Критерии оценивания:
+  \begin{itemize}
+    \item если при выполнении задания студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия и получил верный ответ, задание оценивается одним баллом;
+    \item если студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия, но получил неверный ответ из-за допущенной вычислительной ошибки, задание оценивается половиной балла;
+    \item если студент верно и точно применил требуемый алгоритм, но не полно или не понятно описал шаги и действия, но получил верный ответ, задание также оценивается половиной балла;
+    \item в случаях, когда решение не удовлетворяет изложенным выше требованиям, задание оценивается в 0 баллов.
+  \end{itemize}
+
+  При решении можно пользоваться всем, чем угодно, кроме помощи одногруппников.
+
+groups:
+  - {name: "6411", count: 42}
+  - {name: "6412", count: 42}
+  - {name: "6413", count: 42}
+
+budget: {min: 15, max: 17}
+
+slots:
+  - title: Дискретный логарифм, алгоритмы Шенкса и Полига--Хеллмана   # questions 1-4
+    tasks: [dlp.shanks, dlp.shanks_subgroup, dlp.pohlig_hellman, dlp.prime_power,
+            dlp.diffie_hellman, dlp.elgamal, number_theory.crt, number_theory.crt_general]
+  - title: Коллизии и ρ-алгоритм Полларда                              # 5-8
+    tasks: [dlp.collision_probability, dlp.rho, dlp.rho_distinguished]
+  - title: Метод исчисления индексов                                   # 9
+    tasks: [dlp.ic_relations, dlp.ic_linear_system, dlp.ic_individual_log, dlp.index_calculus]
+  - title: Задача факторизации и RSA                                   # 10, 11
+    tasks: [crypto.rsa_toy, crypto.rsa_factor_from_phi, crypto.rsa_factor_from_d,
+            crypto.rsa_common_modulus]
+  - title: Разность квадратов, квадратичное решето, алгоритм p − 1     # 12-15
+    tasks: [factoring.fermat, factoring.congruence_of_squares, factoring.quadratic_sieve,
+            factoring.pollard_pm1, factoring.pm1_backtrack]
+  - title: Квадратичные сравнения                                      # 16, 17
+    tasks: [number_theory.sqrt_cipolla, number_theory.sqrt_p34, number_theory.sqrt_composite,
+            number_theory.hensel_sqrt]
+  - title: Группа точек эллиптической кривой                           # 18-20
+    tasks: [ecc.point_addition, ecc.point_counting, ecc.point_order]
+  - title: Возведение точки в степень и ECDLP                          # 21-23
+    tasks: [ecc.double_and_add_binary, ecc.double_and_add_ternary, ecc.naf, ecc.ecdh, ecc.rho]
+  - title: Алгоритм Ленстры                                            # 24
+    tasks: [factoring.lenstra, factoring.ec_mod_n_add]
+  - title: Решётки                                                     # 25-28
+    tasks: [lattices.determinant_hadamard, lattices.gauss, lattices.babai_easy,
+            lattices.babai_compare, lattices.babai_hard, lattices.gram_schmidt, lattices.lll_2d,
+            lattices.lll, crypto.congruential]

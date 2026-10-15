@@ -1,0 +1,285 @@
+{
+  "capstone": "pollard-rho-ecdlp",
+  "generator": "pollard_rho_ecdlp",
+  "generator_version": 1,
+  "seed": 20261014,
+  "taskgen_version": "0.4.0",
+  "sizes": {
+    "n20": {
+      "count": 20,
+      "sha256": "7a19f32bee2a884d1c85e5a23a950a149a979aece7d161dc64ba495f175c9a77",
+      "commit": true,
+      "params": {
+        "bits": 20,
+        "method": "floyd",
+        "kinds": [
+          "prime",
+          "cofactor",
+          "a0",
+          "b0",
+          "composite",
+          "q-zero",
+          "q-p",
+          "q-minus-p",
+          "given-start"
+        ]
+      }
+    },
+    "n24": {
+      "count": 20,
+      "sha256": "feebea5d856cff8cee9831a2e856e71bbd1a629c2f7ddb8a4d2c199daea757a6",
+      "commit": true,
+      "params": {
+        "bits": 24,
+        "method": "floyd",
+        "kinds": [
+          "prime",
+          "cofactor",
+          "a0",
+          "b0",
+          "composite",
+          "q-zero",
+          "q-p",
+          "q-minus-p",
+          "given-start"
+        ]
+      }
+    },
+    "n28": {
+      "count": 10,
+      "sha256": "0f674545ef6cfd2211f9452ec99dc2ffe47971f2ba7fe9b079546486a88d384c",
+      "commit": true,
+      "params": {
+        "bits": 28,
+        "method": "floyd",
+        "kinds": [
+          "prime",
+          "prime",
+          "cofactor",
+          "a0",
+          "b0",
+          "composite",
+          "given-start"
+        ]
+      }
+    },
+    "n32": {
+      "count": 10,
+      "sha256": "2ba1d326367095757aab1d0d450f915ed55f2adf3bf7a0f95e244a32e2c47eb3",
+      "commit": true,
+      "params": {
+        "bits": 32,
+        "method": "floyd",
+        "kinds": [
+          "prime",
+          "prime",
+          "cofactor",
+          "a0",
+          "b0",
+          "composite",
+          "given-start"
+        ]
+      }
+    },
+    "n36": {
+      "count": 8,
+      "sha256": "2c49b3e0c0dd070ee8f8a5ea5fbb9337cc54a156412312d3a916b0326ac2a68c",
+      "commit": false,
+      "params": {
+        "bits": 36,
+        "method": "floyd",
+        "kinds": [
+          "prime",
+          "prime",
+          "cofactor",
+          "a0"
+        ]
+      }
+    },
+    "n40": {
+      "count": 6,
+      "sha256": "453dd37e53d399cfbcdbaa816ee534dea913d03ff538a45644dc6953bef214e4",
+      "commit": false,
+      "params": {
+        "bits": 40,
+        "method": "floyd",
+        "kinds": [
+          "prime",
+          "prime",
+          "cofactor",
+          "a0"
+        ]
+      }
+    },
+    "n44": {
+      "count": 3,
+      "sha256": "41a6dc271101dd08dbee10c6d078a587ca71c4abb5674cbf4ad44df48b858227",
+      "commit": false,
+      "params": {
+        "bits": 44,
+        "method": "floyd",
+        "kinds": [
+          "prime",
+          "cofactor"
+        ]
+      }
+    },
+    "dp20": {
+      "count": 20,
+      "sha256": "d81ddd7577b985e8e777573023738eab4c5df2ea8a182323a459f1c4df021402",
+      "commit": true,
+      "params": {
+        "bits": 20,
+        "method": "dp",
+        "kinds": [
+          "prime",
+          "cofactor",
+          "a0",
+          "b0",
+          "composite",
+          "q-zero",
+          "q-p",
+          "q-minus-p",
+          "given-start"
+        ]
+      }
+    },
+    "dp28": {
+      "count": 10,
+      "sha256": "5f557666011cf3636614f0301cf453fca3c6320d517a99f3590a452abb235213",
+      "commit": true,
+      "params": {
+        "bits": 28,
+        "method": "dp",
+        "kinds": [
+          "prime",
+          "prime",
+          "cofactor",
+          "a0",
+          "b0",
+          "composite",
+          "given-start"
+        ]
+      }
+    },
+    "dp36": {
+      "count": 8,
+      "sha256": "da6f359f642f7385a51c12253e0690e2c9e3ad891b89ace330a379137e93fa2c",
+      "commit": false,
+      "params": {
+        "bits": 36,
+        "method": "dp",
+        "kinds": [
+          "prime",
+          "prime",
+          "cofactor",
+          "a0"
+        ]
+      }
+    },
+    "dp40": {
+      "count": 6,
+      "sha256": "1337c3dfb075ab8602122ac69cd60101899693f6bbce34986ea9581411989497",
+      "commit": false,
+      "params": {
+        "bits": 40,
+        "method": "dp",
+        "kinds": [
+          "prime",
+          "prime",
+          "cofactor",
+          "a0"
+        ]
+      }
+    },
+    "dp44": {
+      "count": 3,
+      "sha256": "c92479d3fc076ca45f0c2d0de17cffd62a79bda309c2015dae81ae2a5cd57f88",
+      "commit": false,
+      "params": {
+        "bits": 44,
+        "method": "dp",
+        "kinds": [
+          "prime",
+          "cofactor"
+        ]
+      }
+    },
+    "p64-n32": {
+      "count": 5,
+      "sha256": "01b177f8d26e4ce88bd0cbcb997f9eab40906f334be07d8adcdec576570d67e4",
+      "commit": true,
+      "params": {
+        "bits": 32,
+        "p_bits": 64,
+        "method": "floyd",
+        "kinds": [
+          "prime",
+          "a0"
+        ]
+      }
+    },
+    "p100-n32": {
+      "count": 5,
+      "sha256": "d05470a31c312bf2346d8882c0a81510cff6de45118c8385dede8db1456cece9",
+      "commit": true,
+      "params": {
+        "bits": 32,
+        "p_bits": 100,
+        "method": "floyd",
+        "kinds": [
+          "prime",
+          "a0"
+        ]
+      }
+    },
+    "ord32": {
+      "count": 10,
+      "sha256": "2efc8ae884caa26f764e07ea6f70a31de5a9202122def8207c2be8b22f1fc3e3",
+      "commit": true,
+      "params": {
+        "op": "order",
+        "p_bits": 32,
+        "kinds": [
+          "prime",
+          "cofactor",
+          "a0",
+          "b0",
+          "composite"
+        ]
+      }
+    },
+    "ord48": {
+      "count": 10,
+      "sha256": "414a5da064ff91b464fb49cccdfcff8801378b01f6f5940b7eb4c45a4c0e30f5",
+      "commit": true,
+      "params": {
+        "op": "order",
+        "p_bits": 48,
+        "kinds": [
+          "prime",
+          "cofactor",
+          "a0",
+          "b0",
+          "composite"
+        ]
+      }
+    },
+    "ord64": {
+      "count": 5,
+      "sha256": "753c7dacec98bc50541fdcf09b2e4da0b6cdf170401a5085ea193d91f4e42cd2",
+      "commit": true,
+      "params": {
+        "op": "order",
+        "p_bits": 64,
+        "kinds": [
+          "prime",
+          "cofactor",
+          "a0",
+          "b0",
+          "composite"
+        ]
+      }
+    }
+  }
+}

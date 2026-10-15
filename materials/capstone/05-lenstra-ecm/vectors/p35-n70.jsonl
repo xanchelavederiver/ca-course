@@ -1,0 +1,10 @@
+{"expected":{"factorization":[[25312564271,1],[34186127477,1]],"prime":false},"id":"p35-n70-000","input":{"n":865338548938161574267,"op":"factor"},"size":"p35-n70","tags":["balanced","n70","p35","semiprime"]}
+{"expected":{"factorization":[[21692607943,1],[33562245961,1]],"prime":false},"id":"p35-n70-001","input":{"n":728052643318508268223,"op":"factor"},"size":"p35-n70","tags":["balanced","n70","p35","semiprime"]}
+{"expected":{"factorization":[[27276660109,1],[29060938603,1]],"prime":false},"id":"p35-n70-002","input":{"n":792685344722548287727,"op":"factor"},"size":"p35-n70","tags":["balanced","n70","p35","semiprime"]}
+{"expected":{"factorization":[[24495930127,1],[33405819613,1]],"prime":false},"id":"p35-n70-003","input":{"n":818306623075214180851,"op":"factor"},"size":"p35-n70","tags":["balanced","n70","p35","semiprime"]}
+{"expected":{"factorization":[[18718839241,1],[19821907799,1]],"prime":false},"id":"p35-n70-004","input":{"n":371043105539405140559,"op":"factor"},"size":"p35-n70","tags":["balanced","n69","p35","semiprime"]}
+{"expected":{"factorization":[[27331084439,1],[28669026233,1]],"prime":false},"id":"p35-n70-005","input":{"n":783555576758029088287,"op":"factor"},"size":"p35-n70","tags":["balanced","n70","p35","semiprime"]}
+{"expected":{"factorization":[[20741470229,1],[26705127767,1]],"prime":false},"id":"p35-n70-006","input":{"n":553903612540871748643,"op":"factor"},"size":"p35-n70","tags":["balanced","n69","p35","semiprime"]}
+{"expected":{"factorization":[[17575435597,1],[20906178283,1]],"prime":false},"id":"p35-n70-007","input":{"n":367435189992266539951,"op":"factor"},"size":"p35-n70","tags":["balanced","n69","p35","semiprime"]}
+{"expected":{"factorization":[[17486913527,1],[27620350337,1]],"prime":false},"id":"p35-n70-008","input":{"n":482994677928564308599,"op":"factor"},"size":"p35-n70","tags":["balanced","n69","p35","semiprime"]}
+{"expected":{"factorization":[[18335005987,1],[32079246671,1]],"prime":false},"id":"p35-n70-009","input":{"n":588173179771234819277,"op":"factor"},"size":"p35-n70","tags":["balanced","n69","p35","semiprime"]}

@@ -1,0 +1,6 @@
+{"expected":{"factorization":[[865159,1],[910661,1],[969929,1],[1032391,1]]},"id":"multi80-000","input":{"full":true,"n":788927005041196558893661},"size":"multi80","tags":["4-primes","bits80","multi-factor"]}
+{"expected":{"factorization":[[54239347,1],[109001141,1],[123422837,1]]},"id":"multi80-001","input":{"full":true,"n":729694413411480429647899},"size":"multi80","tags":["3-primes","bits80","multi-factor"]}
+{"expected":{"factorization":[[51647027,1],[133776263,1],[134136553,1]]},"id":"multi80-002","input":{"full":true,"n":926769064444307585151853},"size":"multi80","tags":["3-primes","bits80","multi-factor"]}
+{"expected":{"factorization":[[839117,1],[845809,1],[955601,1],[1026563,1]]},"id":"multi80-003","input":{"full":true,"n":696236880106730526704039},"size":"multi80","tags":["4-primes","bits80","multi-factor"]}
+{"expected":{"factorization":[[795203,1],[838693,1],[927361,1],[937121,1]]},"id":"multi80-004","input":{"full":true,"n":579596195370390991264399},"size":"multi80","tags":["4-primes","bits79","multi-factor"]}
+{"expected":{"factorization":[[57774737,1],[124829687,1],[130635217,1]]},"id":"multi80-005","input":{"full":true,"n":942141490196256426723223},"size":"multi80","tags":["3-primes","bits80","multi-factor"]}

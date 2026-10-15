@@ -1,0 +1,129 @@
+# Экзамен question list (semester 2). Source of questions-body.tex:
+#   taskgen exam render [--sem 2]      (make exams: render + build both PDFs)
+# The schema is described in materials/sem1/exam/questions.yaml.
+#
+# Questions 1-24: port of the June 2026 list (tmp/вопросы на экзамен/экзамен - Вопросы*.pdf),
+# text and references verbatim (LaTeX typography). Where the two original PDFs differ, the
+# fuller wording is kept:
+#   8   the plain list ends with a full stop, the references list does not;
+#   14  «(с выводом)» is only in the references list;
+#   22  «...протокол Диффи-Хеллмана на эллиптических кривых» is only in the plain list.
+# Questions 25-28 (lattices, lectures 11-12) are new (`new: true`): to be reviewed.
+title: Вопросы на экзамен
+genitive: вопросов на экзамен
+date: июнь 2027
+sheet: sheets/sem2/exam.yaml
+literature: [hps, galbraith, crandall-pomerance, msu-ent, glukhov]
+
+topics:
+  - title: Дискретное логарифмирование и разложение на простые множители
+    questions:
+      - id: sem2:1
+        text:
+          - 'Задача дискретного логарифмирования в $\Zn{n}$. Применение DLP на практике: протокол Диффи"--~Хеллмана. Тривиальная оценка сложности DLP.'
+          - Алгоритм Шенкса (Babystep-Giantstep), оценка сложности.
+        refs: [{key: hps, loc: Глава 2}]
+        topics: [dlp.generic]
+      - id: sem2:3
+        text:
+          - Алгоритм решения DLP методом сведения к собственным подгруппам (по основанию, порядок которого "--- степень простого числа).
+          - Китайская теорема об остатках. Алгоритм Полига"--~Хеллмана, оценка сложности.
+        refs: [{key: hps, loc: Глава 2}]
+        topics: [dlp.pohlig_hellman, number_theory.crt]
+      - id: sem2:5
+        text:
+          - Теорема о коллизиях, её применение для оценки ожидаемой длины списков, с заданной вероятностью обладающих одинаковым элементом. Тривиальный алгоритм решения DLP с помощью поиска коллизии двух списков случайных степеней основания логарифма $g$.
+          - Понятие прямой орбиты элемента конечного множества, структура орбиты. Теорема о периоде циклической части орбиты.
+          - Решение DLP в $\Zn{n}$ с помощью $\rho$-алгоритма Полларда и алгоритма поиска цикла Флойда, оценка сложности.
+        refs: [{key: hps, loc: Глава 4}, {key: galbraith, sep: " "}]
+        topics: [dlp.collisions, dlp.rho]
+      - id: sem2:8
+        text: Решение DLP в $\Zn{n}$ с помощью $\rho$-алгоритма Полларда с выделенными точками, оценка сложности.
+        refs: [{key: galbraith}]
+        topics: [dlp.rho]
+      - id: sem2:9
+        text: Алгоритм решения DLP методом исчисления индексов (index calculus), оценка сложности.
+        refs: [{key: hps, loc: Раздел 3.8}, {key: crandall-pomerance, loc: Раздел 6.4}]
+        topics: [dlp.index_calculus]
+      - id: sem2:10
+        text: Основная теорема арифметики. Формулировка задачи разложения (факторизации) составного числа. Тривиальная оценка сложности задачи факторизации.
+        refs: [{text: "любой учебник по теории чисел, например, Бухштаб"}, {key: msu-ent}]
+        topics: [factoring]
+      - id: sem2:11
+        text: "Основной и расширенный алгоритм Евклида. Теорема Эйлера. Применение сложной задачи факторизации на практике: RSA."
+        refs: [{key: msu-ent}, {key: hps, loc: Раздел 3.2}]
+        topics: [number_theory.euclid, crypto.rsa]
+      - id: sem2:12
+        text:
+          - Разложение на множители на основе разности квадратов. Трёхшаговая процедура разложения числа на множители.
+          - Понятие $B$-гладкого числа. Алгоритм Квадратичного решета.
+          - Оценка сложности и метод выбора параметров алгоритма Квадратичного решета (с выводом).
+        refs: [{key: hps, loc: Разделы 3.6--3.7}, {key: crandall-pomerance, loc: Глава 6}]
+        topics: [factoring.fermat, factoring.quadratic_sieve]
+      - id: sem2:15
+        text: Алгоритм факторизации $p - 1$ Полларда, оценка сложности.
+        refs: [{key: hps, loc: Раздел 3.5}, {key: crandall-pomerance, loc: Раздел 5.4}]
+        topics: [factoring.pm1]
+      - id: sem2:16
+        text: Критерий Эйлера существования квадратного корня по модулю простого числа. Решение квадратичного сравнения по модулю нечётного простого числа методом Чиполлы.
+        refs: [{key: glukhov, loc: Раздел 2.3--2.4}, {text: или Википедия, sep: " "}]
+        topics: [number_theory.sqrt]
+      - id: sem2:17
+        text: Лемма Гензеля, её приложение к решению квадратичного сравнения по модулю степени нечётного простого числа.
+        refs: [{key: msu-ent}]
+        topics: [number_theory.hensel]
+
+  - title: Эллиптические кривые
+    questions:
+      - id: sem2:18
+        text:
+          - Уравнение эллиптической кривой в форме Вейерштрасса. Определение эллиптической кривой, дискриминант.
+          - Операция сложения точек кривой, группа точек эллиптической кривой.
+          - Эллиптические кривые над конечными полями, конечная группа точек эллиптической кривой. Верхняя граница числа точек в группе, теорема Хассе (без доказательства).
+        refs: [{key: hps, loc: Разделы 6.1--6.2}, {key: crandall-pomerance, loc: Глава 7}]
+        topics: [ecc.group_law]
+      - id: sem2:21
+        text: Быстрый алгоритм возведения точки в степень. Возведение в степень на основе тернарного разложения показателя. Оценка максимального и ожидаемого (среднего) количества элементарных групповых операций.
+        refs: [{key: hps, loc: Разделы 6.3--6.4}]
+        topics: [ecc.scalar_mult]
+      - id: sem2:22
+        text: 'Задача дискретного логарифмирования для группы точек на эллиптической кривой, ECDLP, тривиальная оценка её сложности. Применение ECDLP на практике: протокол Диффи"--~Хеллмана на эллиптических кривых.'
+        refs: [{key: hps, loc: Разделы 6.3--6.4}]
+        topics: [ecc.ecdlp]
+      - id: sem2:23
+        text: Решение ECDLP с помощью $\rho$-алгоритма Полларда, оценка сложности.
+        refs: [{key: hps, loc: Раздел 5.5}]
+        topics: [ecc.ecdlp]
+      - id: sem2:24
+        text: Алгоритм Ленстры факторизации целого числа с помощью эллиптической кривой, его сложность (без доказательства).
+        refs: [{key: hps, loc: Раздел 6.6}]
+        topics: [factoring.ecm]
+
+  # New (Plan 4): lattices, lectures 11-12. Wording and references to be reviewed.
+  - title: Решётки
+    new: true
+    questions:
+      - id: sem2:25
+        new: true
+        text: Решётка, базис решётки, определитель решётки. Задачи о кратчайшем и ближайшем векторе (SVP, CVP). Алгоритм Гаусса редукции базиса двумерной решётки, оценка сложности.
+        refs: [{key: hps, loc: "Разделы 7.4--7.5, 7.13.1"}, {key: galbraith, loc: Раздел 17.1}]
+        lectures: [11]
+        topics: [lattices.svp]
+      - id: sem2:26
+        new: true
+        text: Ортогональность базиса, коэффициент Адамара. Решение задачи о ближайшем векторе алгоритмом Бабаи, его результат для «хорошего» и «плохого» базисов.
+        refs: [{key: hps, loc: "Разделы 7.6, 7.13.3"}, {key: galbraith, loc: Разделы 18.1--18.2}]
+        lectures: [11, 12]
+        topics: [lattices.cvp]
+      - id: sem2:27
+        new: true
+        text: Ортогонализация Грама"--~Шмидта. LLL-приведённый базис (условие уменьшения размера и условие Ловаса). Алгоритм LLL, его корректность и оценка сложности.
+        refs: [{key: hps, loc: Раздел 7.13.2}, {key: galbraith, loc: Глава 17}]
+        lectures: [12]
+        topics: [lattices.lll]
+      - id: sem2:28
+        new: true
+        text: Конгруэнтная криптосистема с открытым ключом. Атака на конгруэнтную криптосистему с помощью редукции базиса двумерной решётки.
+        refs: [{key: hps, loc: "Разделы 7.1, 7.14.1"}]
+        lectures: [11, 12]
+        topics: [crypto.lattice]

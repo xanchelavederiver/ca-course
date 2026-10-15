@@ -132,3 +132,13 @@ def test_documents_sheets_and_book(mini_repo):
     assert r"\documentclass[book]{ca-notes}" in text
     assert text.index("01-intro") < text.index("02-more")
     assert r"\subimport{../../../materials/sem1/lectures/01-intro/}{notes-body}" in text
+
+
+def test_check_includes_exam_question_lists(mini_repo):
+    crs = c.load_course(mini_repo / "course.yaml")
+    probs = c.check(crs, mini_repo, examples_stale=False)
+    assert any(p.where == "materials/sem1/exam/questions.yaml" and p.level == "warning"
+               and "missing" in p.message for p in probs)
+    # the real course: every list matches course.yaml, no exam errors
+    real = c.check(c.load_course(), examples_stale=False)
+    assert not [p for p in real if p.level == "error" and "/exam/" in p.where]

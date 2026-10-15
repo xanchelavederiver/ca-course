@@ -1,0 +1,10 @@
+{"expected":{"factorization":[[563,1],[953,1]],"prime":false},"id":"p10-n20-000","input":{"n":536539,"op":"factor"},"size":"p10-n20","tags":["balanced","n20","p10","semiprime"]}
+{"expected":{"factorization":[[907,1],[941,1]],"prime":false},"id":"p10-n20-001","input":{"n":853487,"op":"factor"},"size":"p10-n20","tags":["balanced","n20","p10","semiprime"]}
+{"expected":{"factorization":[[613,1],[977,1]],"prime":false},"id":"p10-n20-002","input":{"n":598901,"op":"factor"},"size":"p10-n20","tags":["balanced","n20","p10","semiprime"]}
+{"expected":{"factorization":[[691,1],[977,1]],"prime":false},"id":"p10-n20-003","input":{"n":675107,"op":"factor"},"size":"p10-n20","tags":["balanced","n20","p10","semiprime"]}
+{"expected":{"factorization":[[563,1],[1009,1]],"prime":false},"id":"p10-n20-004","input":{"n":568067,"op":"factor"},"size":"p10-n20","tags":["balanced","n20","p10","semiprime"]}
+{"expected":{"factorization":[[751,1],[761,1]],"prime":false},"id":"p10-n20-005","input":{"n":571511,"op":"factor"},"size":"p10-n20","tags":["balanced","n20","p10","semiprime"]}
+{"expected":{"factorization":[[631,1],[997,1]],"prime":false},"id":"p10-n20-006","input":{"n":629107,"op":"factor"},"size":"p10-n20","tags":["balanced","n20","p10","semiprime"]}
+{"expected":{"factorization":[[557,1],[1009,1]],"prime":false},"id":"p10-n20-007","input":{"n":562013,"op":"factor"},"size":"p10-n20","tags":["balanced","n20","p10","semiprime"]}
+{"expected":{"factorization":[[691,1],[751,1]],"prime":false},"id":"p10-n20-008","input":{"n":518941,"op":"factor"},"size":"p10-n20","tags":["balanced","n19","p10","semiprime"]}
+{"expected":{"factorization":[[739,1],[769,1]],"prime":false},"id":"p10-n20-009","input":{"n":568291,"op":"factor"},"size":"p10-n20","tags":["balanced","n20","p10","semiprime"]}

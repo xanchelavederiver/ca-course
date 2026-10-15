@@ -1,0 +1,4 @@
+{"expected":{"factorization":[[7,1],[133341925437138974205846444037,1]]},"id":"small100-000","input":{"n":933393478059972819440925108259},"size":"small100","tags":["bits100","small-factor"]}
+{"expected":{"factorization":[[127,1],[8138898422542231072030478053,1]]},"id":"small100-001","input":{"n":1033640099662863346147870712731},"size":"small100","tags":["bits100","small-factor"]}
+{"expected":{"factorization":[[3299,1],[288877962022760708065906901,1]]},"id":"small100-002","input":{"n":953008396713087575909426866399},"size":"small100","tags":["bits100","small-factor"]}
+{"expected":{"factorization":[[97,1],[8812291391659053859579184321,1]]},"id":"small100-003","input":{"n":854792264990928224379180879137},"size":"small100","tags":["bits100","small-factor"]}

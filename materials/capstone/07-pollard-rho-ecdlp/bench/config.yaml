@@ -1,0 +1,57 @@
+# Capstone 07 — Pollard's rho for the ECDLP. Schema: taskgen/capstone/config.py.
+# Calibration notes: bench/README.md.
+#
+# The cost of rho is ~ sqrt(n) group operations, n = ord(P), so the size classes are by
+# the bit length k of n (the plotted series: Floyd, k = 20..44). The other classes have
+# no `x` and are not plotted: the distinguished-point variant (dpK), large fields with a
+# 32-bit subgroup (the spec's "50-100 bits" read as the size of p), and ord(P) (ordK).
+generator: pollard_rho_ecdlp
+seed: 20261014
+image: taskgen
+command: sage -python reference/main.py
+timeout: 600
+x_label: "k = log2 ord(P), бит (метод Флойда)"
+
+sizes:
+  # --- Pollard's walk + Floyd (the method of the spec), all corner cases in small classes
+  - {name: n20, x: 20, count: 20, params: {bits: 20, method: floyd,
+      kinds: [prime, cofactor, a0, b0, composite, q-zero, q-p, q-minus-p, given-start]}}
+  - {name: n24, x: 24, count: 20, params: {bits: 24, method: floyd,
+      kinds: [prime, cofactor, a0, b0, composite, q-zero, q-p, q-minus-p, given-start]}}
+  - {name: n28, x: 28, count: 10, params: {bits: 28, method: floyd,
+      kinds: [prime, prime, cofactor, a0, b0, composite, given-start]}}
+  - {name: n32, x: 32, count: 10, params: {bits: 32, method: floyd,
+      kinds: [prime, prime, cofactor, a0, b0, composite, given-start]}}
+  - {name: n36, x: 36, count: 8, commit: false, timeout: 200, params: {bits: 36, method: floyd,
+      kinds: [prime, prime, cofactor, a0]}}
+  - {name: n40, x: 40, count: 6, commit: false, timeout: 600, params: {bits: 40, method: floyd,
+      kinds: [prime, prime, cofactor, a0]}}
+  - {name: n44, x: 44, count: 3, commit: false, timeout: 900, params: {bits: 44, method: floyd,
+      kinds: [prime, cofactor]}}
+  # --- r-adding walk + distinguished points
+  - {name: dp20, count: 20, params: {bits: 20, method: dp,
+      kinds: [prime, cofactor, a0, b0, composite, q-zero, q-p, q-minus-p, given-start]}}
+  - {name: dp28, count: 10, params: {bits: 28, method: dp,
+      kinds: [prime, prime, cofactor, a0, b0, composite, given-start]}}
+  - {name: dp36, count: 8, commit: false, timeout: 200, params: {bits: 36, method: dp,
+      kinds: [prime, prime, cofactor, a0]}}
+  - {name: dp40, count: 6, commit: false, timeout: 400, params: {bits: 40, method: dp,
+      kinds: [prime, prime, cofactor, a0]}}
+  - {name: dp44, count: 3, commit: false, timeout: 600, params: {bits: 44, method: dp,
+      kinds: [prime, cofactor]}}
+  # --- large p, 32-bit subgroup (Floyd): the cost depends on n, not on p
+  - {name: p64-n32, count: 5, params: {bits: 32, p_bits: 64, method: floyd, kinds: [prime, a0]}}
+  - {name: p100-n32, count: 5, params: {bits: 32, p_bits: 100, method: floyd, kinds: [prime, a0]}}
+  # --- ord(P) by Shanks-Mestre (item 2 of the spec)
+  - {name: ord32, count: 10, params: {op: order, p_bits: 32, kinds: [prime, cofactor, a0, b0, composite]}}
+  - {name: ord48, count: 10, params: {op: order, p_bits: 48, kinds: [prime, cofactor, a0, b0, composite]}}
+  - {name: ord64, count: 5, params: {op: order, p_bits: 64, kinds: [prime, cofactor, a0, b0, composite]}}
+
+requirements:
+  # "тестовые примеры с числами размеров примерно 50-100 бит": the size of p ...
+  ReqPBitsLo: {value: 50}
+  ReqPBitsHi: {value: 100}
+  # ... and of n = ord(P), which is what the time of rho depends on
+  ReqOrderBits: {value: 40}
+  # "несколько десятков секунд": slack x the median time of the reference at k = 40
+  ReqSeconds: {size: n40, stat: median, round: nice}

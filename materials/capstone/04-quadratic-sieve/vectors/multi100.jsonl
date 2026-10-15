@@ -1,0 +1,6 @@
+{"expected":{"factorization":[[29840257,1],[31252877,1],[32866567,1],[33094301,1]]},"id":"multi100-000","input":{"full":true,"n":1014378691730084139839500608463},"size":"multi100","tags":["4-primes","bits100","multi-factor"]}
+{"expected":{"factorization":[[27227339,1],[27227441,1],[30531749,1],[33273719,1]]},"id":"multi100-001","input":{"full":true,"n":753121511064239005906458439969},"size":"multi100","tags":["4-primes","bits100","multi-factor"]}
+{"expected":{"factorization":[[6881075273,1],[7099509839,1],[13506089749,1]]},"id":"multi100-002","input":{"full":true,"n":659803029659350035986435357203},"size":"multi100","tags":["3-primes","bits100","multi-factor"]}
+{"expected":{"factorization":[[26396677,1],[28357409,1],[31861771,1],[32525447,1]]},"id":"multi100-003","input":{"full":true,"n":775727148745961975584270839841},"size":"multi100","tags":["4-primes","bits100","multi-factor"]}
+{"expected":{"factorization":[[25986049,1],[29940497,1],[30707177,1],[31316749,1]]},"id":"multi100-004","input":{"full":true,"n":748196758005678212297736671269},"size":"multi100","tags":["4-primes","bits100","multi-factor"]}
+{"expected":{"factorization":[[7412444713,1],[8101604993,1],[16692589721,1]]},"id":"multi100-005","input":{"full":true,"n":1002435067667846977000459999489},"size":"multi100","tags":["3-primes","bits100","multi-factor"]}

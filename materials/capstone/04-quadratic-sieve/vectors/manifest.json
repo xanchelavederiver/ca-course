@@ -1,0 +1,173 @@
+{
+  "capstone": "quadratic-sieve",
+  "generator": "quadratic_sieve",
+  "generator_version": 1,
+  "seed": 20261014,
+  "taskgen_version": "0.4.0",
+  "sizes": {
+    "n40": {
+      "count": 10,
+      "sha256": "863b093480072f72d258414a9521761f0609f8e21086617410d8f3ee2d001969",
+      "commit": true,
+      "params": {
+        "bits": 40
+      }
+    },
+    "n50": {
+      "count": 10,
+      "sha256": "c83495fb0bc3c617c8cd09d717eff9a97d38b18990339c87a91b86ca71cbfccb",
+      "commit": true,
+      "params": {
+        "bits": 50
+      }
+    },
+    "n60": {
+      "count": 10,
+      "sha256": "fa7825a170bcaf4a0b1786e64ffd5913e07773897c8417b901ad8613bd0f3fca",
+      "commit": true,
+      "params": {
+        "bits": 60
+      }
+    },
+    "n70": {
+      "count": 10,
+      "sha256": "6938cf3b2df7de1aeecf64146c1c18ded61a85d4a194a7c1a84f8381c53c37dd",
+      "commit": true,
+      "params": {
+        "bits": 70
+      }
+    },
+    "n80": {
+      "count": 10,
+      "sha256": "3c1d638f5f51334bd3bf45a9de0c68b32c977b5060c052dcbc9ab661b509f000",
+      "commit": true,
+      "params": {
+        "bits": 80
+      }
+    },
+    "n90": {
+      "count": 10,
+      "sha256": "de099eb9660687a124d9cb598ae6ee3415d1dab05c42608a880e037890d15f61",
+      "commit": true,
+      "params": {
+        "bits": 90
+      }
+    },
+    "n100": {
+      "count": 10,
+      "sha256": "1710c97fde27f4c5265c5e6293ed94615f980c5b7fc3de50149b3c76378e35b1",
+      "commit": true,
+      "params": {
+        "bits": 100
+      }
+    },
+    "n110": {
+      "count": 8,
+      "sha256": "538039189f33b593c3e087f9c00c6d3b6b477c7a748e8c792b1cafc4cb3bacf9",
+      "commit": false,
+      "params": {
+        "bits": 110
+      }
+    },
+    "n120": {
+      "count": 8,
+      "sha256": "1c1a8d6b6208386afe10e86d001014521de81e80e6d950aef6b30e6295f2e1b6",
+      "commit": false,
+      "params": {
+        "bits": 120
+      }
+    },
+    "n140": {
+      "count": 5,
+      "sha256": "25253b64b4f2d0d1b2fd27366ba2b159bc95b7cb0e13c223eae0bb1b62e1b7bd",
+      "commit": false,
+      "params": {
+        "bits": 140
+      }
+    },
+    "corner60": {
+      "count": 16,
+      "sha256": "2fb7d6e6c07553cee16eef379c05651de9a19d5b910230b9a6ca8ef3480cec97",
+      "commit": true,
+      "params": {
+        "bits": 60,
+        "shape": [
+          "unbalanced",
+          "small-factor",
+          "square",
+          "perfect-square",
+          "cube",
+          "repeated",
+          "close"
+        ]
+      }
+    },
+    "pp100": {
+      "count": 6,
+      "sha256": "6459ec459f4bdd7915ba403896d8f8b2e2ba0d80bea4d7d482d1da4ade98b8f9",
+      "commit": true,
+      "params": {
+        "bits": 100,
+        "shape": [
+          "square",
+          "perfect-square",
+          "cube"
+        ]
+      }
+    },
+    "small100": {
+      "count": 4,
+      "sha256": "584358ec33e3d828671de6c59babe0e36c598668740ef1ba4e103c343a4632d1",
+      "commit": true,
+      "params": {
+        "bits": 100,
+        "shape": "small-factor"
+      }
+    },
+    "unbal100": {
+      "count": 4,
+      "sha256": "e45dc4ce9fb103a962165f44486ecd92bd8b57ec213e4638917506cf6e7f365f",
+      "commit": true,
+      "params": {
+        "bits": 100,
+        "shape": "unbalanced"
+      }
+    },
+    "repeat100": {
+      "count": 4,
+      "sha256": "3be07663302e5352d5c78452455af88a6fa7efc126c744295a83e17ce04ac3b7",
+      "commit": true,
+      "params": {
+        "bits": 100,
+        "shape": "repeated"
+      }
+    },
+    "close100": {
+      "count": 4,
+      "sha256": "724d42934749a791e2a7f5373f45211a4e8c0d3d0d3cc764878583cfd85e83fd",
+      "commit": true,
+      "params": {
+        "bits": 100,
+        "shape": "close"
+      }
+    },
+    "multi80": {
+      "count": 6,
+      "sha256": "880576a0a1ba81e9ef342c5e1e393d77bd1ae2fb250cd9f028b74697b2514916",
+      "commit": true,
+      "params": {
+        "bits": 80,
+        "shape": "multi"
+      }
+    },
+    "multi100": {
+      "count": 6,
+      "sha256": "92c15a679725d2a68079535bedcb224faccbc0b959b36c2a6e1c3cb8f4268d96",
+      "commit": true,
+      "params": {
+        "bits": 100,
+        "shape": "multi"
+      }
+    }
+  }
+}

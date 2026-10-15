@@ -1,6 +1,6 @@
 # Plan 4 — Capstone projects & exam materials
 
-Status: **draft** (2026-10-13), pending review
+Status: **implemented** 2026-10-14 (M1–M5; calibrated serially on the reference machine), pending instructor review
 Spec: `.claude/specs/spec.md` ([capstone] project, Exam questions; exam task sheets)
 Depends on: Plan 1 (LaTeX classes, taskgen, Docker). Uses `course.yaml` and `ca-refs.bib` from
 Plan 3 if they exist; otherwise it works standalone.

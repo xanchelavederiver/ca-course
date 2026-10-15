@@ -1,0 +1,4 @@
+{"expected":{"factorization":[[924904791731489,1],[924904791733619,1]]},"id":"close100-000","input":{"n":855448873769839090069062228691},"size":"close100","tags":["bits100","close-factors","semiprime"]}
+{"expected":{"factorization":[[929361760287661,1],[929361760291123,1]]},"id":"close100-001","input":{"n":863713281488197316983584733303},"size":"close100","tags":["bits100","close-factors","semiprime"]}
+{"expected":{"factorization":[[1066370745736123,1],[1066370745737881,1]]},"id":"close100-002","input":{"n":1137146567363689769156151175363},"size":"close100","tags":["bits100","close-factors","semiprime"]}
+{"expected":{"factorization":[[933619586718041,1],[933619586720479,1]]},"id":"close100-003","input":{"n":871645532705841843370053461639},"size":"close100","tags":["bits100","close-factors","semiprime"]}

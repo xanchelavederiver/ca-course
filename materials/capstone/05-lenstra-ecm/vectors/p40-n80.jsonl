@@ -1,0 +1,10 @@
+{"expected":{"factorization":[[587290877669,1],[709859932993,1]],"prime":false},"id":"p40-n80-000","input":{"n":416894263069516500033317,"op":"factor"},"size":"p40-n80","tags":["balanced","n79","p40","semiprime"]}
+{"expected":{"factorization":[[627648261259,1],[631269196897,1]],"prime":false},"id":"p40-n80-001","input":{"n":396215013818767368113323,"op":"factor"},"size":"p40-n80","tags":["balanced","n79","p40","semiprime"]}
+{"expected":{"factorization":[[918167289839,1],[1079357047807,1]],"prime":false},"id":"p40-n80-002","input":{"n":991030335353577148333073,"op":"factor"},"size":"p40-n80","tags":["balanced","n80","p40","semiprime"]}
+{"expected":{"factorization":[[595006303403,1],[984011061067,1]],"prime":false},"id":"p40-n80-003","input":{"n":585492783953139362911001,"op":"factor"},"size":"p40-n80","tags":["balanced","n79","p40","semiprime"]}
+{"expected":{"factorization":[[656237268587,1],[689282884769,1]],"prime":false},"id":"p40-n80-004","input":{"n":452333117584576424451403,"op":"factor"},"size":"p40-n80","tags":["balanced","n79","p40","semiprime"]}
+{"expected":{"factorization":[[730961190919,1],[1086747890147,1]],"prime":false},"id":"p40-n80-005","input":{"n":794370532010561705975093,"op":"factor"},"size":"p40-n80","tags":["balanced","n80","p40","semiprime"]}
+{"expected":{"factorization":[[604458745537,1],[831599797109,1]],"prime":false},"id":"p40-n80-006","input":{"n":502667770149329859252533,"op":"factor"},"size":"p40-n80","tags":["balanced","n79","p40","semiprime"]}
+{"expected":{"factorization":[[603573022193,1],[1015690339721,1]],"prime":false},"id":"p40-n80-007","input":{"n":613043287957638842428153,"op":"factor"},"size":"p40-n80","tags":["balanced","n80","p40","semiprime"]}
+{"expected":{"factorization":[[749899036729,1],[992165384789,1]],"prime":false},"id":"p40-n80-008","input":{"n":744023866329128728915181,"op":"factor"},"size":"p40-n80","tags":["balanced","n80","p40","semiprime"]}
+{"expected":{"factorization":[[597554380183,1],[813542504969,1]],"prime":false},"id":"p40-n80-009","input":{"n":486135887309275992629327,"op":"factor"},"size":"p40-n80","tags":["balanced","n79","p40","semiprime"]}

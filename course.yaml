@@ -9,8 +9,9 @@
 #   sheets/sem<N>/seminar-<NN>-<slug>.yaml   classroom task sheet (default `sheet`)
 #
 # topics:          task taxonomy slugs (taskgen/tasks/taxonomy.yaml) the lecture covers
-# exam_questions:  "sem<N>:<k>" — number k of that semester's question list; a combined
-#                  question "14-15" counts as both numbers
+# exam_questions:  "sem<N>:<k>" — number k of that semester's question list
+#                  (materials/sem<N>/exam/questions.yaml); a combined question "14-15"
+#                  counts as both numbers
 # legacy_deck:     the PPTX deck the slides were ported from (tmp/ is not committed)
 # draft: true      work in progress: missing files are warnings, not errors
 
@@ -102,7 +103,7 @@ semesters:
   - n: 2
     title: Сложные задачи теории чисел, эллиптические кривые и решётки
     exam: экзамен
-    exam_questions: 24
+    exam_questions: 28          # 1-24 the June 2026 list, 25-28 lattices (new, Plan 4)
     lectures:
       - n: 1
         slug: dlp-and-diffie-hellman
@@ -158,10 +159,12 @@ semesters:
         slug: lattices
         title: Решётки. Алгоритмы Гаусса и Бабаи
         topics: [lattices.svp, lattices.cvp, crypto.lattice]
+        exam_questions: [sem2:25, sem2:26, sem2:28]
       - n: 12
         slug: lll
         title: Алгоритм LLL
         topics: [lattices.lll]
+        exam_questions: [sem2:26, sem2:27, sem2:28]
     seminars:
       - n: 1
         slug: dlp-and-bsgs

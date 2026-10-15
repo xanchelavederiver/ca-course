@@ -1,0 +1,81 @@
+{
+  "capstone": "index-calculus",
+  "generator": "index_calculus",
+  "generator_version": 1,
+  "seed": 20261014,
+  "taskgen_version": "0.4.0",
+  "sizes": {
+    "p12": {
+      "count": 8,
+      "sha256": "d2bd33153943da3a857355bbf35dcc30621d2f88b69f24f853c9d47eaf700fe7",
+      "commit": true,
+      "params": {
+        "bits": 12
+      }
+    },
+    "p20": {
+      "count": 10,
+      "sha256": "f7ae1ea4d9575b4d64e10bc2bcbfa8b2e1f157d1ba323f94e632c4b3e14c5af8",
+      "commit": true,
+      "params": {
+        "bits": 20
+      }
+    },
+    "p30": {
+      "count": 10,
+      "sha256": "1094e4f51271940f9b24f4de98ba32a890ddd1113360eee427380873aa5c0ac3",
+      "commit": true,
+      "params": {
+        "bits": 30
+      }
+    },
+    "p40": {
+      "count": 10,
+      "sha256": "cd951f2a93eed5a879ade89c6086649595b6221b3677e3388343f2372fa5a525",
+      "commit": true,
+      "params": {
+        "bits": 40
+      }
+    },
+    "p50": {
+      "count": 10,
+      "sha256": "a6063bf812eb799dfd181e48e0810f342e08e388dec5d8d9793371b99a78e658",
+      "commit": true,
+      "params": {
+        "bits": 50
+      }
+    },
+    "p60": {
+      "count": 10,
+      "sha256": "904a0ca29fb86bd714ab7b0da025c4a1bb0d59f6021002548486a07e8723e76e",
+      "commit": true,
+      "params": {
+        "bits": 60
+      }
+    },
+    "p64": {
+      "count": 6,
+      "sha256": "4096f58ca37c776583e442e192db76c939f1a1b6ae72f6236955c158ffe5f395",
+      "commit": false,
+      "params": {
+        "bits": 64
+      }
+    },
+    "p70": {
+      "count": 4,
+      "sha256": "58352de7df56ab843662501b2431b0b85404d4245349266baadfa95f78f9f939",
+      "commit": false,
+      "params": {
+        "bits": 70
+      }
+    },
+    "p80": {
+      "count": 2,
+      "sha256": "fd2a5fa721347a00764ed7a2cce941fa0211aa380e0368521627066724154832",
+      "commit": false,
+      "params": {
+        "bits": 80
+      }
+    }
+  }
+}

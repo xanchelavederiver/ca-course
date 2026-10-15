@@ -1,0 +1,10 @@
+{"expected":{"factorization":[[831653,1],[899387,1]]},"id":"n40-000","input":{"n":747977896711},"size":"n40","tags":["balanced","bits40","semiprime"]}
+{"expected":{"factorization":[[887987,1],[1041643,1]]},"id":"n40-001","input":{"n":924965442641},"size":"n40","tags":["balanced","bits40","semiprime"]}
+{"expected":{"factorization":[[851749,1],[1026911,1]]},"id":"n40-002","input":{"n":874670417339},"size":"n40","tags":["balanced","bits40","semiprime"]}
+{"expected":{"factorization":[[858787,1],[1000249,1]]},"id":"n40-003","input":{"n":859000837963},"size":"n40","tags":["balanced","bits40","semiprime"]}
+{"expected":{"factorization":[[883697,1],[890287,1]]},"id":"n40-004","input":{"n":786743951039},"size":"n40","tags":["balanced","bits40","semiprime"]}
+{"expected":{"factorization":[[826681,1],[894067,1]]},"id":"n40-005","input":{"n":739108201627},"size":"n40","tags":["balanced","bits40","semiprime"]}
+{"expected":{"factorization":[[802231,1],[892237,1]]},"id":"n40-006","input":{"n":715780180747},"size":"n40","tags":["balanced","bits40","semiprime"]}
+{"expected":{"factorization":[[1027241,1],[1040447,1]]},"id":"n40-007","input":{"n":1068789816727},"size":"n40","tags":["balanced","bits40","semiprime"]}
+{"expected":{"factorization":[[858397,1],[1047881,1]]},"id":"n40-008","input":{"n":899497906757},"size":"n40","tags":["balanced","bits40","semiprime"]}
+{"expected":{"factorization":[[959759,1],[1017479,1]]},"id":"n40-009","input":{"n":976534627561},"size":"n40","tags":["balanced","bits40","semiprime"]}

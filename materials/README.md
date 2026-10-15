@@ -6,8 +6,10 @@ materials/
 │   ├── lectures/NN-slug/    notes.tex (wrapper) + notes-body.tex (ca-notes), slides.tex (ca-slides),
 │   │                        examples.yaml -> examples/*.tex (taskgen worked examples)
 │   ├── seminars/NN-slug/    handout.tex (ca-handout); the classroom sheet is sheets/semN/seminar-NN-slug.yaml
-│   └── exam/                questions-body.tex + questions.tex / questions-refs.tex (ca-exam)
-└── capstone/NN-topic/       spec.tex (ca-capstone); reference implementation later (Plan 4)
+│   └── exam/                questions.yaml -> questions-body.tex (generated: make exams) +
+│                            questions.tex / questions-refs.tex (ca-exam)
+└── capstone/NN-slug/        spec.tex (ca-capstone) + instructor-only reference/, vectors/, bench/
+                             (see capstone/README.md)
 ```
 
 Lectures and seminars, their numbers, slugs and titles come from `course.yaml`
@@ -27,8 +29,8 @@ Shared styles are in `latex/` (found automatically via `TEXINPUTS`/`BIBINPUTS`):
 | `ca-slides` | lecture slides | beamer 16:9 + `ca` theme; `\titleframe`, `canvasframe[opts]{title}`, `theoremframe[env]{title}` (statement + proof area), `\proofarea[h]`, `\notearea[h]`, `\penspace[h]`, `\aside{question}` |
 | `ca-handout` | seminar handouts | `\seminar{N}{title}`, `\makehandouttitle`, `reminder` box |
 | `ca-sheet` | task sheets | option `solutions`; `\solution{}`; used by taskgen templates |
-| `ca-exam` | exam questions | option `refs`; `\examtitle`, `\topic`, `\question{text}{refs}`, `literature` env |
-| `ca-capstone` | capstone specs | `\capstonetitle`, `\goal`, `\functionality`, `\requirements`, `\details`, `\schedule`, `\references` |
+| `ca-exam` | exam questions | option `refs` (loads ca-biblio); `\examtitle`, `\examliterature{keys}` (fixed numbering), `\topic`, `\question{n}{text}{refs}`, `questiongroup` env with `\qpart` («14–15»); the body is generated from `questions.yaml` |
+| `ca-capstone` | capstone specs | `\capstonetitle`, `\capstonerefs{keys}` (fixed numbering), `\goal`, `\functionality`, `\requirements`, `\details`, `\schedule`, `\remarks`, `\references` (prints the list); numbers from the generated `requirements.tex` |
 | `ca-figures.sty` | notes + slides | `\xgcdtable{a}{b}`, `\euclidchain{a}{b}` (computed by TeX), `\rhoshape{tail}{cycle}`, `\ecaddfigure`, `\ecdoublefigure`, `\latticefigure{v1}{v2}`, `\personicon{color}{name}` |
 | `ca-biblio.sty` + `ca-refs.bib` | notes (exams, capstones) | biblatex/biber, GOST numeric style; `@online` entries with `keywords = {online}` are listed separately |
 

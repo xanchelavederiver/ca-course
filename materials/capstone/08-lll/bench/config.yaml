@@ -1,0 +1,52 @@
+# Capstone 8 (LLL): benchmark of the reference (see bench/README.md).
+# Vectors: taskgen/capstone/gens/lll.py (ops, kinds of lattices, tags).
+# Only the lll<n> classes have an abscissa (the dimension), so the plot is the LLL curve.
+generator: lll
+seed: 20261014
+image: taskgen
+command: sage -python reference/main.py
+timeout: 120
+x_label: "размерность решётки n"
+sizes:
+  # 1. Gauss reduction in dimension 2 (first: it is also the warm-up vector)
+  - name: gauss
+    count: 30
+    params: {op: gauss, bits: [8, 32, 128, 512]}
+  # 2. the LLL-reducedness check (size + Lovász conditions), with delta = 1/2 .. 1
+  - name: check
+    count: 30
+    params: {op: check, dims: [1, 10], bits: [8, 32], deltas: ["3/4", "99/100", "1", "1/2"]}
+  # corner cases of LLL: dependent generators (MLLL), nearly dependent, reduced, delta = 1 ...
+  - name: corner
+    count: 36
+    params:
+      op: lll
+      dims: [2, 12]
+      bits: [8, 32]
+      deltas: ["99/100", "3/4"]
+      kinds: [already_reduced, nearly_dependent, orthogonal, dim1, dependent, rank_deficient,
+              zero_vector, duplicate, delta1, delta_low, scrambled, qary]
+  # 4. attacks on the toy cryptosystems of HPS 7.1--7.2
+  - name: cong
+    count: 12
+    params: {op: congruential, bits: [32, 64, 128, 256, 512, 1024]}
+  - {name: knap16, count: 8, params: {op: knapsack, n: 16}}
+  - {name: knap32, count: 8, params: {op: knapsack, n: 32}}
+  - {name: knap48, count: 8, commit: false, params: {op: knapsack, n: 48}}
+  - {name: knap64, count: 6, commit: false, params: {op: knapsack, n: 64}}
+  # 3. LLL on random bases: uniform, rectangular, knapsack-type (e_i, a_i), q-ary, U*R
+  - {name: lll5,  x: 5,  count: 10, params: {op: lll, n: 5,  bits: [16, 64, 128], deltas: ["99/100", "3/4"]}}
+  - {name: lll10, x: 10, count: 10, params: {op: lll, n: 10, bits: [16, 64, 128], deltas: ["99/100", "3/4"]}}
+  - {name: lll15, x: 15, count: 10, params: {op: lll, n: 15, bits: [16, 64, 128], deltas: ["99/100", "3/4"]}}
+  - {name: lll20, x: 20, count: 10, commit: false, params: {op: lll, n: 20, bits: [16, 64, 128], deltas: ["99/100", "3/4"]}}
+  - {name: lll25, x: 25, count: 10, commit: false, params: {op: lll, n: 25, bits: [16, 64, 128], deltas: ["99/100", "3/4"]}}
+  - {name: lll30, x: 30, count: 16, commit: false, params: {op: lll, n: 30, bits: [16, 64, 128], deltas: ["99/100", "3/4"]}}
+  # a step beyond (the spec names no sizes; 30 is the proposed requirement)
+  - {name: lll40, x: 40, count: 12, commit: false, timeout: 300, params: {op: lll, n: 40, bits: [16, 64, 128], deltas: ["99/100", "3/4"]}}
+  - {name: lll50, x: 50, count: 10, commit: false, timeout: 600, params: {op: lll, n: 50, bits: [16, 64, 128], deltas: ["99/100", "3/4"]}}
+requirements:
+  ReqDim: {value: 30}
+  ReqBits: {value: 128}
+  ReqSeconds: {size: lll30, stat: max, round: nice, min: 1}
+  ReqKnapN: {value: 48}
+  ReqKnapSeconds: {size: knap48, stat: max, round: nice, min: 1}

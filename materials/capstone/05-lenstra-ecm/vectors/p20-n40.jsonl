@@ -1,0 +1,10 @@
+{"expected":{"factorization":[[630863,1],[669637,1]],"prime":false},"id":"p20-n40-000","input":{"n":422449206731,"op":"factor"},"size":"p20-n40","tags":["balanced","n39","p20","semiprime"]}
+{"expected":{"factorization":[[915869,1],[1025477,1]],"prime":false},"id":"p20-n40-001","input":{"n":939202594513,"op":"factor"},"size":"p20-n40","tags":["balanced","n40","p20","semiprime"]}
+{"expected":{"factorization":[[538519,1],[542141,1]],"prime":false},"id":"p20-n40-002","input":{"n":291953229179,"op":"factor"},"size":"p20-n40","tags":["balanced","n39","p20","semiprime"]}
+{"expected":{"factorization":[[972047,1],[991931,1]],"prime":false},"id":"p20-n40-003","input":{"n":964203552757,"op":"factor"},"size":"p20-n40","tags":["balanced","n40","p20","semiprime"]}
+{"expected":{"factorization":[[581873,1],[908287,1]],"prime":false},"id":"p20-n40-004","input":{"n":528507681551,"op":"factor"},"size":"p20-n40","tags":["balanced","n39","p20","semiprime"]}
+{"expected":{"factorization":[[780799,1],[909877,1]],"prime":false},"id":"p20-n40-005","input":{"n":710431051723,"op":"factor"},"size":"p20-n40","tags":["balanced","n40","p20","semiprime"]}
+{"expected":{"factorization":[[920807,1],[1014389,1]],"prime":false},"id":"p20-n40-006","input":{"n":934056491923,"op":"factor"},"size":"p20-n40","tags":["balanced","n40","p20","semiprime"]}
+{"expected":{"factorization":[[807071,1],[862907,1]],"prime":false},"id":"p20-n40-007","input":{"n":696427215397,"op":"factor"},"size":"p20-n40","tags":["balanced","n40","p20","semiprime"]}
+{"expected":{"factorization":[[888287,1],[1039463,1]],"prime":false},"id":"p20-n40-008","input":{"n":923341469881,"op":"factor"},"size":"p20-n40","tags":["balanced","n40","p20","semiprime"]}
+{"expected":{"factorization":[[635309,1],[950363,1]],"prime":false},"id":"p20-n40-009","input":{"n":603774167167,"op":"factor"},"size":"p20-n40","tags":["balanced","n40","p20","semiprime"]}

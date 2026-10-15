@@ -1,0 +1,24 @@
+# Capstone 2 (Pohlig--Hellman): benchmark of the reference (see bench/README.md).
+# Vectors: taskgen/capstone/gens/pohlig_hellman.py (shapes of p - 1, kinds of base, tags).
+generator: pohlig_hellman
+seed: 20261014
+image: taskgen
+command: sage -python reference/solver.py
+timeout: 120
+x_label: "p, бит"
+sizes:
+  # small p: subgroup orders are tiny, brute force and BSGS on a few bits
+  - {name: p20,  x: 20,  count: 10, commit: true,  params: {bits: 20,  qmax_bits: 18}}
+  - {name: p30,  x: 30,  count: 12, commit: true,  params: {bits: 30,  qmax_bits: 28}}
+  # the spec's range, 50--100 bits; largest prime factor of ord(g) <= 40 bits
+  - {name: p50,  x: 50,  count: 12, commit: true,  params: {bits: 50,  qmax_bits: 40}}
+  - {name: p70,  x: 70,  count: 12, commit: true,  params: {bits: 70,  qmax_bits: 40}}
+  - {name: p90,  x: 90,  count: 12, commit: false, params: {bits: 90,  qmax_bits: 40}}
+  - {name: p100, x: 100, count: 20, commit: false, params: {bits: 100, qmax_bits: 40}}
+  # a step beyond the spec, in both p and the prime-factor bound (BSGS: 2^22 steps, ~4M-entry table)
+  - {name: p120, x: 120, count: 8,  commit: false, params: {bits: 120, qmax_bits: 44}}
+requirements:
+  ReqBitsMin: {value: 50}
+  ReqBitsMax: {value: 100}
+  ReqQBitsMax: {value: 40}
+  ReqSeconds: {size: p100, stat: max, round: nice}

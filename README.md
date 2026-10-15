@@ -24,13 +24,14 @@ make materials   # all lecture notes, slides, handouts + the two semester books
 
 ```
 course.yaml    the course map: semesters -> lectures/seminars, topics, exam questions
-docker/        latex (TeX Live, pdfLaTeX + cm-super, biber, chktex) and taskgen (SageMath) images
+docker/        latex (TeX Live, pdfLaTeX + cm-super, biber, chktex), taskgen (SageMath) and capstone-c (gcc/clang) images
 latex/         shared LaTeX: ca-common.sty, ca-{notes,slides,handout,sheet,exam,capstone}.cls, beamer theme,
                ca-figures.sty (TikZ figures/traces), ca-biblio.sty + ca-refs.bib (shared bibliography)
 materials/     LaTeX sources of course content (see materials/README.md)
 taskgen/       task database + generator (Python, runs in the Sage container)
   core/          task model, registry, seeding, sheet specs, sampler, engine, audit
   render/        Jinja2 LaTeX templates for sheets
+  capstone/      capstone test vectors, benchmark runner, report, submission check (Plan 4)
   tasks/         THE TASK DATABASE — one module per task family, by topic; taxonomy.yaml
   tests/
 sheets/        sheet specs (YAML) by semester
@@ -62,7 +63,9 @@ classroom sheet). Directory names follow it:
 
 ```sh
 make course-check          # gaps: missing notes/slides/handouts/sheets, exam questions no lecture
-                           # covers, topics without tasks, stale worked examples, duplicate labels
+                           # covers, topics without tasks, stale worked examples, duplicate labels,
+                           # exam lists vs course.yaml, exam sheet coverage
+make exams                 # questions.yaml -> questions-body.tex + both question PDFs per semester
 docker compose run --rm taskgen course scaffold     # create missing directories/sheets from templates
 make examples              # regenerate the taskgen worked examples of the notes
 make materials [SEM=1]     # build notes, slides, handouts (+ the semester books)
@@ -96,6 +99,30 @@ make lint                  # chktex on materials/**/*.tex (suppressions in .chkt
 - **Seminars**: a handout (1–2 pages, no proofs) and one classroom sheet,
   ordered warm-up -> core -> corner cases. Issue it once per seminar
   (`make issue SHEET=...`) so the archived PDFs are the ones used in class.
+- **Exams**: `materials/semN/exam/questions.yaml` is the question list (topics,
+  questions with combined numbers such as «14-15», references as `ca-refs.bib`
+  keys + locators, the literature order). `make exams` renders it to
+  `questions-body.tex` (generated; `taskgen exam render [--check]`) and builds
+  `questions.pdf` (plain) and `questions-refs.pdf` (with references; the literature
+  list is printed by biblatex, so its numbers are never typed). The written part
+  is an individual sheet, `sheets/sem1/zachet.yaml` / `sheets/sem2/exam.yaml`, one
+  slot per topic block; `taskgen exam coverage` shows which questions its slots
+  cover, and `course check` warns about uncovered questions, lectures without
+  questions and question lists that disagree with `course.yaml`.
+
+## Capstones
+
+Eight capstone specs (`materials/capstone/NN-slug/spec.tex`, the only part students
+get) with instructor-only reference implementations, seeded test vectors and a
+benchmark whose measurements (reference time × slack, default 10×) generate the spec's
+`requirements.tex`. See `materials/capstone/README.md`.
+
+```sh
+make capstones                         # spec PDFs
+make bench [CAPSTONE=slug] [SLACK=x]   # vectors + reference run -> bench/results.*, requirements.tex
+make test-capstones                    # reference unit tests vs Sage/GMP oracles
+make check-capstone CAPSTONE=slug DIR=... CMD="..."   # run a submission (no network, limits)
+```
 
 ## Task sheets
 

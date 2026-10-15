@@ -1,0 +1,39 @@
+# Capstone 4 (quadratic sieve): bench configuration (see taskgen/capstone/config.py).
+generator: quadratic_sieve
+seed: 20261014
+image: taskgen
+command: sage -python reference/main.py
+timeout: 120
+x_label: "n, бит"
+
+# Balanced semiprimes n = pq (the plotted curve): the spec's range "about 100 bits" and
+# a step beyond (110--140). Corner classes (no x, not plotted) keep the cases the sieve
+# handles poorly or not at all: prime powers and perfect squares, a small factor, close or
+# unbalanced factors, a repeated factor, 3--4 prime factors (full factorization).
+sizes:
+  - {name: n40,  x: 40,  count: 10, params: {bits: 40}}
+  - {name: n50,  x: 50,  count: 10, params: {bits: 50}}
+  - {name: n60,  x: 60,  count: 10, params: {bits: 60}}
+  - {name: n70,  x: 70,  count: 10, params: {bits: 70}}
+  - {name: n80,  x: 80,  count: 10, params: {bits: 80}}
+  - {name: n90,  x: 90,  count: 10, params: {bits: 90}}
+  - {name: n100, x: 100, count: 10, params: {bits: 100}}
+  - {name: n110, x: 110, count: 8, commit: false, timeout: 120, params: {bits: 110}}
+  - {name: n120, x: 120, count: 8, commit: false, timeout: 200, params: {bits: 120}}
+  - {name: n140, x: 140, count: 5, commit: false, timeout: 400, params: {bits: 140}}
+  - name: corner60
+    count: 16
+    params:
+      bits: 60
+      shape: [unbalanced, small-factor, square, perfect-square, cube, repeated, close]
+  - {name: pp100,     count: 6, params: {bits: 100, shape: [square, perfect-square, cube]}}
+  - {name: small100,  count: 4, params: {bits: 100, shape: small-factor}}
+  - {name: unbal100,  count: 4, params: {bits: 100, shape: unbalanced}}
+  - {name: repeat100, count: 4, params: {bits: 100, shape: repeated}}
+  - {name: close100,  count: 4, params: {bits: 100, shape: close}}
+  - {name: multi80,  count: 6, params: {bits: 80, shape: multi}}
+  - {name: multi100, count: 6, params: {bits: 100, shape: multi}}
+
+requirements:
+  ReqBits: {value: 100}
+  ReqSeconds: {size: n100, stat: max, round: nice}

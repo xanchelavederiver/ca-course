@@ -1,0 +1,2549 @@
+{
+ "capstone": "pollard-rho-ecdlp",
+ "command": "sage -python reference/main.py",
+ "slack": 10.0,
+ "started": 1791960797,
+ "duration_s": 447.037,
+ "machine": {
+  "python": "3.12.3",
+  "kernel": "6.8.0-142-generic",
+  "machine": "x86_64",
+  "image": "taskgen",
+  "cpus_visible": 16,
+  "cpu_count": 16,
+  "cpu": "AMD EPYC 7352 24-Core Processor",
+  "mem_total_kb": 32863288,
+  "governor": "n/a (not exposed)",
+  "loadavg_1m": 1.20654296875
+ },
+ "summary": {
+  "n20": {
+   "x": 20,
+   "n": 20,
+   "ok": 20,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.004664011532440782,
+   "mean_s": 0.006042638712096959,
+   "p90_s": 0.01413934794254601,
+   "max_s": 0.014947384130209684,
+   "max_rss_kb": 18048,
+   "timeout_s": 600.0,
+   "limit_s": 0.14947384130209684
+  },
+  "n24": {
+   "x": 24,
+   "n": 20,
+   "ok": 20,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.021303377579897642,
+   "mean_s": 0.021043887175619603,
+   "p90_s": 0.04944050987251103,
+   "max_s": 0.0524319710675627,
+   "max_rss_kb": 18048,
+   "timeout_s": 600.0,
+   "limit_s": 0.524319710675627
+  },
+  "n28": {
+   "x": 28,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.07330463908147067,
+   "mean_s": 0.1061355627141893,
+   "p90_s": 0.20806954195722938,
+   "max_s": 0.2792704419698566,
+   "max_rss_kb": 18048,
+   "timeout_s": 600.0,
+   "limit_s": 2.792704419698566
+  },
+  "n32": {
+   "x": 32,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.36901778052560985,
+   "mean_s": 0.4294832200743258,
+   "p90_s": 1.074406614061445,
+   "max_s": 1.1240249339025468,
+   "max_rss_kb": 17920,
+   "timeout_s": 600.0,
+   "limit_s": 11.240249339025468
+  },
+  "n36": {
+   "x": 36,
+   "n": 8,
+   "ok": 8,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 1.8025247560581192,
+   "mean_s": 2.312447720032651,
+   "p90_s": 4.86023075110279,
+   "max_s": 4.86023075110279,
+   "max_rss_kb": 18048,
+   "timeout_s": 200.0,
+   "limit_s": 48.6023075110279
+  },
+  "n40": {
+   "x": 40,
+   "n": 6,
+   "ok": 6,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 12.188803910510615,
+   "mean_s": 13.16038956764775,
+   "p90_s": 18.39721510396339,
+   "max_s": 18.39721510396339,
+   "max_rss_kb": 18048,
+   "timeout_s": 600.0,
+   "limit_s": 183.9721510396339
+  },
+  "n44": {
+   "x": 44,
+   "n": 3,
+   "ok": 3,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 58.72253447701223,
+   "mean_s": 77.72780343230504,
+   "p90_s": 129.63481648499146,
+   "max_s": 129.63481648499146,
+   "max_rss_kb": 18048,
+   "timeout_s": 900.0,
+   "limit_s": 1296.3481648499146
+  },
+  "dp20": {
+   "x": null,
+   "n": 20,
+   "ok": 20,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.006493791937828064,
+   "mean_s": 0.007237867615185678,
+   "p90_s": 0.012290853075683117,
+   "max_s": 0.013248202158138156,
+   "max_rss_kb": 18048,
+   "timeout_s": 600.0,
+   "limit_s": 0.13248202158138156
+  },
+  "dp28": {
+   "x": null,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.04648362239822745,
+   "mean_s": 0.04194789016619325,
+   "p90_s": 0.05684670782648027,
+   "max_s": 0.07291907304897904,
+   "max_rss_kb": 17928,
+   "timeout_s": 600.0,
+   "limit_s": 0.7291907304897904
+  },
+  "dp36": {
+   "x": null,
+   "n": 8,
+   "ok": 8,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 1.318623616010882,
+   "mean_s": 1.1965291196247563,
+   "p90_s": 1.8502707651350647,
+   "max_s": 1.8502707651350647,
+   "max_rss_kb": 18048,
+   "timeout_s": 200.0,
+   "limit_s": 18.502707651350647
+  },
+  "dp40": {
+   "x": null,
+   "n": 6,
+   "ok": 6,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 4.342525234562345,
+   "mean_s": 4.3242178915146114,
+   "p90_s": 7.324158635921776,
+   "max_s": 7.324158635921776,
+   "max_rss_kb": 18048,
+   "timeout_s": 400.0,
+   "limit_s": 73.24158635921776
+  },
+  "dp44": {
+   "x": null,
+   "n": 3,
+   "ok": 3,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 6.53499344503507,
+   "mean_s": 13.90027809337092,
+   "p90_s": 31.917215494206175,
+   "max_s": 31.917215494206175,
+   "max_rss_kb": 18048,
+   "timeout_s": 600.0,
+   "limit_s": 319.17215494206175
+  },
+  "p64-n32": {
+   "x": null,
+   "n": 5,
+   "ok": 5,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 1.2608430869877338,
+   "mean_s": 1.6491079739760608,
+   "p90_s": 2.8656872860156,
+   "max_s": 2.8656872860156,
+   "max_rss_kb": 17920,
+   "timeout_s": 600.0,
+   "limit_s": 28.656872860156
+  },
+  "p100-n32": {
+   "x": null,
+   "n": 5,
+   "ok": 5,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 2.361067163059488,
+   "mean_s": 3.1366045225877315,
+   "p90_s": 5.4541901799384505,
+   "max_s": 5.4541901799384505,
+   "max_rss_kb": 18048,
+   "timeout_s": 600.0,
+   "limit_s": 54.541901799384505
+  },
+  "ord32": {
+   "x": null,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.0027902519796043634,
+   "mean_s": 0.0027046723989769816,
+   "p90_s": 0.003270816057920456,
+   "max_s": 0.003328267950564623,
+   "max_rss_kb": 18048,
+   "timeout_s": 600.0,
+   "limit_s": 0.03328267950564623
+  },
+  "ord48": {
+   "x": null,
+   "n": 10,
+   "ok": 10,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.05346117401495576,
+   "mean_s": 0.052183830994181335,
+   "p90_s": 0.06289203697815537,
+   "max_s": 0.06345009198412299,
+   "max_rss_kb": 19536,
+   "timeout_s": 600.0,
+   "limit_s": 0.6345009198412299
+  },
+  "ord64": {
+   "x": null,
+   "n": 5,
+   "ok": 5,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.8246529090683907,
+   "mean_s": 1.0086116888094694,
+   "p90_s": 1.4381936269346625,
+   "max_s": 1.4381936269346625,
+   "max_rss_kb": 51168,
+   "timeout_s": 600.0,
+   "limit_s": 14.381936269346625
+  }
+ },
+ "requirements": {
+  "ReqSlack": "10",
+  "ReqPBitsLo": "50",
+  "ReqPBitsHi": "100",
+  "ReqOrderBits": "40",
+  "ReqSeconds": "200"
+ },
+ "warnings": [],
+ "records": [
+  {
+   "id": "n20-000",
+   "size": "n20",
+   "tags": [
+    "composite",
+    "composite-n",
+    "floyd"
+   ],
+   "status": "ok",
+   "wall_s": 0.009907410014420748,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-001",
+   "size": "n20",
+   "tags": [
+    "composite",
+    "composite-n",
+    "floyd"
+   ],
+   "status": "ok",
+   "wall_s": 0.01413934794254601,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-002",
+   "size": "n20",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p22"
+   ],
+   "status": "ok",
+   "wall_s": 0.0088027180172503,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-003",
+   "size": "n20",
+   "tags": [
+    "floyd",
+    "given-start"
+   ],
+   "status": "ok",
+   "wall_s": 0.0028437869623303413,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-004",
+   "size": "n20",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p21"
+   ],
+   "status": "ok",
+   "wall_s": 0.004047323018312454,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-005",
+   "size": "n20",
+   "tags": [
+    "floyd",
+    "q-minus-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.0005154048558324575,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-006",
+   "size": "n20",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "floyd",
+    "p23"
+   ],
+   "status": "ok",
+   "wall_s": 0.006114655872806907,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-007",
+   "size": "n20",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "floyd",
+    "p23"
+   ],
+   "status": "ok",
+   "wall_s": 0.005280700046569109,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-008",
+   "size": "n20",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "floyd",
+    "p26"
+   ],
+   "status": "ok",
+   "wall_s": 0.014947384130209684,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-009",
+   "size": "n20",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "floyd",
+    "p21"
+   ],
+   "status": "ok",
+   "wall_s": 0.014197710203006864,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-010",
+   "size": "n20",
+   "tags": [
+    "floyd",
+    "q-minus-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.00048155500553548336,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-011",
+   "size": "n20",
+   "tags": [
+    "floyd",
+    "q-minus-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.00046445406042039394,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-012",
+   "size": "n20",
+   "tags": [
+    "floyd",
+    "q-minus-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.00042249192483723164,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-013",
+   "size": "n20",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.006589900003746152,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-014",
+   "size": "n20",
+   "tags": [
+    "floyd",
+    "given-start"
+   ],
+   "status": "ok",
+   "wall_s": 0.003262938931584358,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-015",
+   "size": "n20",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "floyd",
+    "p25"
+   ],
+   "status": "ok",
+   "wall_s": 0.005981341004371643,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-016",
+   "size": "n20",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p21"
+   ],
+   "status": "ok",
+   "wall_s": 0.01369515503756702,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-017",
+   "size": "n20",
+   "tags": [
+    "floyd",
+    "given-start"
+   ],
+   "status": "ok",
+   "wall_s": 0.0038539660163223743,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-018",
+   "size": "n20",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p23"
+   ],
+   "status": "ok",
+   "wall_s": 0.0030216120649129152,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n20-019",
+   "size": "n20",
+   "tags": [
+    "composite",
+    "composite-n",
+    "floyd"
+   ],
+   "status": "ok",
+   "wall_s": 0.002282919129356742,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-000",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "q-minus-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.000643119914457202,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-001",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "q-zero"
+   ],
+   "status": "ok",
+   "wall_s": 0.0004048917908221483,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-002",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.03922238014638424,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-003",
+   "size": "n24",
+   "tags": [
+    "composite",
+    "composite-n",
+    "floyd"
+   ],
+   "status": "ok",
+   "wall_s": 0.00830862415023148,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-004",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "q-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.013179820030927658,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-005",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.023680297890678048,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-006",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "q-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.0524319710675627,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-007",
+   "size": "n24",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p25"
+   ],
+   "status": "ok",
+   "wall_s": 0.02202819916419685,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-008",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "q-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.03813057695515454,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-009",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "q-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.020578555995598435,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-010",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "given-start"
+   ],
+   "status": "ok",
+   "wall_s": 0.04944050987251103,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-011",
+   "size": "n24",
+   "tags": [
+    "a0",
+    "a=0",
+    "floyd"
+   ],
+   "status": "ok",
+   "wall_s": 0.024651237996295094,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-012",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "q-minus-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.0005678071174770594,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-013",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "given-start"
+   ],
+   "status": "ok",
+   "wall_s": 0.025527234887704253,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-014",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "q-minus-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006794300861656666,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-015",
+   "size": "n24",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p28"
+   ],
+   "status": "ok",
+   "wall_s": 0.029746182030066848,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-016",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.01965537597425282,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-017",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "q-minus-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006742211990058422,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-018",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "given-start"
+   ],
+   "status": "ok",
+   "wall_s": 0.05093065509572625,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n24-019",
+   "size": "n24",
+   "tags": [
+    "floyd",
+    "q-zero"
+   ],
+   "status": "ok",
+   "wall_s": 0.00039665214717388153,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n28-000",
+   "size": "n28",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "floyd",
+    "p34"
+   ],
+   "status": "ok",
+   "wall_s": 0.043256261153146625,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n28-001",
+   "size": "n28",
+   "tags": [
+    "composite",
+    "composite-n",
+    "floyd"
+   ],
+   "status": "ok",
+   "wall_s": 0.08038063906133175,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n28-002",
+   "size": "n28",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p31"
+   ],
+   "status": "ok",
+   "wall_s": 0.15229927096515894,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n28-003",
+   "size": "n28",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.03200816106982529,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n28-004",
+   "size": "n28",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "floyd",
+    "p29"
+   ],
+   "status": "ok",
+   "wall_s": 0.20806954195722938,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n28-005",
+   "size": "n28",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p33"
+   ],
+   "status": "ok",
+   "wall_s": 0.2792704419698566,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n28-006",
+   "size": "n28",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p29"
+   ],
+   "status": "ok",
+   "wall_s": 0.04208938591182232,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n28-007",
+   "size": "n28",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.01772202691063285,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n28-008",
+   "size": "n28",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p32"
+   ],
+   "status": "ok",
+   "wall_s": 0.14003125904127955,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n28-009",
+   "size": "n28",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p29"
+   ],
+   "status": "ok",
+   "wall_s": 0.06622863910160959,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n32-000",
+   "size": "n32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p35"
+   ],
+   "status": "ok",
+   "wall_s": 0.437420547939837,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "n32-001",
+   "size": "n32",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p33"
+   ],
+   "status": "ok",
+   "wall_s": 0.07782524102367461,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "n32-002",
+   "size": "n32",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.12219324707984924,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "n32-003",
+   "size": "n32",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0781645409297198,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "n32-004",
+   "size": "n32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p36"
+   ],
+   "status": "ok",
+   "wall_s": 0.46864245389588177,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "n32-005",
+   "size": "n32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p35"
+   ],
+   "status": "ok",
+   "wall_s": 0.17411906085908413,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "n32-006",
+   "size": "n32",
+   "tags": [
+    "floyd",
+    "given-start"
+   ],
+   "status": "ok",
+   "wall_s": 1.074406614061445,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "n32-007",
+   "size": "n32",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "floyd",
+    "p36"
+   ],
+   "status": "ok",
+   "wall_s": 0.4348645380232483,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "n32-008",
+   "size": "n32",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "floyd",
+    "p35"
+   ],
+   "status": "ok",
+   "wall_s": 0.3031710230279714,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "n32-009",
+   "size": "n32",
+   "tags": [
+    "composite",
+    "composite-n",
+    "floyd"
+   ],
+   "status": "ok",
+   "wall_s": 1.1240249339025468,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "n36-000",
+   "size": "n36",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 1.7778839590027928,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n36-001",
+   "size": "n36",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p39"
+   ],
+   "status": "ok",
+   "wall_s": 1.8271655531134456,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n36-002",
+   "size": "n36",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p39"
+   ],
+   "status": "ok",
+   "wall_s": 0.8217680531088263,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n36-003",
+   "size": "n36",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 4.86023075110279,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n36-004",
+   "size": "n36",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.3275017000269145,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n36-005",
+   "size": "n36",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p39"
+   ],
+   "status": "ok",
+   "wall_s": 0.6212436559144408,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n36-006",
+   "size": "n36",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p40"
+   ],
+   "status": "ok",
+   "wall_s": 4.676118456060067,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n36-007",
+   "size": "n36",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 3.587669631931931,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n40-000",
+   "size": "n40",
+   "tags": [
+    "a0",
+    "a=0",
+    "floyd"
+   ],
+   "status": "ok",
+   "wall_s": 17.386607153108343,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n40-001",
+   "size": "n40",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 18.39721510396339,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n40-002",
+   "size": "n40",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 12.33275911398232,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n40-003",
+   "size": "n40",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 12.04484870703891,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n40-004",
+   "size": "n40",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 10.552753443829715,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n40-005",
+   "size": "n40",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p45"
+   ],
+   "status": "ok",
+   "wall_s": 8.248153883963823,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n44-000",
+   "size": "n44",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 58.72253447701223,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n44-001",
+   "size": "n44",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p47"
+   ],
+   "status": "ok",
+   "wall_s": 44.826059334911406,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "n44-002",
+   "size": "n44",
+   "tags": [
+    "floyd",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 129.63481648499146,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-000",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "q-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.0075956350192427635,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-001",
+   "size": "dp20",
+   "tags": [
+    "cofactor",
+    "dp",
+    "p24"
+   ],
+   "status": "ok",
+   "wall_s": 0.013248202158138156,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-002",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.012290853075683117,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-003",
+   "size": "dp20",
+   "tags": [
+    "cofactor",
+    "dp",
+    "p21"
+   ],
+   "status": "ok",
+   "wall_s": 0.005353046813979745,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-004",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "q-minus-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.003900395007804036,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-005",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0065142319072037935,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-006",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.007588184205815196,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-007",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "q-zero"
+   ],
+   "status": "ok",
+   "wall_s": 0.005856142845004797,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-008",
+   "size": "dp20",
+   "tags": [
+    "cofactor",
+    "dp",
+    "p23"
+   ],
+   "status": "ok",
+   "wall_s": 0.012657874030992389,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-009",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "q-zero"
+   ],
+   "status": "ok",
+   "wall_s": 0.0050418381579220295,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-010",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "q-zero"
+   ],
+   "status": "ok",
+   "wall_s": 0.004371929913759232,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-011",
+   "size": "dp20",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "dp",
+    "p23"
+   ],
+   "status": "ok",
+   "wall_s": 0.005290584871545434,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-012",
+   "size": "dp20",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "dp",
+    "p26"
+   ],
+   "status": "ok",
+   "wall_s": 0.0034502821508795023,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-013",
+   "size": "dp20",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "dp",
+    "p23"
+   ],
+   "status": "ok",
+   "wall_s": 0.00799972703680396,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-014",
+   "size": "dp20",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "dp",
+    "p24"
+   ],
+   "status": "ok",
+   "wall_s": 0.008200130891054869,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-015",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.009407147066667676,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-016",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "q-minus-p"
+   ],
+   "status": "ok",
+   "wall_s": 0.004522102884948254,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-017",
+   "size": "dp20",
+   "tags": [
+    "cofactor",
+    "dp",
+    "p21"
+   ],
+   "status": "ok",
+   "wall_s": 0.009936503134667873,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-018",
+   "size": "dp20",
+   "tags": [
+    "cofactor",
+    "dp",
+    "p22"
+   ],
+   "status": "ok",
+   "wall_s": 0.006473351968452334,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp20-019",
+   "size": "dp20",
+   "tags": [
+    "dp",
+    "given-start"
+   ],
+   "status": "ok",
+   "wall_s": 0.005059189163148403,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp28-000",
+   "size": "dp28",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.04900773614645004,
+   "repeat": 1,
+   "rss_kb": 17928,
+   "message": ""
+  },
+  {
+   "id": "dp28-001",
+   "size": "dp28",
+   "tags": [
+    "composite",
+    "composite-n",
+    "dp"
+   ],
+   "status": "ok",
+   "wall_s": 0.022442831890657544,
+   "repeat": 1,
+   "rss_kb": 17928,
+   "message": ""
+  },
+  {
+   "id": "dp28-002",
+   "size": "dp28",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.028850410832092166,
+   "repeat": 1,
+   "rss_kb": 17928,
+   "message": ""
+  },
+  {
+   "id": "dp28-003",
+   "size": "dp28",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0459472369402647,
+   "repeat": 1,
+   "rss_kb": 17928,
+   "message": ""
+  },
+  {
+   "id": "dp28-004",
+   "size": "dp28",
+   "tags": [
+    "dp",
+    "given-start"
+   ],
+   "status": "ok",
+   "wall_s": 0.05684670782648027,
+   "repeat": 1,
+   "rss_kb": 17928,
+   "message": ""
+  },
+  {
+   "id": "dp28-005",
+   "size": "dp28",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.007228032918646932,
+   "repeat": 1,
+   "rss_kb": 17928,
+   "message": ""
+  },
+  {
+   "id": "dp28-006",
+   "size": "dp28",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "dp",
+    "p31"
+   ],
+   "status": "ok",
+   "wall_s": 0.041655541164800525,
+   "repeat": 1,
+   "rss_kb": 17928,
+   "message": ""
+  },
+  {
+   "id": "dp28-007",
+   "size": "dp28",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "dp",
+    "p31"
+   ],
+   "status": "ok",
+   "wall_s": 0.07291907304897904,
+   "repeat": 1,
+   "rss_kb": 17928,
+   "message": ""
+  },
+  {
+   "id": "dp28-008",
+   "size": "dp28",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.047020007856190205,
+   "repeat": 1,
+   "rss_kb": 17928,
+   "message": ""
+  },
+  {
+   "id": "dp28-009",
+   "size": "dp28",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "dp",
+    "p30"
+   ],
+   "status": "ok",
+   "wall_s": 0.04756132303737104,
+   "repeat": 1,
+   "rss_kb": 17928,
+   "message": ""
+  },
+  {
+   "id": "dp36-000",
+   "size": "dp36",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "dp",
+    "p40"
+   ],
+   "status": "ok",
+   "wall_s": 0.567818630952388,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp36-001",
+   "size": "dp36",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.6711001698859036,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp36-002",
+   "size": "dp36",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "dp",
+    "p39"
+   ],
+   "status": "ok",
+   "wall_s": 1.5838050988968462,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp36-003",
+   "size": "dp36",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "dp",
+    "p37"
+   ],
+   "status": "ok",
+   "wall_s": 1.3038968530017883,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp36-004",
+   "size": "dp36",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 1.3333503790199757,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp36-005",
+   "size": "dp36",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 1.4901480849366635,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp36-006",
+   "size": "dp36",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.7718429751694202,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp36-007",
+   "size": "dp36",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "dp",
+    "p40"
+   ],
+   "status": "ok",
+   "wall_s": 1.8502707651350647,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp40-000",
+   "size": "dp40",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 1.752671467838809,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp40-001",
+   "size": "dp40",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 2.4696892842184752,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp40-002",
+   "size": "dp40",
+   "tags": [
+    "cofactor",
+    "dp",
+    "p42"
+   ],
+   "status": "ok",
+   "wall_s": 5.71373749198392,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp40-003",
+   "size": "dp40",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 3.9109759421553463,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp40-004",
+   "size": "dp40",
+   "tags": [
+    "a0",
+    "a=0",
+    "dp"
+   ],
+   "status": "ok",
+   "wall_s": 4.774074526969343,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp40-005",
+   "size": "dp40",
+   "tags": [
+    "cofactor",
+    "dp",
+    "p46"
+   ],
+   "status": "ok",
+   "wall_s": 7.324158635921776,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp44-000",
+   "size": "dp44",
+   "tags": [
+    "cofactor",
+    "dp",
+    "p46"
+   ],
+   "status": "ok",
+   "wall_s": 3.248625340871513,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp44-001",
+   "size": "dp44",
+   "tags": [
+    "dp",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 31.917215494206175,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "dp44-002",
+   "size": "dp44",
+   "tags": [
+    "cofactor",
+    "dp",
+    "p45"
+   ],
+   "status": "ok",
+   "wall_s": 6.53499344503507,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "p64-n32-000",
+   "size": "p64-n32",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p64",
+    "subgroup"
+   ],
+   "status": "ok",
+   "wall_s": 1.0082498698029667,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "p64-n32-001",
+   "size": "p64-n32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p64"
+   ],
+   "status": "ok",
+   "wall_s": 2.2518442820291966,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "p64-n32-002",
+   "size": "p64-n32",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p64",
+    "subgroup"
+   ],
+   "status": "ok",
+   "wall_s": 0.8589153450448066,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "p64-n32-003",
+   "size": "p64-n32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p64"
+   ],
+   "status": "ok",
+   "wall_s": 1.2608430869877338,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "p64-n32-004",
+   "size": "p64-n32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p64"
+   ],
+   "status": "ok",
+   "wall_s": 2.8656872860156,
+   "repeat": 1,
+   "rss_kb": 17920,
+   "message": ""
+  },
+  {
+   "id": "p100-n32-000",
+   "size": "p100-n32",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p100",
+    "subgroup"
+   ],
+   "status": "ok",
+   "wall_s": 2.1313935481011868,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "p100-n32-001",
+   "size": "p100-n32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p100"
+   ],
+   "status": "ok",
+   "wall_s": 2.064711082028225,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "p100-n32-002",
+   "size": "p100-n32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p100"
+   ],
+   "status": "ok",
+   "wall_s": 2.361067163059488,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "p100-n32-003",
+   "size": "p100-n32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "floyd",
+    "p100"
+   ],
+   "status": "ok",
+   "wall_s": 5.4541901799384505,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "p100-n32-004",
+   "size": "p100-n32",
+   "tags": [
+    "cofactor",
+    "floyd",
+    "p100",
+    "subgroup"
+   ],
+   "status": "ok",
+   "wall_s": 3.671660639811307,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord32-000",
+   "size": "ord32",
+   "tags": [
+    "cofactor",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.00225057709030807,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord32-001",
+   "size": "ord32",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.003270816057920456,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord32-002",
+   "size": "ord32",
+   "tags": [
+    "composite",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.0024247809778898954,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord32-003",
+   "size": "ord32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.003328267950564623,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord32-004",
+   "size": "ord32",
+   "tags": [
+    "a0",
+    "a=0",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.0025228639133274555,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord32-005",
+   "size": "ord32",
+   "tags": [
+    "composite",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.003147043054923415,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord32-006",
+   "size": "ord32",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.0020819799974560738,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord32-007",
+   "size": "ord32",
+   "tags": [
+    "order",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0018761740066111088,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord32-008",
+   "size": "ord32",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.0030865808948874474,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord32-009",
+   "size": "ord32",
+   "tags": [
+    "composite",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.0030576400458812714,
+   "repeat": 1,
+   "rss_kb": 18048,
+   "message": ""
+  },
+  {
+   "id": "ord48-000",
+   "size": "ord48",
+   "tags": [
+    "order",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.06289203697815537,
+   "repeat": 1,
+   "rss_kb": 19328,
+   "message": ""
+  },
+  {
+   "id": "ord48-001",
+   "size": "ord48",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.055407997919246554,
+   "repeat": 1,
+   "rss_kb": 19484,
+   "message": ""
+  },
+  {
+   "id": "ord48-002",
+   "size": "ord48",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.03289557504467666,
+   "repeat": 1,
+   "rss_kb": 19484,
+   "message": ""
+  },
+  {
+   "id": "ord48-003",
+   "size": "ord48",
+   "tags": [
+    "order",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0617932949680835,
+   "repeat": 1,
+   "rss_kb": 19484,
+   "message": ""
+  },
+  {
+   "id": "ord48-004",
+   "size": "ord48",
+   "tags": [
+    "composite",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.06345009198412299,
+   "repeat": 1,
+   "rss_kb": 19484,
+   "message": ""
+  },
+  {
+   "id": "ord48-005",
+   "size": "ord48",
+   "tags": [
+    "order",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.04597915895283222,
+   "repeat": 1,
+   "rss_kb": 19484,
+   "message": ""
+  },
+  {
+   "id": "ord48-006",
+   "size": "ord48",
+   "tags": [
+    "cofactor",
+    "composite",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.043995721032842994,
+   "repeat": 1,
+   "rss_kb": 19520,
+   "message": ""
+  },
+  {
+   "id": "ord48-007",
+   "size": "ord48",
+   "tags": [
+    "a0",
+    "a=0",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.055309713119640946,
+   "repeat": 1,
+   "rss_kb": 19536,
+   "message": ""
+  },
+  {
+   "id": "ord48-008",
+   "size": "ord48",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.04850208503194153,
+   "repeat": 1,
+   "rss_kb": 19536,
+   "message": ""
+  },
+  {
+   "id": "ord48-009",
+   "size": "ord48",
+   "tags": [
+    "a0",
+    "a=0",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.05161263491027057,
+   "repeat": 1,
+   "rss_kb": 19536,
+   "message": ""
+  },
+  {
+   "id": "ord64-000",
+   "size": "ord64",
+   "tags": [
+    "b0",
+    "b=0",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 1.4381936269346625,
+   "repeat": 1,
+   "rss_kb": 47304,
+   "message": ""
+  },
+  {
+   "id": "ord64-001",
+   "size": "ord64",
+   "tags": [
+    "order",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 1.2592858211137354,
+   "repeat": 1,
+   "rss_kb": 51168,
+   "message": ""
+  },
+  {
+   "id": "ord64-002",
+   "size": "ord64",
+   "tags": [
+    "cofactor",
+    "composite",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.7624574629589915,
+   "repeat": 1,
+   "rss_kb": 51168,
+   "message": ""
+  },
+  {
+   "id": "ord64-003",
+   "size": "ord64",
+   "tags": [
+    "cofactor",
+    "cofactor",
+    "ord(P)<#E",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.8246529090683907,
+   "repeat": 1,
+   "rss_kb": 51168,
+   "message": ""
+  },
+  {
+   "id": "ord64-004",
+   "size": "ord64",
+   "tags": [
+    "composite",
+    "order"
+   ],
+   "status": "ok",
+   "wall_s": 0.7584686239715666,
+   "repeat": 1,
+   "rss_kb": 51168,
+   "message": ""
+  }
+ ]
+}

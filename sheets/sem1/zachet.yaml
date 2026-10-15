@@ -1,0 +1,62 @@
+# 1st-semester зачёт, written part: individual variants with wider coverage than the
+# контрольная. One slot per topic block of the question list
+# (materials/sem1/exam/questions.yaml, numbers in the slot comments); `taskgen exam
+# coverage --sem 1` shows which questions the slots cover. Tasks are listed explicitly
+# (stable pools for issued runs, see README). Coverage gaps (questions without tasks on
+# their topic): none — the theory-only parts (the prime number theorem in 17, the proof of
+# the convolution theorem in 8) are asked orally.
+# Budget: 9 slots, complexity 1-3 each (10..20); 13-15 keeps the variants comparable.
+id: sem1-zachet
+kind: individual
+title: Зачёт (письменная часть)
+semester: 1
+intro: |
+  Письменная часть зачёта по курсу компьютерной алгебры (1-й семестр).
+
+  Каждому студенту предназначен индивидуальный вариант, номер которого совпадает с номером студента в списке группы. Вариант состоит из девяти заданий, по одному на каждый раздел курса.
+
+  \textbf{Обратите внимание}: варианты для студентов группы n приведены в разделе «Варианты группы n»!
+
+  Критерии оценивания:
+  \begin{itemize}
+    \item если при выполнении задания студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия и получил верный ответ, задание оценивается одним баллом;
+    \item если студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия, но получил неверный ответ из-за допущенной вычислительной ошибки, задание оценивается половиной балла;
+    \item если студент верно и точно применил требуемый алгоритм, но не полно или не понятно описал шаги и действия, но получил верный ответ, задание также оценивается половиной балла;
+    \item в случаях, когда решение не удовлетворяет изложенным выше требованиям, задание оценивается в 0 баллов.
+  \end{itemize}
+
+  При решении можно пользоваться всем, чем угодно, кроме помощи одногруппников.
+
+groups:
+  - {name: "6411", count: 42}
+  - {name: "6412", count: 42}
+  - {name: "6413", count: 42}
+
+budget: {min: 13, max: 15}
+
+slots:
+  - title: Арифметика больших чисел и быстрое умножение   # questions 1, 5, 6
+    tasks: [arithmetic.long_division, arithmetic.karatsuba, arithmetic.toom_cook,
+            arithmetic.master_theorem, arithmetic.balanced_repr]
+  - title: Свёртки и умножение с помощью БПФ               # 7-9
+    tasks: [arithmetic.convolution, arithmetic.dft_small, arithmetic.fft_mul]
+  - title: Метод Монтгомери                                # 3, 4
+    tasks: [arithmetic.montgomery_mul, arithmetic.montgomery_mul_even, powmod.montgomery,
+            powmod.montgomery_even]
+  - title: Кольца Ферма и Мерсенна, ТЧП                    # 10, 11
+    tasks: [modular.fermat_mul, modular.mersenne_mul, modular.fermat_dim1, modular.ntt]
+  - title: Быстрое возведение в степень                    # 2
+    tasks: [powmod.binary, powmod.binary_mod, powmod.qary, powmod.qary_mod,
+            powmod.sliding_window, powmod.addition_chain]
+  - title: Алгоритм Евклида и обратные элементы            # 12, 13
+    tasks: [number_theory.xgcd, number_theory.inverse, number_theory.linear_congruence]
+  - title: Порядок элемента и первообразные корни          # 14-16
+    tasks: [number_theory.order, number_theory.order_product_tree, number_theory.primitive_root,
+            number_theory.all_primitive_roots]
+  - title: Тесты простоты                                  # 17-20
+    tasks: [number_theory.wilson, number_theory.fermat_test, number_theory.carmichael_check,
+            number_theory.fermat_vs_miller_rabin, number_theory.miller_rabin,
+            number_theory.solovay_strassen]
+  - title: Генераторы псевдослучайных чисел и РСЛОС        # 21, 22
+    tasks: [crypto.lcg, crypto.lcg_period, crypto.lfsr, crypto.lfsr_recover,
+            crypto.berlekamp_massey]

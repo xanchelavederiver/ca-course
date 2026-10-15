@@ -1,0 +1,37 @@
+# Capstone 5 (Lenstra's ECM): benchmark of the reference (see bench/README.md).
+# Vectors: taskgen/capstone/gens/lenstra_ecm.py (shapes of n, tags).
+# The timed configuration is Lenstra's basic method (random Weierstrass curves, affine
+# coordinates, stage 1 with prime powers <= B1) plus the standard stage 2; the special
+# families of the remarks (Suyama, Z/2 x Z/8) are faster and are compared in README.md.
+generator: lenstra_ecm
+seed: 20261014
+image: taskgen
+command: sage -python reference/main.py --family weierstrass
+timeout: 300
+x_label: "наименьший простой делитель n, бит"
+sizes:
+  # balanced semiprimes n = p q (the hardest n of a given size): x = bits of p, n = 2x bits
+  - {name: p10-n20,  x: 10, count: 10, commit: true,  params: {shape: semiprime, pbits: 10, op: factor}}
+  - {name: p15-n30,  x: 15, count: 10, commit: true,  params: {shape: semiprime, pbits: 15, op: factor}}
+  - {name: p20-n40,  x: 20, count: 10, commit: true,  params: {shape: semiprime, pbits: 20, op: factor}}
+  # the spec's range: n of 50--100 bits
+  - {name: p25-n50,  x: 25, count: 10, commit: true,  params: {shape: semiprime, pbits: 25, op: factor}}
+  - {name: p30-n60,  x: 30, count: 10, commit: true,  params: {shape: semiprime, pbits: 30, op: factor}}
+  - {name: p35-n70,  x: 35, count: 10, commit: true,  params: {shape: semiprime, pbits: 35, op: factor}}
+  - {name: p40-n80,  x: 40, count: 10, commit: true,  params: {shape: semiprime, pbits: 40, op: factor}}
+  - {name: p45-n90,  x: 45, count: 10, commit: true,  params: {shape: semiprime, pbits: 45, op: factor}}
+  - {name: p50-n100, x: 50, count: 16, commit: true,  params: {shape: semiprime, pbits: 50, op: factor}}
+  # a step beyond the spec
+  - {name: p55-n110, x: 55, count: 8,  commit: false, params: {shape: semiprime, pbits: 55, op: factor}}
+  - {name: p60-n120, x: 60, count: 8,  commit: false, params: {shape: semiprime, pbits: 60, op: factor}}
+  - {name: p65-n130, x: 65, count: 6,  commit: false, timeout: 600, params: {shape: semiprime, pbits: 65, op: factor}}
+  # full factorization of other shapes of n, up to the spec's 100 bits (x: none, not plotted)
+  - {name: unbalanced-n100, count: 8, commit: true, params: {shape: unbalanced, pbits: [20, 40], nbits: [90, 128]}}
+  - {name: square-n100,     count: 8, commit: true, params: {shape: square, pbits: [15, 35], nbits: [80, 100]}}
+  - {name: power-n100,      count: 6, commit: true, params: {shape: power, pbits: [10, 40], k: [2, 5]}}
+  - {name: multi-n100,      count: 8, commit: true, params: {shape: multi, pbits: [12, 30], nbits: [80, 100], k: [3, 5]}}
+  - {name: prime-n100,      count: 6, commit: true, params: {shape: prime, nbits: [20, 128]}}
+requirements:
+  ReqBitsMin: {value: 50}
+  ReqBitsMax: {value: 100}
+  ReqSeconds: {size: p50-n100, stat: max, round: nice}

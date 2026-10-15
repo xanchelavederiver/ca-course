@@ -1,0 +1,52 @@
+# Capstone 06 — elliptic-curve arithmetic (see bench/README.md for the calibration notes).
+generator: ec_arithmetic
+seed: 20261006
+image: taskgen
+command: sage -python reference/main.py
+timeout: 60
+x_label: "p, бит (умножение точки на число)"
+sizes:
+  # ternary expansions + every operation on tiny curves (p < 256); first = warm-up vector
+  - {name: misc, count: 24, params: {kind: misc}}
+  # item 1: P + Q, P - Q, -P, 2P (repeated 1000 times per request: per-op timing)
+  - {name: add-p64,   count: 10, params: {kind: add, bits: 64,   repeat: 1000}}
+  - {name: add-p256,  count: 10, params: {kind: add, bits: 256,  repeat: 1000}}
+  - {name: add-p521,  count: 10, params: {kind: add, bits: 521,  repeat: 1000}}
+  - {name: add-p1024, count: 10, params: {kind: add, bits: 1024, repeat: 1000}}
+  - {name: add-p2048, count: 10, commit: false, params: {kind: add, bits: 2048, repeat: 1000}}
+  # items 2-3: [k]P, binary and ternary methods (the plotted curve)
+  - {name: mul-p64,   x: 64,   count: 12, params: {kind: mul, bits: 64}}
+  - {name: mul-p128,  x: 128,  count: 12, params: {kind: mul, bits: 128}}
+  - {name: mul-p192,  x: 192,  count: 12, params: {kind: mul, bits: 192, std: [P-192]}}
+  - {name: mul-p256,  x: 256,  count: 12, params: {kind: mul, bits: 256, std: [P-256, secp256k1]}}
+  - {name: mul-p384,  x: 384,  count: 12, params: {kind: mul, bits: 384, std: [P-384]}}
+  - {name: mul-p521,  x: 521,  count: 12, params: {kind: mul, bits: 521, std: [P-521]}}
+  - {name: mul-p768,  x: 768,  count: 12, params: {kind: mul, bits: 768}}
+  - {name: mul-p1024, x: 1024, count: 12, params: {kind: mul, bits: 1024}}
+  - {name: mul-p1536, x: 1536, count: 12, commit: false, params: {kind: mul, bits: 1536}}
+  - {name: mul-p2048, x: 2048, count: 12, commit: false, params: {kind: mul, bits: 2048}}
+  # item 4: a point on the curve (Tonelli--Shanks)
+  - {name: point-p64,   count: 8, params: {kind: point, bits: 64, repeat: 10}}
+  - {name: point-p256,  count: 8, params: {kind: point, bits: 256}}
+  - {name: point-p521,  count: 8, params: {kind: point, bits: 521}}
+  - {name: point-p1024, count: 8, params: {kind: point, bits: 1024}}
+  - {name: point-p2048, count: 8, commit: false, params: {kind: point, bits: 2048}}
+  # item 5: #E by Shanks--Mestre
+  - {name: sm-p32, count: 8, params: {kind: order, bits: 32, method: shanks-mestre}}
+  - {name: sm-p48, count: 8, params: {kind: order, bits: 48, method: shanks-mestre}}
+  - {name: sm-p64, count: 8, params: {kind: order, bits: 64, method: shanks-mestre}}
+  - {name: sm-p72, count: 6, params: {kind: order, bits: 72, method: shanks-mestre}}
+  - {name: sm-p80, count: 4, commit: false, timeout: 300, params: {kind: order, bits: 80, method: shanks-mestre}}
+  # remark 3: #E by Schoof (the "existential plus" of the spec)
+  - {name: schoof-p32,  count: 6, params: {kind: order, bits: 32, method: schoof}}
+  - {name: schoof-p64,  count: 4, params: {kind: order, bits: 64, method: schoof}}
+  - {name: schoof-p96,  count: 3, timeout: 300, params: {kind: order, bits: 96, method: schoof}}
+  - {name: schoof-p128, count: 2, commit: false, timeout: 600, params: {kind: order, bits: 128, method: schoof}}
+requirements:
+  ReqBitsMin: {value: 512}
+  ReqBitsMax: {value: 1024}
+  ReqAddUs:   {size: add-p1024, stat: max_op, unit: us}
+  ReqMulMs:   {size: mul-p1024, stat: max_op, unit: ms}
+  ReqPointMs: {size: point-p1024, stat: max, unit: ms}
+  ReqOrderBits: {value: 64}
+  ReqOrderSeconds: {size: sm-p64, stat: max}

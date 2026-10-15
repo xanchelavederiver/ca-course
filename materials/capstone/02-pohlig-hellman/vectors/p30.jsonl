@@ -1,0 +1,12 @@
+{"expected":{"order":148075091,"x":143845541},"id":"p30-000","input":{"factors":[[2,1],[3,1],[148075091,1]],"g":45515141,"h":158114854,"p":888450547},"size":"p30","tags":["lpf-28","max-prime","prime-order","qmax-28"]}
+{"expected":{"order":8747408,"x":7453638},"id":"p30-001","input":{"factors":[[2,4],[101,2],[5413,1]],"g":872236399,"h":640529438,"p":883488209},"size":"p30","tags":["lpf-13","prime-power","qmax-28","subgroup"]}
+{"expected":{"order":891041296,"x":483565228},"id":"p30-002","input":{"factors":[[2,4],[55690081,1]],"g":582791195,"h":131385134,"p":891041297},"size":"p30","tags":["generator","lpf-26","qmax-28","random"]}
+{"expected":{"order":321436942,"x":284361527},"id":"p30-003","input":{"factors":[[2,1],[3,1],[160718471,1]],"g":874334669,"h":124958227,"p":964310827},"size":"p30","tags":["lpf-28","max-prime","qmax-28","subgroup"]}
+{"expected":{"order":11503,"x":0},"id":"p30-004","input":{"factors":[[2,1],[11,1],[2617,1],[11503,1]],"g":590757716,"h":1,"p":662273723},"size":"p30","tags":["h-one","lpf-14","prime-order","qmax-28","smooth","x-zero"]}
+{"expected":{"order":1031762922,"x":342718918},"id":"p30-005","input":{"factors":[[2,1],[3,1],[171960487,1]],"g":417830259,"h":988084031,"p":1031762923},"size":"p30","tags":["generator","lpf-28","max-prime","qmax-28"]}
+{"expected":{"order":255631693,"x":77562788},"id":"p30-006","input":{"factors":[[2,2],[255631693,1]],"g":855521167,"h":946852557,"p":1022526773},"size":"p30","tags":["lpf-28","qmax-28","random","subgroup"]}
+{"expected":{"order":857,"x":596},"id":"p30-007","input":{"factors":[[2,1],[419,1],[857,2]],"g":33275945,"h":322614854,"p":615468263},"size":"p30","tags":["lpf-10","prime-order","prime-power","qmax-28"]}
+{"expected":{"order":139355591,"x":121631652},"id":"p30-008","input":{"factors":[[2,1],[3,1],[139355591,1]],"g":703213454,"h":681060389,"p":836133547},"size":"p30","tags":["lpf-28","max-prime","prime-order","qmax-28"]}
+{"expected":{"order":4,"x":3},"id":"p30-009","input":{"factors":[[2,2],[208256317,1]],"g":63957243,"h":769068026,"p":833025269},"size":"p30","tags":["lpf-2","prime-power-order","qmax-28","random"]}
+{"expected":{"order":937294,"x":0},"id":"p30-010","input":{"factors":[[2,1],[3,6],[468647,1]],"g":592698278,"h":1,"p":683287327},"size":"p30","tags":["h-one","lpf-19","prime-power","qmax-28","subgroup","x-zero"]}
+{"expected":{"order":156337163,"x":156337162},"id":"p30-011","input":{"factors":[[2,1],[3,1],[156337163,1]],"g":615065091,"h":317883669,"p":938022979},"size":"p30","tags":["lpf-28","max-prime","prime-order","qmax-28","x-max"]}

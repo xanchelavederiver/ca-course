@@ -1,0 +1,4 @@
+{"expected":{"factorization":[[7148815243,2],[16501336339,1]]},"id":"repeat100-000","input":{"n":843310024098175330299790991611},"size":"repeat100","tags":["bits100","repeated-factor"]}
+{"expected":{"factorization":[[6534949061,2],[14518659809,1]]},"id":"repeat100-001","input":{"n":620027486411506798877240551289},"size":"repeat100","tags":["bits99","repeated-factor"]}
+{"expected":{"factorization":[[8138329187,2],[13234765741,1]]},"id":"repeat100-002","input":{"n":876570324351093626623963283029},"size":"repeat100","tags":["bits100","repeated-factor"]}
+{"expected":{"factorization":[[6583247941,2],[16924345523,1]]},"id":"repeat100-003","input":{"n":733486807707487265583591693563},"size":"repeat100","tags":["bits100","repeated-factor"]}

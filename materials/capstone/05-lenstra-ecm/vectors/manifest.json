@@ -1,0 +1,209 @@
+{
+  "capstone": "lenstra-ecm",
+  "generator": "lenstra_ecm",
+  "generator_version": 1,
+  "seed": 20261014,
+  "taskgen_version": "0.4.0",
+  "sizes": {
+    "p10-n20": {
+      "count": 10,
+      "sha256": "e4327e1dbd2a031ff8c01f262f6a35fdf55701528a29f799d74b3ca3451d5ad2",
+      "commit": true,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 10,
+        "op": "factor"
+      }
+    },
+    "p15-n30": {
+      "count": 10,
+      "sha256": "821064ddf71f012dc1bf566a532530c19cce00441de12a61955954b8d2fe0f46",
+      "commit": true,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 15,
+        "op": "factor"
+      }
+    },
+    "p20-n40": {
+      "count": 10,
+      "sha256": "06c8ccd842664b57da0358a98cbc3f266ab85686b5018c2e2c30f02a2fa448ad",
+      "commit": true,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 20,
+        "op": "factor"
+      }
+    },
+    "p25-n50": {
+      "count": 10,
+      "sha256": "1c1d4719508dae951741d579aae65b8cc29b8680dd1b243ddf2ddaa7b325872e",
+      "commit": true,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 25,
+        "op": "factor"
+      }
+    },
+    "p30-n60": {
+      "count": 10,
+      "sha256": "ac84fd17a6188aa84d8822d52f8a204ea57f5eadd5ac376c1c1ddfe8267db726",
+      "commit": true,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 30,
+        "op": "factor"
+      }
+    },
+    "p35-n70": {
+      "count": 10,
+      "sha256": "b77e3727a67f714e9226123726ea09f288388b1e4641ed006f62c1bf4ee7b428",
+      "commit": true,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 35,
+        "op": "factor"
+      }
+    },
+    "p40-n80": {
+      "count": 10,
+      "sha256": "f60787044d133b243ef34cc371c8074313d2d0e5e12ddc41194ec7a7a0104e67",
+      "commit": true,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 40,
+        "op": "factor"
+      }
+    },
+    "p45-n90": {
+      "count": 10,
+      "sha256": "fd59617d105113e887e013d5a46866084c7b4bc63df5156f0036347b5d7cdc07",
+      "commit": true,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 45,
+        "op": "factor"
+      }
+    },
+    "p50-n100": {
+      "count": 16,
+      "sha256": "d0eb8d47572e2f023fb2068a3c161950a91442476049b7e2c1b8363ae15cc19e",
+      "commit": true,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 50,
+        "op": "factor"
+      }
+    },
+    "p55-n110": {
+      "count": 8,
+      "sha256": "72faa179ad42ceb386534e5819aa518b0742d7aca66b25811f2cf2acd093d208",
+      "commit": false,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 55,
+        "op": "factor"
+      }
+    },
+    "p60-n120": {
+      "count": 8,
+      "sha256": "10991320d89cef9a6b30d073d1f6be664092f337c808f5990a0860c4f1c7542a",
+      "commit": false,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 60,
+        "op": "factor"
+      }
+    },
+    "p65-n130": {
+      "count": 6,
+      "sha256": "6772913198a961d733104e6f136fbd1c3ba048d7033f9874e97eedea582def1b",
+      "commit": false,
+      "params": {
+        "shape": "semiprime",
+        "pbits": 65,
+        "op": "factor"
+      }
+    },
+    "unbalanced-n100": {
+      "count": 8,
+      "sha256": "d1c202607bf020700a561b07b2c26429afb2639b83ffcb90c320d448cd6d163b",
+      "commit": true,
+      "params": {
+        "shape": "unbalanced",
+        "pbits": [
+          20,
+          40
+        ],
+        "nbits": [
+          90,
+          128
+        ]
+      }
+    },
+    "square-n100": {
+      "count": 8,
+      "sha256": "2d40e0adb46925656f0a40d1b4f6310159ce940224c9a2a3d540766fc519d29a",
+      "commit": true,
+      "params": {
+        "shape": "square",
+        "pbits": [
+          15,
+          35
+        ],
+        "nbits": [
+          80,
+          100
+        ]
+      }
+    },
+    "power-n100": {
+      "count": 6,
+      "sha256": "128d4c1acbd1134d1c39d646c9bac82c78fb20b58031ff078432180d5982d8f9",
+      "commit": true,
+      "params": {
+        "shape": "power",
+        "pbits": [
+          10,
+          40
+        ],
+        "k": [
+          2,
+          5
+        ]
+      }
+    },
+    "multi-n100": {
+      "count": 8,
+      "sha256": "b66594aa0afac13339d252dded43db5ebc1906f4b5d5ae5f0075be73f346acb7",
+      "commit": true,
+      "params": {
+        "shape": "multi",
+        "pbits": [
+          12,
+          30
+        ],
+        "nbits": [
+          80,
+          100
+        ],
+        "k": [
+          3,
+          5
+        ]
+      }
+    },
+    "prime-n100": {
+      "count": 6,
+      "sha256": "e1365c197fe8f65abbf191267ba1f7a491baeaacb483b795b4577fcd276035ad",
+      "commit": true,
+      "params": {
+        "shape": "prime",
+        "nbits": [
+          20,
+          128
+        ]
+      }
+    }
+  }
+}

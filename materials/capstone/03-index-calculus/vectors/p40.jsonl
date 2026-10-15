@@ -1,0 +1,10 @@
+{"expected":{"order":1266,"x":1},"id":"p40-000","input":{"g":193570345683,"h":193570345683,"p":645528160027},"size":"p40","tags":["h-not-smooth","random","subgroup","x-one"]}
+{"expected":{"order":173,"x":19},"id":"p40-001","input":{"g":996978310230,"h":579474048939,"p":1085878210181},"size":"p40","tags":["h-not-smooth","random","small-order","x-random"]}
+{"expected":{"order":632894779638,"x":1},"id":"p40-002","input":{"g":592789528268,"h":592789528268,"p":632894779639},"size":"p40","tags":["generator","h-not-smooth","prime-power","x-one"]}
+{"expected":{"order":757770620688,"x":1},"id":"p40-003","input":{"g":726717241065,"h":726717241065,"p":757770620689},"size":"p40","tags":["generator","h-not-smooth","prime-power","x-one"]}
+{"expected":{"order":611603993466,"x":5401430598},"id":"p40-004","input":{"g":177925804200,"h":234856673596,"p":611603993467},"size":"p40","tags":["generator","h-not-smooth","prime-power","x-random"]}
+{"expected":{"order":940542976342,"x":0},"id":"p40-005","input":{"g":499419593453,"h":1,"p":940542976343},"size":"p40","tags":["generator","h-one","h-smooth","safe","x-zero"]}
+{"expected":{"order":860411573752,"x":433085337188},"id":"p40-006","input":{"g":582740690281,"h":706907833388,"p":860411573753},"size":"p40","tags":["generator","h-not-smooth","random","x-random"]}
+{"expected":{"order":883025058478,"x":130601949872},"id":"p40-007","input":{"g":75669643092,"h":374916791760,"p":883025058479},"size":"p40","tags":["generator","h-not-smooth","safe","x-random"]}
+{"expected":{"order":484152383579,"x":218721122384},"id":"p40-008","input":{"g":588639244542,"h":558967720081,"p":968304767159},"size":"p40","tags":["h-not-smooth","prime-order","safe","x-random"]}
+{"expected":{"order":591068207808,"x":1},"id":"p40-009","input":{"g":270948460482,"h":270948460482,"p":591068207809},"size":"p40","tags":["generator","h-not-smooth","prime-power","x-one"]}

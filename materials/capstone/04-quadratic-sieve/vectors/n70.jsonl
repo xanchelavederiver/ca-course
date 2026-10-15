@@ -1,0 +1,10 @@
+{"expected":{"factorization":[[29051640203,1],[30458588569,1]]},"id":"n70-000","input":{"n":884871956197796639507},"size":"n70","tags":["balanced","bits70","semiprime"]}
+{"expected":{"factorization":[[28614165367,1],[33062216699,1]]},"id":"n70-001","input":{"n":946047736024774863533},"size":"n70","tags":["balanced","bits70","semiprime"]}
+{"expected":{"factorization":[[26912758057,1],[31692164549,1]]},"id":"n70-002","input":{"n":852923556809869521293},"size":"n70","tags":["balanced","bits70","semiprime"]}
+{"expected":{"factorization":[[28302757543,1],[32966628637,1]]},"id":"n70-003","input":{"n":933046497323131558891},"size":"n70","tags":["balanced","bits70","semiprime"]}
+{"expected":{"factorization":[[31689846091,1],[34243444091,1]]},"id":"n70-004","input":{"n":1085169472869553398281},"size":"n70","tags":["balanced","bits70","semiprime"]}
+{"expected":{"factorization":[[27173505133,1],[27844009073,1]]},"id":"n70-005","input":{"n":756619323468464071709},"size":"n70","tags":["balanced","bits70","semiprime"]}
+{"expected":{"factorization":[[27843082601,1],[32070483649,1]]},"id":"n70-006","input":{"n":892941125293126891049},"size":"n70","tags":["balanced","bits70","semiprime"]}
+{"expected":{"factorization":[[30158689829,1],[32376648037,1]]},"id":"n70-007","input":{"n":976437285850584715673},"size":"n70","tags":["balanced","bits70","semiprime"]}
+{"expected":{"factorization":[[29472009731,1],[30122861819,1]]},"id":"n70-008","input":{"n":887781276655136360689},"size":"n70","tags":["balanced","bits70","semiprime"]}
+{"expected":{"factorization":[[33511943081,1],[34051541651,1]]},"id":"n70-009","input":{"n":1141133325628612766731},"size":"n70","tags":["balanced","bits70","semiprime"]}

@@ -1,0 +1,119 @@
+# Зачёт question list (semester 1). Source of questions-body.tex:
+#   taskgen exam render [--sem 1]      (make exams: render + build both PDFs)
+#
+# Port of the December 2025 list (tmp/вопросы на экзамен/зачёт - Вопросы*.pdf), text and
+# references verbatim; only the typography is LaTeX ($\Zn{n}$, "--~ between names).
+#
+# Schema (taskgen/core/exam.py):
+#   title, genitive (title of the references sheet: «Ссылки на источники для <genitive>»),
+#   date, literature: ca-refs.bib keys in the order of the numbered list (the numbers are
+#   generated, never typed)
+#   topics: [{title, questions: [...]}]; a question:
+#     id: sem1:<k>       its first number; numbering is checked to be consecutive
+#     text: "..."        or a list of `span` texts (a combined question «14-15»: one item
+#                        «14–15» with references, separate items 14, 15 in the plain list)
+#     span: n            how many numbers the question takes (default 1, or len(text))
+#     refs: [{key, loc}, {text: "..."}]   cited sources; `sep` overrides the ", " before
+#                        an item; free text is printed as is
+#     lectures: [N]      optional: lectures of this semester covering the question (must
+#                        agree with the exam_questions of course.yaml)
+#     topics: [slug]     task-taxonomy topics the question is about (coverage of the exam
+#                        task sheet, `taskgen exam coverage`); default: the lectures' topics
+#     new: true          added after the original list; wording to be reviewed
+title: Вопросы на зачёт
+genitive: вопросов на зачёт
+date: декабрь 2026
+sheet: sheets/sem1/zachet.yaml
+literature: [knuth-taocp2, welschenbach, crandall-pomerance, chernov-korepanov, msu-ent,
+             galbraith, hps, wiki-lfsr]
+
+topics:
+  - title: Арифметика больших чисел и операции в $\Zn{n}$
+    questions:
+      - id: sem1:1
+        text: Школьные алгоритмы сложения, умножения и деления с остатком больших целых чисел, оценки сложности.
+        refs: [{key: knuth-taocp2, loc: Раздел 4.3}, {key: welschenbach, loc: Глава 4}]
+        topics: [arithmetic.representation, arithmetic.division, arithmetic.complexity]
+      - id: sem1:2
+        text: Бинарный алгоритм быстрого возведения в степень и его модификации.
+        refs: [{key: welschenbach, loc: Глава 6}]
+        topics: [powmod]
+      - id: sem1:3
+        text: Теорема Монтгомери и алгоритм умножения чисел по модулю (без тривиальных делений).
+        refs: [{key: crandall-pomerance, loc: Глава 9}]
+        topics: [arithmetic.montgomery]
+      - id: sem1:4
+        text: Возведение в степень по модулю методом Монтгомери (без тривиальных делений).
+        refs: [{key: crandall-pomerance, loc: Глава 9}]
+        topics: [arithmetic.montgomery, powmod]
+      - id: sem1:5
+        text: Умножение методом Карацубы, оценка сложности.
+        refs: [{key: welschenbach, loc: Глава 4}, {key: crandall-pomerance, loc: Глава 9}]
+        topics: [arithmetic.multiplication, arithmetic.complexity]
+      - id: sem1:6
+        text: Умножение методом Тоома"--~Кука, оценка сложности.
+        refs: [{key: crandall-pomerance, loc: Глава 9}]
+        topics: [arithmetic.multiplication, arithmetic.complexity]
+      - id: sem1:7
+        text: Понятие линейной свёртки, связь с умножением целых чисел. Понятие циклической свёртки, вычисление линейной свёртки с помощью циклической.
+        refs: [{key: crandall-pomerance, loc: Глава 9}]
+        topics: [arithmetic.convolution]
+      - id: sem1:8
+        text: Теорема о свёртке (с доказательством).
+        refs: [{key: crandall-pomerance, loc: Глава 9}]
+        topics: [arithmetic.convolution]
+      - id: sem1:9
+        text: Умножение с помощью БПФ, оценка сложности.
+        refs: [{key: crandall-pomerance, loc: Глава 9}]
+        topics: [arithmetic.convolution, arithmetic.multiplication]
+      - id: sem1:10
+        text: Теоретико-числовые преобразования. Арифметика в кольцах Мерсенна, ТЧП Мерсена.
+        refs: [{key: crandall-pomerance, loc: Глава 9}, {key: chernov-korepanov, loc: Глава 1}]
+        topics: [arithmetic.modular, arithmetic.ntt]
+      - id: sem1:11
+        text: Теоретико-числовые преобразования. Арифметика в кольцах Ферма, ТЧП Ферма.
+        refs: [{key: crandall-pomerance, loc: Глава 9}, {key: chernov-korepanov, loc: Глава 1}]
+        topics: [arithmetic.modular, arithmetic.ntt]
+      - id: sem1:12
+        text: Алгоритм Евклида, расширенный алгоритм Евклида (с выводом).
+        refs: [{key: msu-ent}]
+        topics: [number_theory.euclid]
+      - id: sem1:13
+        text: Понятие мультипликативно обратного, вычисление обратного элемента кольца вычетов по модулю целого числа.
+        refs: [{key: msu-ent}]
+        topics: [number_theory.euclid]
+      - id: sem1:14
+        text:
+          - Вычисление порядка элемента конечной группы методом «последовательного снижения степени».
+          - Вычисление порядка элемента мультипликативной группы поля вычетов с помощью построения дерева произведений.
+        refs: [{key: galbraith, loc: Раздел 2.15}]
+        topics: [number_theory.order]
+      - id: sem1:16
+        text: Поиск первообразного корня по модулю целого числа.
+        refs: [{key: galbraith, loc: Раздел 2.15}]
+        topics: [number_theory.primitive_root]
+
+  - title: Простые числа
+    questions:
+      - id: sem1:17
+        text: Понятие простого числа, теорема о количестве простых чисел (с доказательством). Теорема Вильсона (с доказательством) и тест простоты на её основе.
+        refs: [{key: hps, loc: Глава 1 и Раздел 3.4}, {key: msu-ent}]
+        topics: [number_theory.primality]
+      - id: sem1:18
+        text:
+          - Понятие псевдопростого числа и вероятно простого числа. Малая теорема Ферма (с доказательством) и тест на её основе. Числа Кармайкла.
+          - Свидетели (не)простоты, вероятностный тест простоты Миллера"--~Рабина.
+        refs: [{key: crandall-pomerance, loc: Глава 3}, {key: hps, loc: Раздел 3.4}]
+        topics: [number_theory.primality]
+      - id: sem1:20
+        text: Вероятностный тест простоты Соловея"--~Штрассена.
+        refs: [{text: не скажу ☺}]
+        topics: [number_theory.primality]
+      - id: sem1:21
+        text: Понятие линейной конгруэнтной последовательности, понятие периода. Максимальный период и теорема о параметрах, определяющих линейную конгруэнтную последовательность максимального периода (с доказательством).
+        refs: [{key: knuth-taocp2, loc: Раздел 3.2.1}]
+        topics: [crypto.prng]
+      - id: sem1:22
+        text: Сдвиговый регистр с линейной обратной связью (РСЛОС, LFSR). Принцип работы и рекуррентное уравнение LFSR. Представление схемы обратной связи с помощью полинома. Общий член рекуррентной последовательности LFSR (матричное представление).
+        refs: [{key: wiki-lfsr}]
+        topics: [crypto.lfsr]

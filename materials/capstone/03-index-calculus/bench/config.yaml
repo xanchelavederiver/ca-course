@@ -1,0 +1,25 @@
+# Capstone 3 (index calculus): benchmark of the reference (see bench/README.md).
+# Vectors: taskgen/capstone/gens/index_calculus.py (shapes of p - 1, kinds of base, tags).
+generator: index_calculus
+seed: 20261014
+image: taskgen
+command: sage -python reference/main.py
+timeout: 300
+x_label: "p, бит"
+sizes:
+  # tiny p: a factor base of a few primes, a group smaller than the relation estimate
+  - {name: p12, x: 12, count: 8,  commit: true,  params: {bits: 12}}
+  - {name: p20, x: 20, count: 10, commit: true,  params: {bits: 20}}
+  - {name: p30, x: 30, count: 10, commit: true,  params: {bits: 30}}
+  - {name: p40, x: 40, count: 10, commit: true,  params: {bits: 40}}
+  # the range of the calibrated requirement
+  - {name: p50, x: 50, count: 10, commit: true,  params: {bits: 50}}
+  - {name: p60, x: 60, count: 10, commit: true,  params: {bits: 60}}
+  # beyond it, to show the curve (L(p)^sqrt2 trials; the original spec asked for 100-150 bits)
+  - {name: p64, x: 64, count: 6,  commit: false, params: {bits: 64}}
+  - {name: p70, x: 70, count: 4,  commit: false, params: {bits: 70}}
+  - {name: p80, x: 80, count: 2,  commit: false, timeout: 900, params: {bits: 80}}
+requirements:
+  ReqBitsMin: {value: 50}
+  ReqBitsMax: {value: 60}
+  ReqSeconds: {size: p60, stat: max, round: nice}

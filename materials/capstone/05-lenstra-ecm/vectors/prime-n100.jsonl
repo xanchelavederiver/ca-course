@@ -1,0 +1,6 @@
+{"expected":{"factorization":[[3987407,1]],"prime":true},"id":"prime-n100-000","input":{"n":3987407,"op":"factorize"},"size":"prime-n100","tags":["n22","p22","prime","prime"]}
+{"expected":{"factorization":[[44940437701,1]],"prime":true},"id":"prime-n100-001","input":{"n":44940437701,"op":"factorize"},"size":"prime-n100","tags":["n36","p36","prime","prime"]}
+{"expected":{"factorization":[[469632589487840220145299584388228613,1]],"prime":true},"id":"prime-n100-002","input":{"n":469632589487840220145299584388228613,"op":"factorize"},"size":"prime-n100","tags":["n119","p119","prime","prime"]}
+{"expected":{"factorization":[[172501727,1]],"prime":true},"id":"prime-n100-003","input":{"n":172501727,"op":"factorize"},"size":"prime-n100","tags":["n28","p28","prime","prime"]}
+{"expected":{"factorization":[[135637597841241702005283850607343217,1]],"prime":true},"id":"prime-n100-004","input":{"n":135637597841241702005283850607343217,"op":"factorize"},"size":"prime-n100","tags":["n117","p117","prime","prime"]}
+{"expected":{"factorization":[[16441960060933843972423,1]],"prime":true},"id":"prime-n100-005","input":{"n":16441960060933843972423,"op":"factorize"},"size":"prime-n100","tags":["n74","p74","prime","prime"]}

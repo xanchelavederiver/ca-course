@@ -10,6 +10,8 @@
     taskgen schema
     taskgen catalog [--check]
     taskgen course check|scaffold|examples|docs|book
+    taskgen exam render [--sem N] [--check]
+    taskgen exam coverage [--sem N]
 """
 
 from __future__ import annotations
@@ -235,6 +237,52 @@ def course_book(sem: int) -> None:
     """Write the semester book of lecture notes (build/materials/semN/notes-book.tex)."""
     c, crs = _course()
     click.echo(_rel(c.write_book(crs, sem)))
+
+
+@main.group()
+def exam() -> None:
+    """Exam question lists (materials/semN/exam/questions.yaml)."""
+
+
+@exam.command("render")
+@click.option("--sem", type=int, default=None)
+@click.option("--check", "check_only", is_flag=True, help="Fail if questions-body.tex is stale.")
+def exam_render(sem: int | None, check_only: bool) -> None:
+    """Render questions.yaml -> questions-body.tex (shared by questions{,-refs}.tex)."""
+    from taskgen.core import exam as ex
+
+    _, crs = _course()
+    bad = False
+    for r in ex.render_all(crs, sem=sem, write=not check_only):
+        bad |= r.status in ("stale", "missing")
+        click.secho(f"{r.status:<8} {r.path}", fg="red" if r.status in ("stale", "missing") else None)
+    if bad:
+        if check_only:
+            click.echo("run `taskgen exam render`", err=True)
+        raise SystemExit(1)
+
+
+@exam.command("coverage")
+@click.option("--sem", type=int, default=None)
+def exam_coverage(sem: int | None) -> None:
+    """Which questions the exam task sheet (questions.yaml `sheet:`) covers, by topics."""
+    from taskgen.core import exam as ex
+
+    _, crs = _course()
+    for s in crs.semesters:
+        if sem is not None and s.n != sem:
+            continue
+        e = ex.load_sem(s.n)
+        if e is None:
+            continue
+        cov = ex.coverage(e, s)
+        n = sum(qc.covered for qc in cov)
+        click.secho(f"semester {s.n}: {e.sheet or '(no sheet)'} covers {n}/{len(cov)} questions",
+                    bold=True)
+        for qc in cov:
+            mark = "ok  " if qc.covered else "--  "
+            what = "; ".join(qc.slots) if qc.covered else ", ".join(qc.topics) or "(no task topics)"
+            click.secho(f"  {mark}{qc.question.label:<6} {what}", fg=None if qc.covered else "yellow")
 
 
 @main.command()

@@ -1,0 +1,35 @@
+# Capstone 01 — bigint arithmetic. Calibration notes: bench/README.md.
+# One vector = one operation; "repeat" makes the solver repeat it so that a request
+# takes ~30 ms and the per-operation time (wall / repeat, the *_op stats) is reliable.
+generator: bigint_arithmetic
+seed: 20261014
+image: capstone-c
+build: make -C reference
+command: reference/build/bigint-solver
+timeout: 60
+x_label: "длина операндов, бит"
+sizes:
+  # mixed operations (all 18, random signs, ~30% corner cases): correctness + the curve
+  - {name: b256,  x: 256,  count: 72, commit: true,  params: {bits: 256}}
+  - {name: b512,  x: 512,  count: 72, commit: true,  params: {bits: 512}}
+  - {name: b1024, x: 1024, count: 72, commit: true,  params: {bits: 1024}}
+  - {name: b2048, x: 2048, count: 72, commit: true,  params: {bits: 2048}}
+  - {name: b4096, x: 4096, count: 72, commit: false, params: {bits: 4096}}
+  # footnote 1: lengths up to 16384 bits must work (correctness; no repeats needed)
+  - {name: b16384, x: 16384, count: 30, commit: false, timeout: 120,
+     params: {bits: 16384, target_ms: 1, ops: [mul_school, mul_karatsuba, sqr, divmod, mod, xgcd,
+                                              inv, shr, mont_mul, mont_redc, pow_qary, powmod_qary]}}
+  # corner cases only (all operations; small and medium operands)
+  - {name: corner128,  count: 80, commit: true, params: {bits: 128, corner: 1}}
+  - {name: corner1024, count: 80, commit: true, params: {bits: 1024, corner: 1}}
+  # the requirement classes: one operation family at 2048 bits, random operands
+  - {name: mul2048, count: 15, commit: false, params: {bits: 2048, corner: 0, ops: [mul_school, mul_karatsuba, sqr]}}
+  - {name: div2048, count: 15, commit: false, params: {bits: 2048, corner: 0, ops: [divmod, mod]}}
+  - {name: gcd2048, count: 15, commit: false, params: {bits: 2048, corner: 0, ops: [gcd, xgcd, inv]}}
+  - {name: powmod2048, count: 12, commit: false, params: {bits: 2048, corner: 0, ops: [powmod_binary, powmod_qary]}}
+requirements:
+  ReqBits: {value: 2048}                 # "числами длиной примерно 2048 бит"
+  ReqMulUs:    {size: mul2048,    stat: max_op, unit: us}   # 2048 x 2048-bit product
+  ReqDivUs:    {size: div2048,    stat: max_op, unit: us}   # 4096 / 2048-bit division
+  ReqGcdMs:    {size: gcd2048,    stat: max_op, unit: ms}   # gcd / xgcd / inverse, 2048 bits
+  ReqPowmodMs: {size: powmod2048, stat: max_op, unit: ms}   # 2048-bit modulus and exponent

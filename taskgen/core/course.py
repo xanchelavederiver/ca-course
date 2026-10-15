@@ -19,7 +19,8 @@ The map is the single source of truth for the course materials (Plan 3)::
             lectures: [2]
             # sheet: sheets/sem1/seminar-01-karatsuba-toom-cook.yaml   (default)
 
-This module loads and checks the map (``check``), creates missing material
+This module loads and checks the map (``check``; the exam question lists are checked
+by ``taskgen.core.exam``), creates missing material
 directories from the templates (``scaffold``), renders taskgen worked examples
 for lecture notes (``examples``), lists the documents to build (``documents``)
 and writes the per-semester book of lecture notes (``book_tex``).
@@ -338,6 +339,12 @@ def check(course: Course, repo: Path = REPO_ROOT, examples_stale: bool = True) -
             add("warning", "taxonomy", f"topic {t!r} has no tasks")
         if not lectured:
             add("warning", "taxonomy", f"topic {t!r} is not covered by any lecture")
+
+    # exam question lists (materials/semN/exam/questions.yaml) and the exam task sheets
+    from taskgen.core import exam
+
+    for level, where, msg in exam.check(course, repo):
+        add(level, where, msg)
 
     if examples_stale:
         for path, status in examples(course, repo, write=False):

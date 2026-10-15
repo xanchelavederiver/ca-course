@@ -1,0 +1,16 @@
+{"expected":{"factorization":[[26339969,2],[30880357,2]]},"id":"corner100-000","input":{"n":661599462810095323051345078489},"size":"corner100","tags":["bits100","perfect-square"]}
+{"expected":{"factorization":[[29,1],[30590247966991128615201420527,1]]},"id":"corner100-001","input":{"n":887117191042742729840841195283},"size":"corner100","tags":["bits100","small-factor"]}
+{"expected":{"factorization":[[25397443,2],[32617469,2]]},"id":"corner100-002","input":{"n":686247073163687499367488942289},"size":"corner100","tags":["bits100","perfect-square"]}
+{"expected":{"factorization":[[1013937931073147,2]]},"id":"corner100-003","input":{"n":1028070128068893796683064483609},"size":"corner100","tags":["bits100","prime-power","square"]}
+{"expected":{"factorization":[[7589468923,2],[16603137589,1]]},"id":"corner100-004","input":{"n":956341364898135437246694651181},"size":"corner100","tags":["bits100","repeated-factor"]}
+{"expected":{"factorization":[[27803827,1],[32409581752937520791269,1]]},"id":"corner100-005","input":{"n":901110404201031569889346386463},"size":"corner100","tags":["bits100","semiprime","unbalanced"]}
+{"expected":{"factorization":[[7302806611,2],[15969520033,1]]},"id":"corner100-006","input":{"n":851670223718126531752770995593},"size":"corner100","tags":["bits100","repeated-factor"]}
+{"expected":{"factorization":[[59,1],[16013995361637973579882199459,1]]},"id":"corner100-007","input":{"n":944825726336640441213049768081},"size":"corner100","tags":["bits100","small-factor"]}
+{"expected":{"factorization":[[6587201567,2],[15648026417,1]]},"id":"corner100-008","input":{"n":678987026996104175308300252913},"size":"corner100","tags":["bits100","repeated-factor"]}
+{"expected":{"factorization":[[14265047339,3]]},"id":"corner100-009","input":{"n":2902816958792186709599990819219},"size":"corner100","tags":["bits102","cube","prime-power"]}
+{"expected":{"factorization":[[8287601479,2],[16938157001,1]]},"id":"corner100-010","input":{"n":1163386105207051431059409224441},"size":"corner100","tags":["bits100","repeated-factor"]}
+{"expected":{"factorization":[[211,1],[4039393520586770307011812621,1]]},"id":"corner100-011","input":{"n":852312032843808534779492463031},"size":"corner100","tags":["bits100","small-factor"]}
+{"expected":{"factorization":[[32704013,1],[37127714506873588160737,1]]},"id":"corner100-012","input":{"n":1214225257893082416565388937581},"size":"corner100","tags":["bits100","semiprime","unbalanced"]}
+{"expected":{"factorization":[[6531564707,2],[14673779383,1]]},"id":"corner100-013","input":{"n":626003054977536580022965781167},"size":"corner100","tags":["bits99","repeated-factor"]}
+{"expected":{"factorization":[[419,1],[2434851322747188461022448739,1]]},"id":"corner100-014","input":{"n":1020202704231071965168406021641},"size":"corner100","tags":["bits100","small-factor"]}
+{"expected":{"factorization":[[25435897,1],[29191197793022816787991,1]]},"id":"corner100-015","input":{"n":742504300369955686469209912927},"size":"corner100","tags":["bits100","semiprime","unbalanced"]}

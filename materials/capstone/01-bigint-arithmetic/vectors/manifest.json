@@ -1,0 +1,144 @@
+{
+  "capstone": "bigint-arithmetic",
+  "generator": "bigint_arithmetic",
+  "generator_version": 1,
+  "seed": 20261014,
+  "taskgen_version": "0.4.0",
+  "sizes": {
+    "b256": {
+      "count": 72,
+      "sha256": "c333f601994577a24e6629c7a34db260452cbd7baf1c5617ba918f5e2eb03ea8",
+      "commit": true,
+      "params": {
+        "bits": 256
+      }
+    },
+    "b512": {
+      "count": 72,
+      "sha256": "271b45f16b812ca6b02d38254f97372e3bba793ae5554dafab4c051f9acad076",
+      "commit": true,
+      "params": {
+        "bits": 512
+      }
+    },
+    "b1024": {
+      "count": 72,
+      "sha256": "3e50f1ab1e49be4f578883241a0feda07c383e2c58a1c2f48a5887b8d62e919f",
+      "commit": true,
+      "params": {
+        "bits": 1024
+      }
+    },
+    "b2048": {
+      "count": 72,
+      "sha256": "2b13255ab54953927e959d3251dab7f27bda28407f732aea85cd664db1051521",
+      "commit": true,
+      "params": {
+        "bits": 2048
+      }
+    },
+    "b4096": {
+      "count": 72,
+      "sha256": "bc225389d5002ac71d9bf71011fe550597d5038a1a15739947de8fbb2746f1ef",
+      "commit": false,
+      "params": {
+        "bits": 4096
+      }
+    },
+    "b16384": {
+      "count": 30,
+      "sha256": "84f032692da7bb3a87fed730c44ac8d33c5a936800f92634e9e54706608986a5",
+      "commit": false,
+      "params": {
+        "bits": 16384,
+        "target_ms": 1,
+        "ops": [
+          "mul_school",
+          "mul_karatsuba",
+          "sqr",
+          "divmod",
+          "mod",
+          "xgcd",
+          "inv",
+          "shr",
+          "mont_mul",
+          "mont_redc",
+          "pow_qary",
+          "powmod_qary"
+        ]
+      }
+    },
+    "corner128": {
+      "count": 80,
+      "sha256": "bf400471498786b2d2a3c7ee6e94fe228e5eb7d111d9382d7fa0e9f0a5b151a6",
+      "commit": true,
+      "params": {
+        "bits": 128,
+        "corner": 1
+      }
+    },
+    "corner1024": {
+      "count": 80,
+      "sha256": "1916119c7bf2ca5c36a1af8cd804e15e1aa15aaffaf74eeeab655674558f6004",
+      "commit": true,
+      "params": {
+        "bits": 1024,
+        "corner": 1
+      }
+    },
+    "mul2048": {
+      "count": 15,
+      "sha256": "29a93dabc27b282d0dbf4fb96a541cdfba7d1e9d03fab127e83eae1738782967",
+      "commit": false,
+      "params": {
+        "bits": 2048,
+        "corner": 0,
+        "ops": [
+          "mul_school",
+          "mul_karatsuba",
+          "sqr"
+        ]
+      }
+    },
+    "div2048": {
+      "count": 15,
+      "sha256": "d7ae265463df67cef05cb624921389579967e36803cb963f901d5d39181f6914",
+      "commit": false,
+      "params": {
+        "bits": 2048,
+        "corner": 0,
+        "ops": [
+          "divmod",
+          "mod"
+        ]
+      }
+    },
+    "gcd2048": {
+      "count": 15,
+      "sha256": "090456709a9b02a94e20d263d68c850da2a7c85ea44cf6e6159652f9a0600227",
+      "commit": false,
+      "params": {
+        "bits": 2048,
+        "corner": 0,
+        "ops": [
+          "gcd",
+          "xgcd",
+          "inv"
+        ]
+      }
+    },
+    "powmod2048": {
+      "count": 12,
+      "sha256": "100b1423986acf1bf11d9a1676a3a2919f8e2e1c1dd3a093a521b7f50c612eb6",
+      "commit": false,
+      "params": {
+        "bits": 2048,
+        "corner": 0,
+        "ops": [
+          "powmod_binary",
+          "powmod_qary"
+        ]
+      }
+    }
+  }
+}

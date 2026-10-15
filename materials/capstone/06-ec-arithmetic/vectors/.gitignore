@@ -1,0 +1,7 @@
+# regenerated from the seed (make vectors); see manifest.json
+/add-p2048.jsonl
+/mul-p1536.jsonl
+/mul-p2048.jsonl
+/point-p2048.jsonl
+/sm-p80.jsonl
+/schoof-p128.jsonl

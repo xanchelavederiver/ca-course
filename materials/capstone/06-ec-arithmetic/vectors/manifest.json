@@ -1,0 +1,306 @@
+{
+  "capstone": "ec-arithmetic",
+  "generator": "ec_arithmetic",
+  "generator_version": 1,
+  "seed": 20261006,
+  "taskgen_version": "0.4.0",
+  "sizes": {
+    "misc": {
+      "count": 24,
+      "sha256": "65199fa8769d374d775bfc0d6388cf3d674894c5aae15f65f9d23be97cf57e8a",
+      "commit": true,
+      "params": {
+        "kind": "misc"
+      }
+    },
+    "add-p64": {
+      "count": 10,
+      "sha256": "c3c7fcc255acc5e0a564872d16c842f93eb928e803e246d8a681ce5e43a878f1",
+      "commit": true,
+      "params": {
+        "kind": "add",
+        "bits": 64,
+        "repeat": 1000
+      }
+    },
+    "add-p256": {
+      "count": 10,
+      "sha256": "95112508c9b33727fd8e297e30470967ce507f642c8a6f8c4b4293ffe61feb8f",
+      "commit": true,
+      "params": {
+        "kind": "add",
+        "bits": 256,
+        "repeat": 1000
+      }
+    },
+    "add-p521": {
+      "count": 10,
+      "sha256": "196747eba59a0ae288ee27fc85812e35a069adfce7ba403680f3eaca888f7e2f",
+      "commit": true,
+      "params": {
+        "kind": "add",
+        "bits": 521,
+        "repeat": 1000
+      }
+    },
+    "add-p1024": {
+      "count": 10,
+      "sha256": "06ef3d5af3015bccbd1b2da800410b096ac96a7fb9458aeb413a55bce6d30f7b",
+      "commit": true,
+      "params": {
+        "kind": "add",
+        "bits": 1024,
+        "repeat": 1000
+      }
+    },
+    "add-p2048": {
+      "count": 10,
+      "sha256": "3454bdb5d99d4da62e8b88ee217cb0f04d0ef28d63045acfa4dfa3c6ddfcff11",
+      "commit": false,
+      "params": {
+        "kind": "add",
+        "bits": 2048,
+        "repeat": 1000
+      }
+    },
+    "mul-p64": {
+      "count": 12,
+      "sha256": "b9a02f6985e7cc4fa58cee0c363000b782c93cb6c50e4253c957bc9ef8be680d",
+      "commit": true,
+      "params": {
+        "kind": "mul",
+        "bits": 64
+      }
+    },
+    "mul-p128": {
+      "count": 12,
+      "sha256": "2a42076534812434773d7c2f444ad3f751a8a761984d6029fed2100abdc7771d",
+      "commit": true,
+      "params": {
+        "kind": "mul",
+        "bits": 128
+      }
+    },
+    "mul-p192": {
+      "count": 12,
+      "sha256": "55416d3daab223e364ce123eb2c8d5fd3e80393e76328239b665fddb61f252bd",
+      "commit": true,
+      "params": {
+        "kind": "mul",
+        "bits": 192,
+        "std": [
+          "P-192"
+        ]
+      }
+    },
+    "mul-p256": {
+      "count": 12,
+      "sha256": "68f98931e22be6a4d88e09da4e0538915b4b9da93ca859659bd0f097d2eb0527",
+      "commit": true,
+      "params": {
+        "kind": "mul",
+        "bits": 256,
+        "std": [
+          "P-256",
+          "secp256k1"
+        ]
+      }
+    },
+    "mul-p384": {
+      "count": 12,
+      "sha256": "10f648358b808f50f8d231950cb6c408c8bd624af000f0fc99314a92bad967be",
+      "commit": true,
+      "params": {
+        "kind": "mul",
+        "bits": 384,
+        "std": [
+          "P-384"
+        ]
+      }
+    },
+    "mul-p521": {
+      "count": 12,
+      "sha256": "cb0ddea473c43208b5799e4c65c747ddfaf6b64b7e859c02a6d4135ba6a9625f",
+      "commit": true,
+      "params": {
+        "kind": "mul",
+        "bits": 521,
+        "std": [
+          "P-521"
+        ]
+      }
+    },
+    "mul-p768": {
+      "count": 12,
+      "sha256": "1fc12ff4df983e67016f92f14ed137686dbd2d6e6121b1a2565707000a7b37c1",
+      "commit": true,
+      "params": {
+        "kind": "mul",
+        "bits": 768
+      }
+    },
+    "mul-p1024": {
+      "count": 12,
+      "sha256": "cc548c281249090210ec1eb5172e4f11930e8baa7974255a7b95a1769c3b786d",
+      "commit": true,
+      "params": {
+        "kind": "mul",
+        "bits": 1024
+      }
+    },
+    "mul-p1536": {
+      "count": 12,
+      "sha256": "c73f39636c60a92c5e8055f51eab5ad20d4c1debadc58507e71cae92ffbdf4e5",
+      "commit": false,
+      "params": {
+        "kind": "mul",
+        "bits": 1536
+      }
+    },
+    "mul-p2048": {
+      "count": 12,
+      "sha256": "7f0ae249d6ce1ee1c7a5101efc89ccb40a60e0ef2dc039b8b810ca000bf59b55",
+      "commit": false,
+      "params": {
+        "kind": "mul",
+        "bits": 2048
+      }
+    },
+    "point-p64": {
+      "count": 8,
+      "sha256": "4017aff4767e8c5a8e121a3fc9d764171586c5122c1e64a853efeb5f94b1ac03",
+      "commit": true,
+      "params": {
+        "kind": "point",
+        "bits": 64,
+        "repeat": 10
+      }
+    },
+    "point-p256": {
+      "count": 8,
+      "sha256": "da16b0a8bd05da1c50d147028151e9603322da7941dbb53e31feb3ecc0f00d7c",
+      "commit": true,
+      "params": {
+        "kind": "point",
+        "bits": 256
+      }
+    },
+    "point-p521": {
+      "count": 8,
+      "sha256": "3895ce09e235bbdf0d6594506b2ba49eaa32f06fcd489cc5bd75a3e8c6d1d670",
+      "commit": true,
+      "params": {
+        "kind": "point",
+        "bits": 521
+      }
+    },
+    "point-p1024": {
+      "count": 8,
+      "sha256": "7081093b73117ca96a8186e48a4779991002a06fb2cecebf7da9396232b31eed",
+      "commit": true,
+      "params": {
+        "kind": "point",
+        "bits": 1024
+      }
+    },
+    "point-p2048": {
+      "count": 8,
+      "sha256": "a148feb7ef68368da0a8f42bcaf559c21d89cae0e9d717ea040a9a6e13c2daa8",
+      "commit": false,
+      "params": {
+        "kind": "point",
+        "bits": 2048
+      }
+    },
+    "sm-p32": {
+      "count": 8,
+      "sha256": "49cd9de524dc75121aa6ab3b5a2e3e97ea788ccab9816519be2bcfa3fe996191",
+      "commit": true,
+      "params": {
+        "kind": "order",
+        "bits": 32,
+        "method": "shanks-mestre"
+      }
+    },
+    "sm-p48": {
+      "count": 8,
+      "sha256": "7ba5b77a76bbd9707b8c03b5580ce62998d1122914d1e7427af26a19016f5931",
+      "commit": true,
+      "params": {
+        "kind": "order",
+        "bits": 48,
+        "method": "shanks-mestre"
+      }
+    },
+    "sm-p64": {
+      "count": 8,
+      "sha256": "9b52ab9cb57f05e12011531732085fd295e927dfe996d1b244f20c5ee72346a0",
+      "commit": true,
+      "params": {
+        "kind": "order",
+        "bits": 64,
+        "method": "shanks-mestre"
+      }
+    },
+    "sm-p72": {
+      "count": 6,
+      "sha256": "7091e498d3eccce1ed7241ab161abc4b8cd521dc0d36ef2309ec814749b784c1",
+      "commit": true,
+      "params": {
+        "kind": "order",
+        "bits": 72,
+        "method": "shanks-mestre"
+      }
+    },
+    "sm-p80": {
+      "count": 4,
+      "sha256": "db5a6af2b2bad33d2a9af96696119d23ea8880a711a52a2bc2cf64cd00c4b835",
+      "commit": false,
+      "params": {
+        "kind": "order",
+        "bits": 80,
+        "method": "shanks-mestre"
+      }
+    },
+    "schoof-p32": {
+      "count": 6,
+      "sha256": "29e65e27f9a65c7d1e95605d60285db4b0bfba4ca179c6655c2e3c45405ebab7",
+      "commit": true,
+      "params": {
+        "kind": "order",
+        "bits": 32,
+        "method": "schoof"
+      }
+    },
+    "schoof-p64": {
+      "count": 4,
+      "sha256": "89e60ec406324cba3768caae15a5a95e5a7be706cfb4ab97d280e9be0b4a350b",
+      "commit": true,
+      "params": {
+        "kind": "order",
+        "bits": 64,
+        "method": "schoof"
+      }
+    },
+    "schoof-p96": {
+      "count": 3,
+      "sha256": "93ff3fef4eeebc1a79097260fe49a9a1f9fb5037948378bf0b8f72bd63ba1096",
+      "commit": true,
+      "params": {
+        "kind": "order",
+        "bits": 96,
+        "method": "schoof"
+      }
+    },
+    "schoof-p128": {
+      "count": 2,
+      "sha256": "509bd5bfc63eb64fc2137334d8d0cc18b3aa0d68d4bfb73d80f0d0bc07b0aad3",
+      "commit": false,
+      "params": {
+        "kind": "order",
+        "bits": 128,
+        "method": "schoof"
+      }
+    }
+  }
+}

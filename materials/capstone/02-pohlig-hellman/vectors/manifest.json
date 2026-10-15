@@ -1,0 +1,72 @@
+{
+  "capstone": "pohlig-hellman",
+  "generator": "pohlig_hellman",
+  "generator_version": 1,
+  "seed": 20261014,
+  "taskgen_version": "0.4.0",
+  "sizes": {
+    "p20": {
+      "count": 10,
+      "sha256": "e5045d355d160f8cc66487249eaeb0e8cd91031a6604eb17c4faa7480be6883d",
+      "commit": true,
+      "params": {
+        "bits": 20,
+        "qmax_bits": 18
+      }
+    },
+    "p30": {
+      "count": 12,
+      "sha256": "d531470c21db7198e1ad49fbb62d510b9087c362b5fe5e9e0ed0962a0e99885e",
+      "commit": true,
+      "params": {
+        "bits": 30,
+        "qmax_bits": 28
+      }
+    },
+    "p50": {
+      "count": 12,
+      "sha256": "a5ecfc3159fedbc449da685646e50340ba67c68fc8c7e12652f3d51ccf8b28b5",
+      "commit": true,
+      "params": {
+        "bits": 50,
+        "qmax_bits": 40
+      }
+    },
+    "p70": {
+      "count": 12,
+      "sha256": "2c1fbc9e3e305d31b9ebf3b96271ef1e06dda57cfdaec26f153a710a4ac0856b",
+      "commit": true,
+      "params": {
+        "bits": 70,
+        "qmax_bits": 40
+      }
+    },
+    "p90": {
+      "count": 12,
+      "sha256": "f6f73c579d9892ce832d741802f56fd3d52ff76cb28f27a61f42473df814fbff",
+      "commit": false,
+      "params": {
+        "bits": 90,
+        "qmax_bits": 40
+      }
+    },
+    "p100": {
+      "count": 20,
+      "sha256": "3df43b385741de94574baa034eb01641b0e8e72c0e525850d1eda87913a2968a",
+      "commit": false,
+      "params": {
+        "bits": 100,
+        "qmax_bits": 40
+      }
+    },
+    "p120": {
+      "count": 8,
+      "sha256": "596656f8e0634ad336a11285dd179d3ea33966d3e5306fb5a410167a4c97a7cc",
+      "commit": false,
+      "params": {
+        "bits": 120,
+        "qmax_bits": 44
+      }
+    }
+  }
+}

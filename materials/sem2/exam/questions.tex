@@ -1,0 +1,9 @@
+% Экзамен questions. Build twice: plain list, and with references:
+%   make pdf FILE=materials/sem2/exam/questions.tex
+%   make pdf FILE=materials/sem2/exam/questions-refs.tex
+% (questions-refs.tex sets the `refs` option and \input's the same body.)
+% questions-body.tex is generated from questions.yaml: `taskgen exam render` (make exams).
+\documentclass{ca-exam}
+\begin{document}
+\input{questions-body}
+\end{document}

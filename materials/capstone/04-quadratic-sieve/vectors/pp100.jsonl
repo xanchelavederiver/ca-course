@@ -1,0 +1,6 @@
+{"expected":{"factorization":[[1101648444191173,2]]},"id":"pp100-000","input":{"n":1213629294588832012006171115929},"size":"pp100","tags":["bits100","prime-power","square"]}
+{"expected":{"factorization":[[26179381,2],[31837541,2]]},"id":"pp100-001","input":{"n":694700772441514654429421978641},"size":"pp100","tags":["bits100","perfect-square"]}
+{"expected":{"factorization":[[910072710223991,2]]},"id":"pp100-002","input":{"n":828232337894440292821391968081},"size":"pp100","tags":["bits100","prime-power","square"]}
+{"expected":{"factorization":[[1122063242488333,2]]},"id":"pp100-003","input":{"n":1259025920143431582549641118889},"size":"pp100","tags":["bits100","prime-power","square"]}
+{"expected":{"factorization":[[27295907,2],[33040661,2]]},"id":"pp100-004","input":{"n":813378172686214223945483473729},"size":"pp100","tags":["bits100","perfect-square"]}
+{"expected":{"factorization":[[29961913,2],[30306149,2]]},"id":"pp100-005","input":{"n":824518843572737255522987023369},"size":"pp100","tags":["bits100","perfect-square"]}
