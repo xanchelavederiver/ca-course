@@ -1,0 +1,62 @@
+# 1st контрольная of semester 1: fast multiplication (Karatsuba, Toom-Cook) and fast
+# exponentiation — the topics of seminar 1. One individual variant per student; 8 slots.
+# Every task family of those topics is used: the three topics hold 9 distinct families
+# (karatsuba, toom_cook, binary, binary_mod, qary, qary_mod, sliding_window, montgomery,
+# addition_chain — montgomery and montgomery_even share a family), so 8 slots with
+# `distinct_families` leaves one free choice per slot pool; the variety comes from the
+# pools of slots 5-7 and from the random instances.
+# The semester-wide контрольная over all 7 topic blocks is sheets/sem1/kontrolnaya.yaml.
+id: sem1-kontrolnaya-01
+kind: individual
+title: Контрольная работа 1
+semester: 1
+intro: |
+  Цель контрольной работы: определение уровня знаний по темам «Умножение больших чисел» и «Быстрое возведение в степень» (1-й семестр).
+
+  Каждому студенту предназначен индивидуальный вариант, номер которого совпадает с номером студента в списке группы. Вариант состоит из восьми заданий.
+
+  \textbf{Обратите внимание}: варианты для студентов группы n приведены в разделе «Варианты группы n»!
+
+  Оценка $s$ вычисляется по формуле
+  \[
+  s = \begin{cases}
+    0,&\textrm{$b < 3$,}\\
+    3,&\textrm{$3 \leq b < 5$,}\\
+    4,&\textrm{$5 \leq b < 7$,}\\
+    5,&\textrm{$b \geq 7$,}
+    \end{cases}
+  \]
+  где $b$ --- количество набранных баллов за задания.
+
+  Критерии оценивания:
+  \begin{itemize}
+    \item если при выполнении задания студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия и получил верный ответ, задание оценивается одним баллом;
+    \item если студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия, но получил неверный ответ из-за допущенной вычислительной ошибки, задание оценивается половиной балла;
+    \item если студент верно и точно применил требуемый алгоритм, но не полно или не понятно описал шаги и действия, но получил верный ответ, задание также оценивается половиной балла;
+    \item в случаях, когда решение не удовлетворяет изложенным выше требованиям, задание оценивается в 0 баллов.
+  \end{itemize}
+
+  При решении КР можно пользоваться всем, чем угодно, кроме помощи одногруппников.
+
+groups:
+  - {name: "6411", count: 42}
+  - {name: "6412", count: 42}
+  - {name: "6413", count: 42}
+
+slots:
+  - title: Метод Карацубы
+    tasks: [arithmetic.karatsuba]
+  - title: Метод Тоома--Кука
+    tasks: [arithmetic.toom_cook]
+  - title: Бинарный алгоритм возведения в степень
+    tasks: [powmod.binary]
+  - title: Бинарный алгоритм возведения в степень по модулю
+    tasks: [powmod.binary_mod]
+  - title: $4$-арный алгоритм возведения в степень
+    tasks: [powmod.qary, powmod.qary_mod]
+  - title: Метод скользящего окна
+    tasks: [powmod.sliding_window, powmod.sliding_window@runs, powmod.sliding_window@pow2]
+  - title: Метод Монтгомери
+    tasks: [powmod.montgomery, powmod.montgomery_even]
+  - title: Аддитивные цепочки
+    tasks: [powmod.addition_chain]

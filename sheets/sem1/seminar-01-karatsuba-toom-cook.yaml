@@ -1,4 +1,5 @@
-# Seminar 1 (lecture 2): big-integer representation and fast multiplication.
+# Seminar 1 (lectures 2 and 6): big-integer representation, fast multiplication
+# (Karatsuba, Toom-Cook) and fast exponentiation — every task family of those topics.
 # Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
 id: sem1-seminar-01-karatsuba-toom-cook
 kind: classroom
@@ -8,16 +9,28 @@ document:
   toc: false
 intro: |
   Задачи для решения на семинаре. Справочный материал "--- в раздаточном листке семинара и
-  в конспекте лекции~2.
+  в конспектах лекций~2 и~6.
 sections:
   - title: Разминка
     intro: Представление чисел; сбалансированные цифры (в том числе для отрицательных чисел).
     tasks: [arithmetic.balanced_repr, arithmetic.balanced_repr]
   - title: Метод Карацубы
-    tasks: [arithmetic.karatsuba, arithmetic.karatsuba]
+    tasks: [arithmetic.karatsuba]
   - title: Метод Тоома--Кука
     intro: Точки интерполяции $0, 1, -1, 2, \infty$.
-    tasks: [arithmetic.toom_cook, arithmetic.toom_cook]
+    tasks: [arithmetic.toom_cook]
+  - title: Быстрое возведение в степень
+    intro: >-
+      Все методы раздела: бинарный, $4$-арный, скользящее окно, аддитивные цепочки и метод
+      Монтгомери. Ведите таблицу промежуточных значений и проверяйте инвариант (текущее
+      значение равно $a$ в степени уже прочитанной части показателя); сравнивайте число
+      возведений в квадрат и умножений с учётом предвычисления. Среди задач есть особые
+      случаи: показатель из длинных серий единиц (окна выгоднее всего), показатель "---
+      степень двойки (предвычисление не окупается) и чётный модуль в методе Монтгомери
+      ($R = 2^k$ не обратим: КТО).
+    tasks: [powmod.binary, powmod.binary_mod, powmod.qary, powmod.qary_mod,
+            powmod.sliding_window, powmod.sliding_window@runs, powmod.sliding_window@pow2,
+            powmod.montgomery, powmod.montgomery_even, powmod.addition_chain]
   - title: Оценки сложности
     intro: >-
       Основная теорема о рекуррентных соотношениях; среди задач могут встретиться

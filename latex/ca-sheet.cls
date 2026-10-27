@@ -30,6 +30,15 @@
 % Unnumbered (but listed in the ToC) sections, as in the legacy sheets.
 \renewcommand\thesection{}
 \renewcommand\thesubsection{}
+% The sections stay *numbered* as far as LaTeX is concerned (so they reach the
+% ToC), and the default \@seccntformat typesets "\thesection\quad" — with an
+% empty \thesection that is a bare \quad indenting every heading by ~1em.
+% Drop the separator so headings are flush with the body text.
+\renewcommand*\@seccntformat[1]{}
+% Same in the ToC: \contentsline wraps the (empty) number in \numberline, a box
+% 1.5em/2.3em wide that pushes every entry right. Drop the box — the entries are
+% then flush too, and the section/subsection hierarchy step (\leftskip) remains.
+\renewcommand*\numberline[1]{}
 
 \RequirePackage{hyperref}
 \hypersetup{
