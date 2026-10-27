@@ -1,5 +1,6 @@
 # Seminar 1 (lectures 2 and 6): big-integer representation, fast multiplication
-# (Karatsuba, Toom-Cook) and fast exponentiation — every task family of those topics.
+# (Karatsuba and Toom-Cook with their variants) and fast exponentiation — every task
+# of those topics.
 # Warm-up -> core -> corner cases. Issue once per seminar: make issue SHEET=<this file>.
 id: sem1-seminar-01-karatsuba-toom-cook
 kind: classroom
@@ -15,10 +16,19 @@ sections:
     intro: Представление чисел; сбалансированные цифры (в том числе для отрицательных чисел).
     tasks: [arithmetic.balanced_repr, arithmetic.balanced_repr]
   - title: Метод Карацубы
-    tasks: [arithmetic.karatsuba]
+    intro: >-
+      Классический метод, возведение в квадрат, вычитательный вариант ($z_1 = z_2 + z_0 -
+      (x_1 - x_0)(y_1 - y_0)$ "--- разности не выходят за разрядную сетку половинок) и один
+      шаг метода для многочленов (переносов нет: метод работает над любым кольцом
+      коэффициентов).
+    tasks: [arithmetic.karatsuba, arithmetic.karatsuba_square, arithmetic.karatsuba_sub,
+            arithmetic.karatsuba_poly]
   - title: Метод Тоома--Кука
-    intro: Точки интерполяции $0, 1, -1, 2, \infty$.
-    tasks: [arithmetic.toom_cook]
+    intro: >-
+      Классические точки интерполяции $0, 1, -1, 2, \infty$; в вариантах "--- другой набор
+      точек (формулы восстановления нужно вывести заново) и сомножители разной длины
+      (разбиение $3 \times 2$, четыре точки).
+    tasks: [arithmetic.toom_cook, arithmetic.toom_points, arithmetic.toom_unbalanced]
   - title: Быстрое возведение в степень
     intro: >-
       Все методы раздела: бинарный, $4$-арный, скользящее окно, аддитивные цепочки и метод

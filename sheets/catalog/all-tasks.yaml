@@ -17,6 +17,10 @@ sections:
   - arithmetic.dft_small@n8
   - arithmetic.fft_mul
   - arithmetic.karatsuba
+  - arithmetic.karatsuba_poly
+  - arithmetic.karatsuba_poly@modp
+  - arithmetic.karatsuba_square
+  - arithmetic.karatsuba_sub
   - arithmetic.long_division
   - arithmetic.long_division@long
   - arithmetic.long_division@corrections
@@ -24,6 +28,8 @@ sections:
   - arithmetic.montgomery_mul
   - arithmetic.montgomery_mul_even
   - arithmetic.toom_cook
+  - arithmetic.toom_points
+  - arithmetic.toom_unbalanced
   - modular.fermat_dim1
   - modular.fermat_mul
   - modular.fermat_mul@sem2

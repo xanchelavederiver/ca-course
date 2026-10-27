@@ -1,10 +1,10 @@
 # 1st контрольная of semester 1: fast multiplication (Karatsuba, Toom-Cook) and fast
 # exponentiation — the topics of seminar 1. One individual variant per student; 8 slots.
 # Every task family of those topics is used: the three topics hold 9 distinct families
-# (karatsuba, toom_cook, binary, binary_mod, qary, qary_mod, sliding_window, montgomery,
-# addition_chain — montgomery and montgomery_even share a family), so 8 slots with
+# (karatsuba, toom, binary, binary_mod, qary, qary_mod, sliding_window, montgomery,
+# addition_chain — variants of one method share a family), so 8 slots with
 # `distinct_families` leaves one free choice per slot pool; the variety comes from the
-# pools of slots 5-7 and from the random instances.
+# pools of slots 1-2 (method variants) and 5-7, and from the random instances.
 # The semester-wide контрольная over all 7 topic blocks is sheets/sem1/kontrolnaya.yaml.
 id: sem1-kontrolnaya-01
 kind: individual
@@ -45,9 +45,10 @@ groups:
 
 slots:
   - title: Метод Карацубы
-    tasks: [arithmetic.karatsuba]
+    tasks: [arithmetic.karatsuba, arithmetic.karatsuba_square, arithmetic.karatsuba_sub,
+            arithmetic.karatsuba_poly, arithmetic.karatsuba_poly@modp]
   - title: Метод Тоома--Кука
-    tasks: [arithmetic.toom_cook]
+    tasks: [arithmetic.toom_cook, arithmetic.toom_points, arithmetic.toom_unbalanced]
   - title: Бинарный алгоритм возведения в степень
     tasks: [powmod.binary]
   - title: Бинарный алгоритм возведения в степень по модулю
