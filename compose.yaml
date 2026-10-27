@@ -37,7 +37,9 @@ services:
       dockerfile: docker/capstone-c/Dockerfile
 
   # --- web app (Plan 2): `make web` / `make web-dev` -------------------------------
-  # Only ever published on 127.0.0.1: the app runs the instructor's task code.
+  # Published on 127.0.0.1: the app has no authentication and runs the instructor's
+  # task code. The dev services (`make web-dev`) honour WEB_HOST (`make web-dev
+  # HOST=0.0.0.0`) to serve on other interfaces; `web` is always localhost-only.
   web:
     <<: *repo
     image: ca-course/web:latest
@@ -63,7 +65,7 @@ services:
       LATEX_WORKER_URL: http://latex-worker:8001
     command: ["--reload", "--reload-dir", "/work/webapp/backend"]
     ports:
-      - "127.0.0.1:${WEB_PORT:-8000}:8000"
+      - "${WEB_HOST:-127.0.0.1}:${WEB_PORT:-8000}:8000"
     depends_on: [latex-worker]
     profiles: [dev]
 
@@ -76,7 +78,7 @@ services:
       HOME: /tmp
     command: ["sh", "-c", "npm ci --no-audit --no-fund && npm run dev -- --host 0.0.0.0"]
     ports:
-      - "127.0.0.1:${VITE_PORT:-5173}:5173"
+      - "${WEB_HOST:-127.0.0.1}:${VITE_PORT:-5173}:5173"
     depends_on: [web-dev]
     profiles: [dev]
 

@@ -31,9 +31,12 @@
 #   make exams                      render questions.yaml -> questions-body.tex, build both PDFs
 #                                   (taskgen exam render [--check], taskgen exam coverage)
 #
-# Web app (Plan 2; http://127.0.0.1:8000, never published beyond localhost):
+# Web app (Plan 2; http://127.0.0.1:8000, localhost-only unless HOST says otherwise):
 #   make web                        build + start the web app and its latex worker
-#   make web-dev                    API with reload + Vite dev server (http://127.0.0.1:5173)
+#   make web-dev [HOST=0.0.0.0]     API with reload + Vite dev server (http://127.0.0.1:5173);
+#                                   HOST is the address the dev ports are published on —
+#                                   anything but 127.0.0.1 exposes an app with no
+#                                   authentication that runs your task code
 #   make web-down                   stop them
 #   make test-web                   backend pytest + frontend vitest + type-check
 #   make test-e2e                   Playwright smoke test against a running `make web`
@@ -188,6 +191,11 @@ exams:
 	$(LATEX) scripts/latex-build-many.sh $(wildcard materials/sem*/exam/questions.tex materials/sem*/exam/questions-refs.tex)
 
 # --- web app ---------------------------------------------------------------------
+# Address the dev ports (API + Vite) are published on; `make web` stays localhost-only.
+# HOST=0.0.0.0 serves on every interface: the app has no authentication and runs the
+# task code of this repo, so only do that on a network you trust.
+HOST ?= 127.0.0.1
+
 WEB := $(COMPOSE) --profile web
 NODE := docker run --rm -u $(HOST_UID):$(HOST_GID) -e HOME=/tmp -v $(CURDIR):/work \
         -w /work/webapp/frontend node:22-bookworm-slim
@@ -197,8 +205,10 @@ web:
 	$(WEB) up -d --build web latex-worker
 	@echo "web app: http://127.0.0.1:$${WEB_PORT:-8000}"
 
+web-dev: export WEB_HOST = $(HOST)
 web-dev:
 	$(COMPOSE) build taskgen latex
+	@echo "dev server on $(HOST): http://$(HOST):$${VITE_PORT:-5173} (API: http://$(HOST):$${WEB_PORT:-8000})"
 	$(COMPOSE) --profile dev up --build web-dev latex-worker vite
 
 web-down:

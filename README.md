@@ -231,8 +231,7 @@ variable).
 ## Web app
 
 A local, single-instructor UI over the same files the CLI uses (no database,
-no authentication — it runs your task code, so it is only ever bound to
-`127.0.0.1`):
+no authentication — it runs your task code, so it is bound to `127.0.0.1`):
 
 ```sh
 make web          # build + start: http://127.0.0.1:8000  (make web-down to stop)
@@ -240,6 +239,12 @@ make web-dev      # API with auto-reload + Vite dev server on http://127.0.0.1:5
 make test-web     # backend pytest + frontend type-check and vitest
 make test-e2e     # Playwright smoke test against a running `make web`
 ```
+
+`make web-dev HOST=<addr>` publishes the dev ports (Vite and the API) on another
+address — `HOST=0.0.0.0` on every interface, e.g. to open the UI from a tablet or
+another machine (`WEB_PORT`/`VITE_PORT` change the ports, as for `make web`). There
+is no authentication and the app runs this repo's task code, so use it only on a
+network you trust; `make web` stays on `127.0.0.1`.
 
 What it does:
 
