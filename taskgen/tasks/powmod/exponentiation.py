@@ -8,6 +8,9 @@ from taskgen.core.task import SolutionDetail, Task
 
 SEM1_EXP = {"p_lo": 42, "p_hi": 128}
 SEM2_EXP = {"p_lo": 15, "p_hi": 65}
+# Exponents 20..30 for the tasks without a modulus: a^p is computed in full by hand,
+# so it must fit on paper (3^30 has 15 digits; the 42..127 range gave up to 61).
+PLAIN_EXP = {"p_lo": 20, "p_hi": 31}
 MOD = r"\ (\textrm{mod}\ \VAR{m})"
 TX = r"\BLOCK{import 'macros.tex.j2' as tx}"
 
@@ -26,7 +29,7 @@ class BinaryPow(Task):
     topics = ("powmod",)
     complexity = 1
     solution_detail = SolutionDetail.FULL
-    presets = {"default": {"a_lo": 2, "a_hi": 4, **SEM1_EXP}}
+    presets = {"default": {"a_lo": 2, "a_hi": 4, **PLAIN_EXP}}
     statement = r"Возвести целое число в степень с помощью бинарного алгоритма: \[\VAR{a}^{\VAR{p}}.\]"
     solution = (BINARY_RULE +
                 r"\BLOCK{for s in steps}\par\noindent бит \VAR{s.bit}: "
@@ -82,7 +85,7 @@ class QaryPow(Task):
     topics = ("powmod",)
     complexity = 1
     solution_detail = SolutionDetail.FULL
-    presets = {"default": {"a_lo": 2, "a_hi": 4, **SEM1_EXP}}
+    presets = {"default": {"a_lo": 2, "a_hi": 4, **PLAIN_EXP}}
     statement = r"Возвести целое число в степень с помощью $4$-арного алгоритма: \[\VAR{a}^{\VAR{p}}.\]"
     solution = (QARY_RULE +
                 r"\BLOCK{for s in q.steps}\par\noindent цифра \VAR{s.digit}: "
