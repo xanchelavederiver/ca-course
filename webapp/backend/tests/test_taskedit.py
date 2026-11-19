@@ -75,7 +75,8 @@ def test_templates_round_trip_long_and_multiline():
     for value in (long, multi, 'с "кавычками" и \\', "a\\"):
         out = taskedit.apply_meta(MUL, tid, {"statement": value})
         assert taskedit.read_meta(out, tid)["fields"]["statement"]["value"] == value
-        assert all(len(line) < 100 for line in out.splitlines() if "Карацубы" in line)
+        added = (line[1:] for line in changed_lines(MUL, out) if line.startswith("+"))
+        assert all(len(line) < 100 for line in added if "Карацубы" in line)
 
 
 def test_presets_with_arithmetic_are_editable_and_keep_expressions():

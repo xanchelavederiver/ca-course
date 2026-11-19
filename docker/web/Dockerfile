@@ -14,7 +14,8 @@ RUN npm run build
 FROM ca-course/taskgen:latest AS backend
 USER root
 COPY webapp/backend/requirements.txt /tmp/web-requirements.txt
-RUN sage -pip install --no-cache-dir -r /tmp/web-requirements.txt
+RUN sage -pip install --no-cache-dir -r /tmp/web-requirements.txt \
+ && sage -pip check
 ENV PYTHONPATH=/work:/work/webapp/backend \
     TASKGEN_REPO=/work
 EXPOSE 8000
