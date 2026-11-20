@@ -1,0 +1,1235 @@
+{
+ "capstone": "montgomery-exponentiation",
+ "command": "sage -python reference/main.py",
+ "slack": 10.0,
+ "started": 1795205405,
+ "duration_s": 0.863,
+ "machine": {
+  "python": "3.12.3",
+  "kernel": "7.0.0-43-generic",
+  "machine": "x86_64",
+  "image": "taskgen",
+  "cpus_visible": 8,
+  "cpu_count": 8,
+  "cpu": "AMD EPYC 7352 24-Core Processor",
+  "mem_total_kb": 32860800,
+  "governor": "n/a (not exposed)",
+  "loadavg_1m": 0.37353515625
+ },
+ "summary": {
+  "b64": {
+   "x": 64,
+   "n": 16,
+   "ok": 16,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.00019438999879639596,
+   "mean_s": 0.00020971025151084177,
+   "p90_s": 0.0003390389902051538,
+   "max_s": 0.00039058001129888,
+   "max_rss_kb": 12024,
+   "timeout_s": 180.0,
+   "limit_s": 0.0039058001129888
+  },
+  "b128": {
+   "x": 128,
+   "n": 16,
+   "ok": 16,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.0002645170025061816,
+   "mean_s": 0.0003595375037548365,
+   "p90_s": 0.0006954099808353931,
+   "max_s": 0.0007185190042946488,
+   "max_rss_kb": 12212,
+   "timeout_s": 180.0,
+   "limit_s": 0.007185190042946488
+  },
+  "b256": {
+   "x": 256,
+   "n": 16,
+   "ok": 16,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.0003824614977929741,
+   "mean_s": 0.0005414685601863312,
+   "p90_s": 0.0015801439876668155,
+   "max_s": 0.0018814330105669796,
+   "max_rss_kb": 12120,
+   "timeout_s": 180.0,
+   "limit_s": 0.018814330105669796
+  },
+  "b512": {
+   "x": 512,
+   "n": 16,
+   "ok": 16,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.0016633110062684864,
+   "mean_s": 0.001450737749109976,
+   "p90_s": 0.0027933870151173323,
+   "max_s": 0.002875920996302739,
+   "max_rss_kb": 12132,
+   "timeout_s": 180.0,
+   "limit_s": 0.028759209963027388
+  },
+  "b1024": {
+   "x": 1024,
+   "n": 16,
+   "ok": 16,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.003132332509267144,
+   "mean_s": 0.006855173560325056,
+   "p90_s": 0.011451098980614915,
+   "max_s": 0.035193610994610935,
+   "max_rss_kb": 12024,
+   "timeout_s": 180.0,
+   "limit_s": 0.35193610994610935
+  }
+ },
+ "requirements": {
+  "ReqSlack": "10",
+  "ReqBitsMax": "1024",
+  "ReqSeconds": "0{,}5"
+ },
+ "warnings": [],
+ "records": [
+  {
+   "id": "b64-000",
+   "size": "b64",
+   "tags": [
+    "base-zero",
+    "bits-64",
+    "qary"
+   ],
+   "status": "ok",
+   "wall_s": 0.00016312499064952135,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-001",
+   "size": "b64",
+   "tags": [
+    "binary",
+    "bits-64",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001669950142968446,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-002",
+   "size": "b64",
+   "tags": [
+    "bits-64",
+    "random",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.00020493700867518783,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-003",
+   "size": "b64",
+   "tags": [
+    "bits-64",
+    "noncoprime",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.00016426501679234207,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-004",
+   "size": "b64",
+   "tags": [
+    "bits-64",
+    "noncoprime",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001777560100890696,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-005",
+   "size": "b64",
+   "tags": [
+    "binary",
+    "bits-64",
+    "noncoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00019323400920256972,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-006",
+   "size": "b64",
+   "tags": [
+    "binary",
+    "bits-64",
+    "zero-exp"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001074030005838722,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-007",
+   "size": "b64",
+   "tags": [
+    "bits-64",
+    "cached",
+    "reuse",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.00021957600256428123,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-008",
+   "size": "b64",
+   "tags": [
+    "bits-64",
+    "cached",
+    "montgomery",
+    "reuse"
+   ],
+   "status": "ok",
+   "wall_s": 0.0003390389902051538,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-009",
+   "size": "b64",
+   "tags": [
+    "bits-64",
+    "mod-one",
+    "montgomery"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002206859935540706,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-010",
+   "size": "b64",
+   "tags": [
+    "binary",
+    "bits-64",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00018780498066917062,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-011",
+   "size": "b64",
+   "tags": [
+    "bits-64",
+    "noncoprime",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.00024384699645452201,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-012",
+   "size": "b64",
+   "tags": [
+    "binary",
+    "bits-64",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001955459883902222,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-013",
+   "size": "b64",
+   "tags": [
+    "bits-64",
+    "qary",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00019726500613614917,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-014",
+   "size": "b64",
+   "tags": [
+    "bits-64",
+    "montgomery",
+    "noncoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00039058001129888,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b64-015",
+   "size": "b64",
+   "tags": [
+    "binary",
+    "bits-64",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00018330500461161137,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b128-000",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "mod-one",
+    "montgomery"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002414860064163804,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-001",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "mod-one",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.00022527601686306298,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-002",
+   "size": "b128",
+   "tags": [
+    "binary",
+    "bits-128",
+    "zero-exp"
+   ],
+   "status": "ok",
+   "wall_s": 0.00011715298751369119,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-003",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "random",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002875479985959828,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-004",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "montgomery",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0007185190042946488,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-005",
+   "size": "b128",
+   "tags": [
+    "binary",
+    "bits-128",
+    "mod-one"
+   ],
+   "status": "ok",
+   "wall_s": 0.00019394501578062773,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-006",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "montgomery",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006864700117148459,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-007",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "qary",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0003958609886467457,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-008",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "montgomery",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006954099808353931,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-009",
+   "size": "b128",
+   "tags": [
+    "base-zero",
+    "binary",
+    "bits-128"
+   ],
+   "status": "ok",
+   "wall_s": 0.00018202501814812422,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-010",
+   "size": "b128",
+   "tags": [
+    "base-zero",
+    "bits-128",
+    "qary"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002376360062044114,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-011",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "qary",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00029791801352985203,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-012",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "qary",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00038417099858634174,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-013",
+   "size": "b128",
+   "tags": [
+    "base-zero",
+    "bits-128",
+    "qary"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002010260068345815,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-014",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "montgomery",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006705590058118105,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b128-015",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "mod-one",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.00021759700030088425,
+   "repeat": 1,
+   "rss_kb": 12212,
+   "message": ""
+  },
+  {
+   "id": "b256-000",
+   "size": "b256",
+   "tags": [
+    "binary",
+    "bits-256",
+    "noncoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0003234189935028553,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-001",
+   "size": "b256",
+   "tags": [
+    "base-zero",
+    "binary",
+    "bits-256"
+   ],
+   "status": "ok",
+   "wall_s": 0.00017930500325746834,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-002",
+   "size": "b256",
+   "tags": [
+    "base-zero",
+    "bits-256",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.00029953799094073474,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-003",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "montgomery",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0015801439876668155,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-004",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "noncoprime",
+    "qary"
+   ],
+   "status": "ok",
+   "wall_s": 0.00036664100480265915,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-005",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "mod-one",
+    "montgomery"
+   ],
+   "status": "ok",
+   "wall_s": 0.0004287530027795583,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-006",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "montgomery",
+    "noncoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0018814330105669796,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-007",
+   "size": "b256",
+   "tags": [
+    "binary",
+    "bits-256",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006576190062332898,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-008",
+   "size": "b256",
+   "tags": [
+    "base-zero",
+    "bits-256",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.0004394330026116222,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-009",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "random",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006562180060427636,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-010",
+   "size": "b256",
+   "tags": [
+    "base-zero",
+    "bits-256",
+    "qary"
+   ],
+   "status": "ok",
+   "wall_s": 0.00023506800062023103,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-011",
+   "size": "b256",
+   "tags": [
+    "binary",
+    "bits-256",
+    "zero-exp"
+   ],
+   "status": "ok",
+   "wall_s": 0.00014339399058371782,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-012",
+   "size": "b256",
+   "tags": [
+    "binary",
+    "bits-256",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006723190017510206,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-013",
+   "size": "b256",
+   "tags": [
+    "base-zero",
+    "binary",
+    "bits-256"
+   ],
+   "status": "ok",
+   "wall_s": 0.00021886598551645875,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-014",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "sliding",
+    "zero-exp"
+   ],
+   "status": "ok",
+   "wall_s": 0.00018306498532183468,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b256-015",
+   "size": "b256",
+   "tags": [
+    "binary",
+    "bits-256",
+    "noncoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0003982819907832891,
+   "repeat": 1,
+   "rss_kb": 12120,
+   "message": ""
+  },
+  {
+   "id": "b512-000",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "sliding",
+    "zero-exp"
+   ],
+   "status": "ok",
+   "wall_s": 0.00020177598344162107,
+   "repeat": 1,
+   "rss_kb": 12128,
+   "message": ""
+  },
+  {
+   "id": "b512-001",
+   "size": "b512",
+   "tags": [
+    "binary",
+    "bits-512",
+    "zero-exp"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001211829949170351,
+   "repeat": 1,
+   "rss_kb": 12128,
+   "message": ""
+  },
+  {
+   "id": "b512-002",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "random",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.0015618540055584162,
+   "repeat": 1,
+   "rss_kb": 12128,
+   "message": ""
+  },
+  {
+   "id": "b512-003",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "noncoprime",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006531889957841486,
+   "repeat": 1,
+   "rss_kb": 12128,
+   "message": ""
+  },
+  {
+   "id": "b512-004",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "qary",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0017647680069785565,
+   "repeat": 1,
+   "rss_kb": 12128,
+   "message": ""
+  },
+  {
+   "id": "b512-005",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "random",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.0018033109954558313,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b512-006",
+   "size": "b512",
+   "tags": [
+    "binary",
+    "bits-512",
+    "mod-one"
+   ],
+   "status": "ok",
+   "wall_s": 0.0003458390128798783,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b512-007",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "cached",
+    "qary",
+    "reuse"
+   ],
+   "status": "ok",
+   "wall_s": 0.0022975929896347225,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b512-008",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "qary",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0027933870151173323,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b512-009",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "noncoprime",
+    "qary"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006193669978529215,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b512-010",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "noncoprime",
+    "qary"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006017160194460303,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b512-011",
+   "size": "b512",
+   "tags": [
+    "binary",
+    "bits-512",
+    "mod-one"
+   ],
+   "status": "ok",
+   "wall_s": 0.00034735898952931166,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b512-012",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "qary",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.002875920996302739,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b512-013",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "qary",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0023135250085033476,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b512-014",
+   "size": "b512",
+   "tags": [
+    "binary",
+    "bits-512",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.002446656988468021,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b512-015",
+   "size": "b512",
+   "tags": [
+    "binary",
+    "bits-512",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.002464358985889703,
+   "repeat": 1,
+   "rss_kb": 12132,
+   "message": ""
+  },
+  {
+   "id": "b1024-000",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "cached",
+    "qary",
+    "reuse"
+   ],
+   "status": "ok",
+   "wall_s": 0.0073376939981244504,
+   "repeat": 1,
+   "rss_kb": 12020,
+   "message": ""
+  },
+  {
+   "id": "b1024-001",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "random",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.010476763010956347,
+   "repeat": 1,
+   "rss_kb": 12020,
+   "message": ""
+  },
+  {
+   "id": "b1024-002",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "montgomery",
+    "zero-exp"
+   ],
+   "status": "ok",
+   "wall_s": 0.001361229020403698,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-003",
+   "size": "b1024",
+   "tags": [
+    "binary",
+    "bits-1024",
+    "cached",
+    "reuse"
+   ],
+   "status": "ok",
+   "wall_s": 0.010178964002989233,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-004",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "cached",
+    "reuse",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.009714391984743997,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-005",
+   "size": "b1024",
+   "tags": [
+    "base-zero",
+    "binary",
+    "bits-1024"
+   ],
+   "status": "ok",
+   "wall_s": 0.0005378139903768897,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-006",
+   "size": "b1024",
+   "tags": [
+    "base-zero",
+    "bits-1024",
+    "montgomery"
+   ],
+   "status": "ok",
+   "wall_s": 0.0024950999941211194,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-007",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "random",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.011451098980614915,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-008",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "random",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.00985033399774693,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-009",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "noncoprime",
+    "qary"
+   ],
+   "status": "ok",
+   "wall_s": 0.0030325240222737193,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-010",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "noncoprime",
+    "qary"
+   ],
+   "status": "ok",
+   "wall_s": 0.0032321409962605685,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-011",
+   "size": "b1024",
+   "tags": [
+    "base-zero",
+    "bits-1024",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.0008290119876619428,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-012",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "montgomery",
+    "zero-exp"
+   ],
+   "status": "ok",
+   "wall_s": 0.0012643749942071736,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-013",
+   "size": "b1024",
+   "tags": [
+    "base-zero",
+    "binary",
+    "bits-1024"
+   ],
+   "status": "ok",
+   "wall_s": 0.0005139040003996342,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-014",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "montgomery",
+    "noncoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.035193610994610935,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  },
+  {
+   "id": "b1024-015",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "noncoprime",
+    "sliding"
+   ],
+   "status": "ok",
+   "wall_s": 0.0022138209897093475,
+   "repeat": 1,
+   "rss_kb": 12024,
+   "message": ""
+  }
+ ]
+}

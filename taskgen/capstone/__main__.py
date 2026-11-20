@@ -1,6 +1,6 @@
 """``python -m taskgen.capstone`` — capstone vectors, benchmarks, reports, checks.
 
-    list                                   capstones with a bench/config.yaml
+    [--sem 1|2] list                       capstones with a bench/config.yaml (default semester 2)
     image <slug>                           compose service the capstone's reference runs in
     vectors <slug|all> [--size S] [--check] [--force]   (taskgen image: needs Sage)
     bench <slug> [--size S] [--limit N] [--out raw.json]   run the reference (its image)
@@ -8,7 +8,7 @@
     check <slug> --cmd CMD [--cwd DIR] [--size S] [--limit N]   run a submission (instructor)
     verify-reference <slug> [--size S] [--limit N]         run the reference, fail unless all ok
 
-Through make: ``make vectors|bench|check-capstone CAPSTONE=<slug>`` (see the Makefile).
+Through make: ``make vectors|bench|check-capstone CAP_SEM=<semester> CAPSTONE=<slug>``.
 """
 
 from __future__ import annotations
@@ -22,6 +22,8 @@ from taskgen.capstone import config
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="python -m taskgen.capstone")
+    ap.add_argument("--sem", type=int, choices=(1, 2), default=2,
+                    help="capstone semester (default: 2)")
     sub = ap.add_subparsers(dest="action", required=True)
     sub.add_parser("list")
     p = sub.add_parser("image")
@@ -46,24 +48,25 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--raw", type=Path, default=None)
     p.add_argument("--slack", type=float, default=None)
     a = ap.parse_args(argv)
+    root = config.semester_root(a.sem)
 
     if a.action == "list":
-        for s in config.slugs():
-            c = config.load(s)
+        for s in config.slugs(root):
+            c = config.load(s, root)
             print(f"{c.n:02d}  {c.slug:<20} {c.image:<11} {c.title}")
         return 0
     if a.action == "image":
-        print(config.load(a.slug).image)
+        print(config.load(a.slug, root).image)
         return 0
     if a.action == "vectors":
         from taskgen.capstone import vectors
 
         ok = True
-        for s in (config.slugs() if a.slug == "all" else [a.slug]):
-            ok &= vectors.write(config.load(s), a.size, check=a.check, force=a.force)
+        for s in (config.slugs(root) if a.slug == "all" else [a.slug]):
+            ok &= vectors.write(config.load(s, root), a.size, check=a.check, force=a.force)
         return 0 if ok else 1
 
-    cap = config.load(a.slug, slack=getattr(a, "slack", None))
+    cap = config.load(a.slug, root, slack=getattr(a, "slack", None))
     if a.action == "bench":
         from taskgen.capstone import runner
 
@@ -72,7 +75,7 @@ def main(argv: list[str] | None = None) -> int:
     if a.action == "report":
         from taskgen.capstone import report
 
-        raw = a.raw or config.REPO / "build" / "capstone" / cap.slug / "raw.json"
+        raw = a.raw or config.raw_path(cap)
         report.report(cap, raw)
         return 0
     if a.action == "verify-reference":

@@ -112,17 +112,22 @@ make lint                  # chktex on materials/**/*.tex (suppressions in .chkt
 
 ## Capstones
 
-Eight capstone specs (`materials/capstone/NN-slug/spec.tex`, the only part students
-get) with instructor-only reference implementations, seeded test vectors and a
-benchmark whose measurements (reference time × slack, default 10×) generate the spec's
-`requirements.tex`. See `materials/capstone/README.md`.
+Capstone specs live in `materials/semN/capstone/NN-slug/spec.tex` and are the only part
+students get. Instructor-only assets include reference implementations, seeded vectors and a
+benchmark whose measurements (reference time × slack, default 10×) generate `requirements.tex`.
+Semester 1 projects also have `refresher.tex` → `refresher.pdf`, a short theory refresher that
+is **not for students**. See `materials/sem1/capstone/README.md` and
+`materials/sem2/capstone/README.md`.
 
 ```sh
-make capstones                         # spec PDFs
-make bench [CAPSTONE=slug] [SLACK=x]   # vectors + reference run -> bench/results.*, requirements.tex
-make test-capstones                    # reference unit tests vs Sage/GMP oracles
-make check-capstone CAPSTONE=slug DIR=... CMD="..."   # run a submission (no network, limits)
+make capstones [CAP_SEM=1|2]            # spec PDFs + any instructor refresher PDFs
+make capstone-refreshers CAP_SEM=1      # instructor theory refreshers only
+make bench [CAP_SEM=1|2] [CAPSTONE=slug] [SLACK=x]  # vectors + reference + requirements.tex
+make test-capstones [CAP_SEM=1|2]      # reference unit tests vs Sage/GMP oracles
+make check-capstone [CAP_SEM=1|2] CAPSTONE=slug DIR=... CMD="..."  # no network, limits
 ```
+
+`CAP_SEM` defaults to 2 for compatibility with the original eight projects.
 
 ## Task sheets
 
@@ -175,7 +180,9 @@ of task refs. `kind: individual` — one variant per student: `groups` (with
 explicit `tasks` list or by `topics`, optionally filtered by `complexity`),
 an optional `budget` (total complexity, an int or `{min, max}`), and
 `distinct_families` (default true: e.g. Montgomery multiplication and
-Montgomery exponentiation never share a variant). `preset: sem2` selects the
+Montgomery exponentiation never share a variant). Conditional `rules` can
+restrict `require_slot` to explicit `tasks` when the zero-based `when_slot`
+contains a family from `when_families`. `preset: sem2` selects the
 `sem2` value ranges of tasks that have them. Task refs are `"<id>"` or
 `"<id>@<preset>"`. See `sheets/sem1/kontrolnaya.yaml`,
 `sheets/sem2/kontrolnaya.yaml` and `sheets/sem2/seminar-demo.yaml`.

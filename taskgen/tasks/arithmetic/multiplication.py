@@ -35,7 +35,8 @@ class Karatsuba(Task):
     complexity = 1
     family = "karatsuba"
     solution_detail = SolutionDetail.FULL
-    presets = {"default": {"lo": 10**6 + 1, "hi": 10**8}}
+    presets = {"default": {"lo": 10**6 + 1, "hi": 10**8},
+               "kontrolnaya04": {"lo": 10**6 + 1, "hi": 10**8}}
     statement = (r"Вычислить произведение целых чисел \[\VAR{a} \cdot \VAR{b}\] с помощью метода "
                  r"Карацубы. Применять метод рекурсивно, база рекурсии — двузначные числа, которые "
                  r"можно умножать любым способом.\\ Использовать десятичную систему счисления.")
@@ -305,7 +306,8 @@ class ToomCook(Task):
     complexity = 1
     family = "toom"
     solution_detail = SolutionDetail.FULL
-    presets = {"default": {"lo": 10**7 + 1, "hi": 10**9}}
+    presets = {"default": {"lo": 10**7 + 1, "hi": 10**9},
+               "kontrolnaya04": {"lo": 10**6 + 1, "hi": 10**8}}
     statement = (r"Вычислить произведение целых чисел \[\VAR{a} \cdot \VAR{b}\] с помощью метода "
                  r"Тоома-Кука. Использовать полином 2-й степени и десятичную систему счисления.")
     solution = (r"Основание $B = 10^{\VAR{k}}$: "

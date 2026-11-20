@@ -1,0 +1,1458 @@
+{
+ "capstone": "primality-testing",
+ "command": "sage -python reference/main.py",
+ "slack": 10.0,
+ "started": 1795206106,
+ "duration_s": 3.808,
+ "machine": {
+  "python": "3.12.3",
+  "kernel": "7.0.0-43-generic",
+  "machine": "x86_64",
+  "image": "taskgen",
+  "cpus_visible": 8,
+  "cpu_count": 8,
+  "cpu": "AMD EPYC 7352 24-Core Processor",
+  "mem_total_kb": 32860800,
+  "governor": "n/a (not exposed)",
+  "loadavg_1m": 0.529296875
+ },
+ "summary": {
+  "b8": {
+   "x": 8,
+   "n": 21,
+   "ok": 21,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 9.567200322635472e-05,
+   "mean_s": 0.00012523737885723158,
+   "p90_s": 0.00018605601508170366,
+   "max_s": 0.00043415100662969053,
+   "max_rss_kb": 12284,
+   "timeout_s": 180.0,
+   "limit_s": 0.004341510066296905
+  },
+  "b16": {
+   "x": 16,
+   "n": 21,
+   "ok": 21,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.0001200640108436346,
+   "mean_s": 0.00011956129067887862,
+   "p90_s": 0.00013528301496990025,
+   "max_s": 0.00017902400577440858,
+   "max_rss_kb": 12280,
+   "timeout_s": 180.0,
+   "limit_s": 0.0017902400577440858
+  },
+  "b32": {
+   "x": 32,
+   "n": 21,
+   "ok": 21,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.00010995299089699984,
+   "mean_s": 0.00011520957230545936,
+   "p90_s": 0.0001545939885545522,
+   "max_s": 0.0001865339872892946,
+   "max_rss_kb": 12356,
+   "timeout_s": 180.0,
+   "limit_s": 0.001865339872892946
+  },
+  "b64": {
+   "x": 64,
+   "n": 21,
+   "ok": 21,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.00012599301408044994,
+   "mean_s": 0.00014464414562098682,
+   "p90_s": 0.00022802597959525883,
+   "max_s": 0.0003360089904163033,
+   "max_rss_kb": 12248,
+   "timeout_s": 180.0,
+   "limit_s": 0.0033600899041630328
+  },
+  "b128": {
+   "x": 128,
+   "n": 21,
+   "ok": 21,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.00012439201236702502,
+   "mean_s": 0.00018172947983700958,
+   "p90_s": 0.0004032920114696026,
+   "max_s": 0.0005412830214481801,
+   "max_rss_kb": 12280,
+   "timeout_s": 180.0,
+   "limit_s": 0.005412830214481801
+  }
+ },
+ "requirements": {
+  "ReqSlack": "10",
+  "ReqBitsMax": "128",
+  "ReqSeconds": "0{,}01"
+ },
+ "warnings": [],
+ "records": [
+  {
+   "id": "b8-000",
+   "size": "b8",
+   "tags": [
+    "fermat",
+    "pseudoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00023423699894919991,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-001",
+   "size": "b8",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001328839862253517,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-002",
+   "size": "b8",
+   "tags": [
+    "random",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00018605601508170366,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-003",
+   "size": "b8",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 0.00043415100662969053,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-004",
+   "size": "b8",
+   "tags": [
+    "random",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00016738398699089885,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-005",
+   "size": "b8",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001035630120895803,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-006",
+   "size": "b8",
+   "tags": [
+    "carmichael",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00015360399265773594,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-007",
+   "size": "b8",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 9.266400593332946e-05,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-008",
+   "size": "b8",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 7.885199738666415e-05,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-009",
+   "size": "b8",
+   "tags": [
+    "prime",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 9.567200322635472e-05,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-010",
+   "size": "b8",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 8.771300781518221e-05,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-011",
+   "size": "b8",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 6.606098031625152e-05,
+   "repeat": 1,
+   "rss_kb": 12220,
+   "message": ""
+  },
+  {
+   "id": "b8-012",
+   "size": "b8",
+   "tags": [
+    "korselt",
+    "squarefree"
+   ],
+   "status": "ok",
+   "wall_s": 0.00017691601533442736,
+   "repeat": 1,
+   "rss_kb": 12284,
+   "message": ""
+  },
+  {
+   "id": "b8-013",
+   "size": "b8",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 6.84020051266998e-05,
+   "repeat": 1,
+   "rss_kb": 12284,
+   "message": ""
+  },
+  {
+   "id": "b8-014",
+   "size": "b8",
+   "tags": [
+    "miller_rabin",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 7.667197496630251e-05,
+   "repeat": 1,
+   "rss_kb": 12284,
+   "message": ""
+  },
+  {
+   "id": "b8-015",
+   "size": "b8",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 5.7860976085066795e-05,
+   "repeat": 1,
+   "rss_kb": 12284,
+   "message": ""
+  },
+  {
+   "id": "b8-016",
+   "size": "b8",
+   "tags": [
+    "fermat",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 6.429199129343033e-05,
+   "repeat": 1,
+   "rss_kb": 12284,
+   "message": ""
+  },
+  {
+   "id": "b8-017",
+   "size": "b8",
+   "tags": [
+    "miller_rabin",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 7.971198647283018e-05,
+   "repeat": 1,
+   "rss_kb": 12284,
+   "message": ""
+  },
+  {
+   "id": "b8-018",
+   "size": "b8",
+   "tags": [
+    "miller_rabin",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00011315400479361415,
+   "repeat": 1,
+   "rss_kb": 12284,
+   "message": ""
+  },
+  {
+   "id": "b8-019",
+   "size": "b8",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 5.5540993344038725e-05,
+   "repeat": 1,
+   "rss_kb": 12284,
+   "message": ""
+  },
+  {
+   "id": "b8-020",
+   "size": "b8",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010459401528351009,
+   "repeat": 1,
+   "rss_kb": 12284,
+   "message": ""
+  },
+  {
+   "id": "b16-000",
+   "size": "b16",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001331930106971413,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b16-001",
+   "size": "b16",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00013528301496990025,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b16-002",
+   "size": "b16",
+   "tags": [
+    "miller_rabin",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012066299677826464,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b16-003",
+   "size": "b16",
+   "tags": [
+    "carmichael",
+    "fermat"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012372300261631608,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b16-004",
+   "size": "b16",
+   "tags": [
+    "pseudoprime",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00013270400813780725,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b16-005",
+   "size": "b16",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-composite"
+   ],
+   "status": "ok",
+   "wall_s": 9.65129875112325e-05,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b16-006",
+   "size": "b16",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010556302731856704,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b16-007",
+   "size": "b16",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010190298780798912,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b16-008",
+   "size": "b16",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010880301124416292,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b16-009",
+   "size": "b16",
+   "tags": [
+    "korselt",
+    "non-squarefree"
+   ],
+   "status": "ok",
+   "wall_s": 0.00016194398631341755,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-010",
+   "size": "b16",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 0.000100812001619488,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-011",
+   "size": "b16",
+   "tags": [
+    "miller_rabin",
+    "pseudoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00013184401905164123,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-012",
+   "size": "b16",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012158299796283245,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-013",
+   "size": "b16",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 0.00011736300075426698,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-014",
+   "size": "b16",
+   "tags": [
+    "carmichael",
+    "fermat"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001091530139092356,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-015",
+   "size": "b16",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 9.668199345469475e-05,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-016",
+   "size": "b16",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012629502452909946,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-017",
+   "size": "b16",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 9.533201227895916e-05,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-018",
+   "size": "b16",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 9.234299068339169e-05,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-019",
+   "size": "b16",
+   "tags": [
+    "random",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00017902400577440858,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b16-020",
+   "size": "b16",
+   "tags": [
+    "fermat",
+    "pseudoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001200640108436346,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b32-000",
+   "size": "b32",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012261501979082823,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-001",
+   "size": "b32",
+   "tags": [
+    "pseudoprime",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00014541400014422834,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-002",
+   "size": "b32",
+   "tags": [
+    "miller_rabin",
+    "pseudoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.000134512985823676,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-003",
+   "size": "b32",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 9.254200267605484e-05,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-004",
+   "size": "b32",
+   "tags": [
+    "carmichael",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 9.535200661048293e-05,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-005",
+   "size": "b32",
+   "tags": [
+    "random",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001545939885545522,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-006",
+   "size": "b32",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 9.029099601320922e-05,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-007",
+   "size": "b32",
+   "tags": [
+    "miller_rabin",
+    "pseudoprime"
+   ],
+   "status": "ok",
+   "wall_s": 9.567200322635472e-05,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-008",
+   "size": "b32",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 8.276200969703496e-05,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-009",
+   "size": "b32",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00011694300337694585,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-010",
+   "size": "b32",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 8.59420106280595e-05,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-011",
+   "size": "b32",
+   "tags": [
+    "fermat",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001719759893603623,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-012",
+   "size": "b32",
+   "tags": [
+    "random",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001865339872892946,
+   "repeat": 1,
+   "rss_kb": 12292,
+   "message": ""
+  },
+  {
+   "id": "b32-013",
+   "size": "b32",
+   "tags": [
+    "korselt",
+    "non-squarefree"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010995299089699984,
+   "repeat": 1,
+   "rss_kb": 12356,
+   "message": ""
+  },
+  {
+   "id": "b32-014",
+   "size": "b32",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 8.15920066088438e-05,
+   "repeat": 1,
+   "rss_kb": 12356,
+   "message": ""
+  },
+  {
+   "id": "b32-015",
+   "size": "b32",
+   "tags": [
+    "korselt",
+    "squarefree"
+   ],
+   "status": "ok",
+   "wall_s": 9.300198871642351e-05,
+   "repeat": 1,
+   "rss_kb": 12356,
+   "message": ""
+  },
+  {
+   "id": "b32-016",
+   "size": "b32",
+   "tags": [
+    "korselt",
+    "squarefree"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001102130045183003,
+   "repeat": 1,
+   "rss_kb": 12356,
+   "message": ""
+  },
+  {
+   "id": "b32-017",
+   "size": "b32",
+   "tags": [
+    "korselt",
+    "squarefree"
+   ],
+   "status": "ok",
+   "wall_s": 8.782200166024268e-05,
+   "repeat": 1,
+   "rss_kb": 12356,
+   "message": ""
+  },
+  {
+   "id": "b32-018",
+   "size": "b32",
+   "tags": [
+    "korselt",
+    "squarefree"
+   ],
+   "status": "ok",
+   "wall_s": 8.82419990375638e-05,
+   "repeat": 1,
+   "rss_kb": 12356,
+   "message": ""
+  },
+  {
+   "id": "b32-019",
+   "size": "b32",
+   "tags": [
+    "fermat",
+    "pseudoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00013380401651374996,
+   "repeat": 1,
+   "rss_kb": 12356,
+   "message": ""
+  },
+  {
+   "id": "b32-020",
+   "size": "b32",
+   "tags": [
+    "fermat",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00013962300727143884,
+   "repeat": 1,
+   "rss_kb": 12356,
+   "message": ""
+  },
+  {
+   "id": "b64-000",
+   "size": "b64",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012599301408044994,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-001",
+   "size": "b64",
+   "tags": [
+    "prime",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00023211599909700453,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-002",
+   "size": "b64",
+   "tags": [
+    "carmichael",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00018052500672638416,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-003",
+   "size": "b64",
+   "tags": [
+    "carmichael",
+    "miller_rabin"
+   ],
+   "status": "ok",
+   "wall_s": 0.00013452398707158864,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-004",
+   "size": "b64",
+   "tags": [
+    "fermat",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001874850131571293,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-005",
+   "size": "b64",
+   "tags": [
+    "miller_rabin",
+    "pseudoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012202298967167735,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-006",
+   "size": "b64",
+   "tags": [
+    "fermat",
+    "pseudoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010091299191117287,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-007",
+   "size": "b64",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 8.823201642371714e-05,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-008",
+   "size": "b64",
+   "tags": [
+    "carmichael",
+    "fermat"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012740300735458732,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-009",
+   "size": "b64",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 7.863299106247723e-05,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-010",
+   "size": "b64",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 7.324200123548508e-05,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-011",
+   "size": "b64",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 9.722198592498899e-05,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-012",
+   "size": "b64",
+   "tags": [
+    "carmichael",
+    "fermat"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012562301708385348,
+   "repeat": 1,
+   "rss_kb": 12184,
+   "message": ""
+  },
+  {
+   "id": "b64-013",
+   "size": "b64",
+   "tags": [
+    "korselt",
+    "squarefree"
+   ],
+   "status": "ok",
+   "wall_s": 0.00013241299893707037,
+   "repeat": 1,
+   "rss_kb": 12248,
+   "message": ""
+  },
+  {
+   "id": "b64-014",
+   "size": "b64",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 9.184202644973993e-05,
+   "repeat": 1,
+   "rss_kb": 12248,
+   "message": ""
+  },
+  {
+   "id": "b64-015",
+   "size": "b64",
+   "tags": [
+    "fermat",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0003360089904163033,
+   "repeat": 1,
+   "rss_kb": 12248,
+   "message": ""
+  },
+  {
+   "id": "b64-016",
+   "size": "b64",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010219201794825494,
+   "repeat": 1,
+   "rss_kb": 12248,
+   "message": ""
+  },
+  {
+   "id": "b64-017",
+   "size": "b64",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 8.543100557290018e-05,
+   "repeat": 1,
+   "rss_kb": 12248,
+   "message": ""
+  },
+  {
+   "id": "b64-018",
+   "size": "b64",
+   "tags": [
+    "fermat",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00022802597959525883,
+   "repeat": 1,
+   "rss_kb": 12248,
+   "message": ""
+  },
+  {
+   "id": "b64-019",
+   "size": "b64",
+   "tags": [
+    "miller_rabin",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002077450044453144,
+   "repeat": 1,
+   "rss_kb": 12248,
+   "message": ""
+  },
+  {
+   "id": "b64-020",
+   "size": "b64",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00017993501387536526,
+   "repeat": 1,
+   "rss_kb": 12248,
+   "message": ""
+  },
+  {
+   "id": "b128-000",
+   "size": "b128",
+   "tags": [
+    "fermat",
+    "prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0004032920114696026,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-001",
+   "size": "b128",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001156630169134587,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-002",
+   "size": "b128",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 7.847099914215505e-05,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-003",
+   "size": "b128",
+   "tags": [
+    "pseudoprime",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00018558499868959188,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-004",
+   "size": "b128",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 9.310297900810838e-05,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-005",
+   "size": "b128",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010056298924610019,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-006",
+   "size": "b128",
+   "tags": [
+    "mersenne_reduce"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012439201236702502,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-007",
+   "size": "b128",
+   "tags": [
+    "random",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002410669985692948,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-008",
+   "size": "b128",
+   "tags": [
+    "miller_rabin",
+    "pseudoprime"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001569339947309345,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-009",
+   "size": "b128",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-composite"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010028301039710641,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-010",
+   "size": "b128",
+   "tags": [
+    "pseudoprime",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010786298662424088,
+   "repeat": 1,
+   "rss_kb": 12216,
+   "message": ""
+  },
+  {
+   "id": "b128-011",
+   "size": "b128",
+   "tags": [
+    "korselt",
+    "non-squarefree"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001052830193657428,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b128-012",
+   "size": "b128",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010204300633631647,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b128-013",
+   "size": "b128",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 8.13910155557096e-05,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b128-014",
+   "size": "b128",
+   "tags": [
+    "lucas_lehmer",
+    "mersenne-prime"
+   ],
+   "status": "ok",
+   "wall_s": 9.307201253250241e-05,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b128-015",
+   "size": "b128",
+   "tags": [
+    "pseudoprime",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001957649947144091,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b128-016",
+   "size": "b128",
+   "tags": [
+    "random",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.0005412830214481801,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b128-017",
+   "size": "b128",
+   "tags": [
+    "carmichael",
+    "fermat"
+   ],
+   "status": "ok",
+   "wall_s": 0.00016495399177074432,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b128-018",
+   "size": "b128",
+   "tags": [
+    "small-only",
+    "wilson"
+   ],
+   "status": "ok",
+   "wall_s": 0.00015359401004388928,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b128-019",
+   "size": "b128",
+   "tags": [
+    "prime",
+    "solovay_strassen"
+   ],
+   "status": "ok",
+   "wall_s": 0.00048277300084009767,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  },
+  {
+   "id": "b128-020",
+   "size": "b128",
+   "tags": [
+    "carmichael",
+    "miller_rabin"
+   ],
+   "status": "ok",
+   "wall_s": 0.00018894500681199133,
+   "repeat": 1,
+   "rss_kb": 12280,
+   "message": ""
+  }
+ ]
+}

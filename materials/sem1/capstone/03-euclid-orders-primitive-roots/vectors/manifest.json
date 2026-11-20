@@ -1,0 +1,49 @@
+{
+  "capstone": "euclid-orders-primitive-roots",
+  "generator": "euclid_orders_primitive_roots",
+  "generator_version": 1,
+  "seed": 20261122,
+  "taskgen_version": "0.6.3",
+  "sizes": {
+    "b16": {
+      "count": 18,
+      "sha256": "150a6fa350a8f095cece73a15632e6fd254e97f51bc3a6bfb2daf9d22c6f91f4",
+      "commit": true,
+      "params": {
+        "bits": 16
+      }
+    },
+    "b24": {
+      "count": 18,
+      "sha256": "6fdce274789202245104c78f171ae4b00be456a05595cd2cbc035956ed599416",
+      "commit": true,
+      "params": {
+        "bits": 24
+      }
+    },
+    "b32": {
+      "count": 18,
+      "sha256": "27e7c3a8f1a3f81e41d08921d017936ad963edf6e21c8355dd58170fa69b6acb",
+      "commit": true,
+      "params": {
+        "bits": 32
+      }
+    },
+    "b48": {
+      "count": 18,
+      "sha256": "cfd8bfc4dc77cca82557b8d1926f55bbd4c9e321e04c9ae6d0e2c196e6fddda6",
+      "commit": false,
+      "params": {
+        "bits": 48
+      }
+    },
+    "b64": {
+      "count": 18,
+      "sha256": "5e52c1ed8e7bc8be49c54b03b5198e85658471d87db47203345b9d7964e6ff1a",
+      "commit": false,
+      "params": {
+        "bits": 64
+      }
+    }
+  }
+}

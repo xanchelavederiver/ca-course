@@ -1,0 +1,49 @@
+{
+  "capstone": "montgomery-exponentiation",
+  "generator": "montgomery_exponentiation",
+  "generator_version": 1,
+  "seed": 20261121,
+  "taskgen_version": "0.6.3",
+  "sizes": {
+    "b64": {
+      "count": 16,
+      "sha256": "5ad5c44beea97a9b1665de667455c250675436b4f8f358c4c74c981382eabad5",
+      "commit": true,
+      "params": {
+        "bits": 64
+      }
+    },
+    "b128": {
+      "count": 16,
+      "sha256": "07db98aed3365df227987e841eeb0d029f6937d83e14a9fbb73227151022e2b4",
+      "commit": true,
+      "params": {
+        "bits": 128
+      }
+    },
+    "b256": {
+      "count": 16,
+      "sha256": "8198a4228e6fbb084fea5f604c35e07153709d1d388b5040926e46600356cc38",
+      "commit": true,
+      "params": {
+        "bits": 256
+      }
+    },
+    "b512": {
+      "count": 16,
+      "sha256": "923f36902a68590ba3e049619800644a64e43b364485d6d97d9592e33d2f705d",
+      "commit": false,
+      "params": {
+        "bits": 512
+      }
+    },
+    "b1024": {
+      "count": 16,
+      "sha256": "61b22f59cdef5bcf909f350c7cfd3c40f7c5b62d6018a72e1e072cca6084126a",
+      "commit": false,
+      "params": {
+        "bits": 1024
+      }
+    }
+  }
+}

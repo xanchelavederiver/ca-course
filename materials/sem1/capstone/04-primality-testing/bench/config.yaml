@@ -1,0 +1,15 @@
+generator: primality_testing
+seed: 20261123
+image: taskgen
+command: sage -python reference/main.py
+timeout: 180
+x_label: "длина кандидата, бит"
+sizes:
+  - {name: b8,   x: 8,   count: 21, commit: true,  params: {bits: 8}}
+  - {name: b16,  x: 16,  count: 21, commit: true,  params: {bits: 16}}
+  - {name: b32,  x: 32,  count: 21, commit: true,  params: {bits: 32}}
+  - {name: b64,  x: 64,  count: 21, commit: false, params: {bits: 64}}
+  - {name: b128, x: 128, count: 21, commit: false, params: {bits: 128}}
+requirements:
+  ReqBitsMax: {value: 128}
+  ReqSeconds: {size: b128, stat: max, round: nice}

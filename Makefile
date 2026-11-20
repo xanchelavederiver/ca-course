@@ -19,9 +19,10 @@
 #   make lint                       chktex on materials/**/*.tex
 #   make shell-taskgen / shell-latex
 #
-# Capstones and exams (Plan 4; materials/capstone/, materials/semN/exam/). Instructor-only
-# except the spec PDFs. CAPSTONE=<slug> selects one capstone (default: all with a bench/):
-#   make capstones                  all capstone spec PDFs -> build/materials/capstone/
+# Capstones and exams (Plans 4–5; materials/semN/capstone/, materials/semN/exam/). Instructor-only
+# except spec PDFs. CAP_SEM=1|2 (default 2); CAPSTONE=<slug> selects one (default: all with a bench/):
+#   make capstones                  spec + refresher PDFs -> build/materials/semN/capstone/
+#   make capstone-refreshers        instructor-only theory refresher PDFs (where present)
 #   make vectors [CAPSTONE=...]     (re)generate the seeded test vectors (FORCE=1: all)
 #   make bench [CAPSTONE=...]       vectors + run the reference + report: bench/results.*,
 #                                   requirements.tex  [SIZE=<class>] [LIMIT=n] [SLACK=x]
@@ -50,7 +51,7 @@ LATEX   := $(DC_RUN) latex
 TASKGEN := $(DC_RUN) taskgen
 SAGEPY  := $(DC_RUN) --entrypoint sage taskgen -python
 
-DEMOS := $(filter-out %-body.tex,$(wildcard materials/*/*/00-template/*.tex materials/capstone/00-template/*.tex)) \
+DEMOS := $(filter-out %-body.tex,$(wildcard materials/*/*/00-template/*.tex)) \
          $(wildcard materials/sem*/exam/questions.tex materials/sem*/exam/questions-refs.tex) \
          latex/examples/sheet-demo.tex
 SHEETS := $(wildcard sheets/*/*.yaml)
@@ -58,7 +59,7 @@ SHEETS := $(wildcard sheets/*/*.yaml)
 .PHONY: help images pdf demos draft sheets issue regen test test-py validate smoke \
         shell-taskgen shell-latex clean web web-dev web-down test-web test-e2e \
         materials book books seminar-sheets course-check examples lint \
-        capstones vectors bench test-capstones check-capstone exams
+        capstones capstone-refreshers vectors bench test-capstones check-capstone exams
 
 help:
 	@sed -n '1,/^$$/p' Makefile | sed 's/^# \{0,1\}//'
@@ -140,9 +141,11 @@ lint:
 	$(LATEX) sh -c 'find materials -name "*.tex" ! -path "*/examples/*" | sort | \
 	  xargs chktex -q -l .chktexrc'
 
-# --- capstones and exams (Plan 4) -------------------------------------------------
-CAP_ROOT := materials/capstone
+# --- capstones and exams (Plans 4 and 5) ------------------------------------------
+CAP_SEM ?= 2
+CAP_ROOT := materials/sem$(CAP_SEM)/capstone
 CAPSTONE_SPECS = $(wildcard $(CAP_ROOT)/[0-9]*/spec.tex)
+CAPSTONE_REFRESHERS = $(wildcard $(CAP_ROOT)/[0-9]*/refresher.tex)
 # slugs to process: CAPSTONE, or every capstone directory with a bench/config.yaml
 CAP_LIST = $(if $(CAPSTONE),$(CAPSTONE),$(patsubst $(CAP_ROOT)/%/bench/config.yaml,%,\
            $(wildcard $(CAP_ROOT)/[0-9]*/bench/config.yaml)))
@@ -154,17 +157,20 @@ cap_py = d=$$(ls -d $(CAP_ROOT)/[0-9][0-9]-$${c\#[0-9][0-9]-} | head -1); \
 CAP_CFG = $(CAP_ROOT)/capstone.yaml
 
 capstones:
-	$(LATEX) scripts/latex-build-many.sh $(CAPSTONE_SPECS)
+	$(LATEX) scripts/latex-build-many.sh $(CAPSTONE_SPECS) $(CAPSTONE_REFRESHERS)
+
+capstone-refreshers:
+	$(LATEX) scripts/latex-build-many.sh $(CAPSTONE_REFRESHERS)
 
 vectors:
 	@for c in $(CAP_LIST); do \
-	  $(SAGEPY) -m taskgen.capstone vectors $${c#[0-9][0-9]-} $(if $(FORCE),--force) || exit 1; done
+	  $(SAGEPY) -m taskgen.capstone --sem $(CAP_SEM) vectors $${c#[0-9][0-9]-} $(if $(FORCE),--force) || exit 1; done
 
 bench:
 	@for c in $(CAP_LIST); do $(cap_py); c=$${c#[0-9][0-9]-}; \
-	  $(SAGEPY) -m taskgen.capstone vectors $$c && \
-	  $(DC_RUN) $$py -m taskgen.capstone bench $$c $(if $(SIZE),--size $(SIZE)) $(if $(LIMIT),--limit $(LIMIT)) && \
-	  $(SAGEPY) -m taskgen.capstone report $$c $(if $(SLACK),--slack $(SLACK)) || exit 1; done
+	  $(SAGEPY) -m taskgen.capstone --sem $(CAP_SEM) vectors $$c && \
+	  $(DC_RUN) $$py -m taskgen.capstone --sem $(CAP_SEM) bench $$c $(if $(SIZE),--size $(SIZE)) $(if $(LIMIT),--limit $(LIMIT)) && \
+	  $(SAGEPY) -m taskgen.capstone --sem $(CAP_SEM) report $$c $(if $(SLACK),--slack $(SLACK)) || exit 1; done
 
 test-capstones:
 	@for c in $(CAP_LIST); do $(cap_py); \
@@ -183,7 +189,7 @@ check-capstone:
 	  -u $(HOST_UID):$(HOST_GID) -e HOME=/tmp -e DOT_SAGE=/tmp/.sage -e PYTHONPATH=/work \
 	  -e PYTHONDONTWRITEBYTECODE=1 -e CA_IMAGE=$$img \
 	  -v $(CURDIR):/work:ro -v $(abspath $(DIR)):/submission -w /submission \
-	  $$run -m taskgen.capstone check $(CAPSTONE) --cmd '$(CMD)' --cwd /submission \
+	  $$run -m taskgen.capstone --sem $(CAP_SEM) check $(CAPSTONE) --cmd '$(CMD)' --cwd /submission \
 	  $(if $(SIZE),--size $(SIZE)) $(if $(LIMIT),--limit $(LIMIT))
 
 exams:

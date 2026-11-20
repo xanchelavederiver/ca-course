@@ -1,0 +1,23 @@
+# Capstone projects (мини-курсовые), Plan 4. Directories: materials/sem2/capstone/NN-slug/.
+# Shared benchmark defaults; each NN-slug/bench/config.yaml may override them
+# (see taskgen/capstone/config.py). `make bench SLACK=20` overrides both.
+#
+# slack:    students get `slack` x the reference time (requirements.tex)
+# timeout:  seconds per vector when benchmarking/checking
+# warmup:   solve one small vector untimed in each solver process (start-up excluded)
+# memory, cpus: container limits of `make check-capstone`
+slack: 10
+timeout: 600
+warmup: true
+memory: 8g
+cpus: 2
+
+capstones:
+  - {n: 1, slug: bigint-arithmetic, title: Арифметика больших чисел}
+  - {n: 2, slug: pohlig-hellman,    title: Алгоритм Полига–Хеллмана}
+  - {n: 3, slug: index-calculus,    title: Метод исчисления индексов}
+  - {n: 4, slug: quadratic-sieve,   title: Метод квадратичного решета}
+  - {n: 5, slug: lenstra-ecm,       title: Алгоритм факторизации Ленстры}
+  - {n: 6, slug: ec-arithmetic,     title: Арифметика эллиптических кривых}
+  - {n: 7, slug: pollard-rho-ecdlp, title: ρ-алгоритм Полларда для ECDLP}
+  - {n: 8, slug: lll,               title: Алгоритм LLL}

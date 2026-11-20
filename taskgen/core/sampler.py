@@ -4,7 +4,9 @@ Each slot gets exactly one task from its candidate pool such that
 
 * the total complexity satisfies the sheet budget (if any), and
 * no two chosen tasks share a family (if ``distinct_families``) — the
-  generalisation of the ``taken[]`` category rule of the legacy scripts.
+  generalisation of the ``taken[]`` category rule of the legacy scripts;
+* conditional rules restrict a slot's candidates according to the family
+  already selected in another slot.
 
 Selection is a randomized depth-first search: slots are visited in a random
 order, candidates are tried in a random order, and branches that can no
@@ -16,7 +18,7 @@ from __future__ import annotations
 import random
 from typing import Sequence
 
-from taskgen.core.sheet import Budget
+from taskgen.core.sheet import Budget, SlotRule
 from taskgen.core.task import Task
 
 
@@ -26,7 +28,8 @@ class SamplingError(Exception):
 
 def select(pools: Sequence[Sequence[Task]], rng: random.Random,
            budget: Budget | None = None, distinct_families: bool = True,
-           stats: dict[str, int] | None = None) -> list[Task]:
+           stats: dict[str, int] | None = None,
+           rules: Sequence[SlotRule] = ()) -> list[Task]:
     """One task per pool. ``stats["family_skips"]`` (if given) counts candidates
     skipped because their family was already taken; it never affects the result."""
     n = len(pools)
@@ -45,15 +48,27 @@ def select(pools: Sequence[Sequence[Task]], rng: random.Random,
     chosen: dict[int, Task] = {}
     families: set[str] = set()
 
+    def rule_allows(slot: int, task: Task) -> bool:
+        for rule in rules:
+            if rule.require_slot != slot:
+                continue
+            source = chosen.get(rule.when_slot)
+            if source is not None and source.family_name() in rule.when_families \
+                    and task.ref not in {str(ref) for ref in rule.tasks}:
+                return False
+        return True
+
     def dfs(k: int, total: int) -> bool:
         if k == n:
-            return bmin <= total <= bmax
+            return bmin <= total <= bmax and all(rule_allows(i, t) for i, t in chosen.items())
         if total + rest_lo[k] > bmax or total + rest_hi[k] < bmin:
             return False
         slot = order[k]
         cands = list(pools[slot])
         rng.shuffle(cands)
         for t in cands:
+            if not rule_allows(slot, t):
+                continue
             fam = t.family_name()
             if distinct_families and fam in families:
                 if stats is not None:

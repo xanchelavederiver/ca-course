@@ -8,8 +8,8 @@ materials/
 │   ├── seminars/NN-slug/    handout.tex (ca-handout); the classroom sheet is sheets/semN/seminar-NN-slug.yaml
 │   └── exam/                questions.yaml -> questions-body.tex (generated: make exams) +
 │                            questions.tex / questions-refs.tex (ca-exam)
-└── capstone/NN-slug/        spec.tex (ca-capstone) + instructor-only reference/, vectors/, bench/
-                             (see capstone/README.md)
+└── semN/capstone/NN-slug/   spec.tex (student PDF) + instructor-only refresher.tex,
+                             reference/, vectors/, bench/ (see semN/capstone/README.md)
 ```
 
 Lectures and seminars, their numbers, slugs and titles come from `course.yaml`

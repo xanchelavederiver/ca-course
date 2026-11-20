@@ -1,0 +1,15 @@
+generator: lcg_lfsr_cryptanalysis
+seed: 20261124
+image: taskgen
+command: sage -python reference/main.py
+timeout: 180
+x_label: "длина модуля, бит"
+sizes:
+  - {name: b8,  x: 8,  count: 20, commit: true,  params: {bits: 8}}
+  - {name: b12, x: 12, count: 20, commit: true,  params: {bits: 12}}
+  - {name: b16, x: 16, count: 20, commit: true,  params: {bits: 16}}
+  - {name: b24, x: 24, count: 20, commit: false, params: {bits: 24}}
+  - {name: b32, x: 32, count: 20, commit: false, params: {bits: 32}}
+requirements:
+  ReqBitsMax: {value: 32}
+  ReqSeconds: {size: b32, stat: max, round: nice}

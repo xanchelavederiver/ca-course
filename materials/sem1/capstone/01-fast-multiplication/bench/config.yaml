@@ -1,0 +1,15 @@
+generator: fast_multiplication
+seed: 20261120
+image: taskgen
+command: sage -python reference/main.py
+timeout: 180
+x_label: "длина входных чисел, бит"
+sizes:
+  - {name: b128,  x: 128,  count: 12, commit: true,  params: {bits: 128}}
+  - {name: b256,  x: 256,  count: 12, commit: true,  params: {bits: 256}}
+  - {name: b512,  x: 512,  count: 12, commit: true,  params: {bits: 512}}
+  - {name: b1024, x: 1024, count: 12, commit: false, params: {bits: 1024}}
+  - {name: b2048, x: 2048, count: 12, commit: false, params: {bits: 2048}}
+requirements:
+  ReqBitsMax: {value: 2048}
+  ReqSeconds: {size: b2048, stat: max, round: nice}

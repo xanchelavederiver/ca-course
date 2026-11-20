@@ -1,0 +1,15 @@
+generator: montgomery_exponentiation
+seed: 20261121
+image: taskgen
+command: sage -python reference/main.py
+timeout: 180
+x_label: "длина модуля и показателя, бит"
+sizes:
+  - {name: b64,   x: 64,   count: 16, commit: true,  params: {bits: 64}}
+  - {name: b128,  x: 128,  count: 16, commit: true,  params: {bits: 128}}
+  - {name: b256,  x: 256,  count: 16, commit: true,  params: {bits: 256}}
+  - {name: b512,  x: 512,  count: 16, commit: false, params: {bits: 512}}
+  - {name: b1024, x: 1024, count: 16, commit: false, params: {bits: 1024}}
+requirements:
+  ReqBitsMax: {value: 1024}
+  ReqSeconds: {size: b1024, stat: max, round: nice}

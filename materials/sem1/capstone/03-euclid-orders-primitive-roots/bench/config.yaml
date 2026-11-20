@@ -1,0 +1,15 @@
+generator: euclid_orders_primitive_roots
+seed: 20261122
+image: taskgen
+command: sage -python reference/main.py
+timeout: 180
+x_label: "длина входных чисел, бит"
+sizes:
+  - {name: b16, x: 16, count: 18, commit: true,  params: {bits: 16}}
+  - {name: b24, x: 24, count: 18, commit: true,  params: {bits: 24}}
+  - {name: b32, x: 32, count: 18, commit: true,  params: {bits: 32}}
+  - {name: b48, x: 48, count: 18, commit: false, params: {bits: 48}}
+  - {name: b64, x: 64, count: 18, commit: false, params: {bits: 64}}
+requirements:
+  ReqBitsMax: {value: 64}
+  ReqSeconds: {size: b64, stat: max, round: nice}

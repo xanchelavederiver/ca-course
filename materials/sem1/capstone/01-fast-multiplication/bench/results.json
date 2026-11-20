@@ -1,0 +1,949 @@
+{
+ "capstone": "fast-multiplication",
+ "command": "sage -python reference/main.py",
+ "slack": 10.0,
+ "started": 1795205098,
+ "duration_s": 18.415,
+ "machine": {
+  "python": "3.12.3",
+  "kernel": "7.0.0-43-generic",
+  "machine": "x86_64",
+  "image": "taskgen",
+  "cpus_visible": 8,
+  "cpu_count": 8,
+  "cpu": "AMD EPYC 7352 24-Core Processor",
+  "mem_total_kb": 32860800,
+  "governor": "n/a (not exposed)",
+  "loadavg_1m": 0.611328125
+ },
+ "summary": {
+  "b128": {
+   "x": 128,
+   "n": 12,
+   "ok": 12,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.0001280579890590161,
+   "mean_s": 0.0001588135831601297,
+   "p90_s": 0.00026151700876653194,
+   "max_s": 0.00030316898482851684,
+   "max_rss_kb": 210676,
+   "timeout_s": 180.0,
+   "limit_s": 0.0030316898482851684
+  },
+  "b256": {
+   "x": 256,
+   "n": 12,
+   "ok": 12,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.00016517449694219977,
+   "mean_s": 0.00021027841770167774,
+   "p90_s": 0.00035762100014835596,
+   "max_s": 0.00038809000398032367,
+   "max_rss_kb": 210188,
+   "timeout_s": 180.0,
+   "limit_s": 0.0038809000398032367
+  },
+  "b512": {
+   "x": 512,
+   "n": 12,
+   "ok": 12,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.00022063151118345559,
+   "mean_s": 0.00023549067069931576,
+   "p90_s": 0.0002730380219873041,
+   "max_s": 0.0007149199955165386,
+   "max_rss_kb": 210228,
+   "timeout_s": 180.0,
+   "limit_s": 0.007149199955165386
+  },
+  "b1024": {
+   "x": 1024,
+   "n": 12,
+   "ok": 12,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.0008012225007405505,
+   "mean_s": 0.000731042746338062,
+   "p90_s": 0.0012298139918129891,
+   "max_s": 0.0012355940125416964,
+   "max_rss_kb": 210720,
+   "timeout_s": 180.0,
+   "limit_s": 0.012355940125416964
+  },
+  "b2048": {
+   "x": 2048,
+   "n": 12,
+   "ok": 12,
+   "wrong": 0,
+   "error": 0,
+   "timeout": 0,
+   "crash": 0,
+   "median_s": 0.001146551498095505,
+   "mean_s": 0.0011434781675537427,
+   "p90_s": 0.0013732780062127858,
+   "max_s": 0.002264683018438518,
+   "max_rss_kb": 210440,
+   "timeout_s": 180.0,
+   "limit_s": 0.02264683018438518
+  }
+ },
+ "requirements": {
+  "ReqSlack": "10",
+  "ReqBitsMax": "2048",
+  "ReqSeconds": "0{,}05"
+ },
+ "warnings": [],
+ "records": [
+  {
+   "id": "b128-000",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "fft",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00030316898482851684,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-001",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "fft",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.000249486998654902,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-002",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "signed",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.00015162400086410344,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-003",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "signed",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001334529952146113,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-004",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "fft",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00026151700876653194,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-005",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "fft",
+    "zero"
+   ],
+   "status": "ok",
+   "wall_s": 7.637101225554943e-05,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-006",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "fft",
+    "signed"
+   ],
+   "status": "ok",
+   "wall_s": 0.000212646002182737,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-007",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010765300248749554,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-008",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "schoolbook",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 8.69430077727884e-05,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-009",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.00010079401545226574,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-010",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 9.94429865386337e-05,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b128-011",
+   "size": "b128",
+   "tags": [
+    "bits-128",
+    "toom3",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.00012266298290342093,
+   "repeat": 1,
+   "rss_kb": 210676,
+   "message": ""
+  },
+  {
+   "id": "b256-000",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "carry",
+    "schoolbook"
+   ],
+   "status": "ok",
+   "wall_s": 0.00018075501429848373,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-001",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "karatsuba",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.000172664993442595,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-002",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "fft",
+    "signed"
+   ],
+   "status": "ok",
+   "wall_s": 0.00038809000398032367,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-003",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "fft",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0003575209993869066,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-004",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "fft",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00035762100014835596,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-005",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "karatsuba",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001325430057477206,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-006",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "fft",
+    "zero"
+   ],
+   "status": "ok",
+   "wall_s": 7.560200174339116e-05,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-007",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "fft",
+    "zero"
+   ],
+   "status": "ok",
+   "wall_s": 6.785200093872845e-05,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-008",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "fft",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00035119999665766954,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-009",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.00014852499589323997,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-010",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "karatsuba",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001332829997409135,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b256-011",
+   "size": "b256",
+   "tags": [
+    "bits-256",
+    "carry",
+    "schoolbook"
+   ],
+   "status": "ok",
+   "wall_s": 0.00015768400044180453,
+   "repeat": 1,
+   "rss_kb": 210188,
+   "message": ""
+  },
+  {
+   "id": "b512-000",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "toom3",
+    "zero"
+   ],
+   "status": "ok",
+   "wall_s": 0.00020740600302815437,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-001",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "carry",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.000270336982794106,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-002",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.00025735600502230227,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-003",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "fft",
+    "zero"
+   ],
+   "status": "ok",
+   "wall_s": 7.519198697991669e-05,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-004",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002338570193387568,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-005",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "karatsuba",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.00014745502267032862,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-006",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "karatsuba",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.00013013300485908985,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-007",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "random",
+    "schoolbook"
+   ],
+   "status": "ok",
+   "wall_s": 0.0001909749989863485,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-008",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002491770137567073,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-009",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "schoolbook",
+    "zero"
+   ],
+   "status": "ok",
+   "wall_s": 7.604199345223606e-05,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-010",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "fft",
+    "signed"
+   ],
+   "status": "ok",
+   "wall_s": 0.0007149199955165386,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b512-011",
+   "size": "b512",
+   "tags": [
+    "bits-512",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002730380219873041,
+   "repeat": 1,
+   "rss_kb": 210228,
+   "message": ""
+  },
+  {
+   "id": "b1024-000",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "fft",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0012355940125416964,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-001",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "carry",
+    "fft"
+   ],
+   "status": "ok",
+   "wall_s": 0.0010925509850494564,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-002",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "fft",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.001091619982616976,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-003",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.0008522630087099969,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-004",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "fft",
+    "signed"
+   ],
+   "status": "ok",
+   "wall_s": 0.00119554199045524,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-005",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "karatsuba",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.000260327011346817,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-006",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "fft",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0012298139918129891,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-007",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "fft",
+    "zero"
+   ],
+   "status": "ok",
+   "wall_s": 0.00011123399599455297,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-008",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "toom3",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.000750181992771104,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-009",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "karatsuba",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002560869907028973,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-010",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "carry",
+    "karatsuba"
+   ],
+   "status": "ok",
+   "wall_s": 0.0002535069943405688,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b1024-011",
+   "size": "b1024",
+   "tags": [
+    "bits-1024",
+    "random",
+    "schoolbook"
+   ],
+   "status": "ok",
+   "wall_s": 0.00044379199971444905,
+   "repeat": 1,
+   "rss_kb": 210720,
+   "message": ""
+  },
+  {
+   "id": "b2048-000",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.0011737020104192197,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-001",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "toom3",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.000830033008242026,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-002",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.0011376210022717714,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-003",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "signed",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.0011167509946972132,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-004",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "toom3",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.0009834879892878234,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-005",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "karatsuba",
+    "random"
+   ],
+   "status": "ok",
+   "wall_s": 0.0006680979859083891,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-006",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "random",
+    "schoolbook"
+   ],
+   "status": "ok",
+   "wall_s": 0.0013674479851033539,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-007",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "schoolbook",
+    "unbalanced"
+   ],
+   "status": "ok",
+   "wall_s": 0.00029735700809396803,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-008",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "random",
+    "schoolbook"
+   ],
+   "status": "ok",
+   "wall_s": 0.0013732780062127858,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-009",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "fft",
+    "signed"
+   ],
+   "status": "ok",
+   "wall_s": 0.002264683018438518,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-010",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "carry",
+    "schoolbook"
+   ],
+   "status": "ok",
+   "wall_s": 0.0013537970080506057,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  },
+  {
+   "id": "b2048-011",
+   "size": "b2048",
+   "tags": [
+    "bits-2048",
+    "random",
+    "toom3"
+   ],
+   "status": "ok",
+   "wall_s": 0.0011554819939192384,
+   "repeat": 1,
+   "rss_kb": 210440,
+   "message": ""
+  }
+ ]
+}

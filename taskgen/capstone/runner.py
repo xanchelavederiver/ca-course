@@ -18,6 +18,7 @@ import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from taskgen.capstone import config
 from taskgen.capstone import vectors as vecs
 from taskgen.capstone.config import Capstone
 
@@ -234,7 +235,7 @@ def build(cap: Capstone, log=print) -> None:
 def bench(cap: Capstone, sizes: list[str] | None = None, limit: int | None = None,
           out: Path | None = None, log=print) -> Path:
     """Run the reference over the size classes; write the raw run (default
-    ``build/capstone/<slug>/raw.json``) for ``report``."""
+    ``build/capstone/semN/<slug>/raw.json``) for ``report``."""
     build(cap, log)
     t0 = time.time()
     log(f"bench {cap.slug}: {cap.command}")
@@ -243,7 +244,7 @@ def bench(cap: Capstone, sizes: list[str] | None = None, limit: int | None = Non
            "duration_s": round(time.time() - t0, 3), "machine": machine(),
            "sizes": [s.name for s in cap.sizes if not sizes or s.name in sizes],
            "records": [asdict(r) for r in recs]}
-    out = out or cap.dir.parents[2] / "build" / "capstone" / cap.slug / "raw.json"
+    out = out or config.raw_path(cap)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(raw, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     log(f"raw results: {out}")

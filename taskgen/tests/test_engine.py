@@ -59,6 +59,24 @@ def test_sem1_montgomery_collision():
         assert sum(t.family_name() == "montgomery" for t in tasks) <= 1
 
 
+def test_kontrolnaya04_montgomery_rule_and_balance():
+    spec = load_sheet(SHEETS / "sem1" / "kontrolnaya-04.yaml")[0]
+    pools = [slot_candidates(s, spec.preset) for s in spec.slots]
+    seen = set()
+    for k in range(300):
+        tasks = sampler.select(pools, random.Random(k), spec.budget, spec.distinct_families,
+                               rules=spec.rules)
+        assert len(tasks) == 5
+        assert tasks[0].complexity + tasks[1].complexity == 3
+        if tasks[0].family_name() == "montgomery":
+            assert tasks[1].id == "powmod.binary"
+        else:
+            assert tasks[1].id == "powmod.montgomery"
+        assert sum(t.complexity for t in tasks) in (7, 8)
+        seen.update(t.ref for t in tasks)
+    assert seen == {t.ref for pool in pools for t in pool}
+
+
 def test_impossible_budget_raises():
     spec = _sem2()
     pools = [slot_candidates(s, spec.preset) for s in spec.slots]

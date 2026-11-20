@@ -1,0 +1,49 @@
+{
+  "capstone": "primality-testing",
+  "generator": "primality_testing",
+  "generator_version": 1,
+  "seed": 20261123,
+  "taskgen_version": "0.6.3",
+  "sizes": {
+    "b8": {
+      "count": 21,
+      "sha256": "ca1ef39f01013ac7835bffbbd792b23be0cc88c76d09de778d066e067a34f3a9",
+      "commit": true,
+      "params": {
+        "bits": 8
+      }
+    },
+    "b16": {
+      "count": 21,
+      "sha256": "186348191610201a7be42d7bf01390893a763e24ba74228d644867d8b24067eb",
+      "commit": true,
+      "params": {
+        "bits": 16
+      }
+    },
+    "b32": {
+      "count": 21,
+      "sha256": "541dd3e57ddee91f14d2905be36474468f7ecbc78a69e2b3f253fe31b1f6933a",
+      "commit": true,
+      "params": {
+        "bits": 32
+      }
+    },
+    "b64": {
+      "count": 21,
+      "sha256": "96434b27f2beaa7114ca98bd2f53078853d1db3a78facd820b9ed2b33a65e091",
+      "commit": false,
+      "params": {
+        "bits": 64
+      }
+    },
+    "b128": {
+      "count": 21,
+      "sha256": "f2d967f0eccf375c365c08c558f6786e7c83486ce840e5df82e119cbc520cc8f",
+      "commit": false,
+      "params": {
+        "bits": 128
+      }
+    }
+  }
+}

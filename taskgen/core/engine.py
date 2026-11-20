@@ -48,7 +48,7 @@ def generate_variant(spec: ClassroomSheet | IndividualSheet, master_seed: int,
     else:
         pools = [slot_candidates(slot, spec.preset) for slot in spec.slots]
         rng = make_rng(master_seed, spec.id, vkey.key, "select")
-        tasks = sampler.select(pools, rng, spec.budget, spec.distinct_families)
+        tasks = sampler.select(pools, rng, spec.budget, spec.distinct_families, rules=spec.rules)
     return Variant(vkey, [_instantiate(t, master_seed, spec.id, vkey.key, i)
                           for i, t in enumerate(tasks)])
 

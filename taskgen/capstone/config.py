@@ -1,4 +1,4 @@
-"""Capstone configuration: ``materials/capstone/capstone.yaml`` + ``NN-slug/bench/config.yaml``.
+"""Capstone configuration: ``materials/semN/capstone/capstone.yaml`` + ``NN-slug/bench/config.yaml``.
 
 Per-capstone ``bench/config.yaml``::
 
@@ -32,10 +32,16 @@ from typing import Any
 import yaml
 
 REPO = Path(__file__).resolve().parents[2]
-ROOT = REPO / "materials" / "capstone"
+ROOT = REPO / "materials" / "sem2" / "capstone"
 GLOBAL_FILE = ROOT / "capstone.yaml"
 
 DEFAULTS = {"slack": 10, "timeout": 600, "warmup": True, "memory": "8g", "cpus": 2}
+
+
+def semester_root(semester: int) -> Path:
+    if semester not in (1, 2):
+        raise ValueError(f"unsupported capstone semester {semester}")
+    return REPO / "materials" / f"sem{semester}" / "capstone"
 
 
 @dataclass
@@ -59,6 +65,7 @@ class Capstone:
     image: str
     command: str
     sizes: list[Size]
+    semester: int = 2
     build: str | None = None
     slack: float = DEFAULTS["slack"]
     timeout: float = DEFAULTS["timeout"]
@@ -99,15 +106,22 @@ def capstone_dir(entry: dict, root: Path = ROOT) -> Path:
     return root / f"{int(entry['n']):02d}-{entry['slug']}"
 
 
-def load(slug: str, root: Path = ROOT, slack: float | None = None) -> Capstone:
+def load(slug: str, root: Path | None = None, slack: float | None = None,
+         semester: int | None = None) -> Capstone:
     """Load one capstone by slug (or ``NN-slug`` / number); ``slack`` overrides config."""
+    if root is None:
+        semester = 2 if semester is None else semester
+        root = semester_root(semester)
+    elif semester is None:
+        semester = int(root.parent.name[3:]) if root.parent.name in ("sem1", "sem2") else 2
     g = load_global(root / "capstone.yaml")
     entries = g.get("capstones") or []
     for e in entries:
         if slug in (e["slug"], f"{int(e['n']):02d}-{e['slug']}", str(e["n"])):
             break
     else:
-        raise KeyError(f"unknown capstone {slug!r} (have {', '.join(e['slug'] for e in entries)})")
+        raise KeyError(f"unknown capstone {slug!r} in semester {semester} "
+                       f"(have {', '.join(e['slug'] for e in entries)})")
     d = capstone_dir(e, root)
     cfg_path = d / "bench" / "config.yaml"
     if not cfg_path.exists():
@@ -119,7 +133,7 @@ def load(slug: str, root: Path = ROOT, slack: float | None = None) -> Capstone:
     return Capstone(
         n=int(e["n"]), slug=e["slug"], title=e.get("title", e["slug"]), dir=d,
         generator=cfg["generator"], seed=int(cfg.get("seed", 0)), image=cfg.get("image", "taskgen"),
-        command=cfg["command"], build=cfg.get("build"), sizes=sizes,
+        command=cfg["command"], sizes=sizes, semester=semester, build=cfg.get("build"),
         slack=float(slack if slack is not None else cfg.get("slack", g["slack"])),
         timeout=float(cfg.get("timeout", g["timeout"])),
         warmup=bool(cfg.get("warmup", g["warmup"])),
@@ -128,8 +142,13 @@ def load(slug: str, root: Path = ROOT, slack: float | None = None) -> Capstone:
     )
 
 
-def slugs(root: Path = ROOT) -> list[str]:
+def slugs(root: Path | None = None, semester: int = 2) -> list[str]:
     """Slugs of the capstones that have a bench/config.yaml, in capstone.yaml order."""
+    root = root or semester_root(semester)
     g = load_global(root / "capstone.yaml")
     return [e["slug"] for e in g.get("capstones") or []
             if (capstone_dir(e, root) / "bench" / "config.yaml").exists()]
+
+
+def raw_path(cap: Capstone) -> Path:
+    return REPO / "build" / "capstone" / f"sem{cap.semester}" / cap.slug / "raw.json"

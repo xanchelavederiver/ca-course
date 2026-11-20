@@ -1,0 +1,49 @@
+{
+  "capstone": "fast-multiplication",
+  "generator": "fast_multiplication",
+  "generator_version": 1,
+  "seed": 20261120,
+  "taskgen_version": "0.6.3",
+  "sizes": {
+    "b128": {
+      "count": 12,
+      "sha256": "22573425606611c0f165cfe8094d1f451d2b9dc184d835fdbeb4f93dad8f2090",
+      "commit": true,
+      "params": {
+        "bits": 128
+      }
+    },
+    "b256": {
+      "count": 12,
+      "sha256": "b2fdbc942cd290ec234f3a4e5dcdd448ee04f920af167da1ab90875f1e43cba5",
+      "commit": true,
+      "params": {
+        "bits": 256
+      }
+    },
+    "b512": {
+      "count": 12,
+      "sha256": "dd60dfa487e9129358eee25868805f433ec8d6ae36e0a0e1d77a8410750de306",
+      "commit": true,
+      "params": {
+        "bits": 512
+      }
+    },
+    "b1024": {
+      "count": 12,
+      "sha256": "6eed1745c404c3b8217a5599acc9a5d0cc2905b8dfb0f038afd63aee09da00e3",
+      "commit": false,
+      "params": {
+        "bits": 1024
+      }
+    },
+    "b2048": {
+      "count": 12,
+      "sha256": "e675b6971d0e4b42ffd1c41b76a645a9d874c4cb19a4912e4ea006859fd4ffe2",
+      "commit": false,
+      "params": {
+        "bits": 2048
+      }
+    }
+  }
+}

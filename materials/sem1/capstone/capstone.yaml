@@ -1,0 +1,13 @@
+# Semester 1 capstone projects. Shared benchmark defaults; see taskgen/capstone/config.py.
+slack: 10
+timeout: 600
+warmup: true
+memory: 8g
+cpus: 2
+
+capstones:
+  - {n: 1, slug: fast-multiplication, title: Быстрое умножение больших чисел}
+  - {n: 2, slug: montgomery-exponentiation, title: Арифметика Монтгомери и быстрое возведение в степень}
+  - {n: 3, slug: euclid-orders-primitive-roots, title: Алгоритмы Евклида, порядки и первообразные корни}
+  - {n: 4, slug: primality-testing, title: Тесты простоты и псевдопростые числа}
+  - {n: 5, slug: lcg-lfsr-cryptanalysis, title: Криптоанализ ЛКГ и РСЛОС}

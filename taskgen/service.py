@@ -332,7 +332,8 @@ def variant_stats(spec_text: str, seed: int = 0, samples: int | None = None) -> 
     counters: dict[str, int] = {"family_skips": 0}
     for key in keys:
         rng = make_rng(seed, spec.id, key, "select")
-        chosen = sampler.select(pools, rng, spec.budget, spec.distinct_families, stats=counters)
+        chosen = sampler.select(pools, rng, spec.budget, spec.distinct_families, stats=counters,
+                                rules=spec.rules)
         totals[sum(t.complexity for t in chosen)] += 1
         for i, t in enumerate(chosen):
             per_slot[i][t.ref] += 1

@@ -21,6 +21,7 @@ sections:
   - arithmetic.fft_mul
   - arithmetic.fft_radix2
   - arithmetic.karatsuba
+  - arithmetic.karatsuba@kontrolnaya04
   - arithmetic.karatsuba_poly
   - arithmetic.karatsuba_poly@modp
   - arithmetic.karatsuba_square
@@ -32,6 +33,7 @@ sections:
   - arithmetic.montgomery_mul
   - arithmetic.montgomery_mul_even
   - arithmetic.toom_cook
+  - arithmetic.toom_cook@kontrolnaya04
   - arithmetic.toom_points
   - arithmetic.toom_unbalanced
   - modular.fermat_dim1
@@ -218,6 +220,7 @@ sections:
   - crypto.geffe_attack
   - crypto.lcg
   - crypto.lcg@sem2
+  - crypto.lcg_decrypt
   - crypto.lcg_full_period_predictable
   - crypto.lcg_period
   - crypto.lcg_period@not_coprime
@@ -225,6 +228,7 @@ sections:
   - crypto.lcg_recover_ambiguous
   - crypto.lfsr
   - crypto.lfsr@nonprimitive
+  - crypto.lfsr_decrypt
   - crypto.lfsr_galois
   - crypto.lfsr_jump
   - crypto.lfsr_recover

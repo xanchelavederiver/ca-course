@@ -93,6 +93,13 @@ class Budget(_Model):
         return (self.min is None or total >= self.min) and (self.max is None or total <= self.max)
 
 
+class SlotRule(_Model):
+    when_slot: int = Field(ge=0)
+    when_families: list[str]
+    require_slot: int = Field(ge=0)
+    tasks: list[TaskRef]
+
+
 class Document(_Model):
     """LaTeX document options."""
     font_size: str = "14pt"
@@ -121,6 +128,7 @@ class IndividualSheet(_SheetBase):
     kind: Literal["individual"]
     groups: list[Group]
     slots: list[Slot]
+    rules: list[SlotRule] = Field(default_factory=list)
     budget: Budget | None = None
     distinct_families: bool = True
 
@@ -217,4 +225,16 @@ def check_sheet(spec: ClassroomSheet | IndividualSheet) -> list[str]:
                     problems.append(f"slots[{i}]: topic {m!r} not in taxonomy")
             if not problems and not slot_candidates(slot, spec.preset):
                 problems.append(f"slots[{i}]: no candidate tasks")
+        for i, rule in enumerate(spec.rules):
+            if rule.when_slot >= len(spec.slots) or rule.require_slot >= len(spec.slots):
+                problems.append(f"rules[{i}]: slot index out of range")
+                continue
+            if rule.when_slot == rule.require_slot:
+                problems.append(f"rules[{i}]: source and target slots must differ")
+            for ref in rule.tasks:
+                check_ref(f"rules[{i}]", ref)
+            candidates = {str(t.ref) for t in slot_candidates(spec.slots[rule.require_slot], spec.preset)}
+            for ref in rule.tasks:
+                if str(ref) not in candidates:
+                    problems.append(f"rules[{i}]: task {ref} is not in the target slot's pool")
     return problems

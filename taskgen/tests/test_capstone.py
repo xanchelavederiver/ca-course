@@ -120,11 +120,18 @@ def test_nice_up(x, want):
 
 
 def test_repo_capstones_load():
-    for slug in config.slugs():
-        cap = config.load(slug)
-        assert cap.sizes and cap.command
-        gen = cap.gen()
-        assert isinstance(gen.VERSION, int) and callable(gen.generate) and callable(gen.verify)
+    for semester in (1, 2):
+        root = config.semester_root(semester)
+        for slug in config.slugs(root):
+            cap = config.load(slug, root)
+            assert cap.sizes and cap.command and cap.semester == semester
+            gen = cap.gen()
+            assert isinstance(gen.VERSION, int) and callable(gen.generate) and callable(gen.verify)
+
+
+def test_semester_specific_raw_path(root):
+    cap = config.load("toy", root, semester=1)
+    assert config.raw_path(cap) == config.REPO / "build" / "capstone" / "sem1" / "toy" / "raw.json"
 
 
 def test_per_op_stats(root):
