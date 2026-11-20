@@ -498,9 +498,9 @@ def _aug_tex(M, L, small=True) -> str:
 
 class BerlekampMassey(Task):
     id = "crypto.berlekamp_massey"
-    title_ru = 'Алгоритм Берлекэмпа"--~Месси'
+    title_ru = 'Алгоритм Берлекэмпа--~Месси'
     topics = ("crypto.lfsr",)
-    complexity = 2
+    complexity = 3
     solution_detail = SolutionDetail.FULL
     notes = ("2*Lmax bits of a random LFSR of length <= Lmax (f(0) = 1, random state); the linear "
              "complexity is >= max(2, Lmax - 1), so the answer (shortest LFSR) is unique (N >= 2 lambda).")
@@ -508,7 +508,7 @@ class BerlekampMassey(Task):
         "default": {"lmax": 4},
         "long": {"lmax": 5},
     }
-    statement = (r'С помощью алгоритма Берлекэмпа"--~Месси'
+    statement = (r'С помощью алгоритма Берлекэмпа--~Месси'
                  r" найти линейную сложность и кратчайший РСЛОС "
                  r"(многочлен связей $C(x)$ и характеристический многочлен $f(x)$), порождающий "
                  r"последовательность \[\VAR{bits|join(',\\ ')}.\]")

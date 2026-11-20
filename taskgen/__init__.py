@@ -5,4 +5,4 @@ Bump ``__version__`` whenever a change can alter generated output for the
 same (sheet spec, master seed): it is recorded in every audit manifest.
 """
 
-__version__ = "0.4.0"
+__version__ = "0.6.2"

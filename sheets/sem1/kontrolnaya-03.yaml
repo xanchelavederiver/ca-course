@@ -1,0 +1,70 @@
+# 3rd контрольная of semester 1: convolutions/FFT, Fermat and Mersenne rings,
+# NTT, PRNG and LFSR. Eight slots cover all five blocks in every variant.
+# The exact complexity budget equalizes the variants; distinct_families also
+# prevents a repeated task within one.
+id: sem1-kontrolnaya-03
+kind: individual
+title: Контрольная работа 3
+semester: 1
+intro: |
+  Цель контрольной работы: определение уровня знаний по темам «Свёртки и умножение с помощью БПФ», «Арифметика в кольцах вычетов по модулю чисел Ферма и Мерсенна», «Теоретико-числовые преобразования», «Генераторы псевдослучайных чисел» и «Регистры сдвига с линейной обратной связью» (1-й семестр).
+
+  Каждому студенту предназначен индивидуальный вариант, номер которого совпадает с номером студента в списке группы. Вариант состоит из восьми заданий.
+
+  \textbf{Обратите внимание}: варианты для студентов группы n приведены в разделе «Варианты группы n»!
+
+  Оценка $s$ вычисляется по формуле
+  \[
+  s = \begin{cases}
+    0,&\textrm{$b < 3$,}\\
+    3,&\textrm{$3 \leq b < 5$,}\\
+    4,&\textrm{$5 \leq b < 7$,}\\
+    5,&\textrm{$b \geq 7$,}
+    \end{cases}
+  \]
+  где $b$ --- количество набранных баллов за задания.
+
+  Критерии оценивания:
+  \begin{itemize}
+    \item если при выполнении задания студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия и получил верный ответ, задание оценивается одним баллом;
+    \item если студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия, но получил неверный ответ из-за допущенной вычислительной ошибки, задание оценивается половиной балла;
+    \item если студент верно и точно применил требуемый алгоритм, но не полно или не понятно описал шаги и действия, но получил верный ответ, задание также оценивается половиной балла;
+    \item в случаях, когда решение не удовлетворяет изложенным выше требованиям, задание оценивается в 0 баллов.
+  \end{itemize}
+
+  При решении КР можно пользоваться всем, чем угодно, кроме помощи одногруппников.
+
+groups:
+  - {name: "6411", count: 42}
+  - {name: "6412", count: 42}
+  - {name: "6413", count: 42}
+
+budget: 14
+distinct_families: true
+
+slots:
+  - title: Свёртки и умножение с помощью БПФ
+    tasks: [arithmetic.convolution, arithmetic.dft_small, arithmetic.fft_mul,
+            arithmetic.convolution_quotient]
+  - title: Свёртки и умножение с помощью БПФ
+    tasks: [arithmetic.convolution, arithmetic.dft_small, arithmetic.fft_mul,
+            arithmetic.convolution_quotient]
+  - title: Арифметика в кольцах вычетов по модулю чисел Ферма и Мерсенна
+    tasks: [modular.fermat_dim1, modular.fermat_mul, modular.mersenne_mul,
+            modular.special_reduction, modular.idea_mul, modular.lucas_lehmer,
+            modular.residue_ring_units]
+  - title: Арифметика в кольцах вычетов по модулю чисел Ферма и Мерсенна
+    tasks: [modular.fermat_dim1, modular.fermat_mul, modular.mersenne_mul,
+            modular.special_reduction, modular.idea_mul, modular.lucas_lehmer,
+            modular.residue_ring_units]
+  - title: Теоретико-числовые преобразования
+    tasks: [modular.ntt, modular.ntt_principal_root, modular.ntt_parameters,
+            modular.ntt_crt]
+  - title: Генераторы псевдослучайных чисел
+    tasks: [crypto.lcg, crypto.lcg_period, crypto.lcg_full_period_predictable,
+            crypto.lcg_recover_ambiguous]
+  - title: Генераторы псевдослучайных чисел
+    tasks: [crypto.lcg, crypto.lcg_period, crypto.lcg_full_period_predictable,
+            crypto.lcg_recover_ambiguous]
+  - title: Регистры сдвига с линейной обратной связью
+    tasks: [crypto.berlekamp_massey, crypto.lfsr_recover, crypto.lfsr]

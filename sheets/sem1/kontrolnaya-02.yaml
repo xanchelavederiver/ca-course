@@ -1,0 +1,70 @@
+# 2nd контрольная of semester 1: Euclid and inverses, CRT, element orders,
+# primitive roots, primality tests, and cryptographic applications. Eight slots
+# cover all six blocks in every variant. The exact complexity budget equalizes
+# the variants; distinct_families also prevents a repeated task within one.
+id: sem1-kontrolnaya-02
+kind: individual
+title: Контрольная работа 2
+semester: 1
+intro: |
+  Цель контрольной работы: определение уровня знаний по темам «Алгоритм Евклида и обратные элементы», «Китайская теорема об остатках», «Порядок элемента», «Первообразные корни», «Тесты простоты» и «Криптографические приложения» (1-й семестр).
+
+  Каждому студенту предназначен индивидуальный вариант, номер которого совпадает с номером студента в списке группы. Вариант состоит из восьми заданий.
+
+  \textbf{Обратите внимание}: варианты для студентов группы n приведены в разделе «Варианты группы n»!
+
+  Оценка $s$ вычисляется по формуле
+  \[
+  s = \begin{cases}
+    0,&\textrm{$b < 3$,}\\
+    3,&\textrm{$3 \leq b < 5$,}\\
+    4,&\textrm{$5 \leq b < 7$,}\\
+    5,&\textrm{$b \geq 7$,}
+    \end{cases}
+  \]
+  где $b$ --- количество набранных баллов за задания.
+
+  Критерии оценивания:
+  \begin{itemize}
+    \item если при выполнении задания студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия и получил верный ответ, задание оценивается одним баллом;
+    \item если студент верно и точно применил требуемый алгоритм, полно и понятно описал шаги и действия, но получил неверный ответ из-за допущенной вычислительной ошибки, задание оценивается половиной балла;
+    \item если студент верно и точно применил требуемый алгоритм, но не полно или не понятно описал шаги и действия, но получил верный ответ, задание также оценивается половиной балла;
+    \item в случаях, когда решение не удовлетворяет изложенным выше требованиям, задание оценивается в 0 баллов.
+  \end{itemize}
+
+  При решении КР можно пользоваться всем, чем угодно, кроме помощи одногруппников.
+
+groups:
+  - {name: "6411", count: 42}
+  - {name: "6412", count: 42}
+  - {name: "6413", count: 42}
+
+budget: 12
+distinct_families: true
+
+slots:
+  - title: Алгоритм Евклида и обратные элементы
+    tasks: [number_theory.batch_inverse, number_theory.binary_gcd,
+            number_theory.inverse, number_theory.linear_congruence,
+            number_theory.rational_reconstruction, number_theory.xgcd]
+  - title: Алгоритм Евклида и обратные элементы
+    tasks: [number_theory.batch_inverse, number_theory.binary_gcd,
+            number_theory.inverse, number_theory.linear_congruence,
+            number_theory.rational_reconstruction, number_theory.xgcd]
+  - title: Китайская теорема об остатках
+    tasks: [number_theory.crt, number_theory.crt_garner,
+            number_theory.crt_general, number_theory.rational_reconstruction]
+  - title: Китайская теорема об остатках
+    tasks: [number_theory.crt, number_theory.crt_garner,
+            number_theory.crt_general, number_theory.rational_reconstruction]
+  - title: Порядок элемента
+    tasks: [number_theory.order, number_theory.order_product_tree]
+  - title: Первообразные корни
+    tasks: [number_theory.primitive_root, number_theory.all_primitive_roots,
+            number_theory.primitive_root_lift, number_theory.primitive_root_galbraith]
+  - title: Тест простоты
+    tasks: [number_theory.fermat_test, number_theory.miller_rabin,
+            number_theory.fermat_vs_miller_rabin, number_theory.solovay_strassen,
+            number_theory.wilson, number_theory.carmichael_check]
+  - title: Криптографические приложения
+    tasks: [crypto.rsa_crt_fault, number_theory.order_factor_rsa]

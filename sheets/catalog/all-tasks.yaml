@@ -12,10 +12,14 @@ sections:
   - arithmetic.balanced_repr
   - arithmetic.convolution
   - arithmetic.convolution@wrap
+  - arithmetic.convolution_quotient
   - arithmetic.dft_small
   - arithmetic.dft_small@bad_root
   - arithmetic.dft_small@n8
+  - arithmetic.fft_exact_rounding
+  - arithmetic.fft_modexp_cost
   - arithmetic.fft_mul
+  - arithmetic.fft_radix2
   - arithmetic.karatsuba
   - arithmetic.karatsuba_poly
   - arithmetic.karatsuba_poly@modp
@@ -33,11 +37,20 @@ sections:
   - modular.fermat_dim1
   - modular.fermat_mul
   - modular.fermat_mul@sem2
+  - modular.idea_mul
+  - modular.lucas_lehmer
   - modular.mersenne_mul
   - modular.mersenne_mul@sem2
   - modular.ntt
   - modular.ntt@fermat
   - modular.ntt@mersenne
+  - modular.ntt_crt
+  - modular.ntt_negacyclic
+  - modular.ntt_parameters
+  - modular.ntt_principal_root
+  - modular.residue_ring_units
+  - modular.special_reduction
+  - modular.special_reduction@mersenne_full
 - title: Быстрое возведение в степень
   tasks:
   - powmod.addition_chain
@@ -57,8 +70,14 @@ sections:
 - title: Элементы теории чисел и теории групп
   tasks:
   - number_theory.all_primitive_roots
+  - number_theory.batch_inverse
+  - number_theory.batch_inverse@zeros
+  - number_theory.binary_gcd
+  - number_theory.binary_gcd@common
+  - number_theory.binary_gcd@odd
   - number_theory.carmichael_check
   - number_theory.crt
+  - number_theory.crt_garner
   - number_theory.crt_general
   - number_theory.crt_general@solvable
   - number_theory.crt_general@unsolvable
@@ -74,15 +93,37 @@ sections:
   - number_theory.linear_congruence@sem2
   - number_theory.linear_congruence@many
   - number_theory.linear_congruence@none
+  - number_theory.maximal_order_element
   - number_theory.miller_rabin
   - number_theory.miller_rabin@sem2
   - number_theory.order
   - number_theory.order@sem2
+  - number_theory.order_bsgs
+  - number_theory.order_bsgs@small_order
+  - number_theory.order_composite
+  - number_theory.order_composite@nonunit
+  - number_theory.order_factor_rsa
+  - number_theory.order_factor_rsa@success
+  - number_theory.order_factor_rsa@odd
+  - number_theory.order_factor_rsa@minus
   - number_theory.order_product_tree
+  - number_theory.pocklington
+  - number_theory.pocklington@invalid
+  - number_theory.pratt_certificate
+  - number_theory.pratt_certificate@invalid
   - number_theory.primitive_root
   - number_theory.primitive_root@prime_power
   - number_theory.primitive_root@twice
   - number_theory.primitive_root@none
+  - number_theory.primitive_root_galbraith
+  - number_theory.primitive_root_lift
+  - number_theory.primitive_root_lift@direct
+  - number_theory.primitive_root_lift@replace
+  - number_theory.proth_certificate
+  - number_theory.proth_certificate@bad_base
+  - number_theory.rational_reconstruction
+  - number_theory.rational_reconstruction@none
+  - number_theory.schnorr_generator
   - number_theory.solovay_strassen
   - number_theory.solovay_strassen@sem2
   - number_theory.sqrt_cipolla
@@ -169,20 +210,30 @@ sections:
   - lattices.lll_2d
 - title: Криптографические приложения
   tasks:
+  - crypto.bbs
   - crypto.berlekamp_massey
   - crypto.berlekamp_massey@long
+  - crypto.berlekamp_massey_short
   - crypto.congruential
+  - crypto.geffe_attack
   - crypto.lcg
   - crypto.lcg@sem2
+  - crypto.lcg_full_period_predictable
   - crypto.lcg_period
   - crypto.lcg_period@not_coprime
   - crypto.lcg_period@mod4
+  - crypto.lcg_recover_ambiguous
   - crypto.lfsr
   - crypto.lfsr@nonprimitive
+  - crypto.lfsr_galois
+  - crypto.lfsr_jump
   - crypto.lfsr_recover
   - crypto.lfsr_recover@degenerate
+  - crypto.randu_structure
   - crypto.rsa_common_modulus
   - crypto.rsa_common_modulus@sem2
+  - crypto.rsa_crt_fault
+  - crypto.rsa_crt_fault@no_fault
   - crypto.rsa_factor_from_d
   - crypto.rsa_factor_from_phi
   - crypto.rsa_toy
