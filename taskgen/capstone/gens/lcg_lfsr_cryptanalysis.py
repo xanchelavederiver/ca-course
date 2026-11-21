@@ -4,12 +4,30 @@ from __future__ import annotations
 
 import math
 
-VERSION = 1
-OPS = ("lcg_generate", "lcg_period", "lcg_full_period", "lcg_next", "lcg_recover",
-       "lfsr_generate", "berlekamp_massey", "lfsr_recover", "lfsr_polynomial", "lfsr_decrypt")
+VERSION = 2
+OPS = ("lcg_generate", "lcg_period", "lcg_full_period", "lcg_next", "lcg_recover", "lcg_decrypt",
+       "lfsr_generate", "lfsr_period", "berlekamp_massey", "lfsr_recover", "lfsr_polynomial",
+       "lfsr_decrypt")
 
 
-def _lfsr_case(rng, max_length=12):
+def _lcg_recovery_case(bits, rng):
+    for _ in range(1000):
+        m = rng.getrandbits(bits) | (1 << (bits - 1))
+        a, c, state = rng.randrange(2, m), rng.randrange(m), rng.randrange(m)
+        outputs = []
+        x = state
+        for _ in range(7):
+            outputs.append(x)
+            x = (a * x + c) % m
+        differences = [y - x for x, y in zip(outputs, outputs[1:])]
+        determinants = [differences[i + 2] * differences[i] - differences[i + 1] ** 2
+                        for i in range(len(differences) - 2)]
+        if math.gcd(*determinants) == m and math.gcd(differences[0] % m, m) == 1:
+            return a, c, m, outputs
+    raise RuntimeError("failed to draw a uniquely recoverable LCG")
+
+
+def _lfsr_case(rng, max_length=12, extra=0):
     from sage.all import GF
     from sage.matrix.berlekamp_massey import berlekamp_massey as sage_bm
     from taskgen.tasks.crypto.lfsr import berlekamp_massey, lfsr_bits
@@ -18,9 +36,10 @@ def _lfsr_case(rng, max_length=12):
         length = rng.randrange(2, max_length + 1)
         coefficients = [rng.randrange(2) for _ in range(length)]
         state = [rng.randrange(2) for _ in range(length)]
-        sequence = lfsr_bits(coefficients, state, 2 * length + 4)
-        oracle = berlekamp_massey(sequence)
-        sage_degree = sage_bm([GF(2)(bit) for bit in sequence]).degree()
+        known_length = 2 * length + 4
+        sequence = lfsr_bits(coefficients, state, known_length + extra)
+        oracle = berlekamp_massey(sequence[:known_length])
+        sage_degree = sage_bm([GF(2)(bit) for bit in sequence[:known_length]]).degree()
         if oracle["L"] >= max(2, length - 1) and sage_degree == oracle["L"]:
             return coefficients, state, sequence, oracle
     raise RuntimeError("failed to draw a nondegenerate unique LFSR")
@@ -62,22 +81,30 @@ def generate(params: dict, rng) -> dict:
                 and (m % 4 != 0 or a % 4 == 1))
         return {"input": {"op": op, "a": a, "c": c, "m": m, "factors": factors},
                 "expected": {"full_period": full}, "tags": [op, "full" if full else "not-full"]}
-    if op == "lcg_recover":
-        for _ in range(1000):
-            m = rng.getrandbits(bits) | (1 << (bits - 1))
-            a, c, state = rng.randrange(2, m), rng.randrange(m), rng.randrange(m)
-            outputs = []
-            x = state
-            for _ in range(7):
-                outputs.append(x)
-                x = (a * x + c) % m
-            differences = [y - x for x, y in zip(outputs, outputs[1:])]
-            determinants = [differences[i + 2] * differences[i] - differences[i + 1] ** 2
-                            for i in range(len(differences) - 2)]
-            if math.gcd(*determinants) == m and math.gcd(differences[0] % m, m) == 1:
-                return {"input": {"op": op, "outputs": outputs},
-                        "expected": {"a": a, "c": c, "m": m}, "tags": [op, "unique"]}
-        raise RuntimeError("failed to draw a uniquely recoverable LCG")
+    if op in ("lcg_recover", "lcg_decrypt"):
+        a, c, m, outputs = _lcg_recovery_case(bits, rng)
+        if op == "lcg_recover":
+            return {"input": {"op": op, "outputs": outputs},
+                    "expected": {"a": a, "c": c, "m": m}, "tags": [op, "unique"]}
+        known_length = len(outputs)
+        while len(outputs) < known_length + 8:
+            outputs.append((a * outputs[-1] + c) % m)
+        plaintext = [rng.randrange(m) for _ in outputs]
+        ciphertext = [plain ^ key for plain, key in zip(plaintext, outputs)]
+        return {"input": {"op": op, "ciphertext": ciphertext,
+                          "known_plaintext": plaintext[:known_length]},
+                "expected": {"plaintext": plaintext},
+                "tags": [op, "known-plaintext", "unique", "xor-stream"]}
+    if op == "lfsr_period":
+        length = rng.randrange(1, min(bits, 8) + 1)
+        coefficients = [rng.randrange(2) for _ in range(length)]
+        state = [rng.randrange(2) for _ in range(length)]
+        if rng.randrange(4) == 0:
+            coefficients[-1] = 0
+        if rng.randrange(4) == 0:
+            state = [0] * length
+        return {"input": {"op": op, "coefficients": coefficients, "state": state},
+                "expected": {}, "tags": [op, "bounded-period"]}
     if op == "lfsr_polynomial":
         length = rng.randrange(1, max(2, bits // 2))
         mask = 1
@@ -85,7 +112,8 @@ def generate(params: dict, rng) -> dict:
             mask |= rng.randrange(2) << i
         return {"input": {"op": op, "connection_mask": mask, "linear_complexity": length},
                 "expected": {}, "tags": [op]}
-    coefficients, state, sequence, oracle = _lfsr_case(rng, min(12, max(3, bits // 2)))
+    coefficients, state, sequence, oracle = _lfsr_case(
+        rng, min(12, max(3, bits // 2)), extra=8 if op == "lfsr_decrypt" else 0)
     if op in ("berlekamp_massey", "lfsr_recover"):
         return {"input": {"op": op, "sequence": sequence},
                 "expected": {"linear_complexity": oracle["L"]},
@@ -93,12 +121,13 @@ def generate(params: dict, rng) -> dict:
     if op == "lfsr_generate":
         return {"input": {"op": op, "coefficients": coefficients, "state": state, "count": len(sequence)},
                 "expected": {"bits": sequence}, "tags": [op]}
-    plaintext = [rng.randrange(2) for _ in range(len(sequence))]
-    key = sequence
-    ciphertext = [x ^ y for x, y in zip(plaintext, key)]
-    return {"input": {"op": "lfsr_decrypt", "coefficients": coefficients, "state": state,
-                      "ciphertext": ciphertext},
-            "expected": {"plaintext": plaintext}, "tags": [op, "xor-stream"]}
+    known_length = len(sequence) - 8
+    plaintext = [rng.randrange(2) for _ in sequence]
+    ciphertext = [plain ^ key for plain, key in zip(plaintext, sequence)]
+    return {"input": {"op": "lfsr_decrypt", "ciphertext": ciphertext,
+                      "known_plaintext": plaintext[:known_length]},
+            "expected": {"plaintext": plaintext},
+            "tags": [op, "known-plaintext", "unique", "xor-stream"]}
 
 
 def verify(vector: dict, output: dict) -> str | None:
@@ -124,13 +153,43 @@ def verify(vector: dict, output: dict) -> str | None:
         if any((a * x + c) % m != y for x, y in zip(inp["outputs"], inp["outputs"][1:])):
             return "recovered parameters do not reproduce observations"
         return None
+    if op == "lcg_decrypt":
+        a, c, m = out.get("a"), out.get("c"), out.get("m")
+        if not all(isinstance(v, int) and not isinstance(v, bool) for v in (a, c, m)):
+            return "invalid recovered parameter types"
+        if m <= 0 or not 0 <= a < m or not 0 <= c < m:
+            return "invalid recovered LCG parameters"
+        known = [plain ^ cipher for plain, cipher in zip(inp["known_plaintext"], inp["ciphertext"])]
+        if not 0 <= known[0] < m or any((a * x + c) % m != y for x, y in zip(known, known[1:])):
+            return "recovered parameters do not reproduce the known keystream"
+        stream = []
+        x = known[0]
+        for _ in inp["ciphertext"]:
+            stream.append(x)
+            x = (a * x + c) % m
+        plaintext = [cipher ^ key for cipher, key in zip(inp["ciphertext"], stream)]
+        return None if out.get("plaintext") == plaintext else "incorrect LCG known-plaintext attack"
     if op == "lfsr_generate":
         return None if out.get("bits") == expected["bits"] else "incorrect LFSR output"
-    if op in ("berlekamp_massey", "lfsr_recover"):
+    if op == "lfsr_period":
+        state = tuple(inp["state"])
+        seen = {}
+        while state not in seen:
+            seen[state] = len(seen)
+            nxt = sum(inp["coefficients"][j - 1] * state[-j]
+                      for j in range(1, len(state) + 1)) % 2
+            state = state[1:] + (nxt,)
+        period, tail = len(seen) - seen[state], seen[state]
+        return None if (out.get("period"), out.get("tail")) == (period, tail) else \
+            "incorrect LFSR period or tail"
+    if op in ("berlekamp_massey", "lfsr_recover", "lfsr_decrypt"):
         from sage.all import GF, PolynomialRing
         from sage.matrix.berlekamp_massey import berlekamp_massey as sage_bm
         from taskgen.tasks.crypto.lfsr import lfsr_bits
-        sequence = inp["sequence"]
+        sequence = inp.get("sequence")
+        if sequence is None:
+            sequence = [plain ^ cipher
+                        for plain, cipher in zip(inp["known_plaintext"], inp["ciphertext"])]
         length = out.get("linear_complexity")
         oracle = sage_bm([GF(2)(bit) for bit in sequence])
         if length != oracle.degree():
@@ -147,6 +206,11 @@ def verify(vector: dict, output: dict) -> str | None:
             predicted = lfsr_bits(coefficients, state, len(sequence) + 1)
             if out.get("next") != predicted[-1]:
                 return "incorrect next-bit prediction"
+        if op == "lfsr_decrypt":
+            stream = lfsr_bits(coefficients, state, len(inp["ciphertext"]))
+            plaintext = [cipher ^ key for cipher, key in zip(inp["ciphertext"], stream)]
+            if out.get("plaintext") != plaintext:
+                return "incorrect LFSR known-plaintext attack"
         return None
     if op == "lfsr_polynomial":
         mask, length = inp["connection_mask"], inp["linear_complexity"]
@@ -154,14 +218,5 @@ def verify(vector: dict, output: dict) -> str | None:
         characteristic = [mask >> (length - i) & 1 for i in range(length + 1)]
         if out.get("connection") != connection or out.get("characteristic") != characteristic:
             return "incorrect polynomial conversion"
-        return None
-    if op == "lfsr_decrypt":
-        plaintext = out.get("plaintext")
-        if not isinstance(plaintext, list) or len(plaintext) != len(inp["ciphertext"]):
-            return "invalid plaintext"
-        from taskgen.tasks.crypto.lfsr import lfsr_bits
-        key = lfsr_bits(inp["coefficients"], inp["state"], len(plaintext))
-        if [x ^ y for x, y in zip(plaintext, key)] != inp["ciphertext"]:
-            return "decryption does not reproduce ciphertext"
         return None
     return f"unknown operation {op}"

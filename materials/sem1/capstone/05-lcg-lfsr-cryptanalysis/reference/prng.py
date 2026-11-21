@@ -62,6 +62,19 @@ def lcg_recover(outputs: list[int]) -> dict:
     return {"a": a, "c": c, "m": m, "next": (a * outputs[-1] + c) % m}
 
 
+def lcg_decrypt(ciphertext: list[int], known_plaintext: list[int]) -> dict:
+    if not 0 < len(known_plaintext) < len(ciphertext):
+        raise ValueError("known plaintext must be a nonempty proper prefix")
+    observed = [plain ^ cipher for plain, cipher in zip(known_plaintext, ciphertext)]
+    recovered = lcg_recover(observed)
+    stream = lcg_generate(recovered["a"], recovered["c"], recovered["m"], observed[0],
+                          len(ciphertext))
+    if stream[:len(observed)] != observed:
+        raise ValueError("recovered LCG does not reproduce the known keystream")
+    recovered["plaintext"] = [cipher ^ key for cipher, key in zip(ciphertext, stream)]
+    return recovered
+
+
 def lfsr_generate(coefficients: list[int], state: list[int], count: int) -> list[int]:
     if not coefficients or len(coefficients) != len(state) or count < 0:
         raise ValueError("invalid LFSR dimensions")
@@ -72,6 +85,20 @@ def lfsr_generate(coefficients: list[int], state: list[int], count: int) -> list
     while len(out) < count:
         out.append(sum(coefficients[j - 1] * out[-j] for j in range(1, length + 1)) % 2)
     return out[:count]
+
+
+def lfsr_period(coefficients: list[int], state: list[int], limit: int = 1_000_000) -> dict:
+    lfsr_generate(coefficients, state, 0)
+    seen = {}
+    current = tuple(state)
+    while current not in seen:
+        if len(seen) >= limit:
+            raise ValueError("period search limit exceeded")
+        seen[current] = len(seen)
+        extended = lfsr_generate(coefficients, list(current), len(current) + 1)
+        current = tuple(extended[1:])
+    return {"period": len(seen) - seen[current], "tail": seen[current],
+            "repeated_state": list(current)}
 
 
 def polynomial_forms(connection_mask: int, linear_complexity: int) -> dict:
@@ -122,3 +149,15 @@ def lfsr_recover(sequence: list[int]) -> dict:
 def xor_stream(coefficients: list[int], state: list[int], data: list[int]) -> list[int]:
     stream = lfsr_generate(coefficients, state, len(data))
     return [bit ^ key for bit, key in zip(data, stream)]
+
+
+def lfsr_decrypt(ciphertext: list[int], known_plaintext: list[int]) -> dict:
+    if not 0 < len(known_plaintext) < len(ciphertext):
+        raise ValueError("known plaintext must be a nonempty proper prefix")
+    if any(bit not in (0, 1) for bit in ciphertext + known_plaintext):
+        raise ValueError("LFSR ciphertext and plaintext must contain bits")
+    observed = [plain ^ cipher for plain, cipher in zip(known_plaintext, ciphertext)]
+    recovered = lfsr_recover(observed)
+    stream = lfsr_generate(recovered["coefficients"], recovered["state"], len(ciphertext))
+    recovered["plaintext"] = [cipher ^ key for cipher, key in zip(ciphertext, stream)]
+    return recovered

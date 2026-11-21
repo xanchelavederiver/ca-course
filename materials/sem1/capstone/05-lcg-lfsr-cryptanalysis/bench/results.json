@@ -2,8 +2,8 @@
  "capstone": "lcg-lfsr-cryptanalysis",
  "command": "sage -python reference/main.py",
  "slack": 10.0,
- "started": 1795206535,
- "duration_s": 4.048,
+ "started": 1795218372,
+ "duration_s": 3.991,
  "machine": {
   "python": "3.12.3",
   "kernel": "7.0.0-43-generic",
@@ -14,7 +14,7 @@
   "cpu": "AMD EPYC 7352 24-Core Processor",
   "mem_total_kb": 32860800,
   "governor": "n/a (not exposed)",
-  "loadavg_1m": 0.28076171875
+  "loadavg_1m": 0.32177734375
  },
  "summary": {
   "b8": {
@@ -25,13 +25,13 @@
    "error": 0,
    "timeout": 0,
    "crash": 0,
-   "median_s": 0.00013373448746278882,
-   "mean_s": 0.00016537439514650032,
-   "p90_s": 0.00021444499725475907,
-   "max_s": 0.0005835069750901312,
-   "max_rss_kb": 12376,
+   "median_s": 0.00015288700524251908,
+   "mean_s": 0.00018516779964556919,
+   "p90_s": 0.00023012000019662082,
+   "max_s": 0.0007651810010429472,
+   "max_rss_kb": 12476,
    "timeout_s": 180.0,
-   "limit_s": 0.005835069750901312
+   "limit_s": 0.007651810010429472
   },
   "b12": {
    "x": 12,
@@ -41,13 +41,13 @@
    "error": 0,
    "timeout": 0,
    "crash": 0,
-   "median_s": 0.0001332795072812587,
-   "mean_s": 0.00014223085308913143,
-   "p90_s": 0.000211934995604679,
-   "max_s": 0.00025528602418489754,
-   "max_rss_kb": 12492,
+   "median_s": 0.00016318750567734241,
+   "mean_s": 0.00018189820257248358,
+   "p90_s": 0.00027439100085757673,
+   "max_s": 0.00032167299650609493,
+   "max_rss_kb": 12516,
    "timeout_s": 180.0,
-   "limit_s": 0.0025528602418489754
+   "limit_s": 0.0032167299650609493
   },
   "b16": {
    "x": 16,
@@ -57,13 +57,13 @@
    "error": 0,
    "timeout": 0,
    "crash": 0,
-   "median_s": 0.00016823397891130298,
-   "mean_s": 0.00016820364689920097,
-   "p90_s": 0.00020530499750748277,
-   "max_s": 0.0003251690068282187,
-   "max_rss_kb": 12308,
+   "median_s": 0.00014463599654845893,
+   "mean_s": 0.0002611319519928657,
+   "p90_s": 0.00027449202025309205,
+   "max_s": 0.0013859180035069585,
+   "max_rss_kb": 12520,
    "timeout_s": 180.0,
-   "limit_s": 0.003251690068282187
+   "limit_s": 0.013859180035069585
   },
   "b24": {
    "x": 24,
@@ -73,13 +73,13 @@
    "error": 0,
    "timeout": 0,
    "crash": 0,
-   "median_s": 0.00015946952044032514,
-   "mean_s": 0.0001759591556037776,
-   "p90_s": 0.0002707080275285989,
-   "max_s": 0.00029537800583057106,
-   "max_rss_kb": 12392,
+   "median_s": 0.0001672014914220199,
+   "mean_s": 0.00016623249975964428,
+   "p90_s": 0.0002329199924133718,
+   "max_s": 0.00029604299925267696,
+   "max_rss_kb": 12524,
    "timeout_s": 180.0,
-   "limit_s": 0.0029537800583057106
+   "limit_s": 0.0029604299925267696
   },
   "b32": {
    "x": 32,
@@ -89,19 +89,19 @@
    "error": 0,
    "timeout": 0,
    "crash": 0,
-   "median_s": 0.0001473835000069812,
-   "mean_s": 0.00018154660501750185,
-   "p90_s": 0.00018658500630408525,
-   "max_s": 0.0007977820059750229,
-   "max_rss_kb": 12360,
+   "median_s": 0.00018597301095724106,
+   "mean_s": 0.00021612505515804513,
+   "p90_s": 0.0003071220126003027,
+   "max_s": 0.0003845269966404885,
+   "max_rss_kb": 12560,
    "timeout_s": 180.0,
-   "limit_s": 0.007977820059750229
+   "limit_s": 0.003845269966404885
   }
  },
  "requirements": {
   "ReqSlack": "10",
   "ReqBitsMax": "32",
-  "ReqSeconds": "0{,}01"
+  "ReqSeconds": "0{,}005"
  },
  "warnings": [],
  "records": [
@@ -109,421 +109,431 @@
    "id": "b8-000",
    "size": "b8",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "lcg_next"
    ],
    "status": "ok",
-   "wall_s": 0.000208534998819232,
+   "wall_s": 0.00014821600052528083,
    "repeat": 1,
-   "rss_kb": 12244,
+   "rss_kb": 12348,
    "message": ""
   },
   {
    "id": "b8-001",
    "size": "b8",
    "tags": [
-    "lfsr_decrypt",
+    "known-plaintext",
+    "lcg_decrypt",
+    "unique",
     "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00018604498472996056,
+   "wall_s": 0.00017622698214836419,
    "repeat": 1,
-   "rss_kb": 12244,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-002",
    "size": "b8",
    "tags": [
-    "length-2L-plus",
-    "lfsr_recover",
-    "unique"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00022218600497581065,
+   "wall_s": 0.00017847699928097427,
    "repeat": 1,
-   "rss_kb": 12244,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-003",
    "size": "b8",
    "tags": [
-    "lcg_next"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.0005835069750901312,
+   "wall_s": 0.00017867799033410847,
    "repeat": 1,
-   "rss_kb": 12244,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-004",
    "size": "b8",
    "tags": [
-    "lcg_next"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00021444499725475907,
+   "wall_s": 0.00011853498290292919,
    "repeat": 1,
-   "rss_kb": 12244,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-005",
    "size": "b8",
    "tags": [
-    "lcg_generate"
+    "lfsr_polynomial"
    ],
    "status": "ok",
-   "wall_s": 0.00011640298180282116,
+   "wall_s": 0.00014059600653126836,
    "repeat": 1,
-   "rss_kb": 12244,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-006",
    "size": "b8",
    "tags": [
-    "lfsr_generate"
+    "lfsr_polynomial"
    ],
    "status": "ok",
-   "wall_s": 0.00017110502813011408,
+   "wall_s": 9.09549999050796e-05,
    "repeat": 1,
-   "rss_kb": 12248,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-007",
    "size": "b8",
    "tags": [
-    "lcg_next"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00013921401114203036,
+   "wall_s": 0.00010211399057880044,
    "repeat": 1,
-   "rss_kb": 12248,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-008",
    "size": "b8",
    "tags": [
-    "lcg_recover",
-    "unique"
+    "lfsr_polynomial"
    ],
    "status": "ok",
-   "wall_s": 0.0001630850019864738,
+   "wall_s": 8.75630066730082e-05,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-009",
    "size": "b8",
    "tags": [
-    "bounded-period",
-    "lcg_period"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 9.558198507875204e-05,
+   "wall_s": 0.00011418500798754394,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-010",
    "size": "b8",
    "tags": [
-    "bounded-period",
-    "lcg_period"
+    "known-plaintext",
+    "lfsr_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 8.429097943007946e-05,
+   "wall_s": 0.00021300799562595785,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-011",
    "size": "b8",
    "tags": [
-    "length-2L-plus",
-    "lfsr_recover",
+    "lcg_recover",
     "unique"
    ],
    "status": "ok",
-   "wall_s": 0.0002070259943138808,
+   "wall_s": 0.0007651810010429472,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-012",
    "size": "b8",
    "tags": [
-    "lcg_full_period",
-    "not-full"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00012102301116101444,
+   "wall_s": 0.0001454860030207783,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-013",
    "size": "b8",
    "tags": [
-    "lcg_full_period",
-    "not-full"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00012909498764202,
+   "wall_s": 0.00018890801584348083,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12412,
    "message": ""
   },
   {
    "id": "b8-014",
    "size": "b8",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "lcg_full_period",
+    "not-full"
    ],
    "status": "ok",
-   "wall_s": 0.0001068629790097475,
+   "wall_s": 0.00017215698608197272,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12476,
    "message": ""
   },
   {
    "id": "b8-015",
    "size": "b8",
    "tags": [
-    "lcg_full_period",
-    "not-full"
+    "berlekamp_massey",
+    "length-2L-plus",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 9.389198385179043e-05,
+   "wall_s": 0.00023012000019662082,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12476,
    "message": ""
   },
   {
    "id": "b8-016",
    "size": "b8",
    "tags": [
-    "berlekamp_massey",
-    "length-2L-plus",
-    "unique"
+    "known-plaintext",
+    "lfsr_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00012578300083987415,
+   "wall_s": 0.00023804898955859244,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12476,
    "message": ""
   },
   {
    "id": "b8-017",
    "size": "b8",
    "tags": [
-    "bounded-period",
-    "lcg_period"
+    "known-plaintext",
+    "lcg_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00011457200162112713,
+   "wall_s": 0.00015755800995975733,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12476,
    "message": ""
   },
   {
    "id": "b8-018",
    "size": "b8",
    "tags": [
-    "full",
-    "lcg_full_period"
+    "bounded-period",
+    "lcg_period"
    ],
    "status": "ok",
-   "wall_s": 8.646200876682997e-05,
+   "wall_s": 0.00014615702093578875,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12476,
    "message": ""
   },
   {
    "id": "b8-019",
    "size": "b8",
    "tags": [
-    "berlekamp_massey",
-    "length-2L-plus",
-    "unique"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00013837398728355765,
+   "wall_s": 0.00011118600377812982,
    "repeat": 1,
-   "rss_kb": 12376,
+   "rss_kb": 12476,
    "message": ""
   },
   {
    "id": "b12-000",
    "size": "b12",
    "tags": [
-    "lcg_generate"
+    "lcg_next"
    ],
    "status": "ok",
-   "wall_s": 0.00013548400602303445,
+   "wall_s": 0.00012710501323454082,
    "repeat": 1,
-   "rss_kb": 12356,
+   "rss_kb": 12388,
    "message": ""
   },
   {
    "id": "b12-001",
    "size": "b12",
    "tags": [
-    "lcg_recover",
-    "unique"
+    "known-plaintext",
+    "lcg_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00015515400446020067,
+   "wall_s": 0.00019757798872888088,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-002",
    "size": "b12",
    "tags": [
-    "lfsr_polynomial"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.0001603740092832595,
+   "wall_s": 0.00012498500291258097,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-003",
    "size": "b12",
    "tags": [
-    "lfsr_polynomial"
+    "known-plaintext",
+    "lfsr_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 9.782300912775099e-05,
+   "wall_s": 0.0002252289850730449,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-004",
    "size": "b12",
    "tags": [
-    "lfsr_generate"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00013107500853948295,
+   "wall_s": 0.00012229601270519197,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-005",
    "size": "b12",
    "tags": [
-    "bounded-period",
-    "lcg_period"
+    "length-2L-plus",
+    "lfsr_recover",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00011842299136333168,
+   "wall_s": 0.0001766179921105504,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-006",
    "size": "b12",
    "tags": [
-    "lcg_next"
+    "lfsr_polynomial"
    ],
    "status": "ok",
-   "wall_s": 9.423401206731796e-05,
+   "wall_s": 0.00013181701069697738,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-007",
    "size": "b12",
    "tags": [
-    "bounded-period",
-    "lcg_period"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 9.629197302274406e-05,
+   "wall_s": 0.00012254499597474933,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-008",
    "size": "b12",
    "tags": [
-    "lfsr_generate"
+    "bounded-period",
+    "lcg_period"
    ],
    "status": "ok",
-   "wall_s": 9.377198875881732e-05,
+   "wall_s": 0.00032167299650609493,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-009",
    "size": "b12",
    "tags": [
-    "lcg_generate"
+    "known-plaintext",
+    "lcg_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00010496299364604056,
+   "wall_s": 0.0001961090019904077,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-010",
    "size": "b12",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "bounded-period",
+    "lcg_period"
    ],
    "status": "ok",
-   "wall_s": 0.00010921299690380692,
+   "wall_s": 0.000297132006380707,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-011",
    "size": "b12",
    "tags": [
-    "lcg_full_period",
-    "not-full"
+    "known-plaintext",
+    "lcg_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00011462302063591778,
+   "wall_s": 0.0002073079813271761,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-012",
    "size": "b12",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "length-2L-plus",
+    "lfsr_recover",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00022708700271323323,
+   "wall_s": 0.00027439100085757673,
    "repeat": 1,
-   "rss_kb": 12484,
+   "rss_kb": 12516,
    "message": ""
   },
   {
@@ -535,175 +545,115 @@
     "unique"
    ],
    "status": "ok",
-   "wall_s": 0.000211934995604679,
+   "wall_s": 0.0002108589978888631,
    "repeat": 1,
-   "rss_kb": 12488,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-014",
    "size": "b12",
    "tags": [
-    "lfsr_generate"
+    "lcg_recover",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00018696501501835883,
+   "wall_s": 0.00014975701924413443,
    "repeat": 1,
-   "rss_kb": 12488,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-015",
    "size": "b12",
    "tags": [
-    "length-2L-plus",
-    "lfsr_recover",
-    "unique"
+    "known-plaintext",
+    "lfsr_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00025528602418489754,
+   "wall_s": 0.0002540500136092305,
    "repeat": 1,
-   "rss_kb": 12488,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-016",
    "size": "b12",
    "tags": [
-    "lfsr_generate"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00014128399197943509,
+   "wall_s": 0.00013062599464319646,
    "repeat": 1,
-   "rss_kb": 12488,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-017",
    "size": "b12",
    "tags": [
-    "lcg_recover",
-    "unique"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.0001535130140837282,
+   "wall_s": 0.00014196601114235818,
    "repeat": 1,
-   "rss_kb": 12488,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-018",
    "size": "b12",
    "tags": [
-    "lfsr_generate"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.0001521439990028739,
+   "wall_s": 0.00010209501488134265,
    "repeat": 1,
-   "rss_kb": 12492,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b12-019",
    "size": "b12",
    "tags": [
-    "lcg_generate"
+    "berlekamp_massey",
+    "length-2L-plus",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00010497300536371768,
+   "wall_s": 0.00012382501154206693,
    "repeat": 1,
-   "rss_kb": 12492,
+   "rss_kb": 12516,
    "message": ""
   },
   {
    "id": "b16-000",
    "size": "b16",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.0001707439951132983,
+   "wall_s": 0.00011179500143043697,
    "repeat": 1,
-   "rss_kb": 12180,
+   "rss_kb": 12388,
    "message": ""
   },
   {
    "id": "b16-001",
    "size": "b16",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00016979602514766157,
+   "wall_s": 0.0013859180035069585,
    "repeat": 1,
-   "rss_kb": 12180,
+   "rss_kb": 12388,
    "message": ""
   },
   {
    "id": "b16-002",
-   "size": "b16",
-   "tags": [
-    "lcg_next"
-   ],
-   "status": "ok",
-   "wall_s": 0.0001329529914073646,
-   "repeat": 1,
-   "rss_kb": 12180,
-   "message": ""
-  },
-  {
-   "id": "b16-003",
-   "size": "b16",
-   "tags": [
-    "lcg_full_period",
-    "not-full"
-   ],
-   "status": "ok",
-   "wall_s": 0.0001416240120306611,
-   "repeat": 1,
-   "rss_kb": 12308,
-   "message": ""
-  },
-  {
-   "id": "b16-004",
-   "size": "b16",
-   "tags": [
-    "lcg_next"
-   ],
-   "status": "ok",
-   "wall_s": 8.979398990049958e-05,
-   "repeat": 1,
-   "rss_kb": 12308,
-   "message": ""
-  },
-  {
-   "id": "b16-005",
-   "size": "b16",
-   "tags": [
-    "lcg_next"
-   ],
-   "status": "ok",
-   "wall_s": 0.00010695398668758571,
-   "repeat": 1,
-   "rss_kb": 12308,
-   "message": ""
-  },
-  {
-   "id": "b16-006",
-   "size": "b16",
-   "tags": [
-    "lcg_next"
-   ],
-   "status": "ok",
-   "wall_s": 0.00012942400644533336,
-   "repeat": 1,
-   "rss_kb": 12308,
-   "message": ""
-  },
-  {
-   "id": "b16-007",
    "size": "b16",
    "tags": [
     "length-2L-plus",
@@ -711,135 +661,207 @@
     "unique"
    ],
    "status": "ok",
-   "wall_s": 0.0002018249942921102,
+   "wall_s": 0.00018591800471767783,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12392,
+   "message": ""
+  },
+  {
+   "id": "b16-003",
+   "size": "b16",
+   "tags": [
+    "lcg_generate"
+   ],
+   "status": "ok",
+   "wall_s": 0.00011245399946346879,
+   "repeat": 1,
+   "rss_kb": 12392,
+   "message": ""
+  },
+  {
+   "id": "b16-004",
+   "size": "b16",
+   "tags": [
+    "known-plaintext",
+    "lfsr_decrypt",
+    "unique",
+    "xor-stream"
+   ],
+   "status": "ok",
+   "wall_s": 0.00017888800357468426,
+   "repeat": 1,
+   "rss_kb": 12392,
+   "message": ""
+  },
+  {
+   "id": "b16-005",
+   "size": "b16",
+   "tags": [
+    "known-plaintext",
+    "lcg_decrypt",
+    "unique",
+    "xor-stream"
+   ],
+   "status": "ok",
+   "wall_s": 0.000146736012538895,
+   "repeat": 1,
+   "rss_kb": 12520,
+   "message": ""
+  },
+  {
+   "id": "b16-006",
+   "size": "b16",
+   "tags": [
+    "lcg_recover",
+    "unique"
+   ],
+   "status": "ok",
+   "wall_s": 0.00013752499944530427,
+   "repeat": 1,
+   "rss_kb": 12520,
+   "message": ""
+  },
+  {
+   "id": "b16-007",
+   "size": "b16",
+   "tags": [
+    "known-plaintext",
+    "lfsr_decrypt",
+    "unique",
+    "xor-stream"
+   ],
+   "status": "ok",
+   "wall_s": 0.00023146998137235641,
+   "repeat": 1,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-008",
    "size": "b16",
    "tags": [
-    "lcg_full_period",
-    "not-full"
+    "known-plaintext",
+    "lcg_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00017122499411925673,
+   "wall_s": 0.00015249699936248362,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-009",
    "size": "b16",
    "tags": [
-    "lcg_full_period",
-    "not-full"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00013517201296053827,
+   "wall_s": 0.00015046601765789092,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-010",
    "size": "b16",
    "tags": [
-    "lcg_next"
+    "known-plaintext",
+    "lfsr_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.0001440740015823394,
+   "wall_s": 0.00027449202025309205,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-011",
    "size": "b16",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00020530499750748277,
+   "wall_s": 0.0011357470066286623,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-012",
    "size": "b16",
    "tags": [
-    "lfsr_polynomial"
+    "length-2L-plus",
+    "lfsr_recover",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00018303500837646425,
+   "wall_s": 0.00024355898494832218,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-013",
    "size": "b16",
    "tags": [
-    "lcg_recover",
-    "unique"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00019307597540318966,
+   "wall_s": 0.00014253598055802286,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-014",
    "size": "b16",
    "tags": [
-    "lcg_recover",
-    "unique"
+    "lfsr_polynomial"
    ],
    "status": "ok",
-   "wall_s": 0.00023321597836911678,
+   "wall_s": 0.00010677400860004127,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-015",
    "size": "b16",
    "tags": [
-    "lcg_generate"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00016735398094169796,
+   "wall_s": 0.00013055599993094802,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-016",
    "size": "b16",
    "tags": [
-    "lfsr_polynomial"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00014051501057110727,
+   "wall_s": 0.00010808499064296484,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-017",
    "size": "b16",
    "tags": [
-    "lcg_recover",
-    "unique"
+    "lcg_next"
    ],
    "status": "ok",
-   "wall_s": 0.000169113976880908,
+   "wall_s": 0.0001027759863063693,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
@@ -849,99 +871,99 @@
     "lfsr_polynomial"
    ],
    "status": "ok",
-   "wall_s": 0.00015370399341918528,
+   "wall_s": 8.920402615331113e-05,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b16-019",
    "size": "b16",
    "tags": [
-    "berlekamp_massey",
-    "length-2L-plus",
+    "lcg_recover",
     "unique"
    ],
    "status": "ok",
-   "wall_s": 0.0003251690068282187,
+   "wall_s": 9.524301276542246e-05,
    "repeat": 1,
-   "rss_kb": 12308,
+   "rss_kb": 12520,
    "message": ""
   },
   {
    "id": "b24-000",
    "size": "b24",
    "tags": [
-    "lcg_generate"
+    "bounded-period",
+    "lfsr_period"
    ],
    "status": "ok",
-   "wall_s": 0.00013860402395948768,
+   "wall_s": 0.00019889901159331203,
    "repeat": 1,
-   "rss_kb": 12264,
+   "rss_kb": 12396,
    "message": ""
   },
   {
    "id": "b24-001",
    "size": "b24",
    "tags": [
-    "lcg_full_period",
-    "not-full"
+    "lcg_recover",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00015474401880055666,
+   "wall_s": 0.00020687899086624384,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-002",
    "size": "b24",
    "tags": [
-    "lcg_next"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00011137299588881433,
+   "wall_s": 0.00017917700461111963,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-003",
    "size": "b24",
    "tags": [
-    "lcg_recover",
-    "unique"
+    "known-plaintext",
+    "lcg_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.0001321729796472937,
+   "wall_s": 0.00016661599511280656,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-004",
    "size": "b24",
    "tags": [
-    "lcg_next"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00010101101361215115,
+   "wall_s": 0.00011714501306414604,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-005",
    "size": "b24",
    "tags": [
-    "length-2L-plus",
-    "lfsr_recover",
-    "unique"
+    "lcg_next"
    ],
    "status": "ok",
-   "wall_s": 0.0002707080275285989,
+   "wall_s": 0.00010924501111730933,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
@@ -951,99 +973,95 @@
     "lcg_next"
    ],
    "status": "ok",
-   "wall_s": 0.0001395530125591904,
+   "wall_s": 0.00010992499301210046,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-007",
    "size": "b24",
    "tags": [
-    "lcg_next"
+    "full",
+    "lcg_full_period"
    ],
    "status": "ok",
-   "wall_s": 0.00011856298078782856,
+   "wall_s": 0.00013365500490181148,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-008",
    "size": "b24",
    "tags": [
-    "lcg_next"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00011133399675600231,
+   "wall_s": 0.00017713700071908534,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-009",
    "size": "b24",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "lcg_next"
    ],
    "status": "ok",
-   "wall_s": 0.00016530498396605253,
+   "wall_s": 0.00012010498903691769,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-010",
    "size": "b24",
    "tags": [
-    "lcg_next"
+    "bounded-period",
+    "lcg_period"
    ],
    "status": "ok",
-   "wall_s": 0.00012256301124580204,
+   "wall_s": 0.00016778698773123324,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-011",
    "size": "b24",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "lcg_next"
    ],
    "status": "ok",
-   "wall_s": 0.00013570301234722137,
+   "wall_s": 0.00010289298370480537,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-012",
    "size": "b24",
    "tags": [
-    "length-2L-plus",
-    "lfsr_recover",
-    "unique"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00026703698677010834,
+   "wall_s": 0.00012598501052707434,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-013",
    "size": "b24",
    "tags": [
-    "length-2L-plus",
-    "lfsr_recover",
-    "unique"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00029537800583057106,
+   "wall_s": 0.00010473499423824251,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
@@ -1055,249 +1073,262 @@
     "unique"
    ],
    "status": "ok",
-   "wall_s": 0.000290066993329674,
+   "wall_s": 0.0002709219988901168,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-015",
    "size": "b24",
    "tags": [
-    "lcg_generate"
+    "berlekamp_massey",
+    "length-2L-plus",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00016419502208009362,
+   "wall_s": 0.00029604299925267696,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-016",
    "size": "b24",
    "tags": [
-    "berlekamp_massey",
     "length-2L-plus",
+    "lfsr_recover",
     "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00018988500232808292,
+   "wall_s": 0.0002329199924133718,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-017",
    "size": "b24",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "lcg_next"
    ],
    "status": "ok",
-   "wall_s": 0.00018765500863082707,
+   "wall_s": 0.0001605869911145419,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-018",
    "size": "b24",
    "tags": [
-    "bounded-period",
-    "lcg_period"
+    "lcg_recover",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00024215702433139086,
+   "wall_s": 0.00017297701560892165,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b24-019",
    "size": "b24",
    "tags": [
-    "lfsr_generate"
+    "lcg_recover",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00018117501167580485,
+   "wall_s": 0.00017101800767704844,
    "repeat": 1,
-   "rss_kb": 12392,
+   "rss_kb": 12524,
    "message": ""
   },
   {
    "id": "b32-000",
    "size": "b32",
    "tags": [
-    "lcg_next"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00013140399823896587,
+   "wall_s": 0.00018811901099979877,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12428,
    "message": ""
   },
   {
    "id": "b32-001",
    "size": "b32",
    "tags": [
-    "lfsr_polynomial"
+    "known-plaintext",
+    "lfsr_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00013426502118818462,
+   "wall_s": 0.00029222300508990884,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12432,
    "message": ""
   },
   {
    "id": "b32-002",
    "size": "b32",
    "tags": [
-    "berlekamp_massey",
-    "length-2L-plus",
-    "unique"
+    "bounded-period",
+    "lcg_period"
    ],
    "status": "ok",
-   "wall_s": 0.00019090500427410007,
+   "wall_s": 0.00018204899970442057,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12432,
    "message": ""
   },
   {
    "id": "b32-003",
    "size": "b32",
    "tags": [
-    "lfsr_generate"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00018658500630408525,
+   "wall_s": 0.00013600499369204044,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12432,
    "message": ""
   },
   {
    "id": "b32-004",
    "size": "b32",
    "tags": [
-    "lfsr_polynomial"
+    "known-plaintext",
+    "lfsr_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00012992302072234452,
+   "wall_s": 0.00020356802269816399,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12432,
    "message": ""
   },
   {
    "id": "b32-005",
    "size": "b32",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "bounded-period",
+    "lcg_period"
    ],
    "status": "ok",
-   "wall_s": 0.0001738550199661404,
+   "wall_s": 0.0003845269966404885,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12432,
    "message": ""
   },
   {
    "id": "b32-006",
    "size": "b32",
    "tags": [
-    "lcg_generate"
+    "known-plaintext",
+    "lcg_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.00011821399675682187,
+   "wall_s": 0.00024242998915724456,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-007",
    "size": "b32",
    "tags": [
-    "lcg_generate"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.0001546239946037531,
+   "wall_s": 0.00020417699124664068,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-008",
    "size": "b32",
    "tags": [
-    "bounded-period",
-    "lcg_period"
+    "lcg_full_period",
+    "not-full"
    ],
    "status": "ok",
-   "wall_s": 0.00014657300198450685,
+   "wall_s": 0.00015891602379269898,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-009",
    "size": "b32",
    "tags": [
-    "bounded-period",
-    "lcg_period"
+    "known-plaintext",
+    "lcg_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 9.858299745246768e-05,
+   "wall_s": 0.0002093799994327128,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-010",
    "size": "b32",
    "tags": [
-    "lcg_generate"
+    "bounded-period",
+    "lcg_period"
    ],
    "status": "ok",
-   "wall_s": 0.00015320500824600458,
+   "wall_s": 0.00037588601117022336,
    "repeat": 1,
-   "rss_kb": 12196,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-011",
    "size": "b32",
    "tags": [
-    "lcg_recover",
-    "unique"
+    "lfsr_generate"
    ],
    "status": "ok",
-   "wall_s": 0.0001665550225879997,
+   "wall_s": 0.00017964700236916542,
    "repeat": 1,
-   "rss_kb": 12324,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-012",
    "size": "b32",
    "tags": [
-    "berlekamp_massey",
-    "length-2L-plus",
-    "unique"
+    "known-plaintext",
+    "lfsr_decrypt",
+    "unique",
+    "xor-stream"
    ],
    "status": "ok",
-   "wall_s": 0.000184884003829211,
+   "wall_s": 0.00028655200731009245,
    "repeat": 1,
-   "rss_kb": 12324,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-013",
    "size": "b32",
    "tags": [
-    "lfsr_polynomial"
+    "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.00014429300790652633,
+   "wall_s": 0.00017042699619196355,
    "repeat": 1,
-   "rss_kb": 12324,
+   "rss_kb": 12560,
    "message": ""
   },
   {
@@ -1307,49 +1338,48 @@
     "lcg_generate"
    ],
    "status": "ok",
-   "wall_s": 0.000145615020301193,
+   "wall_s": 0.0001336050045210868,
    "repeat": 1,
-   "rss_kb": 12324,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-015",
    "size": "b32",
    "tags": [
-    "lfsr_decrypt",
-    "xor-stream"
+    "lfsr_polynomial"
    ],
    "status": "ok",
-   "wall_s": 0.00012023397721350193,
+   "wall_s": 0.00015314601478166878,
    "repeat": 1,
-   "rss_kb": 12324,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-016",
    "size": "b32",
    "tags": [
-    "length-2L-plus",
-    "lfsr_recover",
-    "unique"
+    "bounded-period",
+    "lfsr_period"
    ],
    "status": "ok",
-   "wall_s": 0.00014819399802945554,
+   "wall_s": 0.0003071220126003027,
    "repeat": 1,
-   "rss_kb": 12324,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-017",
    "size": "b32",
    "tags": [
-    "bounded-period",
-    "lcg_period"
+    "berlekamp_massey",
+    "length-2L-plus",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.0007977820059750229,
+   "wall_s": 0.00016327699995599687,
    "repeat": 1,
-   "rss_kb": 12356,
+   "rss_kb": 12560,
    "message": ""
   },
   {
@@ -1359,22 +1389,22 @@
     "lfsr_polynomial"
    ],
    "status": "ok",
-   "wall_s": 0.0001687960175331682,
+   "wall_s": 0.00016761801089160144,
    "repeat": 1,
-   "rss_kb": 12360,
+   "rss_kb": 12560,
    "message": ""
   },
   {
    "id": "b32-019",
    "size": "b32",
    "tags": [
-    "full",
-    "lcg_full_period"
+    "lcg_recover",
+    "unique"
    ],
    "status": "ok",
-   "wall_s": 0.00013644297723658383,
+   "wall_s": 0.00018382701091468334,
    "repeat": 1,
-   "rss_kb": 12360,
+   "rss_kb": 12560,
    "message": ""
   }
  ]

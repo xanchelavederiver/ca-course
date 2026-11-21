@@ -1,13 +1,13 @@
 {
   "capstone": "lcg-lfsr-cryptanalysis",
   "generator": "lcg_lfsr_cryptanalysis",
-  "generator_version": 1,
+  "generator_version": 2,
   "seed": 20261124,
   "taskgen_version": "0.6.3",
   "sizes": {
     "b8": {
       "count": 20,
-      "sha256": "e4ed892766a5110c675321b6229a6ab7d9ff3f75d648ee068289edc89be83f6f",
+      "sha256": "0e5118b1057bf02470f541436e17f39f88be5cc78676c0c7d84285cddd7ce1c7",
       "commit": true,
       "params": {
         "bits": 8
@@ -15,7 +15,7 @@
     },
     "b12": {
       "count": 20,
-      "sha256": "da4ea0e85200373f8d49bcb855044732ccd444e778ce353a2abf3a6820f1c646",
+      "sha256": "2a4d62683e5d99f70bd05ddf91e9e8a1d04624f7f571935e4bce180af26c28db",
       "commit": true,
       "params": {
         "bits": 12
@@ -23,7 +23,7 @@
     },
     "b16": {
       "count": 20,
-      "sha256": "b948bcf700cf051332ab9461a3701f121c3dcacc7add54a356956bb6563b638f",
+      "sha256": "660ecf9f2e96d20d604532766c42c7b4affa39b40d419bb9bb277befea8ba77e",
       "commit": true,
       "params": {
         "bits": 16
@@ -31,7 +31,7 @@
     },
     "b24": {
       "count": 20,
-      "sha256": "a4fbfe714980c6108041ca653c373d564acdacbfc9b43c609f1fb311ee5bfd5b",
+      "sha256": "41acdbee17c9fcedb265031aa11092fe0373dc2de4929615a6d0afeb6a560089",
       "commit": false,
       "params": {
         "bits": 24
@@ -39,7 +39,7 @@
     },
     "b32": {
       "count": 20,
-      "sha256": "56c54d1dd3240ecec53d885048299393d72024b348cfc5976df79fa104873b7e",
+      "sha256": "4bfe48bcf105c88ca3f81307087320fcf0974d3b916012fecb1802d4d5e24b62",
       "commit": false,
       "params": {
         "bits": 32

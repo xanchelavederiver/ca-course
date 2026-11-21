@@ -9,8 +9,9 @@ from sage.matrix.berlekamp_massey import berlekamp_massey as sage_bm
 
 sys.path.insert(0, str(Path(__file__).parents[1]))
 
-from prng import (berlekamp_massey, full_period_conditions, lcg_generate, lcg_next,
-                  lcg_period, lcg_recover, lfsr_generate, lfsr_recover, xor_stream)
+from prng import (berlekamp_massey, full_period_conditions, lcg_decrypt, lcg_generate, lcg_next,
+                  lcg_period, lcg_recover, lfsr_decrypt, lfsr_generate, lfsr_period, lfsr_recover,
+                  xor_stream)
 from taskgen.tasks.crypto.lfsr import berlekamp_massey as task_bm, lfsr_bits
 
 
@@ -39,12 +40,20 @@ def test_lcg_unique_recovery():
         c = rng.randrange(m)
         state = rng.randrange(m)
         outputs = lcg_generate(a, c, m, state, 7)
-        try:
-            got = lcg_recover(outputs)
-        except ValueError:
+        differences = [y - x for x, y in zip(outputs, outputs[1:])]
+        determinants = [differences[i + 2] * differences[i] - differences[i + 1] ** 2
+                        for i in range(len(differences) - 2)]
+        if math.gcd(*determinants) != m or math.gcd(differences[0] % m, m) != 1:
             continue
+        got = lcg_recover(outputs)
         assert got["a"] == a and got["c"] == c and got["m"] == m
         assert got["next"] == lcg_next(a, c, m, outputs[-1])
+        stream = lcg_generate(a, c, m, state, 15)
+        plaintext = [rng.randrange(m) for _ in stream]
+        ciphertext = [plain ^ key for plain, key in zip(plaintext, stream)]
+        decrypted = lcg_decrypt(ciphertext, plaintext[:7])
+        assert decrypted["plaintext"] == plaintext
+        assert (decrypted["a"], decrypted["c"], decrypted["m"]) == (a, c, m)
         checked += 1
 
 
@@ -56,6 +65,12 @@ def test_lfsr_against_independent_simulator():
         state = [rng.randrange(2) for _ in range(length)]
         count = rng.randrange(0, 50)
         assert lfsr_generate(coefficients, state, count) == lfsr_bits(coefficients, state, count)
+
+
+def test_lfsr_period_and_preperiod():
+    assert lfsr_period([1, 1], [0, 1]) == {"period": 3, "tail": 0, "repeated_state": [0, 1]}
+    assert lfsr_period([0], [1]) == {"period": 1, "tail": 1, "repeated_state": [0]}
+    assert lfsr_period([0], [0]) == {"period": 1, "tail": 0, "repeated_state": [0]}
 
 
 def test_berlekamp_massey_against_sage():
@@ -91,6 +106,23 @@ def test_xor_stream_decrypts_encryption():
     plaintext = [1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1]
     ciphertext = xor_stream(coefficients, state, plaintext)
     assert xor_stream(coefficients, state, ciphertext) == plaintext
+
+
+def test_lfsr_known_plaintext_attack():
+    rng = random.Random(731)
+    for _ in range(100):
+        length = rng.randrange(2, 8)
+        coefficients = [rng.randrange(2) for _ in range(length)]
+        state = [rng.randrange(2) for _ in range(length)]
+        plaintext = [rng.randrange(2) for _ in range(2 * length + 12)]
+        ciphertext = xor_stream(coefficients, state, plaintext)
+        try:
+            got = lfsr_decrypt(ciphertext, plaintext[:2 * length + 4])
+        except ValueError:
+            continue
+        assert got["plaintext"] == plaintext
+        return
+    raise AssertionError("no uniquely recoverable LFSR generated")
 
 
 def test_degenerate_lfsr_and_short_input():
